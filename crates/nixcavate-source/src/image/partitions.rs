@@ -8,13 +8,17 @@
 //! Signatures for LUKS (LUKS1/LUKS2 on-disk specification: `LUKS\xba\xbe` at 0), LVM2
 //! (`LABELONE` label with `LVM2 001` in one of the first four sectors) and Linux md RAID
 //! (superblock magic 0xa92b4efc, version 0.90 near the end, 1.0 at the end, 1.1 at 0 and 1.2
-//! at 4 KiB) come from their public documentation.
+//! at 4 KiB) come from their public documentation. An LVM2 volume is read by `lvm`; LUKS and
+//! RAID members are only named.
 //!
 //! Nothing here trusts the disk: every offset is checked against the image size, counts are
 //! capped, and extended-partition chains stop at a revisited EBR.
 
 use nixcavate_fs::{le32, le64, ReadAt, Slice};
 use std::collections::HashSet;
+
+/// Why an LVM2 physical volume is not a filesystem; `lvm` reads these.
+pub const LVM_REASON: &str = "LVM2 physical volume";
 
 /// One partition of a disk image.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -27,7 +31,8 @@ pub struct Partition {
     pub len: u64,
     /// `linux`, `apple_apfs`, `efi_system`, `lvm`, `swap`, ... or the raw type id.
     pub type_name: String,
-    /// Set when the contents are recognised but cannot be read: LUKS, LVM2, RAID members.
+    /// Set when the contents are recognised but are not a filesystem: LUKS and RAID members
+    /// (not read) and LVM2 physical volumes ([`LVM_REASON`], read through their logical volumes).
     pub unsupported: Option<&'static str>,
 }
 
@@ -84,7 +89,7 @@ pub fn unsupported_signature(reader: &dyn ReadAt) -> Option<&'static str> {
         return Some("LUKS encrypted volume");
     }
     if (0..4).any(|sector| head.get(sector * 512..sector * 512 + 32).is_some_and(is_lvm_label)) {
-        return Some("LVM2 physical volume");
+        return Some(LVM_REASON);
     }
     let md = |at: u64| read_vec(reader, at, 4).is_some_and(|m| m == 0xa92b_4efcu32.to_le_bytes());
     // 1.1 at the start, 1.2 at 4 KiB, 1.0 8 KiB from the end (4 KiB aligned), 0.90 in the

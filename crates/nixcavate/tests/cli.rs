@@ -327,6 +327,25 @@ fn symlinks_are_never_followed_out_of_the_evidence() {
     assert!(!out.join("web01/Accounts/passwd").exists(), "a link pointing outside the evidence is not parsed");
 }
 
+/// `test_files/image/lvm/build.sh` made this disk with the real LVM tools: the host's root
+/// filesystem is a logical volume spread over two physical volumes.
+#[test]
+fn a_host_on_lvm_is_parsed() {
+    let scratch = Scratch::new("lvm");
+    let fixture = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test_files/image/lvm/disk.img.zst");
+    fs::write(scratch.path("disk.img"), zstd::decode_all(&fs::read(fixture).unwrap()[..]).unwrap()).unwrap();
+    let out = scratch.path("out");
+    let run = nixcavate(&["auto-parse", "-f", scratch.path("disk.img").to_str().unwrap(), "-o", out.to_str().unwrap()]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let m = manifest(&out);
+    assert_eq!(m["hosts"].as_array().unwrap().len(), 1);
+    assert_eq!(m["hosts"][0]["name"], "lvmhost");
+    assert_eq!(m["hosts"][0]["root"], "vg0-root/[root]");
+    let tasks = m["tasks"].as_array().unwrap();
+    assert!(tasks.iter().all(|t| t["status"] == "succeeded"), "{tasks:?}");
+    assert!(tasks.iter().any(|t| t["artifact"] == "auth-log" && t["records"] == 1), "{tasks:?}");
+}
+
 /// `test_files/image/host/build.sh` made these in Debian 12: a GPT disk with one ext4
 /// partition holding a small host, as a raw image and as an E01 of the same disk.
 #[test]

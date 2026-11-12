@@ -18,6 +18,7 @@ pub mod journald;
 pub mod kernel_modules;
 pub mod lastlog;
 pub mod ld_preload;
+pub mod login_db;
 pub mod networkmanager;
 pub mod pam;
 pub mod passwd;
@@ -42,6 +43,8 @@ pub static ARTIFACTS: &[Artifact] = &[
     utmp::WTMP,
     utmp::BTMP,
     utmp::UTMP,
+    login_db::WTMPDB,
+    login_db::LASTLOG2,
     shadow::ARTIFACT,
     group::ARTIFACT,
     sudoers::ARTIFACT,
@@ -55,6 +58,7 @@ pub static ARTIFACTS: &[Artifact] = &[
     xdg_autostart::ARTIFACT,
     yum_dnf::YUM_LOG,
     yum_dnf::DNF_LOG,
+    yum_dnf::DNF5_LOG,
     yum_dnf::DNF_HISTORY,
     rpm_db::ARTIFACT,
     snap::ARTIFACT,

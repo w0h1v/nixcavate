@@ -440,6 +440,26 @@ fn parse_open_files(input: &Input, sink: &mut Sink) -> Result<()> {
         if text.trim().is_empty() {
             return Ok(());
         }
+        // BusyBox lsof has no header and four tab-separated columns: pid, program, fd, name.
+        let mut tabbed = text.splitn(4, '\t');
+        if let (None, Some(pid), Some(command), Some(fd), Some(path)) =
+            (tid_end, tabbed.next().and_then(|p| p.parse().ok()), tabbed.next(), tabbed.next(), tabbed.next())
+        {
+            let file = OpenFile {
+                command,
+                pid,
+                tid: None,
+                task_command: None,
+                user: "",
+                fd,
+                file_type: None,
+                device: None,
+                size_off: None,
+                node: None,
+                path,
+            };
+            return sink.emit(Loc::Line(line.number), &file);
+        }
         let Some(tid_end) = tid_end else {
             if !text.starts_with("COMMAND") {
                 return Err(Error::format("not an lsof listing (no COMMAND header)"));
@@ -684,6 +704,16 @@ mod tests {
             out.contains("\"device\":\"0,1\",\"size_off\":null,\"node\":\"2392073\",\"path\":\"/memfd:x (deleted)\""),
             "{out}"
         );
+    }
+
+    /// BusyBox `lsof` (Alpine) prints no header: pid, program, descriptor and name, with tabs.
+    #[test]
+    fn busybox_lsof_has_four_tab_separated_columns() {
+        let data = b"1\t/bin/busybox\t0\t/dev/null\n23\t/usr/sbin/sshd\t3\tsocket:[220614076]\n";
+        let out = run(&OPEN_FILES, "../live_response/process/lsof_-nPl.txt", data, 0);
+        assert!(!out.contains("failed") && !out.contains("warning"), "{out}");
+        let row = r#""command":"/usr/sbin/sshd","pid":23,"tid":null,"task_command":null,"user":"","fd":"3","file_type":null,"device":null,"size_off":null,"node":null,"path":"socket:[220614076]""#;
+        assert!(out.contains(row), "{out}");
     }
 
     #[test]

@@ -2,9 +2,9 @@
 //! texts come from OpenSSH (`auth.c`, `sshd.c`), sudo(8), su, Linux-PAM's `pam_unix` and
 //! shadow-utils. Header layouts: `common::syslog`.
 //!
-//! Limit: this artifact only reads `auth.log*` and `secure*`. On systems whose syslogd sends
-//! auth events to `messages` (Alpine's busybox syslogd, SUSE), those lines are parsed by the
-//! `syslog` artifact as plain log entries and get no auth classification.
+//! On systems whose syslogd sends auth events to `messages` (Alpine's BusyBox syslogd, SUSE),
+//! that file is read too, and only its lines that are auth events become records here: the
+//! `syslog` artifact already has every line.
 
 use crate::common::syslog::{for_each_header, timeline_message};
 use crate::{Artifact, Category, Input, LINUX};
@@ -16,7 +16,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "Authentication events: ssh, sudo, su, PAM sessions, account changes",
     Category::Logs,
     LINUX,
-    &["var/log/auth.log*", "var/log/secure*"],
+    &["var/log/auth.log*", "var/log/secure*", "var/log/messages*"],
     parse,
 )
 .split_lines();
@@ -91,8 +91,12 @@ impl Record for Entry<'_> {
 }
 
 fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
+    let mixed = input.path.rsplit('/').next().is_some_and(|name| name.starts_with("messages"));
     for_each_header(input, |offset, h| {
         let a = classify(&h.program, &h.message).unwrap_or_default();
+        if mixed && a.event.is_empty() {
+            return Ok(());
+        }
         sink.emit(
             Loc::Offset(offset),
             &Entry {
@@ -303,6 +307,29 @@ mod tests {
     fn parsed(line: &str) -> serde_json::Value {
         let out = run(&ARTIFACT, "var/log/auth.log", line.as_bytes(), MAR_10_2024);
         serde_json::from_str(out.lines().next().unwrap()).unwrap()
+    }
+
+    /// Alpine's BusyBox syslogd and SUSE's rsyslog write auth events to `messages`, between
+    /// everything else. Only the lines that are auth events become records there.
+    #[test]
+    fn auth_events_in_messages_are_picked_out() {
+        let log = "Mar  9 01:02:03 web01 auth.info sshd-session[89]: Accepted publickey for alice from 203.0.113.9 port 60102 ssh2: ED25519 SHA256:abc\n\
+                   Mar  9 01:02:04 web01 daemon.info crond[7]: USER root pid 9 cmd run-parts /etc/periodic/15min\n\
+                   2024-03-09T01:02:05.000000+00:00 web01 sudo:    alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/id\n\
+                   2024-03-09T01:02:06.000000+00:00 web01 kernel: [    0.000000] Linux version 6.4\n";
+        let out = run(&ARTIFACT, "var/log/messages", log.as_bytes(), MAR_10_2024);
+        let records: Vec<serde_json::Value> =
+            out.lines().filter(|l| l.starts_with('{')).map(|l| serde_json::from_str(l).unwrap()).collect();
+        assert_eq!(records.len(), 2, "{out}");
+        assert_eq!((records[0]["event"].as_str(), records[0]["user"].as_str()), (Some("ssh_accepted"), Some("alice")));
+        assert_eq!(records[0]["program"], "sshd-session");
+        assert_eq!(
+            (records[1]["event"].as_str(), records[1]["command"].as_str()),
+            (Some("sudo_command"), Some("/usr/bin/id"))
+        );
+        // In auth.log every line is a record, classified or not.
+        let out = run(&ARTIFACT, "var/log/auth.log", log.as_bytes(), MAR_10_2024);
+        assert_eq!(out.lines().filter(|l| l.starts_with('{')).count(), 4, "{out}");
     }
 
     #[test]

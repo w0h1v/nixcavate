@@ -56,6 +56,11 @@ pub const DISCOVERY_PATHS: &[&str] = &[
     "etc/hostname",
     "etc/os-release",
     "usr/lib/os-release",
+    "etc/system-release",
+    "etc/redhat-release",
+    "etc/lsb-release",
+    "etc/debian_version",
+    "etc/alpine-release",
     "etc/localtime",
     "etc/timezone",
     "usr/share/zoneinfo/**",
@@ -163,11 +168,30 @@ impl<'s> Host<'s> {
         let name = self.read_text("etc/hostname").unwrap_or_default();
         let name = name.lines().next().unwrap_or_default().trim().to_string();
         let release = self.read_text("etc/os-release").or_else(|| self.read_text("usr/lib/os-release"));
-        let version = release
-            .as_deref()
-            .and_then(|text| text.lines().find_map(|l| l.strip_prefix("PRETTY_NAME=")))
-            .map(|v| v.trim().trim_matches('"').to_string());
+        let value = |text: &str, key: &str| {
+            text.lines().find_map(|l| l.strip_prefix(key)).map(|v| v.trim().trim_matches('"').to_string())
+        };
+        let version = release.as_deref().and_then(|text| value(text, "PRETTY_NAME=")).or_else(|| self.release_file());
         (name, version.unwrap_or_default())
+    }
+
+    /// The version from the older per-distribution files, for a collection whose
+    /// `etc/os-release` is a link to a file that was not collected.
+    fn release_file(&self) -> Option<String> {
+        let first_line = |rel: &str| {
+            let text = self.read_text(rel)?;
+            let line = text.lines().next()?.trim();
+            (!line.is_empty()).then(|| line.to_string())
+        };
+        first_line("etc/system-release")
+            .or_else(|| first_line("etc/redhat-release"))
+            .or_else(|| {
+                let text = self.read_text("etc/lsb-release")?;
+                let line = text.lines().find_map(|l| l.strip_prefix("DISTRIB_DESCRIPTION="))?;
+                Some(line.trim().trim_matches('"').to_string())
+            })
+            .or_else(|| first_line("etc/debian_version").map(|v| format!("Debian {v}")))
+            .or_else(|| first_line("etc/alpine-release").map(|v| format!("Alpine Linux {v}")))
     }
 
     fn macos_identity(&self) -> (String, String) {
@@ -411,6 +435,29 @@ mod tests {
         let source = Source::from_memory(&[("logs/auth.log", b"")]);
         let hosts = discover(&source, None);
         assert_eq!((hosts.len(), hosts[0].os), (1, Os::Unknown));
+    }
+
+    /// A collection can hold `etc/os-release` as a link whose target was not collected.
+    #[test]
+    fn the_version_falls_back_to_the_distribution_release_files() {
+        let version = |files: &[(&str, &[u8])]| {
+            let mut all = vec![("r/etc/hostname", &b"h\n"[..])];
+            all.extend_from_slice(files);
+            discover(&Source::from_memory(&all), None)[0].os_version.clone()
+        };
+        assert_eq!(
+            version(&[("r/etc/system-release", b"Rocky Linux release 9.4 (Blue Onyx)\n")]),
+            "Rocky Linux release 9.4 (Blue Onyx)"
+        );
+        assert_eq!(
+            version(&[("r/etc/lsb-release", b"DISTRIB_ID=Ubuntu\nDISTRIB_DESCRIPTION=\"Ubuntu 24.04.1 LTS\"\n")]),
+            "Ubuntu 24.04.1 LTS"
+        );
+        assert_eq!(version(&[("r/etc/debian_version", b"13.1\n")]), "Debian 13.1");
+        assert_eq!(version(&[("r/etc/alpine-release", b"3.22.1\n")]), "Alpine Linux 3.22.1");
+        let both: [(&str, &[u8]); 2] =
+            [("r/etc/os-release", b"PRETTY_NAME=First\n"), ("r/etc/debian_version", b"13\n")];
+        assert_eq!(version(&both), "First");
     }
 
     #[test]

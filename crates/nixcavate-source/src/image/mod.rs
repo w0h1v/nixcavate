@@ -16,7 +16,8 @@
 //! `source_path` such as `p2/[root]/var/log/auth.log` says which partition a file came from.
 //! The prefix is used even for a single volume, because a host root of `""` has no parent and
 //! the `../` patterns could not match. A partition holding several volumes (an APFS container)
-//! uses `p<index>v<n>`.
+//! uses `p<index>v<n>`. The logical volumes of an LVM2 volume group are volumes of their own,
+//! named `<vg>-<lv>` (restricted to `[A-Za-z0-9_.+-]`) instead of `p<index>`.
 //!
 //! # Ownership and memory
 //!
@@ -26,6 +27,7 @@
 //! volume keeps its first [`WARNINGS_KEPT`] warnings plus a count of the rest.
 
 mod ewf;
+mod lvm;
 mod partitions;
 
 use crate::{map, Entry, Source, Store};
@@ -147,72 +149,112 @@ fn build(
     let mut volumes: Vec<Opened> = Vec::new();
     let mut skipped = Vec::new();
     let mut notes = Vec::new();
+    let mut physical = Vec::new();
+    let mut physical_names = Vec::new();
     for part in &parts {
-        if let Some(why) = part.unsupported {
-            notes.push(format!("partition {} ({}) skipped: {why}", part.index, part.type_name));
-            skipped.push(format!("p{} {} ({why})", part.index, part.type_name));
-            continue;
+        let slice = Slice { inner: reader.clone(), start: part.start, len: part.len };
+        match part.unsupported {
+            Some(partitions::LVM_REASON) => {
+                physical.push((part.index, slice));
+                physical_names.push(format!("p{} {}", part.index, part.type_name));
+                continue;
+            }
+            Some(why) => {
+                notes.push(format!("partition {} ({}) skipped: {why}", part.index, part.type_name));
+                skipped.push(format!("p{} {} ({why})", part.index, part.type_name));
+                continue;
+            }
+            None => {}
         }
-        let opened = open(Slice { inner: reader.clone(), start: part.start, len: part.len });
+        let opened = open(slice);
         if opened.is_empty() {
             skipped.push(format!("p{} {} (no supported filesystem)", part.index, part.type_name));
         }
-        let several = opened.len() > 1;
-        for (nth, volume) in opened.into_iter().enumerate() {
-            let name = if several { format!("p{}v{}", part.index, nth + 1) } else { format!("p{}", part.index) };
-            std::fs::create_dir_all(scratch)?;
-            let body_path = scratch.join(format!("bodyfile-{name}.txt"));
-            let mut listing = Listing {
-                name: &name,
-                volume: volumes.len(),
-                entries: Vec::new(),
-                body: BufWriter::new(File::create(&body_path)?),
-                lines: 0,
-                error: None,
-            };
-            let (mut kept, mut more) = (Vec::new(), 0usize);
-            let walked = volume.walk(&mut |node| listing.add(node), &mut |warning| {
-                if kept.len() < WARNINGS_KEPT {
-                    kept.push(warning);
-                } else {
-                    more += 1;
-                }
-            });
-            if let Err(e) = walked {
-                kept.push(format!("listing stopped early: {e}"));
+        add_volumes(&format!("p{}", part.index), opened, scratch, &mut entries, &mut volumes, &mut notes)?;
+    }
+    if !physical.is_empty() {
+        let (logical, lvm_notes) = lvm::open(physical);
+        notes.extend(lvm_notes);
+        if logical.is_empty() {
+            let why = format!("{}, no logical volume could be read", partitions::LVM_REASON);
+            skipped.extend(physical_names.iter().map(|name| format!("{name} ({why})")));
+        }
+        for lv in logical {
+            let opened = open(Slice { inner: lv.reader, start: 0, len: lv.len });
+            if opened.is_empty() {
+                skipped.push(format!("{} (no supported filesystem)", lv.name));
             }
-            notes.extend(kept.into_iter().map(|w| format!("{name} ({}): {w}", volume.kind())));
-            if more > 0 {
-                notes.push(format!("{name}: {more} more warnings"));
-            }
-            let Listing { entries: found, body, lines, error, .. } = listing;
-            if let Some(e) = error {
-                return Err(e);
-            }
-            body.into_inner().map_err(io::IntoInnerError::into_error)?;
-            if lines == 0 {
-                let _ = std::fs::remove_file(&body_path);
-            } else {
-                let size = std::fs::metadata(&body_path)?.len();
-                entries.push(Entry {
-                    path: format!("{name}/bodyfile/bodyfile.txt"),
-                    size,
-                    mtime: 0,
-                    mode: 0o644,
-                    uid: 0,
-                    gid: 0,
-                    link: None,
-                    store: Store::File(body_path),
-                });
-            }
-            entries.extend(found);
-            volumes.push(volume);
+            add_volumes(&lv.name, opened, scratch, &mut entries, &mut volumes, &mut notes)?;
         }
     }
     if volumes.is_empty() {
         return Err(io::Error::other(format!("no readable filesystem in the image: {}", skipped.join(", "))));
     }
     Ok((entries, Image { volumes }, notes))
+}
+
+/// Lists the volumes found on one partition or logical volume, named `base` (`base` + `v<n>`
+/// when there are several), and adds their entries, notes and body files.
+fn add_volumes(
+    base: &str,
+    opened: Vec<Opened>,
+    scratch: &Path,
+    entries: &mut Vec<Entry>,
+    volumes: &mut Vec<Opened>,
+    notes: &mut Vec<String>,
+) -> io::Result<()> {
+    let several = opened.len() > 1;
+    for (nth, volume) in opened.into_iter().enumerate() {
+        let name = if several { format!("{base}v{}", nth + 1) } else { base.to_string() };
+        std::fs::create_dir_all(scratch)?;
+        let body_path = scratch.join(format!("bodyfile-{name}.txt"));
+        let mut listing = Listing {
+            name: &name,
+            volume: volumes.len(),
+            entries: Vec::new(),
+            body: BufWriter::new(File::create(&body_path)?),
+            lines: 0,
+            error: None,
+        };
+        let (mut kept, mut more) = (Vec::new(), 0usize);
+        let walked = volume.walk(&mut |node| listing.add(node), &mut |warning| {
+            if kept.len() < WARNINGS_KEPT {
+                kept.push(warning);
+            } else {
+                more += 1;
+            }
+        });
+        if let Err(e) = walked {
+            kept.push(format!("listing stopped early: {e}"));
+        }
+        notes.extend(kept.into_iter().map(|w| format!("{name} ({}): {w}", volume.kind())));
+        if more > 0 {
+            notes.push(format!("{name}: {more} more warnings"));
+        }
+        let Listing { entries: found, body, lines, error, .. } = listing;
+        if let Some(e) = error {
+            return Err(e);
+        }
+        body.into_inner().map_err(io::IntoInnerError::into_error)?;
+        if lines == 0 {
+            let _ = std::fs::remove_file(&body_path);
+        } else {
+            let size = std::fs::metadata(&body_path)?.len();
+            entries.push(Entry {
+                path: format!("{name}/bodyfile/bodyfile.txt"),
+                size,
+                mtime: 0,
+                mode: 0o644,
+                uid: 0,
+                gid: 0,
+                link: None,
+                store: Store::File(body_path),
+            });
+        }
+        entries.extend(found);
+        volumes.push(volume);
+    }
+    Ok(())
 }
 
 /// The entries and body file of one volume, filled as the walk visits nodes.
@@ -555,6 +597,56 @@ mod tests {
         assert!(source.entry("p2/[root]/etc/passwd").is_none());
     }
 
+    /// A GPT image whose partition 3 is an LVM physical volume holding the linear volume
+    /// `vg0/root` of four extents (16 KiB).
+    fn lvm_image() -> Sparse {
+        use lvm::testing::*;
+        let text = metadata("vg0", 1, &[uuid('A')], &lv("root", &segment(1, 0, 4, 0, 1)));
+        let mut image = Sparse::load("gpt512.parts");
+        image.pieces.push((51200 * 512, pv_image(&uuid('A'), &text, 512, 8, 0)));
+        image
+    }
+
+    #[test]
+    fn a_logical_volume_is_listed_like_a_partition_and_named_after_itself() {
+        let open = |p: Part| {
+            if p.size() != 4 * 4096 {
+                return Vec::new();
+            }
+            // The first extent of the volume is the second extent of the physical volume.
+            let mut head = [0u8; 8];
+            p.read_at(0, &mut head).unwrap();
+            let at = (lvm::testing::DATA_AT + 4096) as usize;
+            let expected: Vec<u8> = (0..8).map(|i| lvm::testing::pattern((at + i) as u64, 0)).collect();
+            assert_eq!(head.to_vec(), expected);
+            vec![Box::new(Fake::linux("lvmhost")) as Opened]
+        };
+        let source = Source::from_image(Path::new("disk.raw"), Arc::new(lvm_image()), &open).unwrap();
+        let passwd = source.entry("vg0-root/[root]/etc/passwd").unwrap();
+        assert_eq!(&*source.read(passwd).unwrap(), b"root:x:0:0::/root:/bin/sh\n");
+        assert!(source.entry("vg0-root/bodyfile/bodyfile.txt").is_some());
+        let hosts = discover(&source, None);
+        assert_eq!(hosts.len(), 1);
+        assert_eq!((hosts[0].name.as_str(), hosts[0].root.as_str()), ("lvmhost", "vg0-root/[root]"));
+    }
+
+    #[test]
+    fn a_physical_volume_without_readable_logical_volumes_is_named_in_the_error() {
+        let mut lvm = vec![0u8; 1 << 20];
+        lvm[512..520].copy_from_slice(b"LABELONE");
+        lvm[512 + 24..512 + 32].copy_from_slice(b"LVM2 001");
+        let reader = Arc::new(Bytes(Box::leak(lvm.into_boxed_slice())));
+        let err = Source::from_image(Path::new("x.dd"), reader, &|_| Vec::new()).err().unwrap();
+        assert!(err.to_string().contains("no readable filesystem"), "{err}");
+        assert!(err.to_string().contains("LVM2 physical volume"), "{err}");
+    }
+
+    #[test]
+    fn a_logical_volume_with_no_filesystem_is_skipped_quietly() {
+        let err = Source::from_image(Path::new("x.dd"), Arc::new(lvm_image()), &|_| Vec::new()).err().unwrap();
+        assert!(err.to_string().contains("vg0-root (no supported filesystem)"), "{err}");
+    }
+
     /// A real E01 of a GPT disk, through the EWF reader, the partition scan and the listing.
     #[test]
     fn e01_with_a_gpt_disk_end_to_end() {
@@ -573,6 +665,31 @@ mod tests {
         let names: Vec<&str> = hosts.iter().map(|h| h.name.as_str()).collect();
         assert_eq!(names, ["ext4", "xfs"]);
         assert_eq!(hosts[1].root, "p2/[root]");
+    }
+
+    /// `test_files/image/lvm/build.sh` made this disk with the real LVM tools: two physical
+    /// volumes, and a logical volume whose first segment is on the second of them. `big.txt`
+    /// crosses the segment boundary, so reading it whole proves the mapping.
+    #[test]
+    fn a_real_lvm_disk_is_read_through_its_segments() {
+        let dir = std::env::temp_dir().join(format!("nixcavate-image-lvm-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let fixture = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test_files/image/lvm/disk.img.zst");
+        let disk = dir.join("disk.img");
+        std::fs::write(&disk, zstd::decode_all(File::open(fixture).unwrap()).unwrap()).unwrap();
+
+        let source = Source::open(&disk, &|_| true, &dir.join("scratch")).unwrap();
+        assert!(source.warnings.is_empty(), "{:?}", source.warnings);
+        let hosts = discover(&source, None);
+        assert_eq!(hosts.len(), 1, "the swap volume holds no filesystem");
+        assert_eq!((hosts[0].name.as_str(), hosts[0].root.as_str()), ("lvmhost", "vg0-root/[root]"));
+        let big = source.read(source.entry("vg0-root/[root]/big.txt").unwrap()).unwrap();
+        let expected: String =
+            (0..60000).map(|i| format!("{i:07} the quick brown fox jumps over the lazy dog\n")).collect();
+        assert!(big.len() == 3_120_000 && &*big == expected.as_bytes(), "{} bytes", big.len());
+        drop(source);
+        let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]

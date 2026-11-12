@@ -40,10 +40,11 @@ struct Layout {
 const X86_64: Layout = Layout { size: 384, session: 336, secs: 340, micros: 344, address: 348, wide: false };
 const AARCH64: Layout = Layout { size: 400, session: 336, secs: 344, micros: 352, address: 360, wide: true };
 
-/// Picks the layout under which more whole records carry a real type (1..=9). Empty slots
-/// (type 0) fit every layout and say nothing; a type outside 0..=9 counts against it. A
-/// remainder that is not a whole record is ignored, so a trailing byte cannot flip the choice.
-/// Ties go to x86-64.
+/// A whole file is a whole number of records: when only one layout's size divides the length,
+/// that is the layout. Otherwise (both fit, or the file is cut) it is the layout under which
+/// more whole records carry a real type (1..=9). Empty slots (type 0) fit every layout and say
+/// nothing; a type outside 0..=9 counts against it. A remainder that is not a whole record is
+/// ignored, so a trailing byte cannot flip the choice. Ties go to x86-64.
 fn detect(data: &[u8]) -> Layout {
     let score = |layout: &Layout| -> i64 {
         data.chunks_exact(layout.size)
@@ -54,10 +55,11 @@ fn detect(data: &[u8]) -> Layout {
             })
             .sum()
     };
-    if score(&AARCH64) > score(&X86_64) {
-        AARCH64
-    } else {
-        X86_64
+    match (data.len() % X86_64.size == 0, data.len() % AARCH64.size == 0) {
+        (true, false) => X86_64,
+        (false, true) => AARCH64,
+        _ if score(&AARCH64) > score(&X86_64) => AARCH64,
+        _ => X86_64,
     }
 }
 
@@ -143,6 +145,10 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     let data = decompressed(input.data)?;
     if data.is_empty() {
         return Err(Error::skipped("empty file"));
+    }
+    // `var/log/wtmp.db` matches the wtmp pattern; the wtmpdb artifact reads it.
+    if data.starts_with(b"SQLite format 3\0") {
+        return Err(Error::skipped("an SQLite database (wtmpdb), not a utmp file"));
     }
     let layout = detect(&data);
     if data.len() % layout.size != 0 {
@@ -245,6 +251,31 @@ mod tests {
         assert_eq!(fields(&x86), fields(&arm));
         assert_eq!(fields(&arm).len(), 4);
         assert!(arm.contains("\"source_offset\":400,"));
+    }
+
+    /// A file with one aarch64 record also holds one whole x86-64 record with a valid type,
+    /// so only the file length tells the layouts apart.
+    #[test]
+    fn a_single_aarch64_record_is_told_apart_by_the_file_length() {
+        let mut r = vec![0u8; 400];
+        r[0] = 7;
+        r[8..13].copy_from_slice(b"pts/0");
+        r[44..49].copy_from_slice(b"alice");
+        r[344..352].copy_from_slice(&1_700_000_000i64.to_le_bytes());
+        r[360..364].copy_from_slice(&[127, 0, 0, 1]);
+        let out = run(&UTMP, "run/utmp", &r, 0);
+        assert!(
+            out.contains(r#""time":"2023-11-14T22:13:20.000000Z""#) && out.contains(r#""address":"127.0.0.1""#),
+            "{out}"
+        );
+    }
+
+    #[test]
+    fn a_wtmpdb_database_is_left_to_its_own_artifact() {
+        let mut db = b"SQLite format 3\0".to_vec();
+        db.resize(8192, 0);
+        let out = run(&WTMP, "var/log/wtmp.db", &db, 0);
+        assert!(out.contains("skipped") && !out.contains("warning"), "{out}");
     }
 
     #[test]

@@ -1,7 +1,8 @@
 //! `/var/log/lastlog`: last login per UID. Format: lastlog(8) and glibc `struct lastlog`:
 //! records indexed by UID holding a time, a 32-byte line and a 256-byte host. The time is
 //! 32-bit on x86-64 (292-byte records) and 64-bit on aarch64 (296-byte records); the file
-//! does not say which, so the layout is chosen by which one makes the records plausible.
+//! does not say which, so the layout is chosen by the file length and, when that does not
+//! decide, by which one makes the records plausible.
 
 use super::utmp::field;
 use crate::{Artifact, Category, Input, LINUX};
@@ -66,8 +67,15 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     if data.is_empty() {
         return Err(Error::skipped("empty file"));
     }
-    let size =
-        if score(data, RECORD_SIZES[1]) > score(data, RECORD_SIZES[0]) { RECORD_SIZES[1] } else { RECORD_SIZES[0] };
+    // A whole file is a whole number of records: when only one size divides the length, that
+    // is the layout. Otherwise (both fit, or the file is cut) the records' content decides.
+    let [narrow, wide] = RECORD_SIZES;
+    let size = match (data.len() % narrow == 0, data.len() % wide == 0) {
+        (true, false) => narrow,
+        (false, true) => wide,
+        _ if score(data, wide) > score(data, narrow) => wide,
+        _ => narrow,
+    };
     if data.len() % size != 0 {
         sink.warn(format!("size {} is not a multiple of {size}; trailing bytes ignored", data.len()));
     }
@@ -150,6 +158,20 @@ mod tests {
                 && out.contains("\"time\":\"2024-03-10T02:00:00Z\",\"line\":\"pts/1\",\"remote_host\":\"2001:db8::7\""),
             "{out}"
         );
+    }
+
+    /// One login on aarch64: under the x86-64 size the record's bytes also look plausible,
+    /// so only the file length tells the layouts apart.
+    #[test]
+    fn a_single_aarch64_record_is_told_apart_by_the_file_length() {
+        let mut data = vec![0u8; 1001 * 296];
+        data[296_000..296_008].copy_from_slice(&1_700_000_000i64.to_le_bytes());
+        data[296_008..296_013].copy_from_slice(b"pts/0");
+        data[296_040..296_049].copy_from_slice(b"127.0.0.1");
+        let out = run(&ARTIFACT, "var/log/lastlog", &data, 0);
+        assert!(!out.contains("warning"), "{out}");
+        let login = r#""uid":1000,"user":"","time":"2023-11-14T22:13:20Z","line":"pts/0","remote_host":"127.0.0.1""#;
+        assert!(out.contains(login), "{out}");
     }
 
     #[test]

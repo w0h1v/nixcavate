@@ -56,7 +56,7 @@ evidence may expand (a guard against decompression bombs). Every command has `--
 |---|---|
 | Directory | An extracted collection, a mounted volume, or a folder of collections and archives (each becomes a host) |
 | `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.zst`, `.tar.xz`, `.zip` | Read in place; nothing is extracted |
-| Raw and E01 disk images | GPT and MBR partitions with ext2/3/4, XFS or APFS. The file timeline comes from the filesystem itself |
+| Raw and E01 disk images | GPT and MBR partitions and linear LVM2 volumes with ext2/3/4, XFS or APFS. The file timeline comes from the filesystem itself |
 
 Hosts are discovered by layout (`[root]/` in UAC, `/etc` and `/var/log` on Linux,
 `/private/var` and `/System` on macOS), so no flag says what kind of collection it is.
@@ -85,11 +85,11 @@ succeeded or was skipped, 1 means some task failed, 2 means the run could not st
 
 | Area | Linux | macOS |
 |---|---|---|
-| Accounts and logons | passwd, shadow (hash type only), group, sudoers, wtmp, btmp, utmp, lastlog, SSH logons from `auth.log` and `secure` | local accounts (dslocal) |
+| Accounts and logons | passwd, shadow (hash type only), group, sudoers, wtmp, btmp, utmp, lastlog, wtmpdb, lastlog2, SSH logons from `auth.log`, `secure` and `messages` | local accounts (dslocal) |
 | Logs | journald, syslog, audit, Apache and nginx | Unified Log, ASL, `system.log`, `install.log` |
 | Execution and activity | bash, zsh, fish, Python, MySQL, less and Vim histories; Chromium and Firefox | the same histories; Safari, KnowledgeC, Biome, FSEvents |
 | Persistence | cron, anacron, at, systemd units, `rc.local`, `init.d`, shell profiles, `ld.so.preload`, `authorized_keys`, udev, kernel modules, PAM, XDG autostart | LaunchAgents and LaunchDaemons, Background Task Management, emond, kernel and system extensions, managed preferences, cron and periodic |
-| Software | dpkg, apt, yum, dnf, rpm (SQLite and BerkeleyDB), snap, flatpak | InstallHistory |
+| Software | dpkg, apt, yum, dnf, dnf5, rpm (SQLite and BerkeleyDB), snap, flatpak | InstallHistory |
 | Network | hosts, resolv.conf, NetworkManager, SSH known hosts and config, iptables, nftables | known Wi-Fi networks, SSH |
 | Security | | TCC, quarantine events, Gatekeeper policy, XProtect version |
 | Containers | Docker, Podman, runtime configs | |

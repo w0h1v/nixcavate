@@ -3,7 +3,7 @@
 
 use crate::text::{for_each_line, lossy};
 use crate::{Artifact, Category, Input, ANY_OS};
-use nixcavate_core::{Loc, Record, Result, Sink};
+use nixcavate_core::{Error, Loc, Record, Result, Sink};
 use serde::Serialize;
 
 pub const CRON: Artifact = Artifact::new(
@@ -127,6 +127,10 @@ fn job(text: &str, system: bool) -> Option<(String, Option<&str>, &str)> {
 }
 
 fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
+    // BusyBox crond's `cron.update` lists the users whose crontab changed; it is not a crontab.
+    if input.path.ends_with("crontabs/cron.update") {
+        return Err(Error::skipped("crond's list of changed crontabs, not a crontab"));
+    }
     let system = input.path.ends_with("etc/crontab") || input.path.contains("etc/cron.d/");
     let owner = (!system).then(|| input.path.rsplit('/').next().unwrap_or_default());
     for_each_line(input, |line| {
@@ -178,6 +182,12 @@ mod tests {
     #[test]
     fn user_crontab_has_no_user_column() {
         insta::assert_snapshot!(run(&CRON, "var/spool/cron/crontabs/alice", &fixture("cron/user-crontab"), 0));
+    }
+
+    #[test]
+    fn busybox_cron_update_is_not_a_crontab() {
+        let out = run(&CRON, "etc/crontabs/cron.update", b"alice\n", 0);
+        assert!(out.contains("skipped") && !out.contains("warning"), "{out}");
     }
 
     #[test]

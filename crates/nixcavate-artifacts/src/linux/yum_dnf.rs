@@ -16,6 +16,15 @@ pub const YUM_LOG: Artifact =
 pub const DNF_LOG: Artifact =
     Artifact::new("dnf-log", "dnf package actions", Category::Software, LINUX, &["var/log/dnf.rpm.log*"], parse_dnf)
         .split_lines();
+pub const DNF5_LOG: Artifact = Artifact::new(
+    "dnf5-log",
+    "dnf5 commands and package actions",
+    Category::Software,
+    LINUX,
+    &["var/log/dnf5.log*"],
+    parse_dnf5,
+)
+.split_lines();
 pub const DNF_HISTORY: Artifact = Artifact::new(
     "dnf-history",
     "dnf transaction history",
@@ -33,7 +42,7 @@ fn event_kind(action: &str) -> Option<&'static str> {
     Some(match action {
         "installed" | "install" => "package_installed",
         "updated" | "upgrade" => "package_upgraded",
-        "erased" | "erase" | "remove" => "package_removed",
+        "erased" | "erase" | "remove" | "removed" => "package_removed",
         _ => return None,
     })
 }
@@ -107,14 +116,27 @@ impl Record for DnfEntry<'_> {
 }
 
 /// `2024-03-10T01:02:03+0000 SUBDEBUG Installed: nmap-3:7.92-1.el9.x86_64`. Other lines carry
-/// scriptlet output and become records with a `message`.
+/// scriptlet output and become records with a `message`. Scriptlet output of several lines
+/// has a timestamp on the first only: the others take the time and level of the line before.
 fn parse_dnf(input: &Input, sink: &mut Sink) -> Result<()> {
+    let mut before: Option<(Timestamp, String)> = None;
     for_each_line(input, |line| {
         let Some((parsed, used)) = parse_iso8601(line.bytes) else {
-            if !line.bytes.iter().all(u8::is_ascii_whitespace) {
-                sink.warn(format!("offset {}: line does not start with a timestamp", line.offset));
+            if line.bytes.iter().all(u8::is_ascii_whitespace) {
+                return Ok(());
             }
-            return Ok(());
+            let Some((time, level)) = &before else {
+                sink.warn(format!("offset {}: line does not start with a timestamp", line.offset));
+                return Ok(());
+            };
+            let entry = DnfEntry {
+                time: *time,
+                level: Cow::Borrowed(level),
+                action: String::new(),
+                package: Cow::Borrowed(""),
+                message: lossy(line.bytes.trim_ascii()),
+            };
+            return sink.emit(Loc::Offset(line.offset), &entry);
         };
         let Some(time) = parsed.recorded() else {
             sink.warn(format!("offset {}: timestamp has no zone", line.offset));
@@ -122,6 +144,7 @@ fn parse_dnf(input: &Input, sink: &mut Sink) -> Result<()> {
         };
         let rest = line.bytes[used..].trim_ascii_start();
         let (level, rest) = split_once(rest, b' ').unwrap_or((rest, b""));
+        before = Some((time, lossy(level).into_owned()));
         // A package action is a single word before the colon; anything else is free text.
         let action = split_once(rest, b':')
             .filter(|(word, _)| !word.is_empty() && word.iter().all(u8::is_ascii_alphabetic))
@@ -148,6 +171,62 @@ fn parse_dnf(input: &Input, sink: &mut Sink) -> Result<()> {
             None => (String::new(), Cow::Borrowed(""), lossy(rest)),
         };
         sink.emit(Loc::Offset(line.offset), &DnfEntry { time, level: lossy(level), action, package, message })
+    })
+}
+
+#[derive(Serialize)]
+struct Dnf5Entry<'a> {
+    time: Option<Timestamp>,
+    pid: Option<u32>,
+    level: &'a str,
+    /// `installed` or `removed` for a finished package action, otherwise empty.
+    action: &'static str,
+    package: &'a str,
+    message: &'a str,
+}
+
+impl Record for Dnf5Entry<'_> {
+    fn events(&self) -> impl Iterator<Item = Event<'_>> {
+        let event = self
+            .time
+            .zip(event_kind(self.action))
+            .map(|(time, kind)| Event::new(time, kind, format!("{} {}", self.action, self.package)));
+        event.into_iter()
+    }
+}
+
+/// `2026-03-10T01:02:05+0000 [199] INFO RPM callback install stop "zip-0:3.0-46.fc45.x86_64" ...`.
+/// dnf5 logs each package twice (`start`, `stop`): the `stop` line is the action. An upgrade is
+/// an install of the new package and an uninstall of the old one. A line that does not start
+/// with a timestamp (scriptlet output) is kept as a message with no time.
+fn parse_dnf5(input: &Input, sink: &mut Sink) -> Result<()> {
+    for_each_line(input, |line| {
+        if line.bytes.iter().all(u8::is_ascii_whitespace) {
+            return Ok(());
+        }
+        let text = lossy(line.bytes);
+        let stamp = parse_iso8601(line.bytes).and_then(|(parsed, used)| Some((parsed.recorded()?, used)));
+        let (time, rest) = match stamp {
+            Some((time, used)) => (Some(time), text.get(used..).unwrap_or_default().trim_start()),
+            None => (None, &*text),
+        };
+        // `[pid] LEVEL message`, only after a timestamp.
+        let fields = time.and_then(|_| {
+            let (pid, rest) = rest.strip_prefix('[')?.split_once("] ")?;
+            let (level, message) = rest.split_once(' ').unwrap_or((rest, ""));
+            Some((pid.parse().ok(), level, message))
+        });
+        let (pid, level, message) = fields.unwrap_or((None, "", rest));
+        let finished = |verb: &str| {
+            let quoted = message.strip_prefix("RPM callback ")?.strip_prefix(verb)?.strip_prefix(" stop \"")?;
+            quoted.split_once('"').map(|(package, _)| package)
+        };
+        let (action, package) = match (finished("install"), finished("uninstall")) {
+            (Some(package), _) => ("installed", package),
+            (_, Some(package)) => ("removed", package),
+            _ => ("", ""),
+        };
+        sink.emit(Loc::Offset(line.offset), &Dnf5Entry { time, pid, level, action, package, message })
     })
 }
 
@@ -271,6 +350,42 @@ mod tests {
     #[test]
     fn dnf_log_keeps_other_lines_as_messages() {
         insta::assert_snapshot!(run(&DNF_LOG, "var/log/dnf.rpm.log", &fixture("dnf-log/scriptlets.log"), 0));
+    }
+
+    #[test]
+    fn dnf_scriptlet_output_continues_the_line_before_it() {
+        let log = "2024-03-10T01:02:03+0000 INFO Created symlink /etc/a.service \u{2192} /usr/lib/a.service.\n\
+                   Created symlink /etc/b.socket \u{2192} /usr/lib/b.socket.\n\n\
+                   2024-03-10T01:02:04+0000 SUBDEBUG Installed: nmap-3:7.92-1.el9.x86_64\n";
+        let text = run(&DNF_LOG, "var/log/dnf.rpm.log", log.as_bytes(), 0);
+        assert!(!text.contains("warning"), "{text}");
+        let second = r#""time":"2024-03-10T01:02:03Z","level":"INFO","action":"","package":"","message":"Created symlink /etc/b.socket"#;
+        assert!(text.contains(second), "{text}");
+        // With no line before it, there is no time to give the text.
+        let text = run(&DNF_LOG, "var/log/dnf.rpm.log", b"stray output\n", 0);
+        assert!(text.contains("line does not start with a timestamp"), "{text}");
+    }
+
+    #[test]
+    fn dnf5_log_records_the_command_and_the_package_changes() {
+        let log = concat!(
+            "2026-03-10T01:02:03+0000 [199] INFO --- DNF5 launched with arguments: \"dnf -y install zip\" ---\n",
+            "2026-03-10T01:02:04+0000 [199] DEBUG [librepo] lr_download: Target: Packages/z/zip-3.0-46.fc45.x86_64.rpm (-)\n",
+            "2026-03-10T01:02:05+0000 [199] INFO RPM callback install start \"zip-0:3.0-46.fc45.x86_64\" total 484756\n",
+            "2026-03-10T01:02:05+0000 [199] INFO RPM callback install stop \"zip-0:3.0-46.fc45.x86_64\" amount 484756 total 484756\n",
+            "2026-03-10T01:02:09+0000 [216] INFO RPM callback uninstall stop \"zip-0:3.0-46.fc45.x86_64\" amount 5 total 5\n",
+            "not a log line\n",
+        );
+        let text = run(&DNF5_LOG, "var/log/dnf5.log", log.as_bytes(), 0);
+        assert_eq!(text.lines().filter(|l| l.starts_with('{')).count(), 6, "{text}");
+        assert!(
+            text.contains(r#""pid":199,"level":"INFO","action":"installed","package":"zip-0:3.0-46.fc45.x86_64""#),
+            "{text}"
+        );
+        assert!(text.contains("package_installed,installed zip-0:3.0-46.fc45.x86_64"), "{text}");
+        assert!(text.contains("package_removed,removed zip-0:3.0-46.fc45.x86_64"), "{text}");
+        assert_eq!(text.matches(",package_").count(), 2, "start lines and downloads are not events: {text}");
+        assert!(text.contains(r#""message":"not a log line""#) && !text.contains("warning"), "{text}");
     }
 
     #[test]

@@ -9,7 +9,11 @@ expression: "error(\"edge-error.log\")"
 {"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":477,"time":"2024-07-07T12:00:04Z","server":"nginx","level":"warn","module":null,"pid":12,"remote_address":"203.0.113.9","remote_port":null,"message":"*9 upstream response is buffered, client: 203.0.113.9, server: example.com, request: \"GET / HTTP/1.1\", host: \"example.com\""}
 {"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":634,"time":"2024-07-07T12:00:05Z","server":"nginx","level":"emerg","module":null,"pid":12,"remote_address":null,"remote_port":null,"message":"bind() to 0.0.0.0:80 failed (98: Address already in use)"}
 {"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":725,"time":"2024-07-07T12:00:06Z","server":"nginx","level":"crit","module":null,"pid":null,"remote_address":null,"remote_port":null,"message":"odd line without pid"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":773,"time":null,"server":"","level":"","module":null,"pid":null,"remote_address":null,"remote_port":null,"message":"2024/13/45 99:00:00 [error] 1#1: bad date"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":815,"time":null,"server":"","level":"","module":null,"pid":null,"remote_address":null,"remote_port":null,"message":"#0 /var/www/html/index.php(3): continuation of a PHP trace"}
 {"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":875,"time":"2024-07-07T12:00:07.000001Z","server":"apache","level":"notice","module":"core","pid":1,"remote_address":null,"remote_port":null,"message":"truncated mid-"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":952,"time":null,"server":"","level":"","module":null,"pid":null,"remote_address":null,"remote_port":null,"message":"[Sun Jul 07 12:00"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":970,"time":null,"server":"","level":"","module":null,"pid":null,"remote_address":null,"remote_port":null,"message":"�� binary ["}
 --- timeline ---
 timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
 2024-07-07T12:00:00.250000Z,micros,assumed_zone,memory,web-error-log,http_error,apache [warn] AH02032: Hostname provided via SNI not found,var/log/apache2/error.log,,0,,
@@ -20,4 +24,3 @@ timestamp,precision,basis,host,artifact,event,message,source_path,source_line,so
 2024-07-07T12:00:06Z,seconds,assumed_zone,memory,web-error-log,http_error,nginx [crit] odd line without pid,var/log/apache2/error.log,,725,,
 2024-07-07T12:00:07.000001Z,micros,assumed_zone,memory,web-error-log,http_error,apache [notice] truncated mid-,var/log/apache2/error.log,,875,,
 2024-07-08T12:00:03.123456Z,micros,assumed_zone,memory,web-error-log,http_error,"apache [error] AH01071: Got error 'PHP message: boom', referer: https://example.com/",var/log/apache2/error.log,,310,,
---- warning: 4 lines were not in a known log format; the first is at offset 773

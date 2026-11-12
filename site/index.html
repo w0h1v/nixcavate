@@ -210,7 +210,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: 
     <div class="grid g2" style="margin-top:20px">
       <div class="card">
         <h3>Inputs</h3>
-        <p>Extracted collections and mounted volumes. <code>.tar</code>, <code>.tar.gz</code>, <code>.tar.bz2</code>, <code>.tar.zst</code>, <code>.tar.xz</code> and <code>.zip</code> read in place. Raw and E01 disk images with GPT or MBR partitions holding ext2/3/4, XFS or APFS. A folder of collections becomes several hosts.</p>
+        <p>Extracted collections and mounted volumes. <code>.tar</code>, <code>.tar.gz</code>, <code>.tar.bz2</code>, <code>.tar.zst</code>, <code>.tar.xz</code> and <code>.zip</code> read in place. Raw and E01 disk images with GPT or MBR partitions and linear LVM2 volumes holding ext2/3/4, XFS or APFS. A folder of collections becomes several hosts.</p>
       </div>
       <div class="card">
         <h3>Output</h3>
@@ -234,11 +234,11 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: 
       <table>
         <thead><tr><th>Area</th><th>Linux</th><th>macOS</th></tr></thead>
         <tbody>
-          <tr><td>Accounts and logons</td><td>passwd, shadow (hash type only), group, sudoers, wtmp, btmp, utmp, lastlog, SSH logons from auth.log and secure</td><td>local accounts (dslocal)</td></tr>
+          <tr><td>Accounts and logons</td><td>passwd, shadow (hash type only), group, sudoers, wtmp, btmp, utmp, lastlog, wtmpdb, lastlog2, SSH logons from auth.log, secure and messages</td><td>local accounts (dslocal)</td></tr>
           <tr><td>Logs</td><td>journald, syslog, audit, Apache and nginx</td><td>Unified Log, ASL, system.log, install.log</td></tr>
           <tr><td>Execution and activity</td><td>bash, zsh, fish, Python, MySQL, less and Vim histories; Chromium and Firefox</td><td>the same histories; Safari, KnowledgeC, Biome, FSEvents</td></tr>
           <tr><td>Persistence</td><td>cron, anacron, at, systemd units, rc.local, init.d, shell profiles, ld.so.preload, authorized_keys, udev, kernel modules, PAM, XDG autostart</td><td>LaunchAgents and LaunchDaemons, Background Task Management, emond, kernel and system extensions, managed preferences, cron and periodic</td></tr>
-          <tr><td>Software</td><td>dpkg, apt, yum, dnf, rpm (SQLite and BerkeleyDB), snap, flatpak</td><td>InstallHistory</td></tr>
+          <tr><td>Software</td><td>dpkg, apt, yum, dnf, dnf5, rpm (SQLite and BerkeleyDB), snap, flatpak</td><td>InstallHistory</td></tr>
           <tr><td>Network</td><td>hosts, resolv.conf, NetworkManager, SSH known hosts and config, iptables, nftables</td><td>known Wi-Fi networks, SSH</td></tr>
           <tr><td>Security</td><td></td><td>TCC, quarantine events, Gatekeeper policy, XProtect version</td></tr>
           <tr><td>Containers</td><td>Docker, Podman, runtime configs</td><td></td></tr>

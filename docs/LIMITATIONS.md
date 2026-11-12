@@ -12,8 +12,8 @@ parser may be wrong where the description is.
 
 | Checked against | Parsers |
 |---|---|
-| Real tool | journald (`journalctl -o json`, 1.5 million entries, 0 mismatches), Unified Log (`log show`, 119,650 entries, 99.9% of messages identical), ASL (`syslog -F raw`, 7,537 records), wtmp/btmp/utmp (`utmpdump`, x86-64 and aarch64), lastlog (`lastlog`), dpkg status (`dpkg-query`), rpm database (`rpm -qa`: SQLite on Rocky 9, BerkeleyDB on Amazon Linux 2 with 193 of 193 packages, big-endian BerkeleyDB on UBI 8 s390x with 184 of 184), SSH key fingerprints (`ssh-keygen -l`), ext4/XFS/APFS readers (`find`, `stat`, checksums of every file), E01 (`ewfacquire` images, byte-identical reads), InstallHistory (`plutil`) |
-| Real data | syslog, auth.log and secure (Debian 12, Rocky 9), dnf log and history (Rocky 9), apt history, dpkg log, shell and tool histories (bash, zsh, fish, vim, less, MariaDB), cron, at, systemd units, Docker and Podman files, Apache and nginx logs, UAC live response and body file, iptables and nftables, NetworkManager, Chromium and Firefox history, launchd plists, Background Task Management (a real store: 89 of 89 items), install.log, and five user stores of one Mac compared row by row with a direct query of the same file: TCC (295 of 295 rows), quarantine events (2,464 of 2,464), Safari history (39 of 39 visits), KnowledgeC (1,058 of 1,059), Biome SEGB v2 (214 files, 366,169 of 366,272 written entries decoded) |
+| Real tool | journald (`journalctl -o json`: 1.5 million entries in the first check, then 10.8 million across four more hosts, 0 mismatches), Unified Log (`log show`, 119,650 entries, 99.9% of messages identical), ASL (`syslog -F raw`, 7,537 records), wtmp/btmp/utmp (`utmpdump`, x86-64 and aarch64), lastlog (`lastlog`), dpkg status (`dpkg-query`), rpm database (`rpm -qa`: SQLite on Rocky 9, BerkeleyDB on Amazon Linux 2 with 193 of 193 packages, big-endian BerkeleyDB on UBI 8 s390x with 184 of 184), SSH key fingerprints (`ssh-keygen -l`), ext4/XFS/APFS readers (`find`, `stat`, checksums of every file; ext4 and XFS also against a mount of eight distributions' official cloud images: 319,788 entries and 12,924 file checksums, no difference), LVM2 (a real Rocky 9 image against `lvm` and a mount: 37,724 of 37,724 files), E01 (`ewfacquire` images, byte-identical reads), InstallHistory (`plutil`) |
+| Real data | UAC collections of eleven containers (Amazon Linux 2 and 2023, Alpine, Arch, Debian 13, Fedora, openSUSE Leap, Rocky 8 and 9 on arm64 and x86-64, Ubuntu 24.04) with scripted logins, sudo, package changes and eleven persistence plants: every plant found, and logins, failed logins, last logins and package events equal to the script wherever the distribution writes the log; UAC collections of four Ubuntu servers (24.04 to 26.04; 49.5 million records, no failed task; syslog, auth.log, dpkg.log, dpkg status, passwd and group counts equal to the files' own), syslog, auth.log and secure (Debian 12, Rocky 9), dnf log and history (Rocky 9), apt history, dpkg log, shell and tool histories (bash, zsh, fish, vim, less, MariaDB), cron, at, systemd units, Docker and Podman files, Apache and nginx logs, UAC live response and body file, iptables and nftables, NetworkManager, Chromium and Firefox history, launchd plists, Background Task Management (a real store: 89 of 89 items), install.log, and five user stores of one Mac compared row by row with a direct query of the same file: TCC (295 of 295 rows), quarantine events (2,464 of 2,464), Safari history (39 of 39 visits), KnowledgeC (1,058 of 1,059), Biome SEGB v2 (214 files, 366,169 of 366,272 written entries decoded) |
 | Synthetic only | audit.log (auditd cannot run in a container), yum.log, snap, flatpak, anacron timestamps, **Biome SEGB v1, FSEvents, Gatekeeper policy, dslocal accounts, known Wi-Fi networks, Safari downloads, emond, system extensions, managed preferences, Chromium and Firefox downloads** |
 
 The macOS stores in bold are root-only, or had no entries on the Mac used for checking. No
@@ -32,14 +32,13 @@ tool. Three carry specific doubts:
 | Area | What | What happens |
 |---|---|---|
 | Packages | SUSE NDB rpm database (`Packages.db`), BerkeleyDB rpm databases in btree format, zypper history, Alpine apk database | Not read |
-| Logons | wtmpdb and lastlog2 (Debian 13, openSUSE Tumbleweed) | Not read |
 | Docker | Images kept in the containerd image store (Docker 29 default) | `docker-images` finds nothing; containers and logs still parse |
 | systemd | Enablement symlinks (`*.wants/`), timers joined to the service they start | Unit files are parsed one by one |
-| Auth events | Auth lines that land in `messages` (Alpine, SUSE) | Parsed as plain syslog, not classified |
 | Unified Log | Backtraces; signpost names; state dumps that are not property lists; a few Apple-private value decoders. About 0.1% of log messages and 12% of state dumps differ from `log show` | The entry is kept; the message shows the raw value or a size marker |
 | Unified Log | Oversize message data stored in a file other than the entry's own or its neighbour | The message shows `<oversize data in another file>` |
 | Unified Log | `log show` leaves out whole files it considers expired (about 15% of the entries in the test archive). The rule it uses was not established | nixcavate outputs every entry that is in the files, so its counts are higher than `log show`'s |
-| Disk images | Btrfs, LVM2, LUKS, software RAID, Fusion and multi-device APFS, EWF2 (`.Ex01`) | The partition is named in a warning and skipped |
+| Disk images | Btrfs, LUKS, software RAID, Fusion and multi-device APFS, EWF2 (`.Ex01`) | The partition is named in a warning and skipped |
+| LVM2 | Striped, RAID, mirror, thin, cache and snapshot logical volumes; a segment on a physical volume that is not in the image | Each such volume is named in a warning and skipped. Linear logical volumes (one or many segments, on one or several physical volumes in the image) are read from the newest metadata copy, and appear as `<vg>-<lv>` |
 | APFS | Encrypted (FileVault) and sealed system volumes; LZVN and LZFSE compressed files; reading inside snapshots | Volumes are listed; unreadable files are listed with their size but not read |
 | ext4 | Journal replay, deleted-file recovery | The volume is read as it sits on disk |
 | Filesystems | Extended attributes (other than ext4 inline data and APFS symlinks and compression) | Not read |
@@ -49,6 +48,9 @@ tool. Three carry specific doubts:
 
 ## Behavior to know
 
+- **NUL padding in a log is skipped.** Rotation that copies and truncates, and an unclean
+  shutdown, leave runs of NUL bytes. NUL bytes at the start of a line are dropped, and so is
+  a line made only of them.
 - **Zone-less times depend on the host zone.** If the evidence has neither zone data nor a
   zone name, UTC is assumed. The manifest's `timezone` field says what was used; every such
   timestamp is marked `assumed_zone`.

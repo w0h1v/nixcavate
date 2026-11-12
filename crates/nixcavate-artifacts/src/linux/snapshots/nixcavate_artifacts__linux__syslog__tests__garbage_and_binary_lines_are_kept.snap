@@ -2,7 +2,7 @@
 source: crates/nixcavate-artifacts/src/linux/syslog.rs
 expression: "run(&ARTIFACT, \"var/log/syslog\", data, MAR_10_2024)"
 ---
-{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":0,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"\u0000\u0001\u0002�� binary"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":1,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"\u0001\u0002�� binary"}
 {"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":13,"time":null,"time_basis":null,"log_host":"web01","program":"x","pid":1,"message":"bad clock"}
 {"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":52,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"   "}
 {"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":56,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"tag","pid":null,"message":"odd pid"}

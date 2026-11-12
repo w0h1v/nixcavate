@@ -22,6 +22,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
         "var/log/cron*",
         "var/log/boot.log*",
         "var/log/maillog*",
+        "var/log/ufw.log*",
     ],
     parse,
 )

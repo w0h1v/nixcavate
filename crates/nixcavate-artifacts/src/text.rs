@@ -74,7 +74,9 @@ pub fn decompressed<'a>(data: &'a [u8]) -> Result<Cow<'a, [u8]>> {
 }
 
 /// Calls `f` for every line of the input. A trailing `\r` is removed; a final line with no
-/// newline is still delivered.
+/// newline is still delivered. NUL bytes at the start of a line are padding (left by rotation
+/// that copies and truncates, or by an unclean shutdown), not text: they are dropped, and so
+/// is a line made only of them.
 pub fn for_each_line(input: &Input, mut f: impl FnMut(Line) -> Result<()>) -> Result<()> {
     let strip = |line: &[u8]| -> usize { line.len() - usize::from(line.last() == Some(&b'\r')) };
     // A chunk from the middle of a split file is plain text by construction. Its first bytes
@@ -85,9 +87,13 @@ pub fn for_each_line(input: &Input, mut f: impl FnMut(Line) -> Result<()>) -> Re
         let (mut start, mut number) = (0, 0);
         while start < data.len() {
             let end = memchr::memchr(b'\n', &data[start..]).map_or(data.len(), |i| start + i);
-            let line = &data[start..end];
+            let padding = data[start..end].iter().take_while(|b| **b == 0).count();
+            let line = &data[start + padding..end];
             number += 1;
-            f(Line { number, offset: input.offset + start as u64, bytes: &line[..strip(line)] })?;
+            if padding == 0 || !line.is_empty() {
+                let offset = input.offset + (start + padding) as u64;
+                f(Line { number, offset, bytes: &line[..strip(line)] })?;
+            }
             start = end + 1;
         }
         return Ok(());
@@ -99,12 +105,19 @@ pub fn for_each_line(input: &Input, mut f: impl FnMut(Line) -> Result<()>) -> Re
     let (mut offset, mut number) = (0u64, 0u64);
     loop {
         line.clear();
-        let line_start = offset;
+        let (mut line_start, mut padded) = (offset, false);
         let mut ended = false;
         while !ended {
             let buf = reader.fill_buf()?;
             if buf.is_empty() {
                 break;
+            }
+            let padding = if line.is_empty() { buf.iter().take_while(|b| **b == 0).count() } else { 0 };
+            if padding > 0 {
+                reader.consume(padding);
+                offset += padding as u64;
+                (line_start, padded) = (offset, true);
+                continue;
             }
             let (take, used) = match memchr::memchr(b'\n', buf) {
                 Some(i) => {
@@ -126,7 +139,9 @@ pub fn for_each_line(input: &Input, mut f: impl FnMut(Line) -> Result<()>) -> Re
             return Err(too_large(input.data.len(), limit));
         }
         number += 1;
-        f(Line { number, offset: line_start, bytes: &line[..strip(&line)] })?;
+        if !padded || !line.is_empty() {
+            f(Line { number, offset: line_start, bytes: &line[..strip(&line)] })?;
+        }
     }
 }
 
@@ -181,6 +196,19 @@ mod tests {
             assert_eq!(lines_of(&packed), lines_of(plain));
             assert_eq!(&*decompressed(&packed).unwrap(), plain);
         }
+    }
+
+    /// Rotation by copy-and-truncate and an unclean shutdown both leave runs of NUL bytes
+    /// in a log. The text after a run is a line of its own.
+    #[test]
+    fn nul_padding_before_a_line_is_dropped() {
+        let mut plain = b"one\n".to_vec();
+        plain.extend_from_slice(&vec![0; MAX_STREAMED_LINE + 9]);
+        plain.extend_from_slice(b"two\n\0\0\n\0");
+        let at = 4 + MAX_STREAMED_LINE as u64 + 9;
+        let expected = vec![(1, 0, "one".to_string()), (2, at, "two".into())];
+        assert_eq!(lines_of(&plain), expected);
+        assert_eq!(lines_of(&zstd::encode_all(&plain[..], 1).unwrap()), expected);
     }
 
     #[test]

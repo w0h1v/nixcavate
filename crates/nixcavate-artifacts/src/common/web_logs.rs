@@ -424,8 +424,9 @@ fn parse_nginx_error<'a>(input: &Input, text: &'a str) -> Option<ErrorEntry<'a>>
     })
 }
 
+/// A line in neither server's format is kept as a message with no time: servers write their
+/// own stderr, and that of the programs they run, into this log without a prefix.
 fn parse_error(input: &Input, sink: &mut Sink) -> Result<()> {
-    let mut unparsed = Unparsed::default();
     for_each_line(input, |line| {
         if line.bytes.is_empty() {
             return Ok(());
@@ -436,16 +437,18 @@ fn parse_error(input: &Input, sink: &mut Sink) -> Result<()> {
             b'0'..=b'9' => parse_nginx_error(input, &text),
             _ => None,
         };
-        match entry {
-            Some(entry) => sink.emit(Loc::Offset(line.offset), &entry),
-            None => {
-                unparsed.note(line.offset);
-                Ok(())
-            }
-        }
-    })?;
-    unparsed.report(sink);
-    Ok(())
+        let entry = entry.unwrap_or(ErrorEntry {
+            time: None,
+            server: "",
+            level: "",
+            module: None,
+            pid: None,
+            remote_address: None,
+            remote_port: None,
+            message: &text,
+        });
+        sink.emit(Loc::Offset(line.offset), &entry)
+    })
 }
 
 #[cfg(test)]
@@ -511,6 +514,17 @@ mod tests {
         let packed = gz.finish().unwrap();
         let path = "var/log/apache2/access.log.2.gz";
         assert_eq!(run(&ACCESS, path, &packed, 0), run(&ACCESS, path, &plain, 0));
+    }
+
+    /// A server writes its own stderr, and that of CGI programs, into the error log with no
+    /// prefix. Such a line is evidence too (the output of a command run through a web shell).
+    #[test]
+    fn error_lines_with_no_prefix_are_kept_as_messages() {
+        let log = b"AH00558: apache2: Could not reliably determine the server's name\nsh: 1: nc: not found\n";
+        let text = run(&ERROR, "var/log/apache2/error.log", log, 0);
+        assert!(!text.contains("warning"), "{text}");
+        assert!(text.contains(r#""time":null,"server":"","#), "{text}");
+        assert!(text.contains(r#""message":"sh: 1: nc: not found""#), "{text}");
     }
 
     #[test]
