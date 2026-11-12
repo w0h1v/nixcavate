@@ -130,3 +130,7 @@ python3 bench/bench.py <name> <corpus>   # throughput and record-count gate
 | [bench/README.md](bench/README.md) | The benchmark corpus and the regression gate |
 
 Parsers are written clean-room from published format documentation and test data.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
