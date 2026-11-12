@@ -1,6 +1,10 @@
 # nixcavate
 
+[![ci](https://github.com/w0h1v/nixcavate/actions/workflows/ci.yml/badge.svg)](https://github.com/w0h1v/nixcavate/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-0f766e.svg)](LICENSE)
+
 A fast, single-binary forensic artifact parser for Linux and macOS collections.
+Overview and benchmarks: <https://w0h1v.github.io/nixcavate/>
 
 nixcavate turns a collected host (a UAC, Velociraptor or Aftermath collection, a mounted
 volume, or a disk image) into per-artifact CSV, JSON or JSONL, a task manifest and a super

@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nixcavate: forensic artifact parser for Linux and macOS</title>
+<meta name="description" content="A fast, single-binary forensic artifact parser for Linux and macOS collections. Per-artifact CSV, JSON or JSONL, a task manifest and a super timeline.">
+<meta property="og:title" content="nixcavate">
+<meta property="og:description" content="A fast, single-binary forensic artifact parser for Linux and macOS collections.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230f766e'/%3E%3Cpath d='M9 23V9l14 14V9' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root {
+  --bg: #fbfbf9; --surface: #ffffff; --sunken: #f1f2ee; --text: #171a19; --muted: #5a6360;
+  --line: #dfe2dc; --accent: #0f766e; --accent-soft: #e2f1ee; --code-bg: #14201e; --code-text: #d8e6e2;
+  --code-dim: #7f9a94; --code-key: #7dd3c4; --ok: #0f766e; --warn: #a85b08;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1211; --surface: #141b1a; --sunken: #111716; --text: #e6ecea; --muted: #94a19d;
+    --line: #25302e; --accent: #5ec9b9; --accent-soft: #15302c; --code-bg: #0a0f0e; --code-text: #d8e6e2;
+    --code-dim: #6f8983; --code-key: #7dd3c4; --ok: #5ec9b9; --warn: #e0a458;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code, pre, .mono { font-family: var(--mono); }
+code { font-size: .9em; background: var(--sunken); border: 1px solid var(--line); border-radius: 5px; padding: .08em .35em; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+header.nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+header.nav .wrap { display: flex; align-items: center; gap: 28px; height: 58px; }
+.brand { font-family: var(--mono); font-weight: 700; font-size: 1.05rem; color: var(--text); letter-spacing: -.01em; }
+.brand span { color: var(--accent); }
+nav { display: flex; gap: 22px; margin-left: auto; font-size: .93rem; }
+nav a { color: var(--muted); }
+nav a:hover { color: var(--text); text-decoration: none; }
+nav a.gh { color: var(--text); font-weight: 600; }
+
+.hero { padding: 84px 0 56px; }
+.eyebrow { font-family: var(--mono); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin: 0 0 18px; }
+h1 { font-size: clamp(2.2rem, 5.4vw, 3.6rem); line-height: 1.08; letter-spacing: -.03em; margin: 0 0 22px; max-width: 17ch; }
+.lede { font-size: 1.2rem; color: var(--muted); max-width: 62ch; margin: 0 0 32px; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn { display: inline-block; padding: 11px 20px; border-radius: 9px; font-weight: 600; font-size: .97rem; border: 1px solid var(--line); color: var(--text); background: var(--surface); }
+.btn:hover { text-decoration: none; border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+.btn.primary:hover { filter: brightness(1.08); }
+
+.term { margin-top: 48px; background: var(--code-bg); color: var(--code-text); border-radius: 13px; border: 1px solid var(--line); overflow: hidden; box-shadow: 0 18px 50px -24px rgba(0,0,0,.45); }
+.term .bar { display: flex; gap: 7px; padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,.07); }
+.term .bar i { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.16); }
+.term pre { margin: 0; padding: 20px 22px 24px; font-size: .86rem; line-height: 1.62; overflow-x: auto; }
+.term .p { color: var(--code-key); } .term .d { color: var(--code-dim); } .term .b { font-weight: 700; color: #fff; }
+
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin: 56px 0 0; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); overflow: hidden; }
+.stat { padding: 24px 22px; border-right: 1px solid var(--line); }
+.stat:last-child { border-right: 0; }
+.stat b { display: block; font-size: 1.95rem; letter-spacing: -.03em; line-height: 1.1; }
+.stat span { color: var(--muted); font-size: .9rem; }
+
+section { padding: 76px 0 0; }
+h2 { font-size: 1.85rem; letter-spacing: -.02em; margin: 0 0 10px; }
+.sub { color: var(--muted); max-width: 66ch; margin: 0 0 34px; }
+h3 { font-size: 1.05rem; margin: 0 0 6px; }
+
+.grid { display: grid; gap: 16px; }
+.grid > *, .flow > *, .stats > * { min-width: 0; }
+.g3 { grid-template-columns: repeat(3, 1fr); }
+.g2 { grid-template-columns: repeat(2, 1fr); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+a.card { color: inherit; display: block; transition: border-color .15s; }
+a.card:hover { text-decoration: none; border-color: var(--accent); }
+a.card h3 { color: var(--accent); }
+.card p { margin: 0; color: var(--muted); font-size: .95rem; }
+.card .k { font-family: var(--mono); font-size: .78rem; color: var(--accent); letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; display: block; }
+
+table { width: 100%; border-collapse: collapse; font-size: .94rem; }
+.tbl { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow-x: auto; }
+th, td { text-align: left; padding: 13px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--sunken); }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 600; white-space: nowrap; }
+td.num { font-family: var(--mono); white-space: nowrap; }
+.yes { color: var(--ok); font-weight: 600; } .no { color: var(--warn); font-weight: 600; }
+
+pre.code { background: var(--code-bg); color: var(--code-text); border-radius: 12px; padding: 20px 22px; overflow-x: auto; font-size: .86rem; line-height: 1.62; margin: 0; border: 1px solid var(--line); }
+pre.code .c { color: var(--code-dim); } pre.code .p { color: var(--code-key); }
+
+.flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; counter-reset: step; }
+.step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; position: relative; }
+.step::before { counter-increment: step; content: counter(step); font-family: var(--mono); font-size: .8rem; color: var(--bg); background: var(--accent); width: 23px; height: 23px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 12px; }
+.step b { display: block; margin-bottom: 4px; }
+.step span { color: var(--muted); font-size: .9rem; }
+
+ul.checks { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 28px; }
+ul.checks li { padding-left: 26px; position: relative; color: var(--muted); }
+ul.checks li::before { content: ""; position: absolute; left: 0; top: .5em; width: 12px; height: 7px; border-left: 2.5px solid var(--accent); border-bottom: 2.5px solid var(--accent); transform: rotate(-45deg); }
+ul.checks b { color: var(--text); }
+
+.note { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 16px 20px; border-radius: 0 10px 10px 0; margin-top: 22px; font-size: .95rem; }
+footer { margin-top: 96px; border-top: 1px solid var(--line); padding: 34px 0 56px; color: var(--muted); font-size: .92rem; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; }
+
+@media (max-width: 860px) {
+  .g3, .g2, .flow, ul.checks { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stat:nth-child(2) { border-right: 0; } .stat:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+  nav a:not(.gh) { display: none; }
+  .hero { padding-top: 56px; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#top">nix<span>cavate</span></a>
+    <nav>
+      <a href="#start">Quick start</a>
+      <a href="#how">How it works</a>
+      <a href="#artifacts">Artifacts</a>
+      <a href="#speed">Speed</a>
+      <a href="#safety">Safety</a>
+      <a href="#docs">Docs</a>
+      <a class="gh" href="https://github.com/w0h1v/nixcavate">GitHub</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap">
+
+  <div class="hero">
+    <p class="eyebrow">Digital forensics · Linux and macOS</p>
+    <h1>One command from a collected host to a timeline.</h1>
+    <p class="lede">nixcavate is a fast, single-binary forensic artifact parser. Point it at a UAC, Velociraptor or Aftermath collection, a mounted volume or a disk image, and get per-artifact CSV, JSON or JSONL, a task manifest and a super timeline. No runtime, no root, no network.</p>
+    <div class="cta">
+      <a class="btn primary" href="#start">Get started</a>
+      <a class="btn" href="https://github.com/w0h1v/nixcavate">View on GitHub</a>
+      <a class="btn" href="https://github.com/w0h1v/nixcavate/blob/main/docs/LIMITATIONS.md">Read the limitations</a>
+    </div>
+
+    <div class="term" aria-label="Example run">
+      <div class="bar"><i></i><i></i><i></i></div>
+<pre><span class="p">$</span> nixcavate auto-parse -f uac-web01-linux-20260101.tar.gz -o out
+<span class="b">nixcavate 0.1.0 auto-parse</span>
+  host     <span class="b">web01</span> (linux, Debian GNU/Linux 12 (bookworm)), zone: Europe/Berlin (zone data from the evidence)
+  tasks    63 succeeded, 2 skipped, 0 failed
+  output   18,574 records, 38,748 timeline events
+  input    2.1 MiB in 0.04 s on 12 threads
+  manifest out/manifest.json
+
+<span class="p">$</span> nixcavate super-timeline -d out --sigma chopchopgo.json
+<span class="d">38748 events from 41 runs in 0.01 s -> out/timeline.csv</span></pre>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>88</b><span>artifact parsers</span></div>
+      <div class="stat"><b>887 MiB/s</b><span>on a 2.9 GiB Linux host</span></div>
+      <div class="stat"><b>26.2 M</b><span>Unified Log entries in 4.5 s</span></div>
+      <div class="stat"><b>1</b><span>static binary, no dependencies at run time</span></div>
+    </div>
+  </div>
+
+  <section id="start">
+    <h2>Quick start</h2>
+    <p class="sub">Build it with a stable Rust toolchain. The binary is <code>target/release/nixcavate</code>.</p>
+<pre class="code"><span class="c"># Build</span>
+<span class="p">$</span> git clone https://github.com/w0h1v/nixcavate && cd nixcavate
+<span class="p">$</span> cargo build --release
+
+<span class="c"># Parse everything in a collection, an archive or a disk image</span>
+<span class="p">$</span> nixcavate auto-parse -f evidence.tar.gz -o out
+<span class="p">$</span> nixcavate auto-parse -f disk.E01 -o out -t jsonl
+
+<span class="c"># Build the timeline from that run, with Sigma detections merged in</span>
+<span class="p">$</span> nixcavate super-timeline -d out --sigma detected_events.json
+
+<span class="c"># Look for persistence, mapped to ATT&amp;CK</span>
+<span class="p">$</span> nixcavate persistence-hunter -f evidence.tar.gz -o findings.csv
+
+<span class="c"># One parser on one file, and the list of everything it can parse</span>
+<span class="p">$</span> nixcavate parse wtmp -f /cases/web01/wtmp -t jsonl
+<span class="p">$</span> nixcavate list</pre>
+
+    <div class="grid g3" style="margin-top:20px">
+      <div class="card"><span class="k">auto-parse</span><p>Finds each host in the evidence, runs every parser, and writes per-host results and <code>manifest.json</code>.</p></div>
+      <div class="card"><span class="k">super-timeline</span><p>Merges the timeline events of a run, and imported ChopChopGo or Zircolite results, into one sorted file.</p></div>
+      <div class="card"><span class="k">persistence-hunter</span><p>Runs 32 checks mapped to ATT&amp;CK techniques, with a YAML allow and block profile.</p></div>
+    </div>
+  </section>
+
+  <section id="how">
+    <h2>How it works</h2>
+    <p class="sub">A run is split into many small tasks, the largest go first, and every task writes its own output. Nothing on the hot path is shared or locked.</p>
+    <div class="flow">
+      <div class="step"><b>Open</b><span>A directory, archive or image is listed once. Nothing is extracted.</span></div>
+      <div class="step"><b>Discover</b><span>Each host root is found by layout, with its name, OS and time zone.</span></div>
+      <div class="step"><b>Plan</b><span>One task per file, and per 64 MiB chunk of a large text log.</span></div>
+      <div class="step"><b>Parse</b><span>A fixed thread pool. A parser failure costs one task, not the run.</span></div>
+      <div class="step"><b>Merge</b><span>Timeline events were written during the parse; the timeline is a parallel merge.</span></div>
+    </div>
+
+    <div class="grid g2" style="margin-top:20px">
+      <div class="card">
+        <h3>Inputs</h3>
+        <p>Extracted collections and mounted volumes. <code>.tar</code>, <code>.tar.gz</code>, <code>.tar.zst</code>, <code>.tar.xz</code> and <code>.zip</code> read in place. Raw and E01 disk images with GPT or MBR partitions holding ext2/3/4, XFS or APFS. A folder of collections becomes several hosts.</p>
+      </div>
+      <div class="card">
+        <h3>Output</h3>
+        <p>Per-host folders by category. Every row carries <code>host</code>, <code>artifact</code>, <code>source_path</code> and a line or offset. The manifest lists every task with its status, duration, record count and warnings. Exit code 0, 1 or 2 tells a pipeline success, partial failure or a run that could not start.</p>
+      </div>
+      <div class="card">
+        <h3>Honest timestamps</h3>
+        <p>Every time is UTC and labelled with its precision and how it was obtained: <code>recorded</code>, <code>assumed_zone</code> or <code>inferred_year</code>. A syslog line with no year and no zone says so in the output.</p>
+      </div>
+      <div class="card">
+        <h3>Coverage you can see</h3>
+        <p>Each task records the first and last event it parsed and the input's last-written time. When a log is cut or skipped, the summary shows the span that was not read.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="artifacts">
+    <h2>Artifacts</h2>
+    <p class="sub">88 parsers: 66 apply to Linux and 45 to macOS. <code>nixcavate list</code> prints the authoritative table with the paths each one reads.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Area</th><th>Linux</th><th>macOS</th></tr></thead>
+        <tbody>
+          <tr><td>Accounts and logons</td><td>passwd, shadow (hash type only), group, sudoers, wtmp, btmp, utmp, lastlog, SSH logons from auth.log and secure</td><td>local accounts (dslocal)</td></tr>
+          <tr><td>Logs</td><td>journald, syslog, audit, Apache and nginx</td><td>Unified Log, ASL, system.log, install.log</td></tr>
+          <tr><td>Execution and activity</td><td>bash, zsh, fish, Python, MySQL, less and Vim histories; Chromium and Firefox</td><td>the same histories; Safari, KnowledgeC, Biome, FSEvents</td></tr>
+          <tr><td>Persistence</td><td>cron, anacron, at, systemd units, rc.local, init.d, shell profiles, ld.so.preload, authorized_keys, udev, kernel modules, PAM, XDG autostart</td><td>LaunchAgents and LaunchDaemons, Background Task Management, emond, kernel and system extensions, managed preferences, cron and periodic</td></tr>
+          <tr><td>Software</td><td>dpkg, apt, yum, dnf, rpm (SQLite), snap, flatpak</td><td>InstallHistory</td></tr>
+          <tr><td>Network</td><td>hosts, resolv.conf, NetworkManager, SSH known hosts and config, iptables, nftables</td><td>known Wi-Fi networks, SSH</td></tr>
+          <tr><td>Security</td><td></td><td>TCC, quarantine events, Gatekeeper policy, XProtect version</td></tr>
+          <tr><td>Containers</td><td>Docker, Podman, runtime configs</td><td></td></tr>
+          <tr><td>Filesystem and live data</td><td>UAC body file and live response; file timeline from ext4 and XFS images</td><td>file timeline from APFS images</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Not every parser has been checked against real data. Several macOS stores were validated with synthetic fixtures only. <a href="https://github.com/w0h1v/nixcavate/blob/main/docs/LIMITATIONS.md">LIMITATIONS.md</a> says which, and lists what is not supported. Read it before relying on a parser in a case.</div>
+  </section>
+
+  <section id="speed">
+    <h2>Speed</h2>
+    <p class="sub">Speed is the main feature. Measured on a 12-core laptop with an SSD, release build, best of three runs.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>Collection</th><th>Input</th><th>Records</th><th>auto-parse</th><th>super-timeline</th></tr></thead>
+        <tbody>
+          <tr><td>Linux host: text logs and one 880 MiB journal</td><td class="num">2.9 GiB</td><td class="num">19.0 M</td><td class="num">3.3 s</td><td class="num">0.70 s</td></tr>
+          <tr><td>macOS: a real Unified Log archive</td><td class="num">826 MiB</td><td class="num">26.2 M</td><td class="num">4.5 s</td><td class="num">1.05 s</td></tr>
+          <tr><td>A real UAC collection (tar.gz)</td><td class="num">2.1 MiB</td><td class="num">18,574</td><td class="num">0.04 s</td><td class="num">0.01 s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="tbl" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Design target</th><th>Result</th><th>Met</th></tr></thead>
+        <tbody>
+          <tr><td>Text parsers at 300 MiB/s per core</td><td>syslog 409, docker-logs 407, audit 359, web-access 338, bodyfile 310, auth-log 271, dpkg-log 218</td><td class="no">5 of 7</td></tr>
+          <tr><td>Binary parsers at 200 MiB/s per core</td><td>journald 344 to 466. Unified Log about 33 (one million entries a second)</td><td class="no">journald only</td></tr>
+          <tr><td>Timeline within 25% of the parse time</td><td>21% and 23%</td><td class="yes">Yes</td></tr>
+          <tr><td>Memory flat with input size</td><td>0.8 GB peak on the Unified Log archive, input memory-mapped</td><td class="yes">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="sub" style="margin-top:18px">The numbers, how they were measured and where targets are missed are in <a href="https://github.com/w0h1v/nixcavate/blob/main/docs/PERFORMANCE.md">PERFORMANCE.md</a>.</p>
+  </section>
+
+  <section id="safety">
+    <h2>Built for hostile evidence</h2>
+    <p class="sub">Evidence is attacker-controlled. Five adversarial reviews and 33 fuzz targets shaped these rules, and every proven finding has a regression test.</p>
+    <ul class="checks">
+      <li><b>Paths stay inside the evidence.</b> Entry names are matched and displayed, never used as paths on the analyst's machine.</li>
+      <li><b>Symlinks are not followed out.</b> A link inside a host root resolves against that root only.</li>
+      <li><b>Sizes are budgeted.</b> <code>--max-expansion</code> stops decompression bombs in logs and archives.</li>
+      <li><b>A parser failure costs one task.</b> Panics are caught at the task boundary and recorded in the manifest.</li>
+      <li><b>Filesystem walks are bounded.</b> Path length, depth and node counts are capped, and each directory is read once.</li>
+      <li><b>Secrets are not written out.</b> Shadow hashes, Wi-Fi keys and password verifiers are reduced to their type.</li>
+      <li><b>SQLite never opens evidence in place.</b> Databases are copied to scratch and queried read-only.</li>
+      <li><b>Parsers are clean-room.</b> Written from published format documentation and test data.</li>
+    </ul>
+  </section>
+
+  <section id="docs">
+    <h2>Documentation</h2>
+    <p class="sub">Everything lives in the repository.</p>
+    <div class="grid g3">
+      <a class="card" href="https://github.com/w0h1v/nixcavate/blob/main/docs/OUTPUT.md"><h3>Output contract</h3><p>Layout, field names, the manifest, timeline columns and exit codes.</p></a>
+      <a class="card" href="https://github.com/w0h1v/nixcavate/blob/main/docs/ARCHITECTURE.md"><h3>Architecture</h3><p>How a run works, the crates, and where the speed comes from.</p></a>
+      <a class="card" href="https://github.com/w0h1v/nixcavate/blob/main/docs/PERSISTENCE_HUNTER.md"><h3>Persistence hunter</h3><p>Every check, its ATT&amp;CK technique and the profile format.</p></a>
+      <a class="card" href="https://github.com/w0h1v/nixcavate/blob/main/docs/LIMITATIONS.md"><h3>Limitations</h3><p>Unsupported formats and parsers checked only against synthetic data.</p></a>
+      <a class="card" href="https://github.com/w0h1v/nixcavate/blob/main/docs/PERFORMANCE.md"><h3>Performance</h3><p>Measured numbers against the design targets, and how to reproduce them.</p></a>
+      <a class="card" href="https://github.com/w0h1v/nixcavate/blob/main/docs/ADDING_AN_ARTIFACT.md"><h3>Adding an artifact</h3><p>One module, one fixture, one line in the registry.</p></a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>nixcavate is released under the <a href="https://github.com/w0h1v/nixcavate/blob/main/LICENSE">MIT license</a>.</span>
+    <span><a href="https://github.com/w0h1v/nixcavate">Source</a> · <a href="https://github.com/w0h1v/nixcavate/issues">Issues</a> · <a href="https://github.com/w0h1v/nixcavate/blob/main/CHANGELOG.md">Changelog</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
