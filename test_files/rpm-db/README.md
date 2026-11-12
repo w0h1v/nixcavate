@@ -18,3 +18,34 @@ d.commit(); d.execute("VACUUM")
 ```
 
 Blobs in the table start directly with `index_count`; there is no 8-byte magic preamble.
+
+## Berkeley DB `Packages`
+
+`Packages` (little-endian, 212 KiB) and `Packages-s390x` (big-endian, 92 KiB) are fresh RPM
+databases built in throwaway containers, each holding a few small real packages (`--justdb`,
+so no files were installed) plus the distribution's signing key(s):
+
+```sh
+# Packages: amazonlinux:2 (aarch64), rpm 4.11, Berkeley DB hash version 9.
+yum install -y yum-utils
+mkdir -p /tmp/dl /tmp/r && cd /tmp/dl
+yumdownloader basesystem setup libgcc tzdata-java
+rpm --root /tmp/r --initdb
+rpm --root /tmp/r --import /etc/pki/rpm-gpg/RPM-GPG-KEY-amazon-linux-2
+rpm --root /tmp/r -i --nodeps --justdb --noscripts --notriggers *.rpm
+cp /tmp/r/var/lib/rpm/Packages .
+
+# Packages-s390x: docker run --platform linux/s390x registry.access.redhat.com/ubi8/ubi
+# (rpm 4.14 under emulation; `file` reports "Berkeley DB (Hash, version 9, big-endian)").
+mkdir -p /tmp/dl /tmp/r
+dnf install -y --downloadonly --downloaddir /tmp/dl basesystem setup libgcc   # or `reinstall`
+rpm --root /tmp/r --initdb
+rpm --root /tmp/r --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+cd /tmp/dl && rpm --root /tmp/r -i --nodeps --justdb --noscripts --notriggers \
+    basesystem-*.rpm setup-*.rpm libgcc-*.rpm
+cp /tmp/r/var/lib/rpm/Packages Packages-s390x
+```
+
+`rpm --root /tmp/r -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH} %{INSTALLTIME}\n'` in the same
+container lists exactly the five packages in each snapshot (`gpg-pubkey` prints arch `(none)`,
+which the parser reports as empty).

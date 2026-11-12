@@ -12,17 +12,16 @@ parser may be wrong where the description is.
 
 | Checked against | Parsers |
 |---|---|
-| Real tool | journald (`journalctl -o json`, 1.5 million entries, 0 mismatches), Unified Log (`log show`, 119,650 entries, 99.9% of messages identical), ASL (`syslog -F raw`, 7,537 records), wtmp/btmp/utmp (`utmpdump`, x86-64 and aarch64), lastlog (`lastlog`), dpkg status (`dpkg-query`), rpm database (`rpm -qa`), SSH key fingerprints (`ssh-keygen -l`), ext4/XFS/APFS readers (`find`, `stat`, checksums of every file), E01 (`ewfacquire` images, byte-identical reads), InstallHistory (`plutil`) |
-| Real data | syslog, auth.log and secure (Debian 12, Rocky 9), dnf log and history (Rocky 9), apt history, dpkg log, shell and tool histories (bash, zsh, fish, vim, less, MariaDB), cron, at, systemd units, Docker and Podman files, Apache and nginx logs, UAC live response and body file, iptables and nftables, NetworkManager, Chromium and Firefox history, launchd plists, Background Task Management (a real store: 89 of 89 items), install.log |
-| Synthetic only | audit.log (auditd cannot run in a container), yum.log, snap, flatpak, anacron timestamps, **KnowledgeC, Biome (SEGB), FSEvents, TCC, quarantine events, Gatekeeper policy, dslocal accounts, known Wi-Fi networks, Safari history and downloads, emond, system extensions, managed preferences, Chromium and Firefox downloads** |
+| Real tool | journald (`journalctl -o json`, 1.5 million entries, 0 mismatches), Unified Log (`log show`, 119,650 entries, 99.9% of messages identical), ASL (`syslog -F raw`, 7,537 records), wtmp/btmp/utmp (`utmpdump`, x86-64 and aarch64), lastlog (`lastlog`), dpkg status (`dpkg-query`), rpm database (`rpm -qa`: SQLite on Rocky 9, BerkeleyDB on Amazon Linux 2 with 193 of 193 packages, big-endian BerkeleyDB on UBI 8 s390x with 184 of 184), SSH key fingerprints (`ssh-keygen -l`), ext4/XFS/APFS readers (`find`, `stat`, checksums of every file), E01 (`ewfacquire` images, byte-identical reads), InstallHistory (`plutil`) |
+| Real data | syslog, auth.log and secure (Debian 12, Rocky 9), dnf log and history (Rocky 9), apt history, dpkg log, shell and tool histories (bash, zsh, fish, vim, less, MariaDB), cron, at, systemd units, Docker and Podman files, Apache and nginx logs, UAC live response and body file, iptables and nftables, NetworkManager, Chromium and Firefox history, launchd plists, Background Task Management (a real store: 89 of 89 items), install.log, and five user stores of one Mac compared row by row with a direct query of the same file: TCC (295 of 295 rows), quarantine events (2,464 of 2,464), Safari history (39 of 39 visits), KnowledgeC (1,058 of 1,059), Biome SEGB v2 (214 files, 366,169 of 366,272 written entries decoded) |
+| Synthetic only | audit.log (auditd cannot run in a container), yum.log, snap, flatpak, anacron timestamps, **Biome SEGB v1, FSEvents, Gatekeeper policy, dslocal accounts, known Wi-Fi networks, Safari downloads, emond, system extensions, managed preferences, Chromium and Firefox downloads** |
 
-The macOS stores in bold are user-private or root-only. No real copy of them was
-used during development, so they are the least certain parsers in the tool. Three carry
-specific doubts:
+The macOS stores in bold are root-only, or had no entries on the Mac used for checking. No
+real copy of them was used during development, so they are the least certain parsers in the
+tool. Three carry specific doubts:
 
-- **Biome.** The SEGB v1 and v2 layouts follow public write-ups. The v2 entry layout
-  (alignment, the 8-byte preamble before each protobuf) is the least certain part. If it is
-  wrong, payloads show as hex with a warning rather than as wrong text.
+- **Biome v1.** Every real file checked was SEGB v2. The v1 layout follows public write-ups
+  only. In v2, a deleted entry whose payload was wiped shows as hex without a warning.
 - **FSEvents.** Two published tables of flag bits disagree. nixcavate uses the widely used
   community table and always outputs `flags_raw` beside the names.
 - **Chromium and Firefox downloads.** No real download rows were available; state names
@@ -32,8 +31,7 @@ specific doubts:
 
 | Area | What | What happens |
 |---|---|---|
-| Compression | bzip2 rotations (`.bz2`) | The task is skipped and listed in the summary with the file's last-written time |
-| Packages | BerkeleyDB rpm database (`/var/lib/rpm/Packages`, RHEL 7 and Amazon Linux 2), SUSE NDB rpm database, zypper history, Alpine apk database | Not read |
+| Packages | SUSE NDB rpm database (`Packages.db`), BerkeleyDB rpm databases in btree format, zypper history, Alpine apk database | Not read |
 | Logons | wtmpdb and lastlog2 (Debian 13, openSUSE Tumbleweed) | Not read |
 | Docker | Images kept in the containerd image store (Docker 29 default) | `docker-images` finds nothing; containers and logs still parse |
 | systemd | Enablement symlinks (`*.wants/`), timers joined to the service they start | Unit files are parsed one by one |

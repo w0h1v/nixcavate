@@ -103,6 +103,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649"
 
 [[package]]
+name = "bzip2"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f3a53fac24f34a81bc9954b5d6cfce0c21e18ec6959f44f56e8e90e4bb7c346c"
+dependencies = [
+ "libbz2-rs-sys",
+]
+
+[[package]]
 name = "cc"
 version = "1.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -448,6 +457,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "libbz2-rs-sys"
+version = "0.2.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "32f454fd6831a29c0e827ed075bca2a15be201bd57f4168f0fd1041124eab17e"
+
+[[package]]
 name = "libc"
 version = "0.2.191"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -551,6 +566,7 @@ dependencies = [
 name = "nixcavate"
 version = "0.1.0"
 dependencies = [
+ "bzip2",
  "clap",
  "flate2",
  "memchr",
@@ -570,6 +586,7 @@ dependencies = [
 name = "nixcavate-artifacts"
 version = "0.1.0"
 dependencies = [
+ "bzip2",
  "flate2",
  "insta",
  "lz4_flex",
@@ -608,6 +625,7 @@ dependencies = [
 name = "nixcavate-source"
 version = "0.1.0"
 dependencies = [
+ "bzip2",
  "flate2",
  "memchr",
  "memmap2",

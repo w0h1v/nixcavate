@@ -25,8 +25,10 @@ pub struct Options {
 /// Folder inside each host's output that holds its sorted timeline runs.
 const RUNS_DIR: &str = "_timeline";
 /// Archives and disk images (the first E01 segment, raw images) found directly in a directory.
-const ARCHIVE_SUFFIXES: [&str; 12] =
-    [".tar", ".tar.gz", ".tgz", ".tar.zst", ".tar.xz", ".txz", ".zip", ".e01", ".dd", ".raw", ".img", ".001"];
+const ARCHIVE_SUFFIXES: [&str; 14] = [
+    ".tar", ".tar.gz", ".tgz", ".tar.bz2", ".tbz2", ".tar.zst", ".tar.xz", ".txz", ".zip", ".e01", ".dd", ".raw",
+    ".img", ".001",
+];
 
 pub fn run(options: &Options) -> Result<u8, String> {
     let manifest = parse_all(options)?;

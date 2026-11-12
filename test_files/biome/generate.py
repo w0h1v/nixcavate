@@ -55,9 +55,10 @@ def v2():
     body = bytearray()
     trailer = bytearray()
     for state, t, payload in payloads:
-        body += b"\0" * (-len(body) % 8)
+        # Real files align entries to 4 bytes and store the trailer from the end backwards.
+        body += b"\0" * (-len(body) % 4)
         body += struct.pack("<II", zlib.crc32(payload), 0) + payload
-        trailer += struct.pack("<IId", len(body), state, t)
+        trailer = struct.pack("<IId", len(body), state, t) + trailer
     header = b"SEGB" + struct.pack("<Id", len(payloads), T) + b"\0" * 16
     return bytes(header + body + trailer)
 

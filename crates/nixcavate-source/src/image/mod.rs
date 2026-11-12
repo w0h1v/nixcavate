@@ -116,6 +116,7 @@ pub(crate) fn open(path: &Path, scratch: &Path) -> io::Result<Option<Listed>> {
         || head.starts_with(&[0x1f, 0x8b])
         || head.starts_with(&[0x28, 0xb5, 0x2f, 0xfd])
         || head.starts_with(&[0xfd, b'7', b'z', b'X', b'Z', 0])
+        || head.starts_with(b"BZh")
         || head.get(257..262) == Some(b"ustar");
     if archive || head.is_empty() {
         return Ok(None);

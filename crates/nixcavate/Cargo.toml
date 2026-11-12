@@ -26,3 +26,4 @@ tar.workspace = true
 zip.workspace = true
 flate2.workspace = true
 zstd.workspace = true
+bzip2.workspace = true

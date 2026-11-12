@@ -5,7 +5,8 @@ use crate::sigma;
 use crate::{OutputType, EXIT_OK};
 use clap::Args;
 use nixcavate_core::manifest::{Manifest, MANIFEST_NAME};
-use nixcavate_core::run::merge;
+use nixcavate_core::run::{merge_window, Window};
+use nixcavate_core::time::parse_iso8601;
 use nixcavate_core::Format;
 use nixcavate_source::map_file;
 use std::fs::{self, File};
@@ -30,6 +31,13 @@ pub struct TimelineArgs {
     /// Worker threads [default: logical CPUs]
     #[arg(short = 'T', long)]
     threads: Option<usize>,
+    /// Keep events at or after this time: `2024-03-10` or `2024-03-10T08:00:00Z` (UTC unless
+    /// an offset is given)
+    #[arg(long, value_name = "TIME", value_parser = parse_time)]
+    start: Option<i64>,
+    /// Keep events before this time (same forms as --start)
+    #[arg(long, value_name = "TIME", value_parser = parse_time)]
+    end: Option<i64>,
     /// Replace an existing timeline file
     #[arg(short = 'C', long)]
     clobber: bool,
@@ -82,7 +90,8 @@ pub fn run(args: &TimelineArgs) -> Result<u8, String> {
     let file = File::create(&output).map_err(|e| format!("{}: {e}", output.display()))?;
     let mut writer = BufWriter::with_capacity(1 << 20, file);
     let threads = args.threads.unwrap_or_else(|| std::thread::available_parallelism().map_or(1, |n| n.get()));
-    let rows = merge(&runs, format, threads, &mut writer).map_err(|e| e.to_string())?;
+    let window = Window { from: args.start, until: args.end };
+    let rows = merge_window(&runs, format, threads, window, &mut writer).map_err(|e| e.to_string())?;
     writer.flush().map_err(|e| format!("{}: {e}", output.display()))?;
     if !args.quiet {
         println!(
@@ -93,4 +102,36 @@ pub fn run(args: &TimelineArgs) -> Result<u8, String> {
         );
     }
     Ok(EXIT_OK)
+}
+
+/// A `--start` or `--end` value as nanoseconds since the epoch. A bare date means midnight;
+/// a time with no offset is taken as UTC, like every timestamp in the timeline.
+fn parse_time(text: &str) -> Result<i64, String> {
+    let full = if text.len() == 10 { format!("{text}T00:00:00Z") } else { text.to_string() };
+    match parse_iso8601(full.as_bytes()) {
+        Some((time, used)) if used == full.len() => time
+            .secs
+            .checked_mul(1_000_000_000)
+            .and_then(|n| n.checked_add(time.nanos as i64))
+            .ok_or_else(|| "out of range".into()),
+        _ => Err("expected a date (2024-03-10) or a time (2024-03-10T08:00:00Z)".into()),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::parse_time;
+
+    #[test]
+    fn window_times() {
+        let day = 1_710_028_800i64 * 1_000_000_000; // 2024-03-10T00:00:00Z
+        assert_eq!(parse_time("2024-03-10"), Ok(day));
+        assert_eq!(parse_time("2024-03-10T00:00:00Z"), Ok(day));
+        assert_eq!(parse_time("2024-03-10 00:00:00"), Ok(day), "no offset means UTC");
+        assert_eq!(parse_time("2024-03-10T02:00:00+02:00"), Ok(day));
+        assert_eq!(parse_time("2024-03-10T00:00:00.5Z"), Ok(day + 500_000_000));
+        for bad in ["yesterday", "2024-13-01", "2024-03-10T00:00:00Z trailing", "", "2024-02-30"] {
+            assert!(parse_time(bad).is_err(), "{bad}");
+        }
+    }
 }

@@ -19,6 +19,7 @@ memchr.workspace = true
 flate2.workspace = true
 zstd.workspace = true
 xz2.workspace = true
+bzip2.workspace = true
 lz4_flex.workspace = true
 plist.workspace = true
 rusqlite.workspace = true

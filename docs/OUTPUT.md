@@ -133,6 +133,11 @@ records it parsed, and names the flag in its error.
 Events with the same timestamp keep a fixed order (by run, then by position in the source), so
 the same run always gives the same timeline.
 
+`--start <TIME>` and `--end <TIME>` keep only the events in a window: `--start` is inclusive,
+`--end` is exclusive. A time is RFC 3339 (`2026-03-01T08:00:00Z`); without an offset it is
+UTC, and a date alone (`2026-03-01`) is midnight UTC. Events outside the window are skipped
+through each run's index, not read. Imported Sigma detections are filtered the same way.
+
 `--sigma <FILE>` merges ChopChopGo (`-out json`) or Zircolite (`detected_events.json`)
 results. Their rows have `artifact` `sigma-chopchopgo` or `sigma-zircolite`, `event`
 `detection`, and `source_path` set to the results file. ChopChopGo output carries no rule

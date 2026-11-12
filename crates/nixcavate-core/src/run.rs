@@ -365,6 +365,26 @@ impl RowParts {
 /// `runs`, so the output is the same for a given input order whatever the thread count.
 /// Returns the number of rows written.
 pub fn merge(runs: &[&[u8]], format: Format, threads: usize, out: &mut (impl Write + Send)) -> Result<u64> {
+    merge_window(runs, format, threads, Window::default(), out)
+}
+
+/// The part of the timeline to write: events at or after `from` and before `until`
+/// (nanoseconds since the epoch). `None` leaves that side open.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct Window {
+    pub from: Option<i64>,
+    pub until: Option<i64>,
+}
+
+/// [`merge`], limited to a time window. Runs are sorted and indexed, so events outside the
+/// window are skipped without being read.
+pub fn merge_window(
+    runs: &[&[u8]],
+    format: Format,
+    threads: usize,
+    window: Window,
+    out: &mut (impl Write + Send),
+) -> Result<u64> {
     let runs = runs.iter().map(|data| Run::parse(data)).collect::<Result<Vec<_>>>()?;
     let parts: Vec<RowParts> = runs.iter().map(|run| RowParts::new(&run.header, format)).collect();
 
@@ -409,7 +429,8 @@ pub fn merge(runs: &[&[u8]], format: Format, threads: usize, out: &mut (impl Wri
                 let from = partition.checked_sub(1).map(|i| cuts[i]);
                 let to = cuts.get(partition).copied();
                 // A panic here must not leave the other workers waiting for this partition.
-                let merged = panic::catch_unwind(AssertUnwindSafe(|| merge_partition(&runs, &parts, format, from, to)));
+                let merged =
+                    panic::catch_unwind(AssertUnwindSafe(|| merge_partition(&runs, &parts, format, window, from, to)));
                 let result = merged.unwrap_or_else(|_| Err(Error::format("the timeline merge panicked")));
                 let mut state = writer.lock().unwrap_or_else(|e| e.into_inner());
                 match result {
@@ -463,6 +484,7 @@ fn merge_partition(
     runs: &[Run],
     parts: &[RowParts],
     format: Format,
+    window: Window,
     from: Option<Cut>,
     to: Option<Cut>,
 ) -> Result<(Vec<u8>, u64)> {
@@ -479,7 +501,11 @@ fn merge_partition(
             (0, 0)
         } else {
             let start = from.map_or(Ok(0), |cut| run.cut_position(i, cut))?;
-            (start, to.map_or(Ok(run.events.len()), |cut| run.cut_position(i, cut))?)
+            let end = to.map_or(Ok(run.events.len()), |cut| run.cut_position(i, cut))?;
+            // The window narrows the partition from both sides.
+            let first = window.from.map_or(Ok(0), |ts| run.position(ts))?;
+            let last = window.until.map_or(Ok(run.events.len()), |ts| run.position(ts))?;
+            (start.max(first), end.min(last))
         };
         let event = if pos < end { Some(run.event_at(&mut pos)?) } else { None };
         if let Some(event) = &event {
@@ -723,6 +749,28 @@ mod tests {
         assert_eq!(parsed[0].cut_position(0, cut).unwrap(), parsed[0].events.len());
         assert_eq!(parsed[1].cut_position(1, cut).unwrap(), cut.offset);
         assert_eq!(parsed[2].cut_position(2, cut).unwrap(), 0);
+    }
+
+    #[test]
+    fn a_window_keeps_from_inclusive_until_exclusive() {
+        let second = 1_000_000_000i64;
+        let a = run("a", &[(10, "a10"), (20, "a20"), (30, "a30"), (40, "a40")]);
+        let b = run("b", &[(20, "b20"), (25, "b25"), (30, "b30")]);
+        let messages = |from: Option<i64>, until: Option<i64>, threads| {
+            let window = Window { from: from.map(|s| s * second), until: until.map(|s| s * second) };
+            let mut out = Vec::new();
+            let rows = merge_window(&[&a, &b], Format::Csv, threads, window, &mut out).unwrap();
+            let text = String::from_utf8(out).unwrap();
+            let found: Vec<String> = text.lines().skip(1).map(|l| l.split(',').nth(6).unwrap().to_string()).collect();
+            assert_eq!(rows as usize, found.len());
+            found
+        };
+        assert_eq!(messages(Some(20), Some(30), 1), ["a20", "b20", "b25"]);
+        assert_eq!(messages(Some(21), None, 4), ["b25", "a30", "b30", "a40"]);
+        assert_eq!(messages(None, Some(20), 2), ["a10"]);
+        assert_eq!(messages(Some(50), None, 1), Vec::<String>::new());
+        assert_eq!(messages(Some(30), Some(20), 1), Vec::<String>::new(), "an empty window is not an error");
+        assert_eq!(messages(None, None, 1).len(), 7);
     }
 
     #[test]

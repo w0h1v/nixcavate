@@ -1,11 +1,15 @@
-//! The installed-package database of RPM-based systems (`rpmdb.sqlite`, RPM 4.16 and later).
-//! Format: the RPM reference manual, "header format" and "RPM tags". The older BerkeleyDB
-//! database (`var/lib/rpm/Packages`, RHEL 7 and earlier) is not supported.
+//! The installed-package database of RPM-based systems: `rpmdb.sqlite` (RPM 4.16 and later)
+//! and the older Berkeley DB hash file `var/lib/rpm/Packages` (RHEL 8 and earlier, Amazon
+//! Linux 2, older SUSE; read by [`super::bdb_hash`]). Format: the RPM reference manual,
+//! "header format" and "RPM tags". The file's content, not its name, picks the reader.
 //!
-//! The `Packages` table holds one header blob per package, in on-disk form: big-endian
-//! `index_count` and `data_size`, `index_count` 16-byte entries `{tag, type, offset, count}`,
-//! then the data store. Every number comes from the evidence, so each access is bounds-checked.
+//! Both hold one header blob per package, in on-disk form: big-endian `index_count` and
+//! `data_size`, `index_count` 16-byte entries `{tag, type, offset, count}`, then the data
+//! store. Every number comes from the evidence, so each access is bounds-checked. In the
+//! Berkeley DB file the key is the package instance number; instance 0 is RPM's own
+//! bookkeeping record, not a header, and is skipped.
 
+use super::bdb_hash::{self, HashDb};
 use crate::sqlite::{open, sql_error};
 use crate::text::lossy;
 use crate::{Artifact, Category, Input, LINUX};
@@ -18,7 +22,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "Installed RPM packages",
     Category::Software,
     LINUX,
-    &["var/lib/rpm/rpmdb.sqlite", "usr/lib/sysimage/rpm/rpmdb.sqlite"],
+    &["var/lib/rpm/rpmdb.sqlite", "usr/lib/sysimage/rpm/rpmdb.sqlite", "var/lib/rpm/Packages"],
     parse,
 )
 .companions(&["var/lib/rpm/rpmdb.sqlite-wal", "usr/lib/sysimage/rpm/rpmdb.sqlite-wal"]);
@@ -147,6 +151,42 @@ fn package(blob: &[u8]) -> Option<Package<'_>> {
 }
 
 fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
+    if bdb_hash::is_bdb(input.data) {
+        return parse_bdb(input.data, sink);
+    }
+    if input.path.ends_with("/Packages") && !input.data.starts_with(b"SQLite format 3\0") {
+        return Err(Error::skipped("not a Berkeley DB or SQLite database"));
+    }
+    parse_sqlite(input, sink)
+}
+
+fn parse_bdb(data: &[u8], sink: &mut Sink) -> Result<()> {
+    let db = HashDb::open(data)?;
+    db.for_each(|entry| {
+        let instance = <[u8; 4]>::try_from(entry.key)
+            .map(|k| if db.big_endian { u32::from_be_bytes(k) } else { u32::from_le_bytes(k) })
+            .ok();
+        if instance == Some(0) {
+            return Ok(());
+        }
+        let name = instance.map_or_else(|| "with an unreadable key".to_string(), |n| n.to_string());
+        match entry.value {
+            Ok(blob) => match package(blob) {
+                Some(record) => sink.emit(Loc::Offset(entry.page_offset), &record),
+                None => {
+                    sink.warn(format!("package {name}: unreadable header"));
+                    Ok(())
+                }
+            },
+            Err(why) => {
+                sink.warn(format!("package {name} (page at offset {}): {why}", entry.page_offset));
+                Ok(())
+            }
+        }
+    })
+}
+
+fn parse_sqlite(input: &Input, sink: &mut Sink) -> Result<()> {
     let db = open(input)?;
     if !db.has_table("Packages") {
         return Err(Error::skipped("no Packages table"));
@@ -232,6 +272,87 @@ mod tests {
                 let _ = package(&copy);
             }
         }
+    }
+
+    #[test]
+    fn parses_berkeley_db_packages() {
+        insta::assert_snapshot!(run(&ARTIFACT, "var/lib/rpm/Packages", &fixture("rpm-db/Packages"), 0));
+    }
+
+    #[test]
+    fn parses_big_endian_berkeley_db_packages() {
+        insta::assert_snapshot!(run(&ARTIFACT, "var/lib/rpm/Packages", &fixture("rpm-db/Packages-s390x"), 0));
+    }
+
+    #[test]
+    fn skips_other_packages_files() {
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages", b"", 0);
+        assert!(text.contains("skipped: not a Berkeley DB or SQLite database"), "{text}");
+        let mut btree = fixture("rpm-db/Packages");
+        btree[12..16].copy_from_slice(&0x0005_3162u32.to_le_bytes());
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages", &btree, 0);
+        assert!(text.contains("skipped: Berkeley DB btree file, not a hash"), "{text}");
+        // An SQLite database under the old name is still read.
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages", &fixture("rpm-db/rpmdb.sqlite"), 0);
+        assert_eq!(text.matches("\"package\":").count(), 5, "{text}");
+    }
+
+    #[test]
+    fn bad_berkeley_db_values_are_warnings() {
+        // Break the start of every overflow page: each header now declares 2^32 - 1 entries.
+        let mut file = fixture("rpm-db/Packages");
+        for page in file.chunks_exact_mut(4096).filter(|page| page[25] == 7) {
+            page[26..30].fill(0xff);
+        }
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages", &file, 0);
+        assert_eq!(text.matches("unreadable header").count(), 5, "{text}");
+        assert!(!text.contains("\"package\":"), "{text}");
+    }
+
+    /// Reads a Berkeley DB file the way `parse_bdb` does and returns the records found.
+    fn bdb_packages(data: &[u8]) -> usize {
+        let mut found = 0;
+        if let Ok(db) = HashDb::open(data) {
+            db.for_each(|entry| {
+                found += entry.value.ok().and_then(package).is_some() as usize;
+                Ok(())
+            })
+            .unwrap();
+        }
+        found
+    }
+
+    #[test]
+    fn corrupt_berkeley_db_files_never_panic() {
+        let started = std::time::Instant::now();
+        for name in ["rpm-db/Packages", "rpm-db/Packages-s390x"] {
+            let file = fixture(name);
+            assert_eq!(bdb_packages(&file), 5);
+            // Every page boundary (dangling overflow references), and odd lengths.
+            for len in (0..file.len()).step_by(512).chain((0..file.len()).step_by(997)) {
+                assert!(bdb_packages(&file[..len]) <= 5);
+            }
+            let mut seed = 0x9e37_79b9_7f4a_7c15u64;
+            let mut next = move || {
+                seed ^= seed << 13;
+                seed ^= seed >> 7;
+                seed ^= seed << 17;
+                seed
+            };
+            for _ in 0..1000 {
+                let mut copy = file.clone();
+                for _ in 0..1 + next() % 8 {
+                    let at = (next() as usize) % copy.len();
+                    copy[at] ^= 1 << (next() % 8);
+                }
+                // Hit page headers and hash pages most often: that is where the numbers live.
+                let page = 4096 * ((next() as usize) % (copy.len() / 4096));
+                let at = page + (next() as usize) % 64;
+                copy[at] = next() as u8;
+                assert!(bdb_packages(&copy) <= 5 + 4096 / 4);
+            }
+        }
+        assert!(started.elapsed() < std::time::Duration::from_secs(60), "{:?}", started.elapsed());
     }
 
     #[test]

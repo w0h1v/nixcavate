@@ -204,6 +204,25 @@ fn a_folder_of_collections_is_several_hosts_and_one_timeline() {
     assert_eq!(times, sorted, "the timeline is ordered by time");
     assert!(rows[1].contains(",beta,wtmp,login,alice logged in on pts/0 from 203.0.113.9,"), "{}", rows[1]);
 
+    // A window keeps only the events inside it: --start is inclusive, --end exclusive.
+    let windowed = scratch.path("window.csv");
+    let run = nixcavate(&[
+        "super-timeline",
+        "-d",
+        out.to_str().unwrap(),
+        "-o",
+        windowed.to_str().unwrap(),
+        "--start",
+        "2023-11-14T22:15:00Z",
+        "--end",
+        "2023-11-14T22:18:20Z",
+    ]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let kept = fs::read_to_string(&windowed).unwrap();
+    let kept: Vec<&str> = kept.lines().skip(1).map(|r| r.split(',').next().unwrap()).collect();
+    assert_eq!(kept, ["2023-11-14T22:15:00.000000Z", "2023-11-14T22:17:20.000000Z"]);
+    assert_eq!(nixcavate(&["super-timeline", "-d", out.to_str().unwrap(), "--start", "soon"]).status.code(), Some(2));
+
     // A second timeline needs -C; JSONL is valid line by line.
     assert_eq!(nixcavate(&["super-timeline", "-d", out.to_str().unwrap()]).status.code(), Some(2));
     let jsonl = scratch.path("t.jsonl");
@@ -465,8 +484,14 @@ fn an_over_expanding_log_reports_what_it_covers() {
     let packed = zstd::encode_all(&log[..], 19).unwrap();
     assert!(packed.len() * 100 < log.len() && log.len() > 16 << 20, "the fixture must exceed the default limit");
     files.push(("uac-web01/[root]/var/log/syslog.1.zst".into(), packed));
-    // bzip2 is not supported: the input is skipped, and reported as holding data.
-    files.push(("uac-web01/[root]/var/log/syslog.2.bz2".into(), b"BZh91AY&SY\x00\x01\x02\x03rest".to_vec()));
+    // An input a parser cannot read (here: a browser history file that is not a database) is
+    // skipped, and reported as holding data.
+    files
+        .push(("uac-web01/[root]/home/alice/.config/google-chrome/Default/History".into(), b"not a database".to_vec()));
+    // A bzip2 rotation is read like any other.
+    let mut bz = bzip2::write::BzEncoder::new(Vec::new(), bzip2::Compression::fast());
+    bz.write_all(b"2024-03-09T10:00:00+00:00 web01 app[1]: from the bzip2 rotation\n").unwrap();
+    files.push(("uac-web01/[root]/var/log/syslog.2.bz2".into(), bz.finish().unwrap()));
     write_tar_gz(&scratch.path("uac.tar.gz"), &files);
     let evidence = scratch.path("uac.tar.gz");
 
@@ -516,11 +541,12 @@ fn an_over_expanding_log_reports_what_it_covers() {
         "{summary}"
     );
 
-    let skipped = tasks.iter().find(|t| t["input"] == "var/log/syslog.2.bz2").unwrap();
+    let rotated = tasks.iter().find(|t| t["input"] == "var/log/syslog.2.bz2").unwrap();
+    assert_eq!((rotated["status"].as_str(), rotated["records"].as_u64()), (Some("succeeded"), Some(1)));
+    let skipped = tasks.iter().find(|t| t["artifact"] == "chromium-history").unwrap();
     assert_eq!((skipped["status"].as_str(), skipped["first_event"].is_null()), (Some("skipped"), true));
     assert!(
-        summary.contains("skipped inputs that hold data")
-            && summary.contains("bzip2 compression is not supported (last written"),
+        summary.contains("skipped inputs that hold data") && summary.contains("not an SQLite database (last written"),
         "{summary}"
     );
 }

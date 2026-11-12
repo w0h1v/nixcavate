@@ -1,4 +1,4 @@
-//! Reading inputs as lines or whole buffers, with compressed rotations (`.gz`, `.zst`, `.xz`)
+//! Reading inputs as lines or whole buffers, with compressed rotations (`.gz`, `.bz2`, `.zst`, `.xz`)
 //! decompressed on the way. Compression is detected from the content, not the file name.
 
 use crate::Input;
@@ -49,13 +49,13 @@ fn decoder(data: &[u8]) -> Result<Option<Box<dyn Read + '_>>> {
             .map_err(|e| Error::format(format!("xz: {e}")))?;
         Some(Box::new(xz2::read::XzDecoder::new_stream(data, stream)))
     } else if data.starts_with(b"BZh") && data.get(4..10) == Some(&[0x31, 0x41, 0x59, 0x26, 0x53, 0x59]) {
-        return Err(Error::skipped("bzip2 compression is not supported"));
+        Some(Box::new(bzip2::read::MultiBzDecoder::new(data)))
     } else {
         None
     })
 }
 
-/// True when `data` starts with a gzip, zstd or xz header.
+/// True when `data` starts with a gzip, bzip2, zstd or xz header.
 pub fn is_compressed(data: &[u8]) -> bool {
     !matches!(decoder(data), Ok(None))
 }
@@ -175,7 +175,9 @@ mod tests {
         let zst = zstd::encode_all(&plain[..], 1).unwrap();
         let mut xz = xz2::write::XzEncoder::new(Vec::new(), 1);
         xz.write_all(plain).unwrap();
-        for packed in [gz.finish().unwrap(), zst, xz.finish().unwrap()] {
+        let mut bz = bzip2::write::BzEncoder::new(Vec::new(), bzip2::Compression::fast());
+        bz.write_all(plain).unwrap();
+        for packed in [gz.finish().unwrap(), zst, xz.finish().unwrap(), bz.finish().unwrap()] {
             assert_eq!(lines_of(&packed), lines_of(plain));
             assert_eq!(&*decompressed(&packed).unwrap(), plain);
         }
@@ -226,11 +228,5 @@ mod tests {
         });
         assert!(matches!(result, Err(Error::Format(_))));
         assert!((16..=18).contains(&lines), "cut near the 16 MiB limit, got {lines} lines");
-    }
-
-    #[test]
-    fn bzip2_is_skipped_with_a_reason() {
-        let result = decompressed(b"BZh91AY&SYxxxx");
-        assert!(matches!(result, Err(Error::Skipped(_))));
     }
 }

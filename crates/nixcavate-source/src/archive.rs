@@ -51,6 +51,8 @@ pub(crate) fn open(path: &Path, keep: &dyn Fn(&str) -> bool, scratch: &Path) -> 
         tar_entries(zstd::stream::read::Decoder::new(data)?, None, keep, scratch, data.len() as u64, &mut warnings)?
     } else if data.starts_with(&[0xfd, b'7', b'z', b'X', b'Z', 0]) {
         tar_entries(xz_decoder(data)?, None, keep, scratch, data.len() as u64, &mut warnings)?
+    } else if data.starts_with(b"BZh") && data.get(4..10) == Some(&[0x31, 0x41, 0x59, 0x26, 0x53, 0x59]) {
+        tar_entries(bzip2::read::MultiBzDecoder::new(data), None, keep, scratch, data.len() as u64, &mut warnings)?
     } else if data.get(257..262) == Some(b"ustar") {
         tar_entries(Cursor::new(data), Some(data.len()), keep, scratch, data.len() as u64, &mut warnings)?
     } else {

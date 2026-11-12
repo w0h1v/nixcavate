@@ -5,6 +5,7 @@ pub mod apt_history;
 pub mod at_jobs;
 pub mod audit;
 pub mod auth_log;
+pub mod bdb_hash;
 pub mod bodyfile;
 pub mod boot_scripts;
 pub mod container_config;
