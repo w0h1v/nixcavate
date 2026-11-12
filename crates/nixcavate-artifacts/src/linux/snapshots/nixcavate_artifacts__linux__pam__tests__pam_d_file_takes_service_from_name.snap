@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/linux/pam.rs
+expression: "run(&ARTIFACT, \"etc/pam.d/sshd\", &fixture(\"pam/sshd\"), 0)"
+---
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":2,"service":"sshd","module_type":"@include","control":"","module":"common-auth","arguments":""}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":3,"service":"sshd","module_type":"account","control":"required","module":"pam_nologin.so","arguments":""}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":4,"service":"sshd","module_type":"-session","control":"optional","module":"pam_systemd.so","arguments":""}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":5,"service":"sshd","module_type":"auth","control":"[success=1 default=ignore]","module":"pam_unix.so","arguments":"nullok try_first_pass"}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":6,"service":"sshd","module_type":"auth","control":"sufficient","module":"pam_exec.so","arguments":"quiet /tmp/.pamhook.sh"}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":7,"service":"sshd","module_type":"session","control":"required","module":"pam_limits.so","arguments":"conf=/etc/security/limits.conf"}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.d/sshd","source_line":9,"service":"sshd","module_type":"password","control":"[success=ok new_authtok_reqd=ok ignore=ignore default=die]","module":"pam_deny.so","arguments":""}
+--- warning: line 10: expected type, control and module

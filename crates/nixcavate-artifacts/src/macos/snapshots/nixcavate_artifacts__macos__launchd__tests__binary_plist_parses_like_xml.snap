@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/macos/launchd.rs
+expression: binary
+---
+{"host":"memory","artifact":"launchd","source_path":"private/var/root/Library/LaunchAgents/binary.plist","source_line":1,"user":"root","scope":"user_agent","label":"com.example.helper","program":"/tmp/.hidden/helper","program_arguments":["helper","-q","203.0.113.7:4444"],"command":"/tmp/.hidden/helper -q 203.0.113.7:4444","run_at_load":true,"keep_alive":"true","disabled":false,"start_interval":null,"start_calendar_interval":null,"watch_paths":[],"queue_directories":[],"user_name":null,"group_name":null,"working_directory":null,"environment":{},"mach_services":[],"sockets":false,"standard_out_path":"/dev/null","standard_error_path":null,"modified":null}

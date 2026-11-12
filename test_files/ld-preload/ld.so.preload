@@ -1,0 +1,4 @@
+# preload list
+/usr/lib/libfaketime.so.1
+/tmp/.x/libevil.so /lib/x86_64-linux-gnu/libhook.so:/opt/lib/libother.so
+

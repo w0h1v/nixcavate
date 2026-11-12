@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/docker.rs
+expression: "container(\"worker\", WORKER_ID)"
+---
+{"host":"memory","artifact":"docker-containers","source_path":"var/lib/docker/containers/b837a46f5538e44c5f7883ef415c510e21d35c288ce75023bec582dfc8477036/config.v2.json","source_line":null,"container_id":"b837a46f5538e44c5f7883ef415c510e21d35c288ce75023bec582dfc8477036","name":"worker","image":"alpine:3.19","image_id":"sha256:6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","command":"sh -c echo working; exit 3","entrypoint":"sh","time":"2026-11-11T19:41:37.946083091Z","started_time":"2026-11-11T19:41:39.074761855Z","finished_time":"2026-11-11T19:41:39.130080899Z","running":false,"exit_code":3,"pid":0,"restart_policy":"on-failure:3","privileged":true,"network_mode":"bridge","binds":[],"port_bindings":[],"mounts":[],"environment":["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"labels":{},"hostname":"b837a46f5538","user":"1000"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:41:37.946083091Z,nanos,recorded,memory,docker-containers,container_created,container worker created (image alpine:3.19),var/lib/docker/containers/b837a46f5538e44c5f7883ef415c510e21d35c288ce75023bec582dfc8477036/config.v2.json,,,,
+2026-11-11T19:41:39.074761855Z,nanos,recorded,memory,docker-containers,container_started,container worker started (image alpine:3.19),var/lib/docker/containers/b837a46f5538e44c5f7883ef415c510e21d35c288ce75023bec582dfc8477036/config.v2.json,,,,
+2026-11-11T19:41:39.130080899Z,nanos,recorded,memory,docker-containers,container_finished,container worker finished (image alpine:3.19),var/lib/docker/containers/b837a46f5538e44c5f7883ef415c510e21d35c288ce75023bec582dfc8477036/config.v2.json,,,,

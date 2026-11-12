@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ExtensionBlacklist</key>
+	<array>
+		<dict>
+			<key>Extension</key>
+			<string>example1</string>
+			<key>Name</key>
+			<string>x</string>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>example2</string>
+		</dict>
+		<dict>
+			<key>Extension</key>
+			<string>example3</string>
+		</dict>
+	</array>
+	<key>PluginBlacklist</key>
+	<dict>
+		<key>com.example.badplugin</key>
+		<dict>
+			<key>MinimumPlugInBundleVersion</key>
+			<string>1.0</string>
+		</dict>
+		<key>com.example.other</key>
+		<dict/>
+	</dict>
+	<key>Version</key>
+	<integer>5290</integer>
+</dict>
+</plist>

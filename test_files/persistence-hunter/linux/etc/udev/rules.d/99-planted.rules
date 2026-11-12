@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="usb", RUN+="/tmp/.hook/run.sh"

@@ -1,0 +1,5 @@
+{"log":"ok\n","stream":"stdout","time":"2026-11-11T19:41:38.083999014Z"}
+this is not json
+{"log":"tab\there \"quoted\"","stream":"stderr","time":"2026-11-11T19:41:39Z"}
+{"log":5,"stream":"stdout","time":"2026-11-11T19:41:40Z"}
+{"stream":"stdout"}

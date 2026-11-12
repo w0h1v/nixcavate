@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/common/bash_history.rs
+expression: "run(&ARTIFACT, \"home/alice/.bash_history\",\n&fixture(\"bash-history/.bash_history\"), 0)"
+---
+{"host":"memory","artifact":"bash-history","source_path":"home/alice/.bash_history","source_line":2,"user":"alice","time":"2026-11-11T19:34:57Z","command":"ls -la /var/log"}
+{"host":"memory","artifact":"bash-history","source_path":"home/alice/.bash_history","source_line":4,"user":"alice","time":"2026-11-11T19:34:58Z","command":"echo hello world"}
+{"host":"memory","artifact":"bash-history","source_path":"home/alice/.bash_history","source_line":6,"user":"alice","time":"2026-11-11T19:34:59Z","command":"cat /etc/passwd | grep alice"}
+{"host":"memory","artifact":"bash-history","source_path":"home/alice/.bash_history","source_line":8,"user":"alice","time":"2026-11-11T19:34:57Z","command":"ls -la /var/log"}
+{"host":"memory","artifact":"bash-history","source_path":"home/alice/.bash_history","source_line":10,"user":"alice","time":"2026-11-11T19:34:58Z","command":"echo hello world"}
+{"host":"memory","artifact":"bash-history","source_path":"home/alice/.bash_history","source_line":12,"user":"alice","time":"2026-11-11T19:34:59Z","command":"cat /etc/passwd | grep alice"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:34:57Z,seconds,recorded,memory,bash-history,executed,alice ran ls -la /var/log,home/alice/.bash_history,2,,,
+2026-11-11T19:34:57Z,seconds,recorded,memory,bash-history,executed,alice ran ls -la /var/log,home/alice/.bash_history,8,,,
+2026-11-11T19:34:58Z,seconds,recorded,memory,bash-history,executed,alice ran echo hello world,home/alice/.bash_history,4,,,
+2026-11-11T19:34:58Z,seconds,recorded,memory,bash-history,executed,alice ran echo hello world,home/alice/.bash_history,10,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,bash-history,executed,alice ran cat /etc/passwd | grep alice,home/alice/.bash_history,6,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,bash-history,executed,alice ran cat /etc/passwd | grep alice,home/alice/.bash_history,12,,,

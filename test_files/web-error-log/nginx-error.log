@@ -1,0 +1,9 @@
+2026/11/11 21:36:00 [notice] 12#12: using the "epoll" event method
+2026/11/11 21:36:00 [notice] 12#12: nginx/1.31.8
+2026/11/11 21:36:00 [notice] 12#12: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/11/11 21:36:00 [notice] 12#12: OS: Linux 6.1.0-18-amd64
+2026/11/11 21:36:01 [error] 15#15: *2 open() "/usr/share/nginx/html/missing.html" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "GET /missing.html HTTP/1.1", host: "127.0.0.1"
+2026/11/11 21:36:01 [error] 17#17: *3 open() "/usr/share/nginx/html/submit" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "POST /submit HTTP/1.1", host: "127.0.0.1"
+2026/11/11 21:36:01 [error] 23#23: *5 open() "/usr/share/nginx/html/also-missing" failed (2: No such file or directory), client: 127.0.0.1, server: localhost, request: "GET /also-missing HTTP/1.1", host: "example.com"
+2026/11/11 21:36:03 [notice] 13#13: signal 3 (SIGQUIT) received from 35, shutting down
+2026/11/11 21:36:03 [notice] 21#21: gracefully shutting down

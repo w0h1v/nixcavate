@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/xdg_autostart.rs
+expression: "run(&ARTIFACT, \"home/alice/.config/autostart/updater.desktop\",\n&fixture(\"xdg-autostart/updater.desktop\"), 0)"
+---
+{"host":"memory","artifact":"xdg-autostart","source_path":"home/alice/.config/autostart/updater.desktop","source_line":1,"user":"alice","name":"System Update Helper","exec":"/bin/sh -c \"/tmp/.cache/upd --daemon\"","try_exec":"/tmp/.cache/upd","entry_type":"Application","hidden":false,"no_display":true,"only_show_in":"","enabled":false,"comment":"Keeps things updated"}

@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&PROCESSES, \"../live_response/process/ps_auxwww.txt\",\n\"live-processes/edge.txt\")"
+---
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":2,"user":"root","pid":1,"ppid":null,"cpu_percent":0.0,"mem_percent":0.1,"tty":"?","state":"Ss","started":"Nov10","cpu_time":"0:03","elapsed":null,"command":"/sbin/init splash"}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":3,"user":"root","pid":2,"ppid":null,"cpu_percent":0.0,"mem_percent":0.0,"tty":"?","state":"S","started":"Nov10","cpu_time":"0:00","elapsed":null,"command":"[kthreadd]"}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":4,"user":"root","pid":19,"ppid":null,"cpu_percent":0.0,"mem_percent":0.0,"tty":"?","state":"I","started":"Nov10","cpu_time":"0:00","elapsed":null,"command":"[kworker/0:1-events]"}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":5,"user":"alice","pid":1204,"ppid":null,"cpu_percent":1.5,"mem_percent":2.3,"tty":"pts/0","state":"Sl+","started":"09:12","cpu_time":"12:34","elapsed":null,"command":"/usr/bin/python3 -c \"import os; print('a  b')\""}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":6,"user":"bob","pid":1305,"ppid":null,"cpu_percent":0.0,"mem_percent":0.0,"tty":"?","state":"Z","started":"09:30","cpu_time":"0:00","elapsed":null,"command":"[sh] <defunct>"}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":7,"user":"root","pid":1402,"ppid":null,"cpu_percent":99.9,"mem_percent":10.0,"tty":"pts/1","state":"R+","started":"09:31","cpu_time":"123:45","elapsed":null,"command":""}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":8,"user":"root","pid":1403,"ppid":null,"cpu_percent":0.0,"mem_percent":0.0,"tty":"?","state":"S","started":"09:31","cpu_time":"0:00","elapsed":null,"command":"sh -c echo 'it'\"'\"'s | cat'"}
+{"host":"memory","artifact":"live-processes","source_path":"../live_response/process/ps_auxwww.txt","source_line":9,"user":"carol_with_a_long_user+","pid":1500,"ppid":null,"cpu_percent":0.0,"mem_percent":0.0,"tty":"?","state":"S","started":"09:32","cpu_time":"0:00","elapsed":null,"command":"/opt/app/run --name \"two words\" --flag"}
+--- warning: line 10: invalid pid
+--- warning: line 11: too few columns

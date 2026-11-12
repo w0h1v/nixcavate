@@ -1,0 +1,22 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_log.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"macos-system-log/system.log\"), NOV_11_2026)"
+---
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":0,"time":"2026-11-09T23:59:58Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"syslogd","pid":132,"message":"ASL Sender Statistics"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":58,"time":"2026-11-10T00:00:01Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"newsyslog","pid":501,"message":"logfile turned over"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":116,"time":"2026-11-10T00:05:00Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"sshd","pid":777,"message":"Accepted publickey for alice from 192.0.2.10"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":194,"time":"2026-11-10T00:05:01Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"","pid":null,"message":"last message repeated 3 times"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":246,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"--- last message repeated 2 times ---"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":284,"time":"2026-11-10T00:06:00Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"kernel","pid":0,"message":"multi-line report"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":335,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"\tcontinued detail line"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":358,"time":"2025-12-31T23:59:59Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"loginwindow","pid":99,"message":"wraps to the previous year"}
+{"host":"memory","artifact":"macos-system-log","source_path":"private/var/log/system.log","source_offset":424,"time":"2026-11-10T00:07:00Z","time_basis":"inferred_year_assumed_zone","log_host":"mac01","program":"untagged-process","pid":null,"message":"text without pid"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-12-31T23:59:59Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,loginwindow: wraps to the previous year,private/var/log/system.log,,358,,
+2026-11-09T23:59:58Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,syslogd: ASL Sender Statistics,private/var/log/system.log,,0,,
+2026-11-10T00:00:01Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,newsyslog: logfile turned over,private/var/log/system.log,,58,,
+2026-11-10T00:05:00Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,sshd: Accepted publickey for alice from 192.0.2.10,private/var/log/system.log,,116,,
+2026-11-10T00:05:01Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,last message repeated 3 times,private/var/log/system.log,,194,,
+2026-11-10T00:06:00Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,kernel: multi-line report,private/var/log/system.log,,284,,
+2026-11-10T00:07:00Z,seconds,inferred_year_assumed_zone,memory,macos-system-log,log,untagged-process: text without pid,private/var/log/system.log,,424,,

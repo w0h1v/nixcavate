@@ -1,0 +1,15 @@
+---
+source: crates/nixcavate-artifacts/src/linux/lastlog.rs
+expression: "run_on_host(&ARTIFACT, &files, \"var/log/lastlog\", 0)"
+---
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":0,"uid":0,"user":"root","time":"2023-11-14T22:13:20Z","line":"tty1","remote_host":""}
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":292,"uid":1,"user":"alice","time":"2023-11-14T22:15:00Z","line":"pts/0","remote_host":"203.0.113.9"}
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":584,"uid":2,"user":"bob","time":"2023-11-14T22:16:40Z","line":"pts/3","remote_host":"web01.example.com"}
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":1460,"uid":5,"user":"svc","time":"2023-11-14T22:18:20Z","line":"ssh","remote_host":"2001:db8::7"}
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":1752,"uid":6,"user":"","time":null,"line":"pts/9","remote_host":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,lastlog,last_login,root last logged in on tty1 from local,var/log/lastlog,,0,,
+2023-11-14T22:15:00Z,seconds,recorded,memory,lastlog,last_login,alice last logged in on pts/0 from 203.0.113.9,var/log/lastlog,,292,,
+2023-11-14T22:16:40Z,seconds,recorded,memory,lastlog,last_login,bob last logged in on pts/3 from web01.example.com,var/log/lastlog,,584,,
+2023-11-14T22:18:20Z,seconds,recorded,memory,lastlog,last_login,svc last logged in on ssh from 2001:db8::7,var/log/lastlog,,1460,,

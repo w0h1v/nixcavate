@@ -1,0 +1,4 @@
+<34>1 2024-03-10T01:02:03.003Z web01.example.com su 2301 ID47 - 'su root' failed on /dev/pts/8
+<165>1 2024-03-10T01:02:04+02:00 web01 myapp - - [exampleSDID@32473 iut="3" eventSource="Application" eventID="1011"][meta k="a\]b"] An application event
+<13>1 - web01 - - - - nil time, app, pid and structured data
+<13>1 2024-03-10T01:02:05Z web01 app 12 - - ﻿message with BOM

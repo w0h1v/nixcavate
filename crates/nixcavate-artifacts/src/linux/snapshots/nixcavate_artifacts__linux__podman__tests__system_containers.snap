@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/podman.rs
+expression: "run(&CONTAINERS, path, &fixture(\"podman-containers/containers.json\"), 0)"
+---
+{"host":"memory","artifact":"podman-containers","source_path":"var/lib/containers/storage/vfs-containers/containers.json","source_line":null,"user":"","container_id":"2f2729b9cecbf4cb09e07959d2ed07cc8b867e01b935db9fdb7a506f02224eee","names":["pw"],"image_id":"6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","image_name":"docker.io/library/alpine:3.19","time":"2026-11-11T19:42:06.923169233Z"}
+{"host":"memory","artifact":"podman-containers","source_path":"var/lib/containers/storage/vfs-containers/containers.json","source_line":null,"user":"","container_id":"1508346c7e78067fc1c1a9d0e96e8ec4e67a226141da9ee0272086438b786b8a","names":["pw2"],"image_id":"6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","image_name":"docker.io/library/alpine:3.19","time":"2026-11-11T19:42:07.030586363Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:42:06.923169233Z,nanos,recorded,memory,podman-containers,container_created,container pw created from docker.io/library/alpine:3.19,var/lib/containers/storage/vfs-containers/containers.json,,,,
+2026-11-11T19:42:07.030586363Z,nanos,recorded,memory,podman-containers,container_created,container pw2 created from docker.io/library/alpine:3.19,var/lib/containers/storage/vfs-containers/containers.json,,,,

@@ -1,0 +1,20 @@
+---
+source: crates/nixcavate-artifacts/src/common/web_logs.rs
+expression: "access(\"deb-other_vhosts_access.log\")"
+---
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":0,"time":"2026-11-11T19:42:58Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"GET","request":"/","protocol":"HTTP/1.1","status":200,"bytes":10956,"referer":"-","user_agent":"curl/7.88.1","extra":""}
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":109,"time":"2026-11-11T19:42:58Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"GET","request":"/missing.html","protocol":"HTTP/1.1","status":404,"bytes":472,"referer":"-","user_agent":"curl/7.88.1","extra":""}
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":228,"time":"2026-11-11T19:42:58Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"POST","request":"/submit","protocol":"HTTP/1.1","status":404,"bytes":472,"referer":"-","user_agent":"curl/7.88.1","extra":""}
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":342,"time":"2026-11-11T19:42:58Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"GET","request":"/index.html?x=1&y=two","protocol":"HTTP/1.1","status":200,"bytes":10956,"referer":"http://example.com/ref","user_agent":"Mozilla/5.0 (X11; Linux x86_64) Test","extra":""}
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":517,"time":"2026-11-11T19:42:58Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"GET","request":"/also-missing","protocol":"HTTP/1.1","status":404,"bytes":474,"referer":"-","user_agent":"curl/7.88.1","extra":""}
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":636,"time":"2026-11-11T19:42:58Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"","request":"\\x16\\x03\\x01","protocol":"","status":400,"bytes":531,"referer":"-","user_agent":"-","extra":""}
+{"host":"memory","artifact":"web-access-log","source_path":"var/log/nginx/access.log","source_offset":731,"time":"2026-11-11T19:42:59Z","vhost":"web01.example.com:80","remote_address":"127.0.0.1","ident":"-","user":"-","method":"","request":"BADREQUEST","protocol":"","status":400,"bytes":531,"referer":"-","user_agent":"-","extra":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:42:58Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 GET / -> 200,var/log/nginx/access.log,,0,,
+2026-11-11T19:42:58Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 GET /missing.html -> 404,var/log/nginx/access.log,,109,,
+2026-11-11T19:42:58Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 POST /submit -> 404,var/log/nginx/access.log,,228,,
+2026-11-11T19:42:58Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 GET /index.html?x=1&y=two -> 200,var/log/nginx/access.log,,342,,
+2026-11-11T19:42:58Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 GET /also-missing -> 404,var/log/nginx/access.log,,517,,
+2026-11-11T19:42:58Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 \x16\x03\x01 -> 400,var/log/nginx/access.log,,636,,
+2026-11-11T19:42:59Z,seconds,recorded,memory,web-access-log,http_request,127.0.0.1 BADREQUEST -> 400,var/log/nginx/access.log,,731,,

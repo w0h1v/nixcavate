@@ -1,0 +1,37 @@
+type=DAEMON_START msg=audit(1700000000.001:1): op=start ver=3.0.9 format=enriched kernel=6.1.0-13-amd64 auid=4294967295 pid=612 uid=0 ses=4294967295 res=success
+type=SYSCALL msg=audit(1700000010.123:456): arch=c000003e syscall=59 success=yes exit=0 a0=55d0c8a1b2c0 a1=55d0c8a1b300 a2=55d0c8a1b340 a3=7ffd1a2b3c4d items=2 ppid=1200 pid=1234 auid=1000 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts0 ses=3 comm="ls" exe="/usr/bin/ls" subj=unconfined key="exec"
+type=EXECVE msg=audit(1700000010.123:456): argc=3 a0="ls" a1="-la" a2=2F746D702F6D7920646972
+type=CWD msg=audit(1700000010.123:456):  cwd="/home/alice"
+type=PATH msg=audit(1700000010.123:456): item=0 name="/usr/bin/ls" inode=409248 dev=fd:00 mode=0100755 ouid=0 ogid=0 rdev=00:00 nametype=NORMAL
+type=PATH msg=audit(1700000010.123:456): item=1 name=2F746D702F6D79206469722F77697468207370616365 inode=5 dev=fd:00 mode=040755 ouid=0 ogid=0 rdev=00:00 nametype=PARENT
+type=PROCTITLE msg=audit(1700000010.123:456): proctitle=2F7573722F7362696E2F73736864002D44002D6F00506F72743D3232
+type=SYSCALL msg=audit(1700000011.500:457): arch=c000003e syscall=2 success=no exit=-13 a0=7fffd19c5592 a1=0 a2=7fffd19c4b50 a3=a items=1 ppid=2686 pid=3538 auid=1000 uid=1000 gid=1000 euid=1000 suid=1000 fsuid=1000 egid=1000 sgid=1000 fsgid=1000 tty=pts0 ses=1 comm="cat" exe="/bin/cat" subj=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023 key="sshd_config"
+type=SYSCALL msg=audit(1700000012.000:458): arch=c000003e syscall=257 success=yes exit=3 items=1 ppid=1 pid=900 auid=4294967295 uid=0 gid=0 euid=0 tty=(none) ses=4294967295 comm=6D79206461656D6F6E exe="/usr/sbin/mydaemon" key=(null)
+type=USER_AUTH msg=audit(1700000020.100:500): pid=2001 uid=0 auid=4294967295 ses=4294967295 msg='op=PAM:authentication grantors=pam_unix acct="alice" exe="/usr/sbin/sshd" hostname=203.0.113.9 addr=203.0.113.9 terminal=ssh res=success'
+type=USER_ACCT msg=audit(1700000020.110:501): pid=2001 uid=0 auid=4294967295 ses=4294967295 msg='op=PAM:accounting grantors=pam_unix,pam_permit acct="alice" exe="/usr/sbin/sshd" hostname=203.0.113.9 addr=203.0.113.9 terminal=ssh res=success'
+type=USER_AUTH msg=audit(1700000030.200:502): pid=2050 uid=0 auid=4294967295 ses=4294967295 msg='op=PAM:authentication grantors=? acct="bob" exe="/usr/sbin/sshd" hostname=198.51.100.7 addr=198.51.100.7 terminal=ssh res=failed'
+type=CRED_ACQ msg=audit(1700000020.120:503): pid=2001 uid=0 auid=1000 ses=4 msg='op=PAM:setcred grantors=pam_unix acct="alice" exe="/usr/sbin/sshd" hostname=203.0.113.9 addr=203.0.113.9 terminal=ssh res=success'
+type=USER_START msg=audit(1700000020.130:504): pid=2001 uid=0 auid=1000 ses=4 msg='op=PAM:session_open grantors=pam_unix acct="alice" exe="/usr/sbin/sshd" hostname=203.0.113.9 addr=203.0.113.9 terminal=ssh res=success'
+type=USER_LOGIN msg=audit(1334512532.246:8923): pid=3459 uid=0 auid=1000 ses=1 msg='op=login id=1000 exe="/usr/sbin/sshd" hostname=? addr=192.0.2.5 terminal=/dev/pts/0 res=success'
+type=USER_END msg=audit(1700000090.000:505): pid=2001 uid=0 auid=1000 ses=4 msg='op=PAM:session_close grantors=pam_unix acct="alice" exe="/usr/sbin/sshd" hostname=203.0.113.9 addr=203.0.113.9 terminal=ssh res=success'
+type=CRED_DISP msg=audit(1700000090.010:506): pid=2001 uid=0 auid=1000 ses=4 msg='op=PAM:setcred grantors=pam_unix acct="alice" exe="/usr/sbin/sshd" hostname=203.0.113.9 addr=203.0.113.9 terminal=ssh res=success'
+type=USER_ERR msg=audit(1700000100.000:507): pid=2100 uid=0 auid=4294967295 ses=4294967295 msg='op=PAM:bad_ident acct="?" exe="/usr/sbin/sshd" hostname=203.0.113.50 addr=203.0.113.50 terminal=ssh res=failed'
+type=USER_CMD msg=audit(1700000110.000:508): pid=2200 uid=1000 auid=1000 ses=5 msg='cwd="/home/alice" cmd=61707420757064617465 terminal=pts/0 res=success'
+type=USER_CMD msg=audit(1700000111.000:509): pid=2201 uid=1000 auid=1000 ses=5 msg='cwd="/home/alice" cmd="id" terminal=pts/0 res=success'
+type=ADD_USER msg=audit(1700000200.000:510): pid=2300 uid=0 auid=1000 ses=5 msg='op=adding user acct="carol" exe="/usr/sbin/useradd" hostname=web01.example.com addr=? terminal=pts/0 res=success'
+type=ADD_GROUP msg=audit(1700000200.010:511): pid=2300 uid=0 auid=1000 ses=5 msg='op=adding group acct="carol" exe="/usr/sbin/useradd" hostname=web01.example.com addr=? terminal=pts/0 res=success'
+type=USER_CHAUTHTOK msg=audit(1700000210.000:512): pid=2310 uid=0 auid=1000 ses=5 msg='op=PAM:chauthtok grantors=pam_unix acct="carol" exe="/usr/bin/passwd" hostname=? addr=? terminal=pts/0 res=success'
+type=USER_MGMT msg=audit(1700000220.000:513): pid=2320 uid=0 auid=1000 ses=5 msg='op=modifying account acct="carol" exe="/usr/sbin/usermod" hostname=? addr=? terminal=pts/0 res=success'
+type=GRP_MGMT msg=audit(1700000221.000:514): pid=2321 uid=0 auid=1000 ses=5 msg='op=modifying group acct="devs" exe="/usr/sbin/groupmod" hostname=? addr=? terminal=pts/0 res=success'
+type=DEL_GROUP msg=audit(1700000230.000:515): pid=2330 uid=0 auid=1000 ses=5 msg='op=deleting group acct="carol" exe="/usr/sbin/userdel" hostname=? addr=? terminal=pts/0 res=success'
+type=DEL_USER msg=audit(1700000230.010:516): pid=2330 uid=0 auid=1000 ses=5 msg='op=deleting user acct="carol" exe="/usr/sbin/userdel" hostname=? addr=? terminal=pts/0 res=success'
+type=SERVICE_START msg=audit(1700000300.000:517): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=nginx comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=success'
+type=SERVICE_STOP msg=audit(1700000310.000:518): pid=1 uid=0 auid=4294967295 ses=4294967295 msg='unit=nginx comm="systemd" exe="/usr/lib/systemd/systemd" hostname=? addr=? terminal=? res=failed'
+type=ANOM_PROMISCUOUS msg=audit(1700000400.000:519): dev=eth0 prom=256 old_prom=0 auid=1000 uid=0 gid=0 ses=5
+type=ANOM_ABEND msg=audit(1700000410.000:520): auid=1000 uid=1000 gid=1000 ses=5 pid=2400 comm="crashy" exe="/usr/bin/crashy" sig=11 res=1
+type=AVC msg=audit(1700000420.000:521): avc:  denied  { read } for  pid=2500 comm="httpd" name="shadow" dev="dm-0" ino=1234 scontext=system_u:system_r:httpd_t:s0 tcontext=system_u:object_r:shadow_t:s0 tclass=file permissive=0
+type=NETFILTER_CFG msg=audit(1700000430.000:522): table=filter family=2 entries=8 op=xt_replace pid=2600 comm="iptables"
+type=SYSCALL msg=audit(1700000500.250:523): arch=c000003e syscall=59 success=yes exit=0 items=2 ppid=2700 pid=2701 auid=1000 uid=0 gid=0 euid=0 tty=pts1 ses=5 comm="curl" exe="/usr/bin/curl" key=6E65745F746F6F6CARCH=x86_64 SYSCALL=execve AUID="alice" UID="root" GID="root" EUID="root"
+type=USER_AUTH msg=audit(1700000510.000:524): pid=2800 uid=1000 auid=1000 ses=5 msg='op=PAM:authentication grantors=pam_unix acct="alice" exe="/usr/bin/sudo" hostname=? addr=? terminal=/dev/pts/1 res=success'UID="alice" AUID="alice"
+type=EXECVE msg=audit(1700000520.000:525): argc=1 a0="whoami"
+type=SYSCALL msg=audit(1700000520.000:525): arch=c000003e syscall=59 success=yes exit=0 ppid=1 pid=2900 auid=4294967295 uid=33 euid=33 ses=4294967295 comm="whoami" exe="/usr/bin/whoami" key=(null)ARCH=x86_64 SYSCALL=execve AUID="unset" UID="www-data"

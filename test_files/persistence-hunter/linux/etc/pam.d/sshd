@@ -1,0 +1,4 @@
+@include common-auth
+account    required     pam_nologin.so
+session    optional     pam_systemd.so
+auth       [success=1 default=ignore]  pam_unix.so nullok

@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "run(artifact, path, b\"\\x00\\xff garbage\\nmore garbage 12 34\\n\", 0)"
+---
+--- failed: not an lsmod listing (no Module header)

@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/common/firefox.rs
+expression: "run(&DOWNLOADS, PATH, &fixture(\"firefox-history/places.sqlite\"), 0)"
+---
+{"host":"memory","artifact":"firefox-downloads","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:05:01.000000Z","end_time":"2026-11-11T20:05:02.000000Z","user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/report.txt","target_path":"/home/alice/Downloads/report final.txt","state":"finished","size_bytes":12}
+{"host":"memory","artifact":"firefox-downloads","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:06:41.000000Z","end_time":null,"user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/big.bin","target_path":"/home/alice/Downloads/big.bin","state":"canceled","size_bytes":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T20:05:01.000000Z,micros,recorded,memory,firefox-downloads,file_downloaded,alice downloaded http://127.0.0.1:8000/report.txt to /home/alice/Downloads/report final.txt,home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,
+2026-11-11T20:06:41.000000Z,micros,recorded,memory,firefox-downloads,file_downloaded,alice downloaded http://127.0.0.1:8000/big.bin to /home/alice/Downloads/big.bin,home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,

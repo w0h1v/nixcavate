@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/systemd_units.rs
+expression: "unit(\"override.conf\", \"etc/systemd/system/ssh.service.d/override.conf\")"
+---
+{"host":"memory","artifact":"systemd-units","source_path":"etc/systemd/system/ssh.service.d/override.conf","source_line":null,"unit":"ssh.service","drop_in":true,"unit_type":"service","description":null,"exec_start":null,"exec_start_pre":null,"exec_start_post":"/usr/local/bin/notify-admin.sh","exec_stop":null,"exec_stop_post":null,"exec_condition":null,"exec_reload":null,"run_user":null,"run_group":null,"working_directory":null,"environment":"LD_PRELOAD=/usr/lib/libhook.so","environment_file":null,"wanted_by":null,"required_by":null,"also":null,"on_calendar":null,"on_boot_sec":null,"on_active_sec":null,"on_startup_sec":null,"on_unit_active_sec":null,"timer_unit":null,"activates":null,"listen":null,"path_triggers":null,"restart":null,"service_type":null,"modified":"2023-11-14T22:13:20Z"}

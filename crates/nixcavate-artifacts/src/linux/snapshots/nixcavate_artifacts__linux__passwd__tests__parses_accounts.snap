@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/passwd.rs
+expression: "run(&ARTIFACT, \"etc/passwd\", &fixture(\"passwd/passwd\"), 0)"
+---
+{"host":"memory","artifact":"passwd","source_path":"etc/passwd","source_line":1,"user":"root","password_field":"x","uid":0,"gid":0,"gecos":"root","home":"/root","shell":"/bin/bash"}
+{"host":"memory","artifact":"passwd","source_path":"etc/passwd","source_line":2,"user":"daemon","password_field":"x","uid":1,"gid":1,"gecos":"daemon","home":"/usr/sbin","shell":"/usr/sbin/nologin"}
+{"host":"memory","artifact":"passwd","source_path":"etc/passwd","source_line":5,"user":"alice","password_field":"x","uid":1000,"gid":1000,"gecos":"Alice Example,,,","home":"/home/alice","shell":"/bin/zsh"}
+{"host":"memory","artifact":"passwd","source_path":"etc/passwd","source_line":6,"user":"backdoor","password_field":"","uid":0,"gid":0,"gecos":"","home":"/tmp","shell":"/bin/sh"}
+--- warning: line 7: expected 7 fields, found 2

@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/linux/audit.rs
+expression: "snap(\"real-enriched.log\")"
+---
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":0,"time":"2026-11-11T19:36:26.863Z","serial":9213,"record_type":"DAEMON_START","node":null,"pid":2313928,"ppid":null,"uid":0,"auid":4294967295,"euid":null,"ses":4294967295,"user":"root","comm":null,"exe":null,"syscall":null,"success":true,"key":null,"command":null,"cwd":null,"path":null,"remote_address":null,"remote_host":null,"terminal":null,"op":"start","fields":"op=start ver=3.0.9 format=enriched kernel=6.1.0-18-amd64 auid=4294967295 pid=2313928 uid=0 ses=4294967295 res=success\u001dAUID=\"unset\" UID=\"root\""}
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":192,"time":"2026-11-11T19:36:26.864Z","serial":9214,"record_type":"DAEMON_ABORT","node":null,"pid":2313928,"ppid":null,"uid":0,"auid":4294967295,"euid":null,"ses":4294967295,"user":"root","comm":null,"exe":null,"syscall":null,"success":false,"key":null,"command":null,"cwd":null,"path":null,"remote_address":null,"remote_host":null,"terminal":null,"op":"set-enable","fields":"op=set-enable auid=4294967295 pid=2313928 uid=0 ses=4294967295 res=failed\u001dAUID=\"unset\" UID=\"root\""}

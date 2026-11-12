@@ -1,0 +1,89 @@
+Nov 11 19:34:56 web01 sshd[4421]: Server listening on 0.0.0.0 port 22.
+Nov 11 19:34:56 web01 sshd[4421]: Server listening on :: port 22.
+Nov 11 19:34:57 web01 su[4424]: (to alice) root on none
+Nov 11 19:34:57 web01 su[4424]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:34:57 web01 su[4424]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:34:57 web01 su[4424]: pam_unix(su:session): session closed for user alice
+Nov 11 19:34:57 web01 su[4428]: (to alice) root on none
+Nov 11 19:34:57 web01 su[4428]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:34:57 web01 su[4428]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:34:57 web01 sshd[4430]: Accepted publickey for alice from 203.0.113.9 port 43542 ssh2: ED25519 SHA256:rG/LbEUvfpLjRTenYTHet720ynW/b1jm26OAja/3wj4
+Nov 11 19:34:57 web01 sshd[4430]: pam_unix(sshd:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:34:57 web01 sshd[4430]: pam_systemd(sshd:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:34:57 web01 sshd[4436]: Received disconnect from 203.0.113.9 port 43542:11: disconnected by user
+Nov 11 19:34:57 web01 sshd[4436]: Disconnected from user alice 203.0.113.9 port 43542
+Nov 11 19:34:57 web01 sshd[4430]: pam_unix(sshd:session): session closed for user alice
+Nov 11 19:34:57 web01 su[4428]: pam_unix(su:session): session closed for user alice
+Nov 11 19:34:57 web01 sshd[4440]: Accepted password for alice from 203.0.113.9 port 43558 ssh2
+Nov 11 19:34:57 web01 sshd[4440]: pam_unix(sshd:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:34:57 web01 sshd[4440]: pam_systemd(sshd:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:34:57 web01 sshd[4446]: Received disconnect from 203.0.113.9 port 43558:11: disconnected by user
+Nov 11 19:34:57 web01 sshd[4446]: Disconnected from user alice 203.0.113.9 port 43558
+Nov 11 19:34:57 web01 sshd[4440]: pam_unix(sshd:session): session closed for user alice
+Nov 11 19:34:57 web01 sshd[4450]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.9  user=alice
+Nov 11 19:34:59 web01 sshd[4450]: Failed password for alice from 203.0.113.9 port 43562 ssh2
+Nov 11 19:35:00 web01 sshd[4450]: Connection closed by authenticating user alice 203.0.113.9 port 43562 [preauth]
+Nov 11 19:35:00 web01 sshd[4454]: Invalid user mallory from 203.0.113.9 port 43574
+Nov 11 19:35:00 web01 sshd[4454]: pam_unix(sshd:auth): check pass; user unknown
+Nov 11 19:35:00 web01 sshd[4454]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.9 
+Nov 11 19:35:02 web01 sshd[4454]: Failed password for invalid user mallory from 203.0.113.9 port 43574 ssh2
+Nov 11 19:35:04 web01 sshd[4454]: Connection closed by invalid user mallory 203.0.113.9 port 43574 [preauth]
+Nov 11 19:35:04 web01 sshd[4458]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.9  user=root
+Nov 11 19:35:06 web01 sshd[4458]: Failed password for root from 203.0.113.9 port 48744 ssh2
+Nov 11 19:35:06 web01 sshd[4458]: Connection closed by authenticating user root 203.0.113.9 port 48744 [preauth]
+Nov 11 19:35:07 web01 sshd[4462]: error: kex_exchange_identification: read: Connection reset by peer
+Nov 11 19:35:07 web01 sshd[4462]: Connection reset by 203.0.113.9 port 48746
+Nov 11 19:35:07 web01 su[4463]: (to alice) root on none
+Nov 11 19:35:07 web01 su[4463]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:35:07 web01 su[4463]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:35:07 web01 sudo:    alice : PWD=/ ; USER=root ; COMMAND=/usr/bin/ls /root
+Nov 11 19:35:07 web01 sudo: pam_unix(sudo:session): session opened for user root(uid=0) by (uid=1000)
+Nov 11 19:35:07 web01 sudo: pam_unix(sudo:session): session closed for user root
+Nov 11 19:35:07 web01 su[4463]: pam_unix(su:session): session closed for user alice
+Nov 11 19:35:07 web01 su[4468]: (to alice) root on none
+Nov 11 19:35:07 web01 su[4468]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:35:07 web01 su[4468]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:35:07 web01 sudo: pam_unix(sudo:auth): authentication failure; logname= uid=1000 euid=0 tty= ruser=alice rhost=  user=alice
+Nov 11 19:35:09 web01 sudo: pam_unix(sudo:auth): conversation failed
+Nov 11 19:35:09 web01 sudo: pam_unix(sudo:auth): auth could not identify password for [alice]
+Nov 11 19:35:09 web01 sudo:    alice : 1 incorrect password attempt ; PWD=/ ; USER=root ; COMMAND=/usr/bin/ls /root
+Nov 11 19:35:09 web01 su[4468]: pam_unix(su:session): session closed for user alice
+Nov 11 19:35:09 web01 su[4475]: (to carol) root on none
+Nov 11 19:35:09 web01 su[4475]: pam_unix(su:session): session opened for user carol(uid=1001) by (uid=0)
+Nov 11 19:35:09 web01 su[4475]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:35:09 web01 sudo: pam_unix(sudo:auth): user [carol] has blank password; authenticated without it
+Nov 11 19:35:09 web01 sudo:    carol : user NOT in sudoers ; PWD=/ ; USER=root ; COMMAND=/usr/bin/ls
+Nov 11 19:35:09 web01 su[4475]: pam_unix(su:session): session closed for user carol
+Nov 11 19:35:09 web01 su[4482]: (to alice) root on none
+Nov 11 19:35:09 web01 su[4482]: pam_unix(su-l:session): session opened for user alice(uid=1000) by (uid=0)
+Nov 11 19:35:09 web01 su[4482]: pam_systemd(su-l:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:35:09 web01 su: pam_unix(su:auth): auth could not identify password for [root]
+Nov 11 19:35:09 web01 su[4483]: FAILED SU (to root) alice on none
+Nov 11 19:35:10 web01 su[4482]: pam_unix(su-l:session): session closed for user alice
+Nov 11 19:35:10 web01 su[4491]: (to root) root on none
+Nov 11 19:35:10 web01 su[4491]: pam_unix(su:session): session opened for user root(uid=0) by (uid=0)
+Nov 11 19:35:10 web01 su[4491]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+Nov 11 19:35:10 web01 su[4491]: pam_unix(su:session): session closed for user root
+Nov 11 19:35:31 web01 useradd[3563]: new group: name=alice, GID=1000
+Nov 11 19:35:31 web01 useradd[3563]: new user: name=alice, UID=1000, GID=1000, home=/home/alice, shell=/bin/bash, from=none
+Nov 11 19:35:31 web01 chpasswd[3571]: pam_unix(chpasswd:chauthtok): password changed for alice
+Nov 11 19:35:31 web01 passwd[3574]: password for 'alice' changed by 'root'
+Nov 11 19:35:31 web01 chpasswd[3582]: pam_unix(chpasswd:chauthtok): password changed for alice
+Nov 11 19:35:31 web01 usermod[3585]: add 'alice' to group 'sudo'
+Nov 11 19:35:31 web01 usermod[3585]: add 'alice' to shadow group 'sudo'
+Nov 11 19:35:31 web01 groupadd[3592]: group added to /etc/group: name=devs, GID=1001
+Nov 11 19:35:31 web01 groupadd[3592]: group added to /etc/gshadow: name=devs
+Nov 11 19:35:31 web01 groupadd[3592]: new group: name=devs, GID=1001
+Nov 11 19:35:31 web01 userdel[3598]: delete user 'alice'
+Nov 11 19:35:31 web01 userdel[3598]: delete 'alice' from group 'sudo'
+Nov 11 19:35:31 web01 userdel[3598]: removed group 'alice' owned by 'alice'
+Nov 11 19:35:31 web01 userdel[3598]: removed shadow group 'alice' owned by 'alice'
+Nov 11 19:35:31 web01 userdel[3598]: delete 'alice' from shadow group 'sudo'
+Nov 11 19:35:31 web01 useradd[3605]: new group: name=dave, GID=1000
+Nov 11 19:35:31 web01 useradd[3605]: new user: name=dave, UID=1000, GID=1000, home=/home/dave, shell=/bin/sh, from=none
+Nov 11 19:35:31 web01 su[3612]: (to dave) root on none
+Nov 11 19:35:31 web01 su[3612]: pam_unix(su:session): session opened for user dave(uid=1000) by (uid=0)
+Nov 11 19:35:31 web01 sudo:     dave : TTY=pts/0 ; PWD=/ ; USER=root ; COMMAND=/usr/bin/ls /root
+Nov 11 19:35:31 web01 sudo: pam_unix(sudo:session): session opened for user root(uid=0) by (uid=1000)
+Nov 11 19:35:31 web01 sudo: pam_unix(sudo:session): session closed for user root
+Nov 11 19:35:31 web01 su[3612]: pam_unix(su:session): session closed for user dave

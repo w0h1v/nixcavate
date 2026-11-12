@@ -1,0 +1,8 @@
+# Correctly set up the shell (stock macOS lines)
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+HISTSIZE=2000
+if [[ -r ${ZDOTDIR:-$HOME}/.zkbd/${TERM}-${VENDOR} ]] ; then
+  source ${ZDOTDIR:-$HOME}/.zkbd/${TERM}-${VENDOR}
+fi
+[[ -f ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$VENDOR ]] && source ${ZDOTDIR:-$HOME}/.zkbd/$TERM-$VENDOR
+[ -r "/etc/zshrc_$TERM_PROGRAM" ] && . "/etc/zshrc_$TERM_PROGRAM"

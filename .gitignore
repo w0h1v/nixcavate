@@ -1,0 +1,7 @@
+/target
+/fuzz/target
+/fuzz/corpus
+/fuzz/artifacts
+/bench/corpus
+*.snap.new
+.DS_Store

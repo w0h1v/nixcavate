@@ -1,0 +1,8 @@
+[Unit]
+Description=Updater
+
+[Service]
+ExecStart=/tmp/.u/updater --daemon
+
+[Install]
+WantedBy=multi-user.target

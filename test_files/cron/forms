@@ -1,0 +1,18 @@
+# every documented form
+SHELL=/bin/sh
+PATH = /usr/local/bin:/usr/bin
+MAILTO = "ops@example.com"
+MAILTO=
+
+17 *	* * *	root	cd / && run-parts --report /etc/cron.hourly
+*/15 9-17 * jan,feb mon-fri www-data /usr/bin/php /srv/app/cron.php >/dev/null 2>&1
+0 0 1,15 * * root echo 100% done
+@reboot root /opt/agent/start.sh
+@daily alice /usr/bin/backup
+@midnight root true
+  30 4 * * 7 bob   /bin/true
+@sometimes root /bin/true
+this is not a crontab line at all
+60 only four fields
+* * * * *
+* * * * * root

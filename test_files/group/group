@@ -1,0 +1,10 @@
+# synthetic
+root:x:0:
+daemon:x:1:
+sudo:x:27:alice,bob
+docker:x:998:alice
+empty-members:x:1500:
+spacey:x:1501:alice,,bob,
+oldstyle:secretpw:1502:carol
+nogid:x:abc:
+broken:x

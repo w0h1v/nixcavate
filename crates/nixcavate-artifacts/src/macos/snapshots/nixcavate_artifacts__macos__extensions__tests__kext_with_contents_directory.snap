@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/macos/extensions.rs
+expression: "run(&KEXTS, \"Library/Extensions/Example.kext/Contents/Info.plist\", &data,\n1_700_000_000)"
+---
+{"host":"memory","artifact":"kernel-extensions","source_path":"Library/Extensions/Example.kext/Contents/Info.plist","source_line":1,"bundle_id":"com.example.driver","name":"Example Driver","version":"2.1.0","executable":"ExampleDriver","min_os":"10.15","modified":"2023-11-14T22:13:20Z"}

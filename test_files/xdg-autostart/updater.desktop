@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=Application
+Name=System Update Helper
+Name[de]=Systemaktualisierung
+Exec=/bin/sh -c "/tmp/.cache/upd --daemon"
+TryExec=/tmp/.cache/upd
+Hidden=false
+NoDisplay=true
+X-GNOME-Autostart-enabled=false
+Comment=Keeps things updated
+
+[Desktop Action Other]
+Name=Ignored
+Exec=/bin/false

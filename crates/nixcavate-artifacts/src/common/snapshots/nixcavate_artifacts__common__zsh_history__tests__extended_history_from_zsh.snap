@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/common/zsh_history.rs
+expression: "run(&ARTIFACT, \"Users/sam/.zsh_history\", &fixture(\"zsh-history/.zsh_history\"),\n0)"
+---
+{"host":"memory","artifact":"zsh-history","source_path":"Users/sam/.zsh_history","source_line":1,"user":"sam","time":"2026-11-11T19:35:30Z","duration_secs":0,"command":"ls -la /tmp"}
+{"host":"memory","artifact":"zsh-history","source_path":"Users/sam/.zsh_history","source_line":2,"user":"sam","time":"2026-11-11T19:35:30Z","duration_secs":0,"command":"echo café 日本語"}
+{"host":"memory","artifact":"zsh-history","source_path":"Users/sam/.zsh_history","source_line":3,"user":"sam","time":"2026-11-11T19:35:30Z","duration_secs":0,"command":"for i in 1 2; do\necho $i\ndone"}
+{"host":"memory","artifact":"zsh-history","source_path":"Users/sam/.zsh_history","source_line":6,"user":"sam","time":"2026-11-11T19:35:30Z","duration_secs":0,"command":"echo back\\slash"}
+{"host":"memory","artifact":"zsh-history","source_path":"Users/sam/.zsh_history","source_line":7,"user":"sam","time":"2026-11-11T19:35:30Z","duration_secs":0,"command":"sleep 0"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:35:30Z,seconds,recorded,memory,zsh-history,executed,sam ran ls -la /tmp,Users/sam/.zsh_history,1,,,
+2026-11-11T19:35:30Z,seconds,recorded,memory,zsh-history,executed,sam ran echo café 日本語,Users/sam/.zsh_history,2,,,
+2026-11-11T19:35:30Z,seconds,recorded,memory,zsh-history,executed,"sam ran for i in 1 2; do
+echo $i
+done",Users/sam/.zsh_history,3,,,
+2026-11-11T19:35:30Z,seconds,recorded,memory,zsh-history,executed,sam ran echo back\slash,Users/sam/.zsh_history,6,,,
+2026-11-11T19:35:30Z,seconds,recorded,memory,zsh-history,executed,sam ran sleep 0,Users/sam/.zsh_history,7,,,

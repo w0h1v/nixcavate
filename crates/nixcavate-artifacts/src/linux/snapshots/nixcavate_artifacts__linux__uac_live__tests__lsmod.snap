@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&MODULES, \"../live_response/system/lsmod.txt\",\n\"live-modules/lsmod.txt\")"
+---
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":2,"module":"nf_tables","size_bytes":278528,"used_count":1048,"used_by":["nft_chain_nat","nft_counter"]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":3,"module":"nfnetlink","size_bytes":20480,"used_count":2,"used_by":["nf_tables"]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":4,"module":"overlay","size_bytes":151552,"used_count":0,"used_by":[]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":5,"module":"xfs","size_bytes":1634304,"used_count":2,"used_by":[]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":6,"module":"vsock_loopback","size_bytes":16384,"used_count":0,"used_by":[]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":7,"module":"ip_tables","size_bytes":32768,"used_count":0,"used_by":[]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":8,"module":"ext4","size_bytes":983040,"used_count":1,"used_by":[]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":9,"module":"ehci_hcd","size_bytes":24576,"used_count":1,"used_by":["[permanent]"]}
+{"host":"memory","artifact":"live-modules","source_path":"../live_response/system/lsmod.txt","source_line":11,"module":"loop","size_bytes":40960,"used_count":null,"used_by":[]}
+--- warning: line 10: too few columns

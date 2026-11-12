@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/anacron.rs
+expression: "run(&ARTIFACT, \"var/spool/anacron/cron.daily\",\n&fixture(\"anacron/stamp-cron.daily\"), 0)"
+---
+{"host":"memory","artifact":"anacron","source_path":"var/spool/anacron/cron.daily","source_line":null,"kind":"last_run","period":null,"delay_minutes":null,"job_id":"cron.daily","command":null,"name":null,"value":null,"last_run":"2026-11-11T00:00:00Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T00:00:00Z,day,assumed_zone,memory,anacron,anacron_last_run,anacron job cron.daily last ran,var/spool/anacron/cron.daily,,,,

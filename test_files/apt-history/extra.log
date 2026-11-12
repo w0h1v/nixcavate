@@ -1,0 +1,15 @@
+Start-Date: 2024-03-10  01:02:03
+Commandline: apt upgrade
+Requested-By: alice (1000)
+Upgrade: openssl:amd64 (3.0.11-1~deb12u1, 3.0.11-1~deb12u2), curl:amd64 (7.88.1-10+deb12u4, 7.88.1-10+deb12u5)
+Downgrade: libfoo:amd64 (2.0, 1.9)
+Reinstall: bar:amd64 (1.0)
+Error: Sub-process /usr/bin/dpkg returned an error code (1)
+End-Date: 2024-03-10  01:02:30
+
+Start-Date: 2024-03-11  09:00:00
+Commandline: apt install -y baz
+Install: baz:amd64 (1.0)
+
+this is not a key value line
+Commandline: orphan block without date

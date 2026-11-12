@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>extensions</key>
+	<array>
+		<dict>
+			<key>identifier</key>
+			<string>com.example.endpoint.extension</string>
+			<key>teamID</key>
+			<string>ABCDE12345</string>
+			<key>bundleVersion</key>
+			<dict>
+				<key>CFBundleShortVersionString</key>
+				<string>3.4</string>
+				<key>CFBundleVersion</key>
+				<string>3400</string>
+			</dict>
+			<key>state</key>
+			<string>activated_enabled</string>
+			<key>categories</key>
+			<array>
+				<string>com.apple.system_extension.endpoint_security</string>
+				<string>com.apple.system_extension.network_extension</string>
+			</array>
+			<key>originPath</key>
+			<string>/Applications/Example.app/Contents/Library/SystemExtensions/endpoint.systemextension</string>
+			<key>stagedBundlePath</key>
+			<string>/Library/SystemExtensions/0F0F0F0F/com.example.endpoint.extension.systemextension</string>
+		</dict>
+		<dict>
+			<key>identifier</key>
+			<string>com.example.old.extension</string>
+			<key>version</key>
+			<string>1.0</string>
+			<key>state</key>
+			<string>terminated_waiting_to_uninstall_on_reboot</string>
+			<key>categories</key>
+			<string>com.apple.system_extension.driver_extension</string>
+		</dict>
+		<string>junk</string>
+	</array>
+</dict>
+</plist>

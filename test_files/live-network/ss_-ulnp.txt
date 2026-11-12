@@ -1,0 +1,2 @@
+State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess
+UNCONN 0      0                  *:5353            *:*    users:(("python3",pid=4362,fd=3))

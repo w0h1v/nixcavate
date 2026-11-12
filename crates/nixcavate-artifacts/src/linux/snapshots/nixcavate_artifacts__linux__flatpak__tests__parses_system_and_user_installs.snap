@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/linux/flatpak.rs
+expression: "format!(\"{system}{user}\")"
+---
+{"host":"memory","artifact":"flatpak","source_path":"var/lib/flatpak/app/org.example.Editor/x86_64/stable/0123abcd/metadata","source_line":null,"user":"","app":"org.example.Editor","runtime":"org.freedesktop.Platform/x86_64/23.08","sdk":"org.freedesktop.Sdk/x86_64/23.08","command":"editor","shared":"network;ipc;","sockets":"x11;wayland;pulseaudio;","devices":"dri;","filesystems":"xdg-documents;~/projects:ro;"}
+{"host":"memory","artifact":"flatpak","source_path":"home/alice/.local/share/flatpak/app/org.example.Editor/x86_64/stable/0123abcd/metadata","source_line":null,"user":"alice","app":"org.example.Editor","runtime":"org.freedesktop.Platform/x86_64/23.08","sdk":"org.freedesktop.Sdk/x86_64/23.08","command":"editor","shared":"network;ipc;","sockets":"x11;wayland;pulseaudio;","devices":"dri;","filesystems":"xdg-documents;~/projects:ro;"}

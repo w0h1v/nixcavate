@@ -1,0 +1,9 @@
+[Unit]
+Description=Preload helper
+
+[Service]
+Environment=LD_PRELOAD=/usr/lib/libhook.so
+ExecStart=/usr/bin/true
+
+[Install]
+WantedBy=multi-user.target

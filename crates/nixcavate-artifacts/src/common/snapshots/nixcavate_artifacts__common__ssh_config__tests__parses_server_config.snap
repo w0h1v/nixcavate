@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/common/ssh_config.rs
+expression: "run(&ARTIFACT, \"etc/ssh/sshd_config\", &fixture(\"ssh-config/sshd_config\"), 0)"
+---
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":2,"user":"","config_kind":"server","block":"","keyword":"Port","value":"22"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":3,"user":"","config_kind":"server","block":"","keyword":"PermitRootLogin","value":"no"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":4,"user":"","config_kind":"server","block":"","keyword":"passwordauthentication","value":"no"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":5,"user":"","config_kind":"server","block":"","keyword":"AllowUsers","value":"alice bob"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":6,"user":"","config_kind":"server","block":"","keyword":"Match","value":"Address 192.0.2.0/24,198.51.100.0/24"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":7,"user":"","config_kind":"server","block":"Match Address 192.0.2.0/24,198.51.100.0/24","keyword":"PasswordAuthentication","value":"yes"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":8,"user":"","config_kind":"server","block":"Match Address 192.0.2.0/24,198.51.100.0/24","keyword":"ForceCommand","value":"/usr/bin/internal-sftp -l INFO"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":9,"user":"","config_kind":"server","block":"","keyword":"Match","value":"User sftp"}
+{"host":"memory","artifact":"ssh-config","source_path":"etc/ssh/sshd_config","source_line":10,"user":"","config_kind":"server","block":"Match User sftp","keyword":"ChrootDirectory","value":"/srv/sftp"}

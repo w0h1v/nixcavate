@@ -1,0 +1,13 @@
+[Sun Jul 07 12:00:00.250000 2024] [ssl:warn] [pid 77:tid 140] [client 2001:db8::1:51234] AH02032: Hostname provided via SNI not found
+[Sun Jul 07 12:00:01 2024] [error] [client 203.0.113.9] File does not exist: /var/www/html/x
+[Sun Jul 07 12:00:02.5 2024] [core:error] [pid 78] AH00126: Invalid URI in request
+[Mon Jul 08 12:00:03.123456 2024] [proxy_fcgi:error] [pid 79:tid 141] [client 203.0.113.9:51235] AH01071: Got error 'PHP message: boom', referer: https://example.com/
+2024/07/07 12:00:04 [warn] 12#12: *9 upstream response is buffered, client: 203.0.113.9, server: example.com, request: "GET / HTTP/1.1", host: "example.com"
+2024/07/07 12:00:05 [emerg] 12#0: bind() to 0.0.0.0:80 failed (98: Address already in use)
+2024/07/07 12:00:06 [crit] odd line without pid
+2024/13/45 99:00:00 [error] 1#1: bad date
+#0 /var/www/html/index.php(3): continuation of a PHP trace
+
+[Sun Jul 07 12:00:07.000001 2024] [core:notice] [pid 1:tid 1] truncated mid-
+[Sun Jul 07 12:00
+ÿþ binary [

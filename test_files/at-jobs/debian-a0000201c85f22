@@ -1,0 +1,19 @@
+#!/bin/sh
+# atrun uid=1000 gid=1000
+# mail alice 0
+umask 22
+MAIL=/var/mail/alice; export MAIL
+USER=alice; export USER
+HOSTNAME=2cb5e56f5422; export HOSTNAME
+SHLVL=1; export SHLVL
+HOME=/home/alice; export HOME
+LOGNAME=alice; export LOGNAME
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; export PATH
+DEBIAN_FRONTEND=noninteractive; export DEBIAN_FRONTEND
+PWD=/; export PWD
+cd / || {
+	 echo 'Execution directory inaccessible' >&2
+	 exit 1
+}
+id
+

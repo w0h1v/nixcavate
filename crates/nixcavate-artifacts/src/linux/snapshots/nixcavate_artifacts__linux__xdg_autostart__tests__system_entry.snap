@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/xdg_autostart.rs
+expression: "run(&ARTIFACT, \"etc/xdg/autostart/nm-applet.desktop\",\n&fixture(\"xdg-autostart/nm-applet.desktop\"), 0)"
+---
+{"host":"memory","artifact":"xdg-autostart","source_path":"etc/xdg/autostart/nm-applet.desktop","source_line":2,"user":"","name":"Network","exec":"nm-applet","try_exec":"","entry_type":"Application","hidden":false,"no_display":false,"only_show_in":"GNOME;Unity;","enabled":true,"comment":""}

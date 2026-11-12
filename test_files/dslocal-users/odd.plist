@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IsHidden</key>
+	<array>
+		<true/>
+	</array>
+	<key>ShadowHashData</key>
+	<array>
+		<string>text</string>
+	</array>
+	<key>accountPolicyData</key>
+	<array>
+		<data>
+		bm90IGEgcGxpc3Q=
+		</data>
+	</array>
+	<key>authentication_authority</key>
+	<integer>7</integer>
+	<key>home</key>
+	<array>
+		<data>
+		Ynl0ZXM=
+		</data>
+	</array>
+	<key>name</key>
+	<string>bob</string>
+	<key>uid</key>
+	<dict>
+		<key>x</key>
+		<integer>1</integer>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/common/bash_history.rs
+expression: "run(&ARTIFACT, \"root/.bash_history\", data, 0)"
+---
+{"host":"memory","artifact":"bash-history","source_path":"root/.bash_history","source_line":2,"user":"root","time":"2023-11-14T22:13:20Z","command":"ls"}
+{"host":"memory","artifact":"bash-history","source_path":"root/.bash_history","source_line":3,"user":"root","time":null,"command":"#12345678"}
+{"host":"memory","artifact":"bash-history","source_path":"root/.bash_history","source_line":5,"user":"root","time":"2001-09-09T01:46:39Z","command":"#170000000012"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2001-09-09T01:46:39Z,seconds,recorded,memory,bash-history,executed,root ran #170000000012,root/.bash_history,5,,,
+2023-11-14T22:13:20Z,seconds,recorded,memory,bash-history,executed,root ran ls,root/.bash_history,2,,,

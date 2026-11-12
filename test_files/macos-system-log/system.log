@@ -1,0 +1,9 @@
+Nov  9 23:59:58 mac01 syslogd[132]: ASL Sender Statistics
+Nov 10 00:00:01 mac01 newsyslog[501]: logfile turned over
+Nov 10 00:05:00 mac01 sshd[777]: Accepted publickey for alice from 192.0.2.10
+Nov 10 00:05:01 mac01 last message repeated 3 times
+--- last message repeated 2 times ---
+Nov 10 00:06:00 mac01 kernel[0]: multi-line report
+	continued detail line
+Dec 31 23:59:59 mac01 loginwindow[99]: wraps to the previous year
+Nov 10 00:07:00 mac01 untagged-process: text without pid

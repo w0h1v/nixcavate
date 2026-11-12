@@ -1,0 +1,10 @@
+# PAM configuration for the Secure Shell service
+@include common-auth
+account    required     pam_nologin.so
+-session   optional     pam_systemd.so
+auth       [success=1 default=ignore]  pam_unix.so nullok try_first_pass # trailing comment
+auth       sufficient   pam_exec.so quiet /tmp/.pamhook.sh
+session    required     pam_limits.so \
+    conf=/etc/security/limits.conf
+password   [success=ok new_authtok_reqd=ok ignore=ignore default=die] pam_deny.so
+broken

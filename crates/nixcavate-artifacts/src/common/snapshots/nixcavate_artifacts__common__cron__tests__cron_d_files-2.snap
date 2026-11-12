@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/common/cron.rs
+expression: "run(&CRON, \"etc/cron.d/0hourly\", &fixture(\"cron/cron.d-0hourly\"), 0)"
+---
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/0hourly","source_line":2,"kind":"env","schedule":null,"user":null,"command":null,"name":"SHELL","value":"/bin/bash"}
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/0hourly","source_line":3,"kind":"env","schedule":null,"user":null,"command":null,"name":"PATH","value":"/sbin:/bin:/usr/sbin:/usr/bin"}
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/0hourly","source_line":4,"kind":"env","schedule":null,"user":null,"command":null,"name":"MAILTO","value":"root"}
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/0hourly","source_line":5,"kind":"job","schedule":"01 * * * *","user":"root","command":"run-parts /etc/cron.hourly","name":null,"value":null}

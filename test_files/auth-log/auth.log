@@ -1,0 +1,89 @@
+2026-11-11T19:34:56.254224+00:00 web01 sshd[4421]: Server listening on 0.0.0.0 port 22.
+2026-11-11T19:34:56.254242+00:00 web01 sshd[4421]: Server listening on :: port 22.
+2026-11-11T19:34:57.258484+00:00 web01 su[4424]: (to alice) root on none
+2026-11-11T19:34:57.258721+00:00 web01 su[4424]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:34:57.258809+00:00 web01 su[4424]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:34:57.262737+00:00 web01 su[4424]: pam_unix(su:session): session closed for user alice
+2026-11-11T19:34:57.263823+00:00 web01 su[4428]: (to alice) root on none
+2026-11-11T19:34:57.264011+00:00 web01 su[4428]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:34:57.264078+00:00 web01 su[4428]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:34:57.384154+00:00 web01 sshd[4430]: Accepted publickey for alice from 203.0.113.9 port 43542 ssh2: ED25519 SHA256:rG/LbEUvfpLjRTenYTHet720ynW/b1jm26OAja/3wj4
+2026-11-11T19:34:57.384977+00:00 web01 sshd[4430]: pam_unix(sshd:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:34:57.385074+00:00 web01 sshd[4430]: pam_systemd(sshd:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:34:57.433209+00:00 web01 sshd[4436]: Received disconnect from 203.0.113.9 port 43542:11: disconnected by user
+2026-11-11T19:34:57.433284+00:00 web01 sshd[4436]: Disconnected from user alice 203.0.113.9 port 43542
+2026-11-11T19:34:57.433449+00:00 web01 sshd[4430]: pam_unix(sshd:session): session closed for user alice
+2026-11-11T19:34:57.434210+00:00 web01 su[4428]: pam_unix(su:session): session closed for user alice
+2026-11-11T19:34:57.582814+00:00 web01 sshd[4440]: Accepted password for alice from 203.0.113.9 port 43558 ssh2
+2026-11-11T19:34:57.583749+00:00 web01 sshd[4440]: pam_unix(sshd:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:34:57.583969+00:00 web01 sshd[4440]: pam_systemd(sshd:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:34:57.632567+00:00 web01 sshd[4446]: Received disconnect from 203.0.113.9 port 43558:11: disconnected by user
+2026-11-11T19:34:57.632632+00:00 web01 sshd[4446]: Disconnected from user alice 203.0.113.9 port 43558
+2026-11-11T19:34:57.632778+00:00 web01 sshd[4440]: pam_unix(sshd:session): session closed for user alice
+2026-11-11T19:34:57.762000+00:00 web01 sshd[4450]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.9  user=alice
+2026-11-11T19:34:59.372222+00:00 web01 sshd[4450]: Failed password for alice from 203.0.113.9 port 43562 ssh2
+2026-11-11T19:35:00.310084+00:00 web01 sshd[4450]: Connection closed by authenticating user alice 203.0.113.9 port 43562 [preauth]
+2026-11-11T19:35:00.410738+00:00 web01 sshd[4454]: Invalid user mallory from 203.0.113.9 port 43574
+2026-11-11T19:35:00.418912+00:00 web01 sshd[4454]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-11T19:35:00.418931+00:00 web01 sshd[4454]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.9 
+2026-11-11T19:35:02.439860+00:00 web01 sshd[4454]: Failed password for invalid user mallory from 203.0.113.9 port 43574 ssh2
+2026-11-11T19:35:04.324123+00:00 web01 sshd[4454]: Connection closed by invalid user mallory 203.0.113.9 port 43574 [preauth]
+2026-11-11T19:35:04.451580+00:00 web01 sshd[4458]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=203.0.113.9  user=root
+2026-11-11T19:35:06.019338+00:00 web01 sshd[4458]: Failed password for root from 203.0.113.9 port 48744 ssh2
+2026-11-11T19:35:06.312343+00:00 web01 sshd[4458]: Connection closed by authenticating user root 203.0.113.9 port 48744 [preauth]
+2026-11-11T19:35:07.313685+00:00 web01 sshd[4462]: error: kex_exchange_identification: read: Connection reset by peer
+2026-11-11T19:35:07.313743+00:00 web01 sshd[4462]: Connection reset by 203.0.113.9 port 48746
+2026-11-11T19:35:07.315050+00:00 web01 su[4463]: (to alice) root on none
+2026-11-11T19:35:07.315288+00:00 web01 su[4463]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:35:07.315414+00:00 web01 su[4463]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:35:07.339441+00:00 web01 sudo:    alice : PWD=/ ; USER=root ; COMMAND=/usr/bin/ls /root
+2026-11-11T19:35:07.339581+00:00 web01 sudo: pam_unix(sudo:session): session opened for user root(uid=0) by (uid=1000)
+2026-11-11T19:35:07.341331+00:00 web01 sudo: pam_unix(sudo:session): session closed for user root
+2026-11-11T19:35:07.341687+00:00 web01 su[4463]: pam_unix(su:session): session closed for user alice
+2026-11-11T19:35:07.342837+00:00 web01 su[4468]: (to alice) root on none
+2026-11-11T19:35:07.343125+00:00 web01 su[4468]: pam_unix(su:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:35:07.343242+00:00 web01 su[4468]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:35:07.364748+00:00 web01 sudo: pam_unix(sudo:auth): authentication failure; logname= uid=1000 euid=0 tty= ruser=alice rhost=  user=alice
+2026-11-11T19:35:09.680303+00:00 web01 sudo: pam_unix(sudo:auth): conversation failed
+2026-11-11T19:35:09.680417+00:00 web01 sudo: pam_unix(sudo:auth): auth could not identify password for [alice]
+2026-11-11T19:35:09.680746+00:00 web01 sudo:    alice : 1 incorrect password attempt ; PWD=/ ; USER=root ; COMMAND=/usr/bin/ls /root
+2026-11-11T19:35:09.681255+00:00 web01 su[4468]: pam_unix(su:session): session closed for user alice
+2026-11-11T19:35:09.682452+00:00 web01 su[4475]: (to carol) root on none
+2026-11-11T19:35:09.682678+00:00 web01 su[4475]: pam_unix(su:session): session opened for user carol(uid=1001) by (uid=0)
+2026-11-11T19:35:09.682758+00:00 web01 su[4475]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:35:09.684420+00:00 web01 sudo: pam_unix(sudo:auth): user [carol] has blank password; authenticated without it
+2026-11-11T19:35:09.684722+00:00 web01 sudo:    carol : user NOT in sudoers ; PWD=/ ; USER=root ; COMMAND=/usr/bin/ls
+2026-11-11T19:35:09.685162+00:00 web01 su[4475]: pam_unix(su:session): session closed for user carol
+2026-11-11T19:35:09.686391+00:00 web01 su[4482]: (to alice) root on none
+2026-11-11T19:35:09.686649+00:00 web01 su[4482]: pam_unix(su-l:session): session opened for user alice(uid=1000) by (uid=0)
+2026-11-11T19:35:09.686727+00:00 web01 su[4482]: pam_systemd(su-l:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:35:09.688996+00:00 web01 su: pam_unix(su:auth): auth could not identify password for [root]
+2026-11-11T19:35:09.689062+00:00 web01 su[4483]: FAILED SU (to root) alice on none
+2026-11-11T19:35:10.689558+00:00 web01 su[4482]: pam_unix(su-l:session): session closed for user alice
+2026-11-11T19:35:10.691006+00:00 web01 su[4491]: (to root) root on none
+2026-11-11T19:35:10.691193+00:00 web01 su[4491]: pam_unix(su:session): session opened for user root(uid=0) by (uid=0)
+2026-11-11T19:35:10.691282+00:00 web01 su[4491]: pam_systemd(su:session): Failed to connect to system bus: No such file or directory
+2026-11-11T19:35:10.692073+00:00 web01 su[4491]: pam_unix(su:session): session closed for user root
+2026-11-11T19:35:31.796028+00:00 web01 useradd[3563]: new group: name=alice, GID=1000
+2026-11-11T19:35:31.796076+00:00 web01 useradd[3563]: new user: name=alice, UID=1000, GID=1000, home=/home/alice, shell=/bin/bash, from=none
+2026-11-11T19:35:31.823623+00:00 web01 chpasswd[3571]: pam_unix(chpasswd:chauthtok): password changed for alice
+2026-11-11T19:35:31.827973+00:00 web01 passwd[3574]: password for 'alice' changed by 'root'
+2026-11-11T19:35:31.839552+00:00 web01 chpasswd[3582]: pam_unix(chpasswd:chauthtok): password changed for alice
+2026-11-11T19:35:31.843694+00:00 web01 usermod[3585]: add 'alice' to group 'sudo'
+2026-11-11T19:35:31.843720+00:00 web01 usermod[3585]: add 'alice' to shadow group 'sudo'
+2026-11-11T19:35:31.851804+00:00 web01 groupadd[3592]: group added to /etc/group: name=devs, GID=1001
+2026-11-11T19:35:31.853281+00:00 web01 groupadd[3592]: group added to /etc/gshadow: name=devs
+2026-11-11T19:35:31.853746+00:00 web01 groupadd[3592]: new group: name=devs, GID=1001
+2026-11-11T19:35:31.859121+00:00 web01 userdel[3598]: delete user 'alice'
+2026-11-11T19:35:31.859138+00:00 web01 userdel[3598]: delete 'alice' from group 'sudo'
+2026-11-11T19:35:31.859167+00:00 web01 userdel[3598]: removed group 'alice' owned by 'alice'
+2026-11-11T19:35:31.859179+00:00 web01 userdel[3598]: removed shadow group 'alice' owned by 'alice'
+2026-11-11T19:35:31.859187+00:00 web01 userdel[3598]: delete 'alice' from shadow group 'sudo'
+2026-11-11T19:35:31.878920+00:00 web01 useradd[3605]: new group: name=dave, GID=1000
+2026-11-11T19:35:31.879019+00:00 web01 useradd[3605]: new user: name=dave, UID=1000, GID=1000, home=/home/dave, shell=/bin/sh, from=none
+2026-11-11T19:35:31.893742+00:00 web01 su[3612]: (to dave) root on none
+2026-11-11T19:35:31.893886+00:00 web01 su[3612]: pam_unix(su:session): session opened for user dave(uid=1000) by (uid=0)
+2026-11-11T19:35:31.896277+00:00 web01 sudo:     dave : TTY=pts/0 ; PWD=/ ; USER=root ; COMMAND=/usr/bin/ls /root
+2026-11-11T19:35:31.896432+00:00 web01 sudo: pam_unix(sudo:session): session opened for user root(uid=0) by (uid=1000)
+2026-11-11T19:35:31.897050+00:00 web01 sudo: pam_unix(sudo:session): session closed for user root
+2026-11-11T19:35:31.918733+00:00 web01 su[3612]: pam_unix(su:session): session closed for user dave

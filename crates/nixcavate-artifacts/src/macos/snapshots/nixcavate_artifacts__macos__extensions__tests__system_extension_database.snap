@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/macos/extensions.rs
+expression: "run(&SYSTEM_EXTENSIONS, \"Library/SystemExtensions/db.plist\", &data, 0)"
+---
+{"host":"memory","artifact":"system-extensions","source_path":"Library/SystemExtensions/db.plist","source_line":1,"identifier":"com.example.endpoint.extension","team_id":"ABCDE12345","version":"3.4","state":"activated_enabled","categories":["com.apple.system_extension.endpoint_security","com.apple.system_extension.network_extension"],"origin_path":"/Applications/Example.app/Contents/Library/SystemExtensions/endpoint.systemextension","staged_path":"/Library/SystemExtensions/0F0F0F0F/com.example.endpoint.extension.systemextension"}
+{"host":"memory","artifact":"system-extensions","source_path":"Library/SystemExtensions/db.plist","source_line":2,"identifier":"com.example.old.extension","team_id":null,"version":"1.0","state":"terminated_waiting_to_uninstall_on_reboot","categories":["com.apple.system_extension.driver_extension"],"origin_path":null,"staged_path":null}

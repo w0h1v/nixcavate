@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&NETWORK, \"../live_response/network/ss_-tanp.txt\",\n\"live-network/ss_-tanp.txt\")"
+---
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-tanp.txt","source_line":2,"protocol":"tcp","local_address":"0.0.0.0","local_port":22,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-tanp.txt","source_line":3,"protocol":"tcp","local_address":"0.0.0.0","local_port":8080,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":4358,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-tanp.txt","source_line":4,"protocol":"tcp","local_address":"127.0.0.1","local_port":34726,"remote_address":"127.0.0.1","remote_port":8080,"state":"ESTAB","pid":4364,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-tanp.txt","source_line":5,"protocol":"tcp","local_address":"127.0.0.1","local_port":8080,"remote_address":"127.0.0.1","remote_port":34726,"state":"ESTAB","pid":4358,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-tanp.txt","source_line":6,"protocol":"tcp","local_address":"::","local_port":22,"remote_address":"::","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-tanp.txt","source_line":7,"protocol":"tcp","local_address":"*","local_port":8081,"remote_address":"*","remote_port":null,"state":"LISTEN","pid":4361,"program":"python3","user":null}

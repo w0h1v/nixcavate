@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>KnownNetworks</key>
+	<dict>
+		<key>wifi.network.ssid.LegacyNet</key>
+		<dict>
+			<key>AddedAt</key>
+			<date>2018-01-01T01:01:01Z</date>
+			<key>AddedBy</key>
+			<string>user</string>
+			<key>ChannelHistory</key>
+			<array>
+				<dict>
+					<key>Channel</key>
+					<integer>1</integer>
+					<key>Timestamp</key>
+					<date>2019-03-03T03:03:03Z</date>
+				</dict>
+				<dict>
+					<key>Channel</key>
+					<integer>6</integer>
+					<key>Timestamp</key>
+					<date>2019-02-03T03:03:03Z</date>
+				</dict>
+			</array>
+			<key>Hidden</key>
+			<false/>
+			<key>LastConnected</key>
+			<date>2019-03-03T03:03:03Z</date>
+			<key>SSIDString</key>
+			<string>LegacyNet</string>
+			<key>SecurityType</key>
+			<string>WPA2 Personal</string>
+		</dict>
+		<key>wifi.network.ssid.OpenNet</key>
+		<dict>
+			<key>Hidden</key>
+			<true/>
+			<key>SSIDString</key>
+			<string>OpenNet</string>
+			<key>SecurityType</key>
+			<string>Open</string>
+		</dict>
+	</dict>
+	<key>Version</key>
+	<integer>1</integer>
+</dict>
+</plist>

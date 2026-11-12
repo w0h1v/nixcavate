@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/common/tool_history.rs
+expression: "run(&MYSQL, \"home/bob/.mysql_history\",\nb\"select 1;\\r\\nshow\\\\040tables;\\r\\n\\r\\n\", 0)"
+---
+{"host":"memory","artifact":"mysql-history","source_path":"home/bob/.mysql_history","source_line":1,"user":"bob","command":"select 1;"}
+{"host":"memory","artifact":"mysql-history","source_path":"home/bob/.mysql_history","source_line":2,"user":"bob","command":"show\\040tables;"}

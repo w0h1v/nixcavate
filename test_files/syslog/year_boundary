@@ -1,0 +1,4 @@
+Dec 30 23:59:58 web01 sshd[1]: written last year
+Dec 31 23:59:59 web01 sshd[1]: still last year
+Jan  1 00:00:01 web01 sshd[1]: new year
+Jan  9 12:00:00 web01 sshd[1]: just before the file was last written

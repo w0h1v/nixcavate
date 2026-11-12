@@ -1,0 +1,13 @@
+Mar  9 01:02:03 web01 kernel: [    0.000000] Linux version 6.1.0-18-amd64 (debian-kernel@lists.debian.org)
+Mar  9 01:02:04 web01 systemd[1]: Started Daily apt download activities.
+Mar  9 01:17:01 web01 CRON[2351]: (root) CMD (   cd / && run-parts --report /etc/cron.hourly)
+Mar  9 01:20:00 web01 sudo:   alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/apt update
+Mar  9 02:00:01 web01 sshd[1234]: Accepted publickey for alice from 203.0.113.9 port 52144 ssh2
+Mar  9 02:30:00 web01 -- MARK --
+Mar  9 02:31:00 web01 systemd-journald[300]: Suppressed 12 messages from session-3.scope
+Mar  9 02:32:00 web01 last message repeated 3 times
+Mar  9 02:33:00 web01 postfix/smtpd[991]: connect from unknown[198.51.100.7]
+    continuation line of a multi-line message
+Mar  9 02:34:00 web01
+Feb 30 03:00:00 web01 cron[1]: impossible date keeps its header
+Dec 31 23:59:59 web01 sshd[1]: last line of the previous year

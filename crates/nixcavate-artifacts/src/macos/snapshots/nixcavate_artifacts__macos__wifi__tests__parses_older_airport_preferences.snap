@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/wifi.rs
+expression: "run(&ARTIFACT, OLD,\n&fixture(\"wifi-networks/com.apple.airport.preferences.plist\"), 0)"
+---
+{"host":"memory","artifact":"wifi-networks","source_path":"Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist","source_line":null,"ssid":"LegacyNet","security":"WPA2 Personal","hidden":false,"time":"2019-03-03T03:03:03Z","added_time":"2018-01-01T01:01:01Z","joined_by_user_time":null,"joined_by_system_time":null,"bssids":[],"channels":[1,6],"captive":false}
+{"host":"memory","artifact":"wifi-networks","source_path":"Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist","source_line":null,"ssid":"OpenNet","security":"Open","hidden":true,"time":null,"added_time":null,"joined_by_user_time":null,"joined_by_system_time":null,"bssids":[],"channels":[],"captive":false}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2018-01-01T01:01:01Z,seconds,recorded,memory,wifi-networks,wifi_added,added Wi-Fi network LegacyNet,Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist,,,,
+2019-03-03T03:03:03Z,seconds,recorded,memory,wifi-networks,wifi_joined,joined Wi-Fi network LegacyNet,Library/Preferences/SystemConfiguration/com.apple.airport.preferences.plist,,,,

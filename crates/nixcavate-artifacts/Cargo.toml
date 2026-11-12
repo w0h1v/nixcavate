@@ -1,0 +1,28 @@
+[package]
+name = "nixcavate-artifacts"
+description = "The nixcavate artifact parsers: one module per artifact"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+nixcavate-core.workspace = true
+nixcavate-source.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+memchr.workspace = true
+flate2.workspace = true
+zstd.workspace = true
+xz2.workspace = true
+lz4_flex.workspace = true
+plist.workspace = true
+rusqlite.workspace = true
+sha2.workspace = true
+
+[dev-dependencies]
+insta.workspace = true

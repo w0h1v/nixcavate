@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&NETWORK, \"../live_response/network/netstat_-a.txt\",\n\"live-network/edge_netstat.txt\")"
+---
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":3,"protocol":"tcp","local_address":"0.0.0.0","local_port":null,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":null,"program":null,"user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":4,"protocol":"tcp6","local_address":"::","local_port":443,"remote_address":"::","remote_port":null,"state":"LISTEN","pid":null,"program":null,"user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":5,"protocol":"tcp6","local_address":"2001:db8::10","local_port":443,"remote_address":"2001:db8:ffff::5","remote_port":51234,"state":"ESTABLISHED","pid":null,"program":null,"user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":6,"protocol":"tcp","local_address":"192.0.2.10","local_port":22,"remote_address":"198.51.100.7","remote_port":50022,"state":"ESTABLISHED","pid":null,"program":null,"user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":7,"protocol":"udp","local_address":"127.0.0.53","local_port":53,"remote_address":"0.0.0.0","remote_port":null,"state":null,"pid":null,"program":null,"user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":8,"protocol":"udp6","local_address":"::1","local_port":323,"remote_address":"::","remote_port":null,"state":null,"pid":null,"program":null,"user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-a.txt","source_line":9,"protocol":"raw6","local_address":"::","local_port":58,"remote_address":"::","remote_port":null,"state":"7","pid":null,"program":null,"user":null}
+--- warning: line 10: too few columns
+--- warning: line 11: too few columns

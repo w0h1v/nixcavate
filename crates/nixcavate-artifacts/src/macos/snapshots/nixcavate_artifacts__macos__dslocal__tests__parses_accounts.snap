@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/macos/dslocal.rs
+expression: out
+---
+{"host":"memory","artifact":"dslocal-users","source_path":"private/var/db/dslocal/nodes/Default/users/alice.plist","source_line":null,"user":"alice","uid":501,"gid":20,"real_name":"Alice Example","home":"/Users/alice","shell":"/bin/zsh","generated_uid":"AAAAAAAA-1111-2222-3333-444444444444","hidden":false,"hash_types":["SALTED-SHA512-PBKDF2","SRP-RFC5054-4096-SHA512-PBKDF2"],"secure_token":true,"time":"2022-04-15T05:20:00.250000Z","password_last_set_time":"2023-07-22T04:26:40Z","failed_login_count":2,"failed_login_time":"2023-09-18T01:20:00.500000Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2022-04-15T05:20:00.250000Z,micros,recorded,memory,dslocal-users,account_created,account alice created,private/var/db/dslocal/nodes/Default/users/alice.plist,,,,
+2023-07-22T04:26:40Z,seconds,recorded,memory,dslocal-users,password_changed,password of alice changed,private/var/db/dslocal/nodes/Default/users/alice.plist,,,,
+{"host":"memory","artifact":"dslocal-users","source_path":"private/var/db/dslocal/nodes/Default/users/_hidden.plist","source_line":null,"user":"_hidden","uid":-2,"gid":-2,"real_name":"Hidden Service","home":"/var/empty","shell":"/usr/bin/false","generated_uid":null,"hidden":true,"hash_types":[],"secure_token":false,"time":null,"password_last_set_time":null,"failed_login_count":null,"failed_login_time":null}
+{"host":"memory","artifact":"dslocal-users","source_path":"private/var/db/dslocal/nodes/Default/users/odd.plist","source_line":null,"user":"bob","uid":null,"gid":null,"real_name":null,"home":null,"shell":null,"generated_uid":null,"hidden":true,"hash_types":[],"secure_token":false,"time":null,"password_last_set_time":null,"failed_login_count":null,"failed_login_time":null}

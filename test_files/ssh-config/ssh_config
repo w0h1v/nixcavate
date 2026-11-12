@@ -1,0 +1,13 @@
+# client config
+Include /etc/ssh/ssh_config.d/*.conf
+
+Host *.example.com web?
+    User alice
+    Port=2222
+    IdentityFile "~/.ssh/id work"
+    ProxyCommand ssh -W %h:%p jump.example.com
+Host *
+    ForwardAgent no
+    ServerAliveInterval 30
+Match host db01 exec "test -f /tmp/flag"
+    User bob

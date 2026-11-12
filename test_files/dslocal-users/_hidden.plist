@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IsHidden</key>
+	<array>
+		<string>1</string>
+	</array>
+	<key>authentication_authority</key>
+	<array>
+		<string>;DisabledUser;</string>
+	</array>
+	<key>gid</key>
+	<array>
+		<string>-2</string>
+	</array>
+	<key>home</key>
+	<array>
+		<string>/var/empty</string>
+	</array>
+	<key>name</key>
+	<array>
+		<string>_hidden</string>
+		<string>alias</string>
+	</array>
+	<key>realname</key>
+	<array>
+		<string>Hidden Service</string>
+	</array>
+	<key>shell</key>
+	<array>
+		<string>/usr/bin/false</string>
+	</array>
+	<key>uid</key>
+	<array>
+		<integer>-2</integer>
+	</array>
+</dict>
+</plist>

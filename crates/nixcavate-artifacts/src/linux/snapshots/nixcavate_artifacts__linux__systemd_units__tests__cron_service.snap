@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/systemd_units.rs
+expression: "unit(\"cron.service\", \"lib/systemd/system/cron.service\")"
+---
+{"host":"memory","artifact":"systemd-units","source_path":"lib/systemd/system/cron.service","source_line":null,"unit":"cron.service","drop_in":false,"unit_type":"service","description":"Regular background program processing daemon","exec_start":"/usr/sbin/cron -f $EXTRA_OPTS","exec_start_pre":null,"exec_start_post":null,"exec_stop":null,"exec_stop_post":null,"exec_condition":null,"exec_reload":null,"run_user":null,"run_group":null,"working_directory":null,"environment":null,"environment_file":"-/etc/default/cron","wanted_by":"multi-user.target","required_by":null,"also":null,"on_calendar":null,"on_boot_sec":null,"on_active_sec":null,"on_startup_sec":null,"on_unit_active_sec":null,"timer_unit":null,"activates":null,"listen":null,"path_triggers":null,"restart":"on-failure","service_type":null,"modified":"2023-11-14T22:13:20Z"}

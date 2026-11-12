@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/common/tool_history.rs
+expression: "run(&LESS, \"Users/sam/.lesshst\", &data, 0)"
+---
+{"host":"memory","artifact":"less-history","source_path":"Users/sam/.lesshst","source_line":3,"user":"sam","kind":"search","text":"needle"}
+{"host":"memory","artifact":"less-history","source_path":"Users/sam/.lesshst","source_line":4,"user":"sam","kind":"search","text":"two words"}
+{"host":"memory","artifact":"less-history","source_path":"Users/sam/.lesshst","source_line":6,"user":"sam","kind":"shell","text":"ls -la"}
+{"host":"memory","artifact":"less-history","source_path":"Users/sam/.lesshst","source_line":8,"user":"sam","kind":"mark","text":"a 1 0 /srv/notes.txt"}

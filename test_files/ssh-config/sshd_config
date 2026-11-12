@@ -1,0 +1,10 @@
+# server config
+Port 22
+PermitRootLogin   no
+passwordauthentication no
+AllowUsers alice bob
+Match Address 192.0.2.0/24,198.51.100.0/24
+    PasswordAuthentication yes
+    ForceCommand "/usr/bin/internal-sftp -l INFO"
+Match User sftp
+    ChrootDirectory /srv/sftp

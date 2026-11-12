@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/sudoers.rs
+expression: "run(&ARTIFACT, \"etc/sudoers.d/deploy\", &fixture(\"sudoers/dropin\"), 0)"
+---
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers.d/deploy","source_line":2,"kind":"rule","who":"deploy","hosts":"ALL","run_as":"www-data","nopasswd":true,"commands":"/usr/bin/rsync","text":"deploy ALL=(www-data) NOPASSWD: /usr/bin/rsync"}

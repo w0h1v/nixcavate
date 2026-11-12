@@ -1,0 +1,3 @@
+{"log":"oops\n","stream":"stderr","time":"2026-11-11T19:41:37.925791923Z"}
+{"log":"hello\n","stream":"stdout","time":"2026-11-11T19:41:37.925734715Z"}
+{"log":"done\n","stream":"stdout","time":"2026-11-11T19:41:37.925816132Z"}

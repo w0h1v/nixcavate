@@ -1,0 +1,11 @@
+[Unit]
+Description=Watch the drop directory
+
+[Path]
+PathExists=/var/tmp/trigger
+PathChanged=/srv/drop
+DirectoryNotEmpty=/srv/queue
+Unit=process-drop.service
+
+[Install]
+WantedBy=multi-user.target

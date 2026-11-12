@@ -1,0 +1,7 @@
+# Checksums of the benchmark corpus files that gen_corpus.py reproduces exactly.
+# synth-linux-2048 text logs are reproducible: gen_corpus.py --mib 2048 --seed 1.
+cfecbc0187e0ff572d832d0af273cd5e8fc7b440ae6bea29f7d760eac32a9290  synth-linux-2048/[root]/var/log/syslog
+9ebcee49f54c4eb5da42d3a59b28e87b007c247aead09f11ae9ab86ef4155b7c  synth-linux-2048/[root]/var/log/auth.log
+7546044c5bd65b20286eed26480f5c33650aa8a9a126199dc2aa949400b36239  synth-linux-2048/[root]/var/log/audit/audit.log
+829af7073c6d118cf8a9b0245c4eb3b2dc381f483d4f85747421f02ab4d204b4  synth-linux-2048/[root]/var/log/nginx/access.log
+bc53ea488fe08c7a6bde11e87432975fbb22e26de6d67c287b7444ee6ceddfc8  synth-linux-2048/bodyfile/bodyfile.txt

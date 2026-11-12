@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/docker.rs
+expression: "container(\"web01\", WEB_ID)"
+---
+{"host":"memory","artifact":"docker-containers","source_path":"var/lib/docker/containers/691d5a9467661aecea323ac1bdfd5196863eabe7159ba1af42da6701d9b39914/config.v2.json","source_line":null,"container_id":"691d5a9467661aecea323ac1bdfd5196863eabe7159ba1af42da6701d9b39914","name":"web01","image":"alpine:3.19","image_id":"sha256:6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","command":"sh -c echo hello; echo oops >&2; echo done; sleep 600","entrypoint":"","time":"2026-11-11T19:41:37.257061932Z","started_time":"2026-11-11T19:41:37.816423751Z","finished_time":null,"running":true,"exit_code":0,"pid":369,"restart_policy":"no","privileged":false,"network_mode":"bridge","binds":["/tmp:/data:ro"],"port_bindings":[":8080->80/tcp"],"mounts":["/tmp:/data"],"environment":["APP_ENV=prod","PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"],"labels":{"tier":"frontend"},"hostname":"web01.example.com","user":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:41:37.257061932Z,nanos,recorded,memory,docker-containers,container_created,container web01 created (image alpine:3.19),var/lib/docker/containers/691d5a9467661aecea323ac1bdfd5196863eabe7159ba1af42da6701d9b39914/config.v2.json,,,,
+2026-11-11T19:41:37.816423751Z,nanos,recorded,memory,docker-containers,container_started,container web01 started (image alpine:3.19),var/lib/docker/containers/691d5a9467661aecea323ac1bdfd5196863eabe7159ba1af42da6701d9b39914/config.v2.json,,,,

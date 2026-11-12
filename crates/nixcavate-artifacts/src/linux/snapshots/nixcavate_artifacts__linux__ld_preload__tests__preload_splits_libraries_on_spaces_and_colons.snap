@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/ld_preload.rs
+expression: "run(&ARTIFACT, \"etc/ld.so.preload\", &fixture(\"ld-preload/ld.so.preload\"), 0)"
+---
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.preload","source_line":2,"kind":"preload","path":"/usr/lib/libfaketime.so.1"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.preload","source_line":3,"kind":"preload","path":"/tmp/.x/libevil.so"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.preload","source_line":3,"kind":"preload","path":"/lib/x86_64-linux-gnu/libhook.so"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.preload","source_line":3,"kind":"preload","path":"/opt/lib/libother.so"}

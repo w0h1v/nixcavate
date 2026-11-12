@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/macos/extensions.rs
+expression: "run(&KEXTS, \"Library/Extensions/Bare.kext/Info.plist\", &data, 0)"
+---
+{"host":"memory","artifact":"kernel-extensions","source_path":"Library/Extensions/Bare.kext/Info.plist","source_line":1,"bundle_id":"com.example.bare","name":"Bare","version":"7","executable":null,"min_os":null,"modified":null}

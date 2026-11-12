@@ -1,0 +1,8 @@
+- cmd: echo a\\b\nc
+  when: 1700000000
+  paths:
+    - /srv/my\\file
+    - /srv/b
+- cmd: no when
+- cmd: last
+  when: bad

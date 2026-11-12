@@ -1,0 +1,22 @@
+---
+source: crates/nixcavate-artifacts/src/common/web_logs.rs
+expression: "error(\"httpd-error.log\")"
+---
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":0,"time":"2026-11-11T19:41:07.714061Z","server":"apache","level":"notice","module":"mpm_event","pid":81,"remote_address":null,"remote_port":null,"message":"AH00489: Apache/2.4.70 (Unix) configured -- resuming normal operations"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":140,"time":"2026-11-11T19:41:07.714104Z","server":"apache","level":"info","module":"mpm_event","pid":81,"remote_address":null,"remote_port":null,"message":"AH00490: Server built: Nov 10 2026 21:42:23"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":251,"time":"2026-11-11T19:41:07.714110Z","server":"apache","level":"notice","module":"core","pid":81,"remote_address":null,"remote_port":null,"message":"AH00094: Command line: 'httpd'"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":346,"time":"2026-11-11T19:41:09.727189Z","server":"apache","level":"info","module":"core","pid":83,"remote_address":"127.0.0.1","remote_port":58234,"message":"AH00128: File does not exist: /usr/local/apache2/htdocs/missing.html"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":502,"time":"2026-11-11T19:41:09.730587Z","server":"apache","level":"info","module":"core","pid":85,"remote_address":"127.0.0.1","remote_port":58244,"message":"AH00128: File does not exist: /usr/local/apache2/htdocs/submit"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":653,"time":"2026-11-11T19:41:09.737654Z","server":"apache","level":"info","module":"core","pid":85,"remote_address":"127.0.0.1","remote_port":58264,"message":"AH00128: File does not exist: /usr/local/apache2/htdocs/also-missing"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":810,"time":"2026-11-11T19:41:11.364053Z","server":"apache","level":"info","module":"core","pid":81,"remote_address":null,"remote_port":null,"message":"AH00096: removed PID file /usr/local/apache2/logs/httpd.pid (pid=81)"}
+{"host":"memory","artifact":"web-error-log","source_path":"var/log/apache2/error.log","source_offset":941,"time":"2026-11-11T19:41:11.364068Z","server":"apache","level":"notice","module":"mpm_event","pid":81,"remote_address":null,"remote_port":null,"message":"AH00491: caught SIGTERM, shutting down"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:41:07.714061Z,micros,assumed_zone,memory,web-error-log,http_error,apache [notice] AH00489: Apache/2.4.70 (Unix) configured -- resuming normal operations,var/log/apache2/error.log,,0,,
+2026-11-11T19:41:07.714104Z,micros,assumed_zone,memory,web-error-log,http_error,apache [info] AH00490: Server built: Nov 10 2026 21:42:23,var/log/apache2/error.log,,140,,
+2026-11-11T19:41:07.714110Z,micros,assumed_zone,memory,web-error-log,http_error,apache [notice] AH00094: Command line: 'httpd',var/log/apache2/error.log,,251,,
+2026-11-11T19:41:09.727189Z,micros,assumed_zone,memory,web-error-log,http_error,apache [info] AH00128: File does not exist: /usr/local/apache2/htdocs/missing.html,var/log/apache2/error.log,,346,,
+2026-11-11T19:41:09.730587Z,micros,assumed_zone,memory,web-error-log,http_error,apache [info] AH00128: File does not exist: /usr/local/apache2/htdocs/submit,var/log/apache2/error.log,,502,,
+2026-11-11T19:41:09.737654Z,micros,assumed_zone,memory,web-error-log,http_error,apache [info] AH00128: File does not exist: /usr/local/apache2/htdocs/also-missing,var/log/apache2/error.log,,653,,
+2026-11-11T19:41:11.364053Z,micros,assumed_zone,memory,web-error-log,http_error,apache [info] AH00096: removed PID file /usr/local/apache2/logs/httpd.pid (pid=81),var/log/apache2/error.log,,810,,
+2026-11-11T19:41:11.364068Z,micros,assumed_zone,memory,web-error-log,http_error,"apache [notice] AH00491: caught SIGTERM, shutting down",var/log/apache2/error.log,,941,,

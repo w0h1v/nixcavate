@@ -1,0 +1,28 @@
+---
+source: crates/nixcavate-artifacts/src/linux/sudoers.rs
+expression: "run(&ARTIFACT, \"etc/sudoers\", &fixture(\"sudoers/sudoers\"), 0)"
+---
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":2,"kind":"defaults","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Defaults\tenv_reset"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":3,"kind":"defaults","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Defaults\tmail_badpass"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":4,"kind":"defaults","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Defaults\tsecure_path=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin\""}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":5,"kind":"defaults","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Defaults:alice\t!requiretty"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":6,"kind":"defaults","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Defaults@web01\tlog_output"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":8,"kind":"alias","who":"ADMINS","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"User_Alias ADMINS = alice, bob"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":9,"kind":"alias","who":"OP","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Runas_Alias OP = root, operator"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":10,"kind":"alias","who":"WEB","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Host_Alias WEB = web01, web02.example.com"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":11,"kind":"alias","who":"SERVICES","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"Cmnd_Alias SERVICES = /usr/bin/systemctl restart nginx, /usr/bin/systemctl reload nginx"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":14,"kind":"rule","who":"root","hosts":"ALL","run_as":"ALL:ALL","nopasswd":false,"commands":"ALL","text":"root\tALL=(ALL:ALL) ALL"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":15,"kind":"rule","who":"%admin","hosts":"ALL","run_as":"ALL","nopasswd":false,"commands":"ALL","text":"%admin ALL=(ALL) ALL"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":16,"kind":"rule","who":"%sudo","hosts":"ALL","run_as":"ALL:ALL","nopasswd":false,"commands":"ALL","text":"%sudo\tALL=(ALL:ALL) ALL"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":17,"kind":"rule","who":"alice","hosts":"ALL","run_as":"ALL","nopasswd":true,"commands":"ALL","text":"alice\tALL=(ALL) NOPASSWD: ALL"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":18,"kind":"rule","who":"bob","hosts":"web01","run_as":"OP","nopasswd":true,"commands":"/usr/bin/apt, /usr/bin/apt-get","text":"bob\tweb01=(OP) NOPASSWD: SETENV: /usr/bin/apt, /usr/bin/apt-get"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":20,"kind":"rule","who":"ADMINS, %ops","hosts":"WEB","run_as":"root","nopasswd":false,"commands":"/bin/ls, PASSWD: /bin/cat","text":"ADMINS, %ops WEB = (root) /bin/ls, PASSWD: /bin/cat"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":21,"kind":"rule","who":"#1001","hosts":"ALL","run_as":"ALL","nopasswd":false,"commands":"ALL","text":"#1001 ALL=(ALL) ALL"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":22,"kind":"rule","who":"carol","hosts":"ALL","run_as":"","nopasswd":false,"commands":"/usr/bin/id","text":"carol ALL = /usr/bin/id"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":23,"kind":"rule","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"this line has no equals sign"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":25,"kind":"include","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"@includedir /etc/sudoers.d"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":26,"kind":"include","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"#include /etc/sudoers.local"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":27,"kind":"include","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"#includedir /etc/sudoers.d"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":28,"kind":"include","who":"","hosts":"","run_as":"","nopasswd":false,"commands":"","text":"@include /etc/sudoers.extra"}
+{"host":"memory","artifact":"sudoers","source_path":"etc/sudoers","source_line":29,"kind":"rule","who":"last","hosts":"ALL","run_as":"ALL","nopasswd":false,"commands":"ALL","text":"last\tALL=(ALL) ALL"}
+--- warning: line 23: does not match who hosts = commands

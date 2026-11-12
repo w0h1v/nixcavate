@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/common/cron.rs
+expression: "run(&CRON, \"etc/cron.d/anacron\", &fixture(\"cron/cron.d-anacron\"), 0)"
+---
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/anacron","source_line":3,"kind":"env","schedule":null,"user":null,"command":null,"name":"SHELL","value":"/bin/sh"}
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/anacron","source_line":4,"kind":"env","schedule":null,"user":null,"command":null,"name":"PATH","value":"/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"}
+{"host":"memory","artifact":"cron","source_path":"etc/cron.d/anacron","source_line":6,"kind":"job","schedule":"30 7-23 * * *","user":"root","command":"[ -x /etc/init.d/anacron ] && if [ ! -d /run/systemd/system ]; then /usr/sbin/invoke-rc.d anacron start >/dev/null; fi","name":null,"value":null}

@@ -1,0 +1,10 @@
+[Unit]
+Description=OpenBSD Secure Shell server
+
+[Service]
+ExecStartPre=/usr/sbin/sshd -t
+ExecStart=/usr/sbin/sshd -D $SSHD_OPTS
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

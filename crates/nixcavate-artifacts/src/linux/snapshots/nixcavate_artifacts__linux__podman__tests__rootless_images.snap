@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/podman.rs
+expression: "run(&IMAGES, path, &fixture(\"podman-images/images.json\"), 0)"
+---
+{"host":"memory","artifact":"podman-images","source_path":"home/alice/.local/share/containers/storage/vfs-images/images.json","source_line":null,"user":"alice","image_id":"6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","names":["docker.io/library/alpine:3.19"],"time":"2025-10-08T11:10:40Z","digest":"sha256:6baf43584bcb78f2e5847d1de515f23499913ac9f12bdf834811a3145eb11ca1"}

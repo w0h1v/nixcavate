@@ -1,0 +1,5 @@
+{
+  "insecure-registries": ["registry.example.com:5000"],
+  "hosts": ["tcp://0.0.0.0:2375", "unix:///var/run/docker.sock"],
+  "log-driver": "json-file"
+}

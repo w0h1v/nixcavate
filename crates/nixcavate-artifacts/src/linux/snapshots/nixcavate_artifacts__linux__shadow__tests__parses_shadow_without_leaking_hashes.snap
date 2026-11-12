@@ -1,0 +1,45 @@
+---
+source: crates/nixcavate-artifacts/src/linux/shadow.rs
+expression: out
+---
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":2,"user":"root","hash_type":"yescrypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2024-03-18T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":3,"user":"alice","hash_type":"sha512crypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2024-06-26T00:00:00Z","min_days":1,"max_days":90,"warn_days":14,"inactive_days":30,"expire":"2026-02-16T00:00:00Z"}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":4,"user":"bob","hash_type":"sha256crypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":5,"user":"carol","hash_type":"bcrypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-04-18T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":6,"user":"dave","hash_type":"md5crypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2019-04-14T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":7,"user":"erin","hash_type":"scrypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2023-05-23T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":8,"user":"frank","hash_type":"gost-yescrypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2023-08-31T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":9,"user":"gina","hash_type":"sha1crypt","locked":false,"passwordless":false,"must_change":false,"last_change":"2023-09-01T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":10,"user":"hank","hash_type":"des","locked":false,"passwordless":false,"must_change":false,"last_change":"2002-11-09T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":11,"user":"ivy","hash_type":"sha512crypt","locked":true,"passwordless":false,"must_change":false,"last_change":"2023-12-09T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":12,"user":"daemon","hash_type":"none","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":13,"user":"nobody","hash_type":"none","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":14,"user":"sys","hash_type":"none","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":15,"user":"sync","hash_type":"none","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":16,"user":"lockednone","hash_type":"none","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":17,"user":"open","hash_type":"empty","locked":false,"passwordless":true,"must_change":false,"last_change":"2024-03-18T00:00:00Z","min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":18,"user":"newuser","hash_type":"yescrypt","locked":false,"passwordless":false,"must_change":true,"last_change":null,"min_days":0,"max_days":99999,"warn_days":7,"inactive_days":null,"expire":null}
+{"host":"memory","artifact":"shadow","source_path":"etc/shadow","source_line":19,"user":"short","hash_type":"none","locked":false,"passwordless":false,"must_change":false,"last_change":"2022-01-08T00:00:00Z","min_days":null,"max_days":null,"warn_days":null,"inactive_days":null,"expire":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2002-11-09T00:00:00Z,day,recorded,memory,shadow,password_changed,password of hank changed,etc/shadow,10,,,
+2019-04-14T00:00:00Z,day,recorded,memory,shadow,password_changed,password of dave changed,etc/shadow,6,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of bob changed,etc/shadow,4,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of daemon changed,etc/shadow,12,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of nobody changed,etc/shadow,13,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of sys changed,etc/shadow,14,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of sync changed,etc/shadow,15,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of lockednone changed,etc/shadow,16,,,
+2022-01-08T00:00:00Z,day,recorded,memory,shadow,password_changed,password of short changed,etc/shadow,19,,,
+2022-04-18T00:00:00Z,day,recorded,memory,shadow,password_changed,password of carol changed,etc/shadow,5,,,
+2023-05-23T00:00:00Z,day,recorded,memory,shadow,password_changed,password of erin changed,etc/shadow,7,,,
+2023-08-31T00:00:00Z,day,recorded,memory,shadow,password_changed,password of frank changed,etc/shadow,8,,,
+2023-09-01T00:00:00Z,day,recorded,memory,shadow,password_changed,password of gina changed,etc/shadow,9,,,
+2023-12-09T00:00:00Z,day,recorded,memory,shadow,password_changed,password of ivy changed,etc/shadow,11,,,
+2024-03-18T00:00:00Z,day,recorded,memory,shadow,password_changed,password of root changed,etc/shadow,2,,,
+2024-03-18T00:00:00Z,day,recorded,memory,shadow,password_changed,password of open changed,etc/shadow,17,,,
+2024-06-26T00:00:00Z,day,recorded,memory,shadow,password_changed,password of alice changed,etc/shadow,3,,,
+--- warning: line 3: expected 9 fields, found 8
+--- warning: line 19: expected 9 fields, found 3
+--- warning: line 20: expected at least 2 fields, found 1
+--- warning: line 21: expected at least 2 fields, found 1

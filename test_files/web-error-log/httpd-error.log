@@ -1,0 +1,8 @@
+[Wed Nov 11 19:41:07.714061 2026] [mpm_event:notice] [pid 81:tid 81] AH00489: Apache/2.4.70 (Unix) configured -- resuming normal operations
+[Wed Nov 11 19:41:07.714104 2026] [mpm_event:info] [pid 81:tid 81] AH00490: Server built: Nov 10 2026 21:42:23
+[Wed Nov 11 19:41:07.714110 2026] [core:notice] [pid 81:tid 81] AH00094: Command line: 'httpd'
+[Wed Nov 11 19:41:09.727189 2026] [core:info] [pid 83:tid 89] [client 127.0.0.1:58234] AH00128: File does not exist: /usr/local/apache2/htdocs/missing.html
+[Wed Nov 11 19:41:09.730587 2026] [core:info] [pid 85:tid 110] [client 127.0.0.1:58244] AH00128: File does not exist: /usr/local/apache2/htdocs/submit
+[Wed Nov 11 19:41:09.737654 2026] [core:info] [pid 85:tid 130] [client 127.0.0.1:58264] AH00128: File does not exist: /usr/local/apache2/htdocs/also-missing
+[Wed Nov 11 19:41:11.364053 2026] [core:info] [pid 81:tid 81] AH00096: removed PID file /usr/local/apache2/logs/httpd.pid (pid=81)
+[Wed Nov 11 19:41:11.364068 2026] [mpm_event:notice] [pid 81:tid 81] AH00491: caught SIGTERM, shutting down

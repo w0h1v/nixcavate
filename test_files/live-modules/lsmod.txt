@@ -1,0 +1,11 @@
+Module                  Size  Used by
+nf_tables             278528  1048 nft_chain_nat,nft_counter
+nfnetlink              20480  2 nf_tables
+overlay               151552  0
+xfs                  1634304  2
+vsock_loopback         16384  0
+ip_tables              32768  0
+ext4                  983040  1
+ehci_hcd               24576  1 [permanent]
+bad line
+loop                   40960  not_a_number

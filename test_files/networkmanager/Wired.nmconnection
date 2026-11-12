@@ -1,0 +1,17 @@
+[connection]
+id=Wired
+uuid=9ec69ca8-559d-4e93-a81b-c5ddd9b0e626
+type=ethernet
+interface-name=eth0
+timestamp=1700003600
+
+[ethernet]
+
+[ipv4]
+method=auto
+
+[ipv6]
+addr-gen-mode=default
+method=disabled
+
+[proxy]

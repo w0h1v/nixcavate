@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/lastlog.rs
+expression: "run(&ARTIFACT, \"var/log/lastlog\", &data, 0)"
+---
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":876,"uid":3,"user":"","time":"2023-11-14T22:13:20Z","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":20440000,"uid":70000,"user":"","time":"2023-11-14T22:21:40Z","line":"ssh","remote_host":"web01.example.com"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,lastlog,last_login,uid 3 last logged in on pts/0 from local,var/log/lastlog,,876,,
+2023-11-14T22:21:40Z,seconds,recorded,memory,lastlog,last_login,uid 70000 last logged in on ssh from web01.example.com,var/log/lastlog,,20440000,,

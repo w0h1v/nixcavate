@@ -1,0 +1,23 @@
+---
+source: crates/nixcavate-artifacts/src/common/viminfo.rs
+expression: "run(&ARTIFACT, \"home/alice/.viminfo\", &fixture(\"viminfo/.viminfo\"), 0)"
+---
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":14,"user":"alice","kind":"command","time":"2026-11-11T19:34:59Z","text":"set number"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":18,"user":"alice","kind":"search","time":"2026-11-11T19:34:59Z","text":"needle"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":32,"user":"alice","kind":"file_mark","time":"2026-11-11T19:34:59Z","text":"/home/alice/notes.md"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":34,"user":"alice","kind":"file_mark","time":"2026-11-11T19:34:59Z","text":"/home/alice/notes.md"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":38,"user":"alice","kind":"file_mark","time":"2026-11-11T19:34:59Z","text":"/home/alice/notes.md"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":40,"user":"alice","kind":"file_mark","time":"2026-11-11T19:34:59Z","text":"/tmp/x.txt"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":42,"user":"alice","kind":"file_mark","time":"2026-11-11T19:34:59Z","text":"/home/alice/notes.md"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":44,"user":"alice","kind":"file_mark","time":"2026-11-11T19:34:59Z","text":"/tmp/x.txt"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":53,"user":"alice","kind":"file_mark","time":null,"text":"/tmp/x.txt"}
+{"host":"memory","artifact":"viminfo","source_path":"home/alice/.viminfo","source_line":57,"user":"alice","kind":"file_mark","time":null,"text":"/home/alice/notes.md"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,executed,alice ran vim command: set number,home/alice/.viminfo,14,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,file_opened,alice opened in vim: /home/alice/notes.md,home/alice/.viminfo,32,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,file_opened,alice opened in vim: /home/alice/notes.md,home/alice/.viminfo,34,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,file_opened,alice opened in vim: /home/alice/notes.md,home/alice/.viminfo,38,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,file_opened,alice opened in vim: /tmp/x.txt,home/alice/.viminfo,40,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,file_opened,alice opened in vim: /home/alice/notes.md,home/alice/.viminfo,42,,,
+2026-11-11T19:34:59Z,seconds,recorded,memory,viminfo,file_opened,alice opened in vim: /tmp/x.txt,home/alice/.viminfo,44,,,

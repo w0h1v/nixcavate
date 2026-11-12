@@ -1,0 +1,2 @@
+# dropin
+deploy ALL=(www-data) NOPASSWD: /usr/bin/rsync

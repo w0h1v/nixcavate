@@ -1,0 +1,17 @@
+---
+source: crates/nixcavate-artifacts/src/macos/biome.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"biome/segb_v2.bin\"), 0)"
+---
+{"host":"memory","artifact":"biome","source_path":"Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567","source_offset":32,"time":"2023-10-26T08:00:00Z","stream":"App.InFocus","state":"written","user":"alice","fields":{"1":"com.apple.Safari","2":720000000.0,"3":{"1":1,"2":"window one"}},"summary":"com.apple.Safari | window one"}
+{"host":"memory","artifact":"biome","source_path":"Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567","source_offset":88,"time":"2023-10-26T08:00:05.500000Z","stream":"App.InFocus","state":"written","user":"alice","fields":{"1":"com.example.Notes","2":720000005.5,"4":300},"summary":"com.example.Notes"}
+{"host":"memory","artifact":"biome","source_path":"Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567","source_offset":128,"time":"2023-10-26T08:00:09Z","stream":"App.InFocus","state":"written","user":"alice","fields":{"1":["tag-a","tag-b"],"2":7,"3":"fffefd"},"summary":"tag-a | tag-b"}
+{"host":"memory","artifact":"biome","source_path":"Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567","source_offset":160,"time":"2023-10-26T08:00:20Z","stream":"App.InFocus","state":"deleted","user":"alice","fields":{},"summary":""}
+{"host":"memory","artifact":"biome","source_path":"Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567","source_offset":168,"time":"2023-10-26T08:00:30Z","stream":"App.InFocus","state":"written","user":"alice","fields":{"raw":"0b0102"},"summary":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-10-26T08:00:00Z,seconds,recorded,memory,biome,biome,App.InFocus: com.apple.Safari | window one,Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567,,32,,
+2023-10-26T08:00:05.500000Z,micros,recorded,memory,biome,biome,App.InFocus: com.example.Notes,Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567,,88,,
+2023-10-26T08:00:09Z,seconds,recorded,memory,biome,biome,App.InFocus: tag-a | tag-b,Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567,,128,,
+2023-10-26T08:00:20Z,seconds,recorded,memory,biome,biome,"App.InFocus: ",Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567,,160,,
+2023-10-26T08:00:30Z,seconds,recorded,memory,biome,biome,"App.InFocus: ",Users/alice/Library/Biome/streams/public/App.InFocus/local/1234567,,168,,
+--- warning: offset 168: payload is not a protobuf message

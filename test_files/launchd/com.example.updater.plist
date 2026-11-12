@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.example.updater</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Library/Application Support/Example/updater</string>
+		<string>--daemon</string>
+		<string>--interval=60</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>KeepAlive</key>
+	<dict>
+		<key>NetworkState</key>
+		<true/>
+		<key>SuccessfulExit</key>
+		<false/>
+	</dict>
+	<key>StartInterval</key>
+	<integer>3600</integer>
+	<key>StartCalendarInterval</key>
+	<array>
+		<dict>
+			<key>Hour</key>
+			<integer>3</integer>
+			<key>Minute</key>
+			<integer>30</integer>
+		</dict>
+		<dict>
+			<key>Weekday</key>
+			<integer>0</integer>
+		</dict>
+	</array>
+	<key>WatchPaths</key>
+	<array>
+		<string>/etc/example.conf</string>
+	</array>
+	<key>QueueDirectories</key>
+	<array>
+		<string>/var/spool/example</string>
+	</array>
+	<key>UserName</key>
+	<string>_example</string>
+	<key>GroupName</key>
+	<string>_example</string>
+	<key>WorkingDirectory</key>
+	<string>/var/empty</string>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>EXAMPLE_MODE</key>
+		<string>production</string>
+		<key>EXAMPLE_LEVEL</key>
+		<integer>3</integer>
+	</dict>
+	<key>MachServices</key>
+	<dict>
+		<key>com.example.updater.xpc</key>
+		<true/>
+	</dict>
+	<key>Sockets</key>
+	<dict>
+		<key>Listeners</key>
+		<dict>
+			<key>SockServiceName</key>
+			<string>8443</string>
+		</dict>
+	</dict>
+	<key>StandardOutPath</key>
+	<string>/var/log/example-updater.log</string>
+	<key>StandardErrorPath</key>
+	<string>/var/log/example-updater.err</string>
+</dict>
+</plist>

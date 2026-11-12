@@ -1,0 +1,15 @@
+---
+source: crates/nixcavate-artifacts/src/common/ssh_config.rs
+expression: "run(&ARTIFACT, \"home/alice/.ssh/config\", &fixture(\"ssh-config/ssh_config\"), 0)"
+---
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":2,"user":"alice","config_kind":"client","block":"","keyword":"Include","value":"/etc/ssh/ssh_config.d/*.conf"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":4,"user":"alice","config_kind":"client","block":"","keyword":"Host","value":"*.example.com web?"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":5,"user":"alice","config_kind":"client","block":"Host *.example.com web?","keyword":"User","value":"alice"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":6,"user":"alice","config_kind":"client","block":"Host *.example.com web?","keyword":"Port","value":"2222"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":7,"user":"alice","config_kind":"client","block":"Host *.example.com web?","keyword":"IdentityFile","value":"~/.ssh/id work"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":8,"user":"alice","config_kind":"client","block":"Host *.example.com web?","keyword":"ProxyCommand","value":"ssh -W %h:%p jump.example.com"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":9,"user":"alice","config_kind":"client","block":"","keyword":"Host","value":"*"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":10,"user":"alice","config_kind":"client","block":"Host *","keyword":"ForwardAgent","value":"no"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":11,"user":"alice","config_kind":"client","block":"Host *","keyword":"ServerAliveInterval","value":"30"}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":12,"user":"alice","config_kind":"client","block":"","keyword":"Match","value":"host db01 exec \"test -f /tmp/flag\""}
+{"host":"memory","artifact":"ssh-config","source_path":"home/alice/.ssh/config","source_line":13,"user":"alice","config_kind":"client","block":"Match host db01 exec \"test -f /tmp/flag\"","keyword":"User","value":"bob"}

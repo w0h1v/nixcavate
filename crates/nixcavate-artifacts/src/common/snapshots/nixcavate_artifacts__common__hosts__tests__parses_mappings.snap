@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/common/hosts.rs
+expression: "run(&ARTIFACT, \"etc/hosts\", &fixture(\"hosts/hosts\"), 0)"
+---
+{"host":"memory","artifact":"hosts","source_path":"etc/hosts","source_line":2,"address":"127.0.0.1","names":["localhost"]}
+{"host":"memory","artifact":"hosts","source_path":"etc/hosts","source_line":3,"address":"127.0.1.1","names":["web01.example.com","web01"]}
+{"host":"memory","artifact":"hosts","source_path":"etc/hosts","source_line":4,"address":"192.0.2.10","names":["db01.example.com","db01","db"]}
+{"host":"memory","artifact":"hosts","source_path":"etc/hosts","source_line":5,"address":"::1","names":["localhost","ip6-localhost","ip6-loopback"]}
+{"host":"memory","artifact":"hosts","source_path":"etc/hosts","source_line":6,"address":"2001:db8::1","names":["router.example.com"]}
+{"host":"memory","artifact":"hosts","source_path":"etc/hosts","source_line":7,"address":"203.0.113.7","names":["lonely.example.com"]}
+--- warning: line 9: address justonetoken has no names

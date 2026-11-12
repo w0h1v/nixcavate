@@ -1,0 +1,19 @@
+---
+source: crates/nixcavate-artifacts/src/linux/audit.rs
+expression: "snap(\"garbage.log\")"
+---
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":147,"time":"2023-11-14T22:13:20.000Z","serial":7,"record_type":"SYSCALL","node":null,"pid":null,"ppid":null,"uid":null,"auid":null,"euid":null,"ses":null,"user":null,"comm":null,"exe":null,"syscall":null,"success":null,"key":null,"command":null,"cwd":null,"path":null,"remote_address":null,"remote_host":null,"terminal":null,"op":null,"fields":"arch=c000003e unterminated=\"quote pid=5 comm=ZZ key="}
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":242,"time":"2023-11-14T22:13:21.000Z","serial":8,"record_type":"EXECVE","node":null,"pid":null,"ppid":null,"uid":null,"auid":null,"euid":null,"ses":null,"user":null,"comm":null,"exe":null,"syscall":null,"success":null,"key":null,"command":"GG 6C7","cwd":null,"path":null,"remote_address":null,"remote_host":null,"terminal":null,"op":null,"fields":"argc=2 a0=GG a1=6C7"}
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":303,"time":"2023-11-14T22:13:22.000Z","serial":9,"record_type":"USER_AUTH","node":null,"pid":null,"ppid":null,"uid":null,"auid":null,"euid":null,"ses":null,"user":"alice","comm":null,"exe":null,"syscall":null,"success":null,"key":null,"command":null,"cwd":null,"path":null,"remote_address":null,"remote_host":null,"terminal":null,"op":"PAM:authentication","fields":"msg='op=PAM:authentication acct=\"alice"}
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":391,"time":"2023-11-14T22:13:23.000Z","serial":10,"record_type":"PATH","node":null,"pid":null,"ppid":null,"uid":null,"auid":null,"euid":null,"ses":null,"user":null,"comm":null,"exe":null,"syscall":null,"success":null,"key":null,"command":null,"cwd":null,"path":"ABC","remote_address":null,"remote_host":null,"terminal":null,"op":null,"fields":"name=ABC item=0"}
+{"host":"memory","artifact":"audit-log","source_path":"var/log/audit/audit.log","source_offset":506,"time":"2023-11-14T22:13:24.100Z","serial":12,"record_type":"TRUNCATED","node":null,"pid":null,"ppid":null,"uid":null,"auid":null,"euid":null,"ses":null,"user":null,"comm":null,"exe":null,"syscall":null,"success":null,"key":null,"command":null,"cwd":null,"path":null,"remote_address":null,"remote_host":null,"terminal":null,"op":null,"fields":"pid=4294967296 uid=-1 ses=unset"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:21.000Z,millis,recorded,memory,audit-log,executed,GG 6C7,var/log/audit/audit.log,,242,,
+2023-11-14T22:13:22.000Z,millis,recorded,memory,audit-log,auth,USER_AUTH op=PAM:authentication acct=alice,var/log/audit/audit.log,,303,,
+--- warning: offset 0: not an audit record
+--- warning: offset 28: not an audit record
+--- warning: offset 55: not an audit record
+--- warning: offset 97: not an audit record
+--- warning: offset 447: not an audit record
+--- warning: offset 581: not an audit record

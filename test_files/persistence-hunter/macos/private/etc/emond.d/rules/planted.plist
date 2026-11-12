@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>planted rule</string>
+		<key>enabled</key>
+		<true/>
+		<key>eventTypes</key>
+		<array>
+			<string>startup</string>
+		</array>
+		<key>actions</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>RunCommand</string>
+				<key>command</key>
+				<string>/usr/local/bin/startup-hook</string>
+				<key>user</key>
+				<string>root</string>
+			</dict>
+			<dict>
+				<key>type</key>
+				<string>Log</string>
+				<key>message</key>
+				<string>fired</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>disabled rule</string>
+		<key>enabled</key>
+		<false/>
+		<key>actions</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>RunCommand</string>
+				<key>command</key>
+				<string>/bin/true</string>
+			</dict>
+		</array>
+	</dict>
+</array>
+</plist>

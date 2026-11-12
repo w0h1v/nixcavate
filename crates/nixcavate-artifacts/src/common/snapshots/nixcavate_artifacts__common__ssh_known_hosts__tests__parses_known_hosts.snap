@@ -1,0 +1,15 @@
+---
+source: crates/nixcavate-artifacts/src/common/ssh_known_hosts.rs
+expression: "run(&ARTIFACT, \"home/alice/.ssh/known_hosts\",\n&fixture(\"ssh-known-hosts/known_hosts\"), 0)"
+---
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":2,"user":"alice","marker":"","hosts":["web01.example.com","192.0.2.10"],"hashed":false,"key_type":"ssh-ed25519","fingerprint":"SHA256:WsaXduMJ/3PLy1dRklTpm1DVqhM42imksgErYqhEfAY","comment":""}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":3,"user":"alice","marker":"","hosts":["[web02.example.com]:2222"],"hashed":false,"key_type":"ssh-rsa","fingerprint":"SHA256:x9cEHz/kAEOlWO4p0d/HWwfo/0fE4A15EdZABerl8fw","comment":"deploy key"}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":4,"user":"alice","marker":"@cert-authority","hosts":["*.example.com"],"hashed":false,"key_type":"ecdsa-sha2-nistp256","fingerprint":"SHA256:dQODpTvemPcE0Dc+giGWgtn++0K16KBKO7VWaxfrbl0","comment":"corp-ca"}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":5,"user":"alice","marker":"@revoked","hosts":["old.example.com"],"hashed":false,"key_type":"ssh-rsa","fingerprint":"SHA256:x9cEHz/kAEOlWO4p0d/HWwfo/0fE4A15EdZABerl8fw","comment":""}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":6,"user":"alice","marker":"","hosts":["db01.example.net","2001:db8::5"],"hashed":false,"key_type":"ecdsa-sha2-nistp256","fingerprint":"SHA256:dQODpTvemPcE0Dc+giGWgtn++0K16KBKO7VWaxfrbl0","comment":""}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":7,"user":"alice","marker":"","hosts":["|1|4qKKUBzKCbqk1vifDofvEI8hoaI=|OQnAj2L7BXWI86XcRIWZXzjgyVg="],"hashed":true,"key_type":"ssh-ed25519","fingerprint":"SHA256:WsaXduMJ/3PLy1dRklTpm1DVqhM42imksgErYqhEfAY","comment":""}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":8,"user":"alice","marker":"","hosts":["|1|66bgooMe14vNs6NNEhLnSW5uWTE=|SsbkSuC0Q2OjZuWqzR0QQn/g0hM="],"hashed":true,"key_type":"ssh-ed25519","fingerprint":"SHA256:WsaXduMJ/3PLy1dRklTpm1DVqhM42imksgErYqhEfAY","comment":""}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":9,"user":"alice","marker":"","hosts":["this"],"hashed":false,"key_type":"line","fingerprint":null,"comment":"garbage"}
+{"host":"memory","artifact":"ssh-known-hosts","source_path":"home/alice/.ssh/known_hosts","source_line":10,"user":"alice","marker":"","hosts":["bad.example.com"],"hashed":false,"key_type":"ssh-ed25519","fingerprint":null,"comment":""}
+--- warning: line 9: key does not decode to a line key
+--- warning: line 10: key does not decode to a ssh-ed25519 key

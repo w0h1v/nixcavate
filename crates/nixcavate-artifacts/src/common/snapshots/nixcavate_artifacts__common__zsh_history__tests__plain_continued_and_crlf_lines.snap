@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/common/zsh_history.rs
+expression: "run(&ARTIFACT, \"private/var/root/.zsh_sessions/A.historynew\", data, 0)"
+---
+{"host":"memory","artifact":"zsh-history","source_path":"private/var/root/.zsh_sessions/A.historynew","source_line":1,"user":"root","time":null,"duration_secs":null,"command":"ls"}
+{"host":"memory","artifact":"zsh-history","source_path":"private/var/root/.zsh_sessions/A.historynew","source_line":2,"user":"root","time":"2023-11-14T22:13:20Z","duration_secs":3,"command":"echo a \nb"}
+{"host":"memory","artifact":"zsh-history","source_path":"private/var/root/.zsh_sessions/A.historynew","source_line":5,"user":"root","time":"2023-11-14T22:13:21Z","duration_secs":0,"command":"tail "}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,zsh-history,executed,"root ran echo a 
+b",private/var/root/.zsh_sessions/A.historynew,2,,,
+2023-11-14T22:13:21Z,seconds,recorded,memory,zsh-history,executed,"root ran tail ",private/var/root/.zsh_sessions/A.historynew,5,,,

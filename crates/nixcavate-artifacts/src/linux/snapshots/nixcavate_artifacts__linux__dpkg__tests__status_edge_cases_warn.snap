@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/linux/dpkg.rs
+expression: "run(&STATUS, \"var/lib/dpkg/status-old\", data, 0)"
+---
+{"host":"memory","artifact":"dpkg-status","source_path":"var/lib/dpkg/status-old","source_line":1,"package":"a","version":"","architecture":"","status":"install ok installed","installed":true,"installed_size_kb":null,"section":"","priority":"","maintainer":"","source_package":"","summary":""}
+--- warning: line 5: not a `Field: value` line
+--- warning: line 4: stanza without a Package field

@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/common/authorized_keys.rs
+expression: "run(&ARTIFACT, \"home/alice/.ssh/authorized_keys\",\n&fixture(\"authorized-keys/authorized_keys\"), 0)"
+---
+{"host":"memory","artifact":"authorized-keys","source_path":"home/alice/.ssh/authorized_keys","source_line":2,"user":"alice","key_type":"ssh-ed25519","fingerprint":"SHA256:Cqoak1mXSSwXboEF+H1NZG3RT6Emffr+a3DyzkB/4GA","comment":"alice@laptop.example.com","options":"","forced_command":null,"from":null}
+{"host":"memory","artifact":"authorized-keys","source_path":"home/alice/.ssh/authorized_keys","source_line":3,"user":"alice","key_type":"ssh-rsa","fingerprint":"SHA256:dA6ZG8GQnhe/BIXxZ9pad5Le2sTs5Uk4kHPXSnE5bi0","comment":"bob@build01.example.com","options":"","forced_command":null,"from":null}
+{"host":"memory","artifact":"authorized-keys","source_path":"home/alice/.ssh/authorized_keys","source_line":5,"user":"alice","key_type":"ecdsa-sha2-nistp256","fingerprint":"SHA256:GioSZzPOX6d+sD0TVLKiIOjIHi2NHg28pKbHx/R/Za8","comment":"ci@example.com","options":"from=\"192.0.2.0/24,*.example.com\",no-pty,no-agent-forwarding","forced_command":null,"from":"192.0.2.0/24,*.example.com"}
+{"host":"memory","artifact":"authorized-keys","source_path":"home/alice/.ssh/authorized_keys","source_line":6,"user":"alice","key_type":"ecdsa-sha2-nistp384","fingerprint":"SHA256:PGB5utDn6RjZzH21JMD5g35igJKtxUpl2D28E9z+ADo","comment":"p384","options":"command=\"/usr/bin/rsync --server --sender -logDtpre.iLsfxC . /srv/backup\",restrict","forced_command":"/usr/bin/rsync --server --sender -logDtpre.iLsfxC . /srv/backup","from":null}
+{"host":"memory","artifact":"authorized-keys","source_path":"home/alice/.ssh/authorized_keys","source_line":7,"user":"alice","key_type":"ssh-ed25519","fingerprint":"SHA256:Cqoak1mXSSwXboEF+H1NZG3RT6Emffr+a3DyzkB/4GA","comment":"","options":"command=\"echo \\\"hi there\\\"; /tmp/.c2 --beacon\",from=\"203.0.113.9\"","forced_command":"echo \"hi there\"; /tmp/.c2 --beacon","from":"203.0.113.9"}
+--- warning: line 8: not a valid authorized_keys entry
+--- warning: line 9: not a valid authorized_keys entry

@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/bodyfile.rs
+expression: "run(&ARTIFACT, \"bodyfile/bodyfile.txt\", b\"\", 0)"
+---
+--- skipped: empty file

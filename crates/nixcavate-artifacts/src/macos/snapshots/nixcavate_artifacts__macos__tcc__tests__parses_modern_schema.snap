@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/macos/tcc.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"tcc/TCC-modern.db\"), 0)"
+---
+{"host":"memory","artifact":"tcc","source_path":"Users/alice/Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"alice","service":"kTCCServiceSystemPolicyAllFiles","client":"com.example.backup","client_type":"bundle_id","auth_value":"allowed","auth_reason":"service_policy","indirect_object":"UNUSED","time":"2023-11-14T22:13:20Z","flags":0}
+{"host":"memory","artifact":"tcc","source_path":"Users/alice/Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"alice","service":"kTCCServiceCamera","client":"com.example.video","client_type":"bundle_id","auth_value":"denied","auth_reason":"user_set","indirect_object":"UNUSED","time":"2023-11-14T22:15:00Z","flags":0}
+{"host":"memory","artifact":"tcc","source_path":"Users/alice/Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"alice","service":"kTCCServiceAccessibility","client":"/usr/local/bin/helper","client_type":"absolute_path","auth_value":"allowed","auth_reason":"user_set","indirect_object":"UNUSED","time":"2023-11-14T22:16:40Z","flags":0}
+{"host":"memory","artifact":"tcc","source_path":"Users/alice/Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"alice","service":"kTCCServiceMicrophone","client":"com.example.voice","client_type":"bundle_id","auth_value":"limited","auth_reason":"99","indirect_object":"UNUSED","time":"2023-11-14T22:18:20Z","flags":0}
+{"host":"memory","artifact":"tcc","source_path":"Users/alice/Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"alice","service":"kTCCServiceAppleEvents","client":"com.example.script","client_type":"bundle_id","auth_value":"allowed","auth_reason":"system_set","indirect_object":"com.apple.finder","time":"2023-11-14T22:20:00Z","flags":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,tcc,tcc_changed,com.example.backup allowed for kTCCServiceSystemPolicyAllFiles,Users/alice/Library/Application Support/com.apple.TCC/TCC.db,,,,
+2023-11-14T22:15:00Z,seconds,recorded,memory,tcc,tcc_changed,com.example.video denied for kTCCServiceCamera,Users/alice/Library/Application Support/com.apple.TCC/TCC.db,,,,
+2023-11-14T22:16:40Z,seconds,recorded,memory,tcc,tcc_changed,/usr/local/bin/helper allowed for kTCCServiceAccessibility,Users/alice/Library/Application Support/com.apple.TCC/TCC.db,,,,
+2023-11-14T22:18:20Z,seconds,recorded,memory,tcc,tcc_changed,com.example.voice limited for kTCCServiceMicrophone,Users/alice/Library/Application Support/com.apple.TCC/TCC.db,,,,
+2023-11-14T22:20:00Z,seconds,recorded,memory,tcc,tcc_changed,com.example.script allowed for kTCCServiceAppleEvents,Users/alice/Library/Application Support/com.apple.TCC/TCC.db,,,,

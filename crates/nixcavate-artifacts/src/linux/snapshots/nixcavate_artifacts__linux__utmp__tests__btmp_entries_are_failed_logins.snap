@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/utmp.rs
+expression: "run(&BTMP, \"var/log/btmp\", &data, 0)"
+---
+{"host":"memory","artifact":"btmp","source_path":"var/log/btmp","source_offset":0,"time":"2023-11-14T22:18:20.000000Z","type":"login_process","user":"admin","line":"ssh:notty","remote_host":"198.51.100.4","address":"198.51.100.4","pid":99,"id":"ts/0","session":0,"exit_termination":0,"exit_status":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:18:20.000000Z,micros,recorded,memory,btmp,failed_login,failed login as admin on ssh:notty from 198.51.100.4,var/log/btmp,,0,,

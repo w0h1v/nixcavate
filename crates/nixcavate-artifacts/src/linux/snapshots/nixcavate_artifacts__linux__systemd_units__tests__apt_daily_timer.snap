@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/systemd_units.rs
+expression: "unit(\"apt-daily.timer\", \"lib/systemd/system/apt-daily.timer\")"
+---
+{"host":"memory","artifact":"systemd-units","source_path":"lib/systemd/system/apt-daily.timer","source_line":null,"unit":"apt-daily.timer","drop_in":false,"unit_type":"timer","description":"Daily apt download activities","exec_start":null,"exec_start_pre":null,"exec_start_post":null,"exec_stop":null,"exec_stop_post":null,"exec_condition":null,"exec_reload":null,"run_user":null,"run_group":null,"working_directory":null,"environment":null,"environment_file":null,"wanted_by":"timers.target","required_by":null,"also":null,"on_calendar":"*-*-* 6,18:00","on_boot_sec":null,"on_active_sec":null,"on_startup_sec":null,"on_unit_active_sec":null,"timer_unit":null,"activates":null,"listen":null,"path_triggers":null,"restart":null,"service_type":null,"modified":"2023-11-14T22:13:20Z"}

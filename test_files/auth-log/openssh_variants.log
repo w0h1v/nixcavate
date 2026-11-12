@@ -1,0 +1,19 @@
+Mar  9 01:00:01 web01 sshd[10]: Accepted keyboard-interactive/pam for bob from 198.51.100.7 port 40000 ssh2
+Mar  9 01:00:02 web01 sshd[10]: Accepted publickey for carol from 2001:db8::5 port 40001 ssh2: ED25519-CERT SHA256:Zm9vYmFyZm9vYmFyZm9vYmFyZm9vYmFyZm9vYmFyMTI ID ca-user (serial 7) CA ED25519 SHA256:b3RoZXJvdGhlcm90aGVyb3RoZXJvdGhlcm90aGVyMTI
+Mar  9 01:00:03 web01 sshd[11]: Failed publickey for bob from 198.51.100.7 port 40002 ssh2: RSA SHA256:cm9ndWVyb2d1ZXJvZ3Vlcm9ndWVyb2d1ZXJvZ3VlcjEy
+Mar  9 01:00:04 web01 sshd[12]: Failed none for invalid user admin from 192.0.2.44 port 40003 ssh2
+Mar  9 01:00:05 web01 sshd[13]: Invalid user test from 192.0.2.44
+Mar  9 01:00:06 web01 sshd[13]: input_userauth_request: invalid user test [preauth]
+Mar  9 01:00:07 web01 sshd[13]: Received disconnect from 192.0.2.44: 11: Bye Bye [preauth]
+Mar  9 01:00:08 web01 sshd[14]: Disconnected from authenticating user root 192.0.2.44 port 40004 [preauth]
+Mar  9 01:00:09 web01 sshd[14]: Disconnected from invalid user guest 192.0.2.44 port 40005 [preauth]
+Mar  9 01:00:10 web01 sshd[14]: Disconnected from 192.0.2.44 port 40006 [preauth]
+Mar  9 01:00:11 web01 sshd[15]: Disconnecting invalid user oracle 192.0.2.44 port 40007: Too many authentication failures [preauth]
+Mar  9 01:00:12 web01 sshd[16]: Connection closed by 192.0.2.44 port 40008 [preauth]
+Mar  9 01:00:13 web01 su[17]: (to root) alice on pts/1
+Mar  9 01:00:14 web01 su[17]: Successful su for root by alice
+Mar  9 01:00:15 web01 su[18]: FAILED su for root by bob
+Mar  9 01:00:16 web01 sudo:    alice : 3 incorrect password attempts ; TTY=pts/1 ; PWD=/home/alice ; USER=root ; COMMAND=/bin/cat /etc/shadow
+Mar  9 01:00:17 web01 sudo:    alice : TTY=pts/1 ; PWD=/home/alice ; USER=root ; TSID=000012 ; COMMAND=/bin/sh -c 'echo a ; echo COMMAND=b'
+Mar  9 01:00:18 web01 passwd: pam_unix(passwd:chauthtok): password changed for bob
+Mar  9 01:00:19 web01 sshd[19]: Invalid user x

@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/macos/wifi.rs
+expression: "run(&ARTIFACT, NEW,\n&fixture(\"wifi-networks/com.apple.wifi.known-networks.plist\"), 0)"
+---
+{"host":"memory","artifact":"wifi-networks","source_path":"Library/Preferences/com.apple.wifi.known-networks.plist","source_line":null,"ssid":"CafeGuest","security":"WPA2 Personal","hidden":false,"time":"2023-06-02T09:30:00Z","added_time":"2023-05-01T10:00:00Z","joined_by_user_time":"2023-05-01T10:00:05Z","joined_by_system_time":"2023-06-02T09:30:00Z","bssids":["02:00:5e:00:53:01","02:00:5e:00:53:02"],"channels":[6,11],"captive":true}
+{"host":"memory","artifact":"wifi-networks","source_path":"Library/Preferences/com.apple.wifi.known-networks.plist","source_line":null,"ssid":"HomeNet","security":"WPA3 Personal","hidden":true,"time":"2023-07-07T07:07:07Z","added_time":"2022-01-01T00:00:00Z","joined_by_user_time":null,"joined_by_system_time":"2023-07-07T07:07:07Z","bssids":[],"channels":[36],"captive":false}
+{"host":"memory","artifact":"wifi-networks","source_path":"Library/Preferences/com.apple.wifi.known-networks.plist","source_line":null,"ssid":"Weird","security":"WPA2 Personal,WPA3 Personal","hidden":false,"time":null,"added_time":null,"joined_by_user_time":null,"joined_by_system_time":null,"bssids":[],"channels":[],"captive":false}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2022-01-01T00:00:00Z,seconds,recorded,memory,wifi-networks,wifi_added,added Wi-Fi network HomeNet,Library/Preferences/com.apple.wifi.known-networks.plist,,,,
+2023-05-01T10:00:00Z,seconds,recorded,memory,wifi-networks,wifi_added,added Wi-Fi network CafeGuest,Library/Preferences/com.apple.wifi.known-networks.plist,,,,
+2023-06-02T09:30:00Z,seconds,recorded,memory,wifi-networks,wifi_joined,joined Wi-Fi network CafeGuest,Library/Preferences/com.apple.wifi.known-networks.plist,,,,
+2023-07-07T07:07:07Z,seconds,recorded,memory,wifi-networks,wifi_joined,joined Wi-Fi network HomeNet,Library/Preferences/com.apple.wifi.known-networks.plist,,,,

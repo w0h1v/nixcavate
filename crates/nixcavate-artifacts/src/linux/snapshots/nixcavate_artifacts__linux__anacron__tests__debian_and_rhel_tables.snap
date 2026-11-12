@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/linux/anacron.rs
+expression: "run(&ARTIFACT, \"etc/anacrontab\", &fixture(\"anacron/anacrontab-debian\"), 0)"
+---
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":5,"kind":"env","period":null,"delay_minutes":null,"job_id":null,"command":null,"name":"SHELL","value":"/bin/sh","last_run":null}
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":6,"kind":"env","period":null,"delay_minutes":null,"job_id":null,"command":null,"name":"PATH","value":"/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin","last_run":null}
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":7,"kind":"env","period":null,"delay_minutes":null,"job_id":null,"command":null,"name":"HOME","value":"/root","last_run":null}
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":8,"kind":"env","period":null,"delay_minutes":null,"job_id":null,"command":null,"name":"LOGNAME","value":"root","last_run":null}
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":11,"kind":"job","period":"1","delay_minutes":5,"job_id":"cron.daily","command":"run-parts --report /etc/cron.daily","name":null,"value":null,"last_run":null}
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":12,"kind":"job","period":"7","delay_minutes":10,"job_id":"cron.weekly","command":"run-parts --report /etc/cron.weekly","name":null,"value":null,"last_run":null}
+{"host":"memory","artifact":"anacron","source_path":"etc/anacrontab","source_line":13,"kind":"job","period":"@monthly","delay_minutes":15,"job_id":"cron.monthly","command":"run-parts --report /etc/cron.monthly","name":null,"value":null,"last_run":null}

@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/container_config.rs
+expression: "run(&ARTIFACT, \"etc/containers/registries.conf\",\n&fixture(\"container-config/registries.conf\"), 0)"
+---
+{"host":"memory","artifact":"container-config","source_path":"etc/containers/registries.conf","source_line":2,"text":"unqualified-search-registries = [\"docker.io\"]"}
+{"host":"memory","artifact":"container-config","source_path":"etc/containers/registries.conf","source_line":4,"text":"[[registry]]"}
+{"host":"memory","artifact":"container-config","source_path":"etc/containers/registries.conf","source_line":5,"text":"location = \"registry.example.com:5000\""}
+{"host":"memory","artifact":"container-config","source_path":"etc/containers/registries.conf","source_line":6,"text":"insecure = true"}

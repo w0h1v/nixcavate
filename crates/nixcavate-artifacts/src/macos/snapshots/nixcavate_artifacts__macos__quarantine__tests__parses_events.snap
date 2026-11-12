@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/quarantine.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"quarantine-events/QuarantineEventsV2\"), 0)"
+---
+{"host":"memory","artifact":"quarantine-events","source_path":"Users/alice/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2","source_line":null,"time":"2023-11-14T22:13:20.500000Z","user":"alice","event_id":"11111111-2222-3333-4444-555555555555","agent_bundle_id":"com.example.browser","agent_name":"ExampleBrowser","url":"https://downloads.example.com/tool.dmg","origin_url":"https://www.example.com/get","origin_title":"Example Tools","sender_name":null,"sender_address":null,"type_number":0}
+{"host":"memory","artifact":"quarantine-events","source_path":"Users/alice/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2","source_line":null,"time":"2023-11-15T00:13:20Z","user":"alice","event_id":"66666666-7777-8888-9999-000000000000","agent_bundle_id":"com.apple.mail","agent_name":"Mail","url":"https://files.example.net/report.pdf","origin_url":null,"origin_title":null,"sender_name":"Bob Example","sender_address":"bob@example.com","type_number":4}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20.500000Z,micros,recorded,memory,quarantine-events,file_quarantined,ExampleBrowser downloaded https://downloads.example.com/tool.dmg,Users/alice/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2,,,,
+2023-11-15T00:13:20Z,seconds,recorded,memory,quarantine-events,file_quarantined,Mail downloaded https://files.example.net/report.pdf,Users/alice/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV2,,,,

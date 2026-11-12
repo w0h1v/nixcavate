@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/macos/asl.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"asl/sample.asl\"), 0)"
+---
+{"host":"memory","artifact":"asl","source_path":"private/var/log/asl/2024.03.10.G80.asl","source_offset":264,"time":"2024-03-10T01:02:03.123456789Z","level":5,"level_name":"Notice","log_host":"mac01","sender":"syslogd","facility":"com.apple.asl.statistics","pid":412,"uid":0,"gid":0,"read_uid":null,"read_gid":80,"message":"ASL Sender Statistics","ref_pid":0,"ref_proc":"","session":"","extra":{"MsgCount":"16","*sshd":"3 1200"}}
+{"host":"memory","artifact":"asl","source_path":"private/var/log/asl/2024.03.10.G80.asl","source_offset":418,"time":"2024-03-10T01:03:20.000000000Z","level":3,"level_name":"Error","log_host":"mac01.example.com","sender":"sshd","facility":"com.apple.system","pid":777,"uid":501,"gid":20,"read_uid":501,"read_gid":null,"message":"Failed password for alice from 192.0.2.10","ref_pid":1,"ref_proc":"launchd","session":"100001","extra":{"Facility":"auth","Empty":""}}
+{"host":"memory","artifact":"asl","source_path":"private/var/log/asl/2024.03.10.G80.asl","source_offset":572,"time":"2024-03-10T01:05:00.000000005Z","level":9,"level_name":null,"log_host":"","sender":"","facility":"","pid":-2,"uid":-2,"gid":-2,"read_uid":null,"read_gid":null,"message":"","ref_pid":0,"ref_proc":"","session":"","extra":{}}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:03.123456789Z,nanos,recorded,memory,asl,log,syslogd: ASL Sender Statistics,private/var/log/asl/2024.03.10.G80.asl,,264,,
+2024-03-10T01:03:20.000000000Z,nanos,recorded,memory,asl,log,sshd: Failed password for alice from 192.0.2.10,private/var/log/asl/2024.03.10.G80.asl,,418,,
+2024-03-10T01:05:00.000000005Z,nanos,recorded,memory,asl,log,,private/var/log/asl/2024.03.10.G80.asl,,572,,

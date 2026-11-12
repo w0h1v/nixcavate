@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/common/chromium.rs
+expression: "run(&HISTORY, PATH, &fixture(\"chromium-history/History\"), 0)"
+---
+{"host":"memory","artifact":"chromium-history","source_path":"home/alice/.config/google-chrome/Default/History","source_line":null,"time":"2026-11-11T20:00:35.797429Z","user":"alice","browser":"chrome","profile":"Default","url":"http://127.0.0.1:8000/index.html","title":"Example Domain","visit_count":1,"typed_count":1,"transition":"typed","transition_raw":939524097,"from_visit":0,"visit_duration_secs":0.011565}
+{"host":"memory","artifact":"chromium-history","source_path":"home/alice/.config/google-chrome/Default/History","source_line":null,"time":"2026-11-11T20:00:36.135542Z","user":"alice","browser":"chrome","profile":"Default","url":"http://127.0.0.1:8000/two.html","title":"Second Page","visit_count":1,"typed_count":1,"transition":"typed","transition_raw":939524097,"from_visit":0,"visit_duration_secs":0.015397}
+{"host":"memory","artifact":"chromium-history","source_path":"home/alice/.config/google-chrome/Default/History","source_line":null,"time":"2026-11-11T20:03:33.000000Z","user":"alice","browser":"chrome","profile":"Default","url":"http://127.0.0.1:8000/report.txt","title":"","visit_count":1,"typed_count":1,"transition":"auto_subframe","transition_raw":805306371,"from_visit":0,"visit_duration_secs":0.0}
+{"host":"memory","artifact":"chromium-history","source_path":"home/alice/.config/google-chrome/Default/History","source_line":null,"time":"2026-11-11T20:03:40.000000Z","user":"alice","browser":"chrome","profile":"Default","url":"http://127.0.0.1:8000/two.html","title":"Second Page","visit_count":1,"typed_count":1,"transition":"reload","transition_raw":805306376,"from_visit":2,"visit_duration_secs":2.5}
+{"host":"memory","artifact":"chromium-history","source_path":"home/alice/.config/google-chrome/Default/History","source_line":null,"time":"2026-11-11T20:03:50.000000Z","user":"alice","browser":"chrome","profile":"Default","url":null,"title":null,"visit_count":null,"typed_count":null,"transition":"form_submit","transition_raw":805306375,"from_visit":0,"visit_duration_secs":0.0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T20:00:35.797429Z,micros,recorded,memory,chromium-history,url_visited,alice visited http://127.0.0.1:8000/index.html (Example Domain),home/alice/.config/google-chrome/Default/History,,,,
+2026-11-11T20:00:36.135542Z,micros,recorded,memory,chromium-history,url_visited,alice visited http://127.0.0.1:8000/two.html (Second Page),home/alice/.config/google-chrome/Default/History,,,,
+2026-11-11T20:03:33.000000Z,micros,recorded,memory,chromium-history,url_visited,alice visited http://127.0.0.1:8000/report.txt,home/alice/.config/google-chrome/Default/History,,,,
+2026-11-11T20:03:40.000000Z,micros,recorded,memory,chromium-history,url_visited,alice visited http://127.0.0.1:8000/two.html (Second Page),home/alice/.config/google-chrome/Default/History,,,,
+2026-11-11T20:03:50.000000Z,micros,recorded,memory,chromium-history,url_visited,alice visited (unknown URL),home/alice/.config/google-chrome/Default/History,,,,

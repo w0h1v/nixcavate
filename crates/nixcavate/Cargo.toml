@@ -1,0 +1,28 @@
+[package]
+name = "nixcavate"
+description = "Fast forensic artifact parser for Linux and macOS collections"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+nixcavate-core.workspace = true
+nixcavate-source.workspace = true
+nixcavate-artifacts.workspace = true
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+mimalloc.workspace = true
+serde-saphyr.workspace = true
+memchr.workspace = true
+
+[dev-dependencies]
+tar.workspace = true
+zip.workspace = true
+flate2.workspace = true
+zstd.workspace = true

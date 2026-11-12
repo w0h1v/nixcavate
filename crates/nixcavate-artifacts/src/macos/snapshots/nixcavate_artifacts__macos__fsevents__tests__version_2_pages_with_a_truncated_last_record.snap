@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/macos/fsevents.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"fsevents/v2.gz\"), 0)"
+---
+{"host":"memory","artifact":"fsevents","source_path":".fseventsd/0000000000a1b2c3","source_offset":12,"path":"/Users/alice/Documents/report.txt","event_id":1000,"flags":"FileEvent|Created","flags_raw":16809984,"node_id":11}
+{"host":"memory","artifact":"fsevents","source_path":".fseventsd/0000000000a1b2c3","source_offset":66,"path":"/Users/alice/Documents","event_id":1001,"flags":"FolderEvent|Modified|FolderCreated","flags_raw":2415919105,"node_id":12}
+{"host":"memory","artifact":"fsevents","source_path":".fseventsd/0000000000a1b2c3","source_offset":109,"path":"/Volumes/Backup","event_id":1002,"flags":"FolderEvent|Mount","flags_raw":3,"node_id":13}
+{"host":"memory","artifact":"fsevents","source_path":".fseventsd/0000000000a1b2c3","source_offset":145,"path":"/private/tmp/café.log","event_id":1003,"flags":"FileEvent|Renamed","flags_raw":134250560,"node_id":14}
+{"host":"memory","artifact":"fsevents","source_path":".fseventsd/0000000000a1b2c3","source_offset":200,"path":"/Users/bob/notes.md","event_id":2000,"flags":"FileEvent|Removed","flags_raw":33587200,"node_id":21}
+{"host":"memory","artifact":"fsevents","source_path":".fseventsd/0000000000a1b2c3","source_offset":240,"path":"/Users/bob/link","event_id":2001,"flags":"LastHardLinkRemoved|HardLink|SymbolicLink","flags_raw":22528,"node_id":22}
+--- warning: offset 276: record is cut off; page ends here

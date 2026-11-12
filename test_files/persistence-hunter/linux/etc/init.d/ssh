@@ -1,0 +1,5 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides: sshd
+### END INIT INFO
+/usr/sbin/sshd

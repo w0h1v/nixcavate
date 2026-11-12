@@ -1,0 +1,10 @@
+2024-03-10 01:02:03 startup packages upgrade
+2024-03-10 01:02:04 upgrade openssl:amd64 3.0.11-1~deb12u1 3.0.11-1~deb12u2
+2024-03-10 01:02:05 status installed openssl:amd64 3.0.11-1~deb12u2
+2024-03-10 01:02:06 conffile /etc/ssl/openssl.cnf keep
+2024-03-10 01:02:07 purge nmap:amd64 7.93+dfsg1-1 <none>
+this line is garbage
+2024-13-45 99:99:99 install foo:amd64 <none> 1.0
+2024-03-10 01:02:08
+
+2024-03-10 01:02:09 install bare 1.0 2.0

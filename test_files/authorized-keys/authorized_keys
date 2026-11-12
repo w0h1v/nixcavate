@@ -1,0 +1,9 @@
+# deploy keys
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGJ2DzsTGVBLKSMNsKyJYzcO9eQ6oxEk7dB1N2btxpH alice@laptop.example.com
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDR7AGceT0dNPOmZOmjzdgIDrQZTqTmD2SVApHiwoaiG00u6fvflFP/uJh/lt9e9rNevPldXLSEZzZRCqDTXrLgFIL6tV4lmMAdbZFQf0mFtYyv2Z6lAvMBg/TdXvRy6ZG4g+Sz7sw1Q7MJA1TPvuSqlPaOdiFuZaDpzQHNCi8/pG3p+CHb5Ut4qPFD76j8Y85a7zqh00/kyveSCFGnNfAvF7KvcCdT8do1F966FqUYV35CD9DfRzDjKNu9QGAQWlrjvzX45/zC2TIGMgX2K1fNhgpHul4v7klzIbN9wAOKn/e+qhqK0iewtml4EaPa7FD4P7URa6q63Lr6CSgEcXf bob@build01.example.com
+
+from="192.0.2.0/24,*.example.com",no-pty,no-agent-forwarding ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBKd3A+/42J/6GubjcGlmq0slO4FlKrFG/hUq832ZOb0coMr8TGFWBNdtvfSWaUzdS2Q3YiXTs7XKre+cajjsLoo= ci@example.com
+command="/usr/bin/rsync --server --sender -logDtpre.iLsfxC . /srv/backup",restrict ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzODQAAABhBL3LmsN/gddS9Klao2H7OfuzYGncuzPp28xG97ekARuU7KqAJ7RPsPzmdPpQrkaPH7VikJ2sCzC2a0kEy9HN40TBgaIhKkx1LxKorDr4fIhol2y7nTOOKYFkuWMaqj3rLw== p384
+command="echo \"hi there\"; /tmp/.c2 --beacon",from="203.0.113.9" ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICGJ2DzsTGVBLKSMNsKyJYzcO9eQ6oxEk7dB1N2btxpH
+not a key line at all
+ssh-rsa !!!notbase64!!! broken

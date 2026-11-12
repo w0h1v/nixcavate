@@ -1,0 +1,29 @@
+---
+source: crates/nixcavate-artifacts/src/linux/bodyfile.rs
+expression: "run(&ARTIFACT, \"../bodyfile/bodyfile.txt\", &fixture(\"bodyfile/edge.txt\"), 0)"
+---
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":0,"path":"/home/alice/My Documents/report final.docx","link_target":null,"inode":"1001","mode":"-rw-r--r--","uid":1000,"gid":1000,"size":2048,"accessed":"2023-11-14T22:18:20Z","modified":"2023-11-14T22:16:40Z","changed":"2023-11-14T22:16:40Z","created":"2023-11-14T22:15:00Z","suid":false,"sgid":false,"world_writable":false}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":120,"path":"/tmp/odd|name -> not a link","link_target":null,"inode":"1002","mode":"-rw-------","uid":1000,"gid":1000,"size":5,"accessed":"2023-11-14T22:13:20Z","modified":"2023-11-14T22:13:20Z","changed":"2023-11-14T22:13:20Z","created":"2023-11-14T22:13:20Z","suid":false,"sgid":false,"world_writable":false}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":222,"path":"/usr/local/lib/lib","link_target":"v2.so -> libv2.so.1","inode":"1003","mode":"lrwxrwxrwx","uid":0,"gid":0,"size":11,"accessed":"2023-11-14T22:13:20Z","modified":"2023-11-14T22:13:20Z","changed":"2023-11-14T22:13:20Z","created":null,"suid":false,"sgid":false,"world_writable":true}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":324,"path":"/usr/bin/sudo","link_target":null,"inode":"1004","mode":"-rwsr-xr-x","uid":0,"gid":0,"size":232416,"accessed":"2023-11-14T22:13:20Z","modified":"2020-09-13T12:26:40Z","changed":"2022-04-15T05:20:00Z","created":null,"suid":true,"sgid":false,"world_writable":false}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":403,"path":"/usr/bin/wall","link_target":null,"inode":"1005","mode":"-rwxr-sr-x","uid":0,"gid":5,"size":35048,"accessed":null,"modified":null,"changed":null,"created":null,"suid":false,"sgid":true,"world_writable":false}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":453,"path":"/var/tmp/shared","link_target":null,"inode":"1006","mode":"drwxrwxrwt","uid":0,"gid":0,"size":4096,"accessed":null,"modified":null,"changed":"2023-11-14T22:13:20Z","created":null,"suid":false,"sgid":false,"world_writable":true}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":516,"path":"/srv/open file","link_target":null,"inode":"1007","mode":"-rw-rw-rw-","uid":33,"gid":33,"size":0,"accessed":"2023-11-14T22:13:27Z","modified":"2023-11-14T22:13:27Z","changed":"2023-11-14T22:13:27Z","created":"2023-11-14T22:13:27Z","suid":false,"sgid":false,"world_writable":true}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":601,"path":"/srv/odd mode","link_target":null,"inode":"1008","mode":"?","uid":null,"gid":null,"size":null,"accessed":null,"modified":null,"changed":null,"created":null,"suid":false,"sgid":false,"world_writable":false}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":639,"path":"too|few|fields","link_target":null,"inode":"","mode":"","uid":null,"gid":null,"size":null,"accessed":null,"modified":null,"changed":null,"created":null,"suid":false,"sgid":false,"world_writable":false}
+{"host":"memory","artifact":"bodyfile","source_path":"../bodyfile/bodyfile.txt","source_offset":654,"path":"/etc/passwd","link_target":null,"inode":"1009","mode":"-rw-r--r--","uid":0,"gid":0,"size":1234,"accessed":"2023-11-14T22:21:40Z","modified":"2023-11-14T22:20:00Z","changed":"2023-11-14T22:21:40Z","created":"2023-11-14T22:20:00Z","suid":false,"sgid":false,"world_writable":false}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2020-09-13T12:26:40Z,seconds,recorded,memory,bodyfile,m...,/usr/bin/sudo,../bodyfile/bodyfile.txt,,324,,
+2022-04-15T05:20:00Z,seconds,recorded,memory,bodyfile,..c.,/usr/bin/sudo,../bodyfile/bodyfile.txt,,324,,
+2023-11-14T22:13:20Z,seconds,recorded,memory,bodyfile,macb,/tmp/odd|name -> not a link,../bodyfile/bodyfile.txt,,120,,
+2023-11-14T22:13:20Z,seconds,recorded,memory,bodyfile,mac.,/usr/local/lib/lib,../bodyfile/bodyfile.txt,,222,,
+2023-11-14T22:13:20Z,seconds,recorded,memory,bodyfile,.a..,/usr/bin/sudo,../bodyfile/bodyfile.txt,,324,,
+2023-11-14T22:13:20Z,seconds,recorded,memory,bodyfile,..c.,/var/tmp/shared,../bodyfile/bodyfile.txt,,453,,
+2023-11-14T22:13:27Z,seconds,recorded,memory,bodyfile,macb,/srv/open file,../bodyfile/bodyfile.txt,,516,,
+2023-11-14T22:15:00Z,seconds,recorded,memory,bodyfile,...b,/home/alice/My Documents/report final.docx,../bodyfile/bodyfile.txt,,0,,
+2023-11-14T22:16:40Z,seconds,recorded,memory,bodyfile,m.c.,/home/alice/My Documents/report final.docx,../bodyfile/bodyfile.txt,,0,,
+2023-11-14T22:18:20Z,seconds,recorded,memory,bodyfile,.a..,/home/alice/My Documents/report final.docx,../bodyfile/bodyfile.txt,,0,,
+2023-11-14T22:20:00Z,seconds,recorded,memory,bodyfile,m..b,/etc/passwd,../bodyfile/bodyfile.txt,,654,,
+2023-11-14T22:21:40Z,seconds,recorded,memory,bodyfile,.ac.,/etc/passwd,../bodyfile/bodyfile.txt,,654,,
+--- warning: 1 lines are not body file lines; each is output with its raw text as the path

@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/linux/apt_history.rs
+expression: "run(&ARTIFACT, \"var/log/apt/history.log\", &fixture(\"apt-history/extra.log\"),\n0)"
+---
+{"host":"memory","artifact":"apt-history","source_path":"var/log/apt/history.log","source_line":1,"time":"2024-03-10T01:02:03Z","end_time":"2024-03-10T01:02:30Z","command":"apt upgrade","requested_by":"alice","requested_by_uid":1000,"installed":[],"upgraded":["openssl:amd64 3.0.11-1~deb12u1 -> 3.0.11-1~deb12u2","curl:amd64 7.88.1-10+deb12u4 -> 7.88.1-10+deb12u5"],"removed":[],"purged":[],"reinstalled":["bar:amd64 1.0"],"downgraded":["libfoo:amd64 2.0 -> 1.9"],"error":"Sub-process /usr/bin/dpkg returned an error code (1)"}
+{"host":"memory","artifact":"apt-history","source_path":"var/log/apt/history.log","source_line":10,"time":"2024-03-11T09:00:00Z","end_time":null,"command":"apt install -y baz","requested_by":"","requested_by_uid":null,"installed":["baz:amd64 1.0"],"upgraded":[],"removed":[],"purged":[],"reinstalled":[],"downgraded":[],"error":""}
+{"host":"memory","artifact":"apt-history","source_path":"var/log/apt/history.log","source_line":15,"time":null,"end_time":null,"command":"orphan block without date","requested_by":"","requested_by_uid":null,"installed":[],"upgraded":[],"removed":[],"purged":[],"reinstalled":[],"downgraded":[],"error":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:03Z,seconds,assumed_zone,memory,apt-history,apt_transaction,"apt upgrade (2 upgraded, 1 reinstalled, 1 downgraded)",var/log/apt/history.log,1,,,
+2024-03-11T09:00:00Z,seconds,assumed_zone,memory,apt-history,apt_transaction,apt install -y baz (1 installed),var/log/apt/history.log,10,,,
+--- warning: line 14: not a `Key: value` line
+--- warning: line 15: block has no valid Start-Date

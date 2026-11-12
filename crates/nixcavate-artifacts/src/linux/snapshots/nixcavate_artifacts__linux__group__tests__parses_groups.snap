@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/linux/group.rs
+expression: "run(&ARTIFACT, \"etc/group\", &fixture(\"group/group\"), 0)"
+---
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":2,"group":"root","password_field":"x","gid":0,"members":[]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":3,"group":"daemon","password_field":"x","gid":1,"members":[]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":4,"group":"sudo","password_field":"x","gid":27,"members":["alice","bob"]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":5,"group":"docker","password_field":"x","gid":998,"members":["alice"]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":6,"group":"empty-members","password_field":"x","gid":1500,"members":[]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":7,"group":"spacey","password_field":"x","gid":1501,"members":["alice","bob"]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":8,"group":"oldstyle","password_field":"secretpw","gid":1502,"members":["carol"]}
+{"host":"memory","artifact":"group","source_path":"etc/group","source_line":9,"group":"nogid","password_field":"x","gid":null,"members":[]}
+--- warning: line 10: expected 4 fields, found 2

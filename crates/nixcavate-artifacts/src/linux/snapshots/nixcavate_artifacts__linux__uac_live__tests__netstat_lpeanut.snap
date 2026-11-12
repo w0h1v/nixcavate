@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&NETWORK, \"../live_response/network/netstat_-lpeanut.txt\",\n\"live-network/netstat_-lpeanut.txt\")"
+---
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":3,"protocol":"tcp","local_address":"0.0.0.0","local_port":22,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd: /usr/sbi","user":"0"}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":4,"protocol":"tcp","local_address":"0.0.0.0","local_port":8080,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":4358,"program":"python3","user":"1000"}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":5,"protocol":"tcp","local_address":"127.0.0.1","local_port":34726,"remote_address":"127.0.0.1","remote_port":8080,"state":"ESTABLISHED","pid":4364,"program":"python3","user":"0"}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":6,"protocol":"tcp","local_address":"127.0.0.1","local_port":8080,"remote_address":"127.0.0.1","remote_port":34726,"state":"ESTABLISHED","pid":4358,"program":"python3","user":"1000"}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":7,"protocol":"tcp6","local_address":"::","local_port":22,"remote_address":"::","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd: /usr/sbi","user":"0"}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":8,"protocol":"tcp6","local_address":"::","local_port":8081,"remote_address":"::","remote_port":null,"state":"LISTEN","pid":4361,"program":"python3","user":"1000"}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/netstat_-lpeanut.txt","source_line":9,"protocol":"udp6","local_address":"::","local_port":5353,"remote_address":"::","remote_port":null,"state":null,"pid":4362,"program":"python3","user":"0"}

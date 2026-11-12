@@ -1,0 +1,7 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          cron
+### END INIT INFO
+case "$1" in
+  start) /usr/sbin/cron ;;
+esac

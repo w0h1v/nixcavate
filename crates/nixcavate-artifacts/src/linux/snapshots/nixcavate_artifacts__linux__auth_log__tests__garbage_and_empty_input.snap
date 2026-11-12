@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/linux/auth_log.rs
+expression: "run(&ARTIFACT, \"var/log/auth.log\", data, MAR_10_2024)"
+---
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":0,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"\u0000��","event":"","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":4,"time":null,"time_basis":null,"log_host":"","program":"","pid":null,"message":"sshd[1]: Accepted","event":"","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":22,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1,"message":"Accepted publickey for","event":"","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":76,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sudo","pid":null,"message":": COMMAND=","event":"","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":115,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"su","pid":null,"message":"(to ","event":"","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":146,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"pam_unix(x)","pid":null,"message":"","event":"","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+{"host":"memory","artifact":"auth-log","source_path":"var/log/auth.log","source_offset":182,"time":"2024-03-09T01:02:03Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"passwd","pid":null,"message":"password for '","event":"password_changed","user":"","remote_address":"","remote_port":null,"method":"","key_fingerprint":"","command":"","run_as":"","cwd":"","tty":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-09T01:02:03Z,seconds,inferred_year_assumed_zone,memory,auth-log,log,sshd: Accepted publickey for,var/log/auth.log,,22,,
+2024-03-09T01:02:03Z,seconds,inferred_year_assumed_zone,memory,auth-log,log,sudo: : COMMAND=,var/log/auth.log,,76,,
+2024-03-09T01:02:03Z,seconds,inferred_year_assumed_zone,memory,auth-log,log,"su: (to ",var/log/auth.log,,115,,
+2024-03-09T01:02:03Z,seconds,inferred_year_assumed_zone,memory,auth-log,log,"pam_unix(x): ",var/log/auth.log,,146,,
+2024-03-09T01:02:03Z,seconds,inferred_year_assumed_zone,memory,auth-log,password_changed,password changed for unknown user,var/log/auth.log,,182,,

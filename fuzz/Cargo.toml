@@ -1,0 +1,252 @@
+[package]
+name = "nixcavate-fuzz"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+# Not a member of the main workspace: fuzzing needs a nightly toolchain and its own lock file.
+[workspace]
+
+[dependencies]
+libfuzzer-sys = "0.4"
+nixcavate-core = { path = "../crates/nixcavate-core" }
+nixcavate-source = { path = "../crates/nixcavate-source" }
+nixcavate-artifacts = { path = "../crates/nixcavate-artifacts" }
+nixcavate-fs = { path = "../crates/nixcavate-fs" }
+
+[profile.release]
+debug = 1
+
+[[bin]]
+name = "apt_history"
+path = "fuzz_targets/apt_history.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "asl"
+path = "fuzz_targets/asl.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "at_jobs"
+path = "fuzz_targets/at_jobs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "audit_log"
+path = "fuzz_targets/audit_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "auth_log"
+path = "fuzz_targets/auth_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "authorized_keys"
+path = "fuzz_targets/authorized_keys.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "biome"
+path = "fuzz_targets/biome.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "bodyfile"
+path = "fuzz_targets/bodyfile.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "btm"
+path = "fuzz_targets/btm.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "docker_containers"
+path = "fuzz_targets/docker_containers.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "dpkg_status"
+path = "fuzz_targets/dpkg_status.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "fsevents"
+path = "fuzz_targets/fsevents.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "install_log"
+path = "fuzz_targets/install_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "lastlog"
+path = "fuzz_targets/lastlog.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "launchd"
+path = "fuzz_targets/launchd.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "sudoers"
+path = "fuzz_targets/sudoers.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "syslog"
+path = "fuzz_targets/syslog.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "systemd_units"
+path = "fuzz_targets/systemd_units.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "viminfo"
+path = "fuzz_targets/viminfo.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wtmp"
+path = "fuzz_targets/wtmp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "zsh_history"
+path = "fuzz_targets/zsh_history.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "timeline_run"
+path = "fuzz_targets/timeline_run.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "tzif"
+path = "fuzz_targets/tzif.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ext4"
+path = "fuzz_targets/ext4.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "xfs"
+path = "fuzz_targets/xfs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "apfs"
+path = "fuzz_targets/apfs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "journald"
+path = "fuzz_targets/journald.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "web_access_log"
+path = "fuzz_targets/web_access_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "web_error_log"
+path = "fuzz_targets/web_error_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "dslocal_users"
+path = "fuzz_targets/dslocal_users.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wifi_networks"
+path = "fuzz_targets/wifi_networks.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "unified_log"
+path = "fuzz_targets/unified_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "safari_downloads"
+path = "fuzz_targets/safari_downloads.rs"
+test = false
+doc = false
+bench = false

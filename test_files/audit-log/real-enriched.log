@@ -1,0 +1,2 @@
+type=DAEMON_START msg=audit(1794425786.863:9213): op=start ver=3.0.9 format=enriched kernel=6.1.0-18-amd64 auid=4294967295 pid=2313928 uid=0 ses=4294967295 res=successAUID="unset" UID="root"
+type=DAEMON_ABORT msg=audit(1794425786.864:9214): op=set-enable auid=4294967295 pid=2313928 uid=0 ses=4294967295 res=failedAUID="unset" UID="root"

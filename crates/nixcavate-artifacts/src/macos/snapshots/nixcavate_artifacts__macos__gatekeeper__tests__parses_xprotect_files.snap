@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/macos/gatekeeper.rs
+expression: "out.join(\"\")"
+---
+{"host":"memory","artifact":"xprotect-meta","source_path":"System/Library/CoreServices/XProtect.bundle/Contents/Info.plist","source_line":null,"bundle_version":"5290","build_version":"5290","meta_version":null,"plugin_blacklist_count":null,"extension_blacklist_count":null,"modified":"2023-11-14T22:13:20Z"}
+{"host":"memory","artifact":"xprotect-meta","source_path":"Library/Apple/System/Library/CoreServices/XProtect.bundle/Contents/Resources/XProtect.meta.plist","source_line":null,"bundle_version":null,"build_version":null,"meta_version":"5290","plugin_blacklist_count":2,"extension_blacklist_count":3,"modified":null}
+{"host":"memory","artifact":"xprotect-meta","source_path":"System/Library/CoreServices/XProtect.bundle/Contents/Info.plist","source_line":null,"bundle_version":"12","build_version":null,"meta_version":null,"plugin_blacklist_count":null,"extension_blacklist_count":null,"modified":null}

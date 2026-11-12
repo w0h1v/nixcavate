@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/linux/docker.rs
+expression: refs
+---
+{"host":"memory","artifact":"docker-images","source_path":"var/lib/docker/image/overlay2/repositories.json","source_line":null,"kind":"reference","repository":"alpine","reference":"alpine:3.19","image_id":"sha256:6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","time":null,"architecture":"","os":"","command":"","entrypoint":"","layers":null,"author":"","history":[]}
+{"host":"memory","artifact":"docker-images","source_path":"var/lib/docker/image/overlay2/repositories.json","source_line":null,"kind":"reference","repository":"alpine","reference":"alpine@sha256:6baf43584bcb78f2e5847d1de515f23499913ac9f12bdf834811a3145eb11ca1","image_id":"sha256:6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","time":null,"architecture":"","os":"","command":"","entrypoint":"","layers":null,"author":"","history":[]}

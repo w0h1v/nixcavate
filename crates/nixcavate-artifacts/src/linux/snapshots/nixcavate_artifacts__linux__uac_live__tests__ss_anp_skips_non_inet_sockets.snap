@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&NETWORK, \"../live_response/network/ss_-anp.txt\",\n\"live-network/ss_-anp.txt\")"
+---
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":12,"protocol":"udp","local_address":"*","local_port":5353,"remote_address":"*","remote_port":null,"state":"UNCONN","pid":4362,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":13,"protocol":"tcp","local_address":"0.0.0.0","local_port":22,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":14,"protocol":"tcp","local_address":"0.0.0.0","local_port":8080,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":4358,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":15,"protocol":"tcp","local_address":"127.0.0.1","local_port":34726,"remote_address":"127.0.0.1","remote_port":8080,"state":"ESTAB","pid":4364,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":16,"protocol":"tcp","local_address":"127.0.0.1","local_port":8080,"remote_address":"127.0.0.1","remote_port":34726,"state":"ESTAB","pid":4358,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":17,"protocol":"tcp","local_address":"::","local_port":22,"remote_address":"::","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":18,"protocol":"tcp","local_address":"*","local_port":8081,"remote_address":"*","remote_port":null,"state":"LISTEN","pid":4361,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":19,"protocol":"tcp","local_address":"127.0.0.1","local_port":8080,"remote_address":"127.0.0.1","remote_port":34726,"state":"ESTAB","pid":4358,"program":"python3","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":20,"protocol":"tcp","local_address":"::","local_port":22,"remote_address":"::","remote_port":null,"state":"LISTEN","pid":4355,"program":"sshd","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-anp.txt","source_line":21,"protocol":"tcp","local_address":"*","local_port":8081,"remote_address":"*","remote_port":null,"state":"LISTEN","pid":4361,"program":"python3","user":null}

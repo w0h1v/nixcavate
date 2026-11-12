@@ -1,0 +1,7 @@
+2024-03-10T01:02:03+0000 INFO --- logging initialized ---
+2024-03-10T01:02:04+0200 SUBDEBUG Installed: nmap-3:7.92-1.el9.x86_64
+2024-03-10T01:02:05+0000 INFO warning: /etc/foo.conf created as /etc/foo.conf.rpmnew
+2024-03-10T01:02:06+0000 ERROR Error: Transaction failed: bad thing
+2024-03-10T01:02:07+0000 SUBDEBUG Downgrade: bash-5.1.8-5.el9.x86_64
+2024-03-10 01:02:08 SUBDEBUG Erase: no-zone-1-1.noarch
+not a log line

@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/systemd_units.rs
+expression: "unit(\"ssh.service\", \"lib/systemd/system/ssh.service\")"
+---
+{"host":"memory","artifact":"systemd-units","source_path":"lib/systemd/system/ssh.service","source_line":null,"unit":"ssh.service","drop_in":false,"unit_type":"service","description":"OpenBSD Secure Shell server","exec_start":"/usr/sbin/sshd -D $SSHD_OPTS","exec_start_pre":"/usr/sbin/sshd -t","exec_start_post":null,"exec_stop":null,"exec_stop_post":null,"exec_condition":null,"exec_reload":"/usr/sbin/sshd -t ; /bin/kill -HUP $MAINPID","run_user":null,"run_group":null,"working_directory":null,"environment":null,"environment_file":"-/etc/default/ssh","wanted_by":"multi-user.target","required_by":null,"also":null,"on_calendar":null,"on_boot_sec":null,"on_active_sec":null,"on_startup_sec":null,"on_unit_active_sec":null,"timer_unit":null,"activates":null,"listen":null,"path_triggers":null,"restart":"on-failure","service_type":"notify","modified":"2023-11-14T22:13:20Z"}

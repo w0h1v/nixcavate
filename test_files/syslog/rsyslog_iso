@@ -1,0 +1,4 @@
+2024-03-10T01:02:03.123456+01:00 web01 sshd[1234]: Server listening on 0.0.0.0 port 22.
+2024-03-10T01:02:04.000000+00:00 web01 kernel: [  123.456789] eth0: link up
+2024-03-10T01:02:05Z web01 CRON[123]: (root) CMD (/usr/bin/true)
+2024-03-10T01:02:06.5 web01 sudo: alice : TTY=pts/0 ; COMMAND=/bin/ls

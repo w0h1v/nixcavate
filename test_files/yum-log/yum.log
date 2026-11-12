@@ -1,0 +1,7 @@
+Dec 31 23:59:01 Installed: openssl-libs-1:1.0.2k-19.el7.x86_64
+Mar 10 01:02:03 Installed: nmap-2:7.70-8.el7.x86_64
+Mar  9 08:00:00 Updated: kernel-3.10.0-1160.el7.x86_64
+
+Mar 10 02:00:00 Erased: nmap-ncat-2:7.70-8.el7.x86_64
+this line is garbage
+Feb 30 00:00:00 Installed: impossible-1-1.noarch

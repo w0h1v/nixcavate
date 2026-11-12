@@ -1,0 +1,3 @@
+auth       optional     pam_exec.so quiet /usr/local/bin/log-login
+auth       sufficient   /opt/pam/pam_extra.so
+auth       required     /usr/lib/x86_64-linux-gnu/security/pam_unix.so

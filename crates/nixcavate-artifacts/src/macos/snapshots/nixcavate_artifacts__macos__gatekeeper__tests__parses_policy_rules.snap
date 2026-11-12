@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/macos/gatekeeper.rs
+expression: "run(&POLICY, POLICY_PATH, &fixture(\"gatekeeper-policy/SystemPolicy\"), 0)"
+---
+{"host":"memory","artifact":"gatekeeper-policy","source_path":"private/var/db/SystemPolicy","source_line":null,"rule_id":1,"rule_type":"execute","label":"Apple System","requirement":"anchor apple","allow":true,"disabled":false,"priority":1.0,"time":"2022-11-18T00:00:00Z","created_time":"2022-11-17T00:00:00Z","remarks":"built in"}
+{"host":"memory","artifact":"gatekeeper-policy","source_path":"private/var/db/SystemPolicy","source_line":null,"rule_id":2,"rule_type":"install","label":"Mac App Store","requirement":"anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9]","allow":true,"disabled":true,"priority":0.5,"time":"2022-11-17T00:00:00Z","created_time":"2022-11-17T00:00:00Z","remarks":null}
+{"host":"memory","artifact":"gatekeeper-policy","source_path":"private/var/db/SystemPolicy","source_line":null,"rule_id":3,"rule_type":"open","label":"Example override","requirement":"cdhash H\"00112233445566778899aabbccddeeff00112233\"","allow":false,"disabled":false,"priority":10.0,"time":"2023-02-24T18:00:00Z","created_time":"2023-02-24T18:00:00Z","remarks":"user added"}
+{"host":"memory","artifact":"gatekeeper-policy","source_path":"private/var/db/SystemPolicy","source_line":null,"rule_id":4,"rule_type":"9","label":null,"requirement":"identifier \"com.example.x\"","allow":true,"disabled":false,"priority":0.0,"time":null,"created_time":null,"remarks":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2022-11-17T00:00:00Z,seconds,recorded,memory,gatekeeper-policy,gatekeeper_rule,install rule 2 (Mac App Store): allow,private/var/db/SystemPolicy,,,,
+2022-11-18T00:00:00Z,seconds,recorded,memory,gatekeeper-policy,gatekeeper_rule,execute rule 1 (Apple System): allow,private/var/db/SystemPolicy,,,,
+2023-02-24T18:00:00Z,seconds,recorded,memory,gatekeeper-policy,gatekeeper_rule,open rule 3 (Example override): deny,private/var/db/SystemPolicy,,,,

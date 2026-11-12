@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/common/fish_history.rs
+expression: "run(&ARTIFACT, \"Users/sam/.local/share/fish/fish_history\", &data, 0)"
+---
+{"host":"memory","artifact":"fish-history","source_path":"Users/sam/.local/share/fish/fish_history","source_line":1,"user":"sam","time":"2023-11-14T22:13:20Z","command":"echo a\\b\nc","paths":["/srv/my\\file","/srv/b"]}
+{"host":"memory","artifact":"fish-history","source_path":"Users/sam/.local/share/fish/fish_history","source_line":6,"user":"sam","time":null,"command":"no when","paths":[]}
+{"host":"memory","artifact":"fish-history","source_path":"Users/sam/.local/share/fish/fish_history","source_line":7,"user":"sam","time":null,"command":"last","paths":[]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,fish-history,executed,"sam ran echo a\b
+c",Users/sam/.local/share/fish/fish_history,1,,,

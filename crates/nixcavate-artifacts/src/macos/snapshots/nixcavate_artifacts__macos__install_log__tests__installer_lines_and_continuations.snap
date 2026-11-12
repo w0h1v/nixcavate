@@ -1,0 +1,25 @@
+---
+source: crates/nixcavate-artifacts/src/macos/install_log.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"install-log/install.log\"), 0)"
+---
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":0,"time":"2024-03-10T09:02:03Z","log_host":"mac01","program":"Installer Progress","pid":57,"message":"Progress UI App Starting"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":78,"time":"2024-03-10T09:02:04Z","log_host":"mac01","program":"installd","pid":310,"message":"PackageKit: Adding client PKInstallDaemonClient pid=501, uid=0 (/usr/sbin/installer)"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":207,"time":"2024-03-10T09:02:05Z","log_host":"mac01","program":"installd","pid":310,"message":"Installed \"ExampleTool\" (1.2.3)"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":283,"time":"2024-03-10T09:02:06Z","log_host":"mac01","program":"system_installd","pid":311,"message":"Installed \"Example Component\" ()"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":367,"time":"2024-03-10T09:02:07Z","log_host":"mac01","program":"installer","pid":501,"message":"Install Succeeded: example.pkg"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":443,"time":"2024-03-10T09:02:08Z","log_host":"mac01","program":"installer","pid":501,"message":"Install Failed: broken.pkg (error 7)"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":525,"time":"2024-03-10T00:02:09Z","log_host":"web01","program":"softwareupdated","pid":88,"message":"Installed \"Example Update\" (14.4)"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":609,"time":"2024-03-10T00:02:10Z","log_host":"web01","program":"softwareupdated","pid":88,"message":"Removing client SUUpdateServiceClient pid=9, uid=0"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":710,"time":"2024-03-09T19:32:11Z","log_host":"web01","program":"SoftwareUpdateSettingsExtension","pid":40,"message":"SUAppStoreUpdateController: Installed app update"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":828,"time":"2024-03-10T09:02:12Z","log_host":"mac01","program":"installd","pid":310,"message":"a wrapped message"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":890,"time":null,"log_host":"","program":"","pid":null,"message":"    continuation line without a timestamp"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":932,"time":"2024-03-10T09:02:13Z","log_host":"mac01","program":"","pid":null,"message":"no-colon-text without a tag"}
+{"host":"memory","artifact":"install-log","source_path":"private/var/log/install.log","source_offset":989,"time":"2024-03-10T09:02:14Z","log_host":"mac01","program":"tool[abc]","pid":null,"message":"non numeric pid"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-09T19:32:11Z,seconds,recorded,memory,install-log,software_install,SoftwareUpdateSettingsExtension: SUAppStoreUpdateController: Installed app update,private/var/log/install.log,,710,,
+2024-03-10T00:02:09Z,seconds,recorded,memory,install-log,software_install,"softwareupdated: Installed ""Example Update"" (14.4)",private/var/log/install.log,,525,,
+2024-03-10T09:02:05Z,seconds,recorded,memory,install-log,software_install,"installd: Installed ""ExampleTool"" (1.2.3)",private/var/log/install.log,,207,,
+2024-03-10T09:02:06Z,seconds,recorded,memory,install-log,software_install,"system_installd: Installed ""Example Component"" ()",private/var/log/install.log,,283,,
+2024-03-10T09:02:07Z,seconds,recorded,memory,install-log,software_install,installer: Install Succeeded: example.pkg,private/var/log/install.log,,367,,
+2024-03-10T09:02:08Z,seconds,recorded,memory,install-log,software_install,installer: Install Failed: broken.pkg (error 7),private/var/log/install.log,,443,,

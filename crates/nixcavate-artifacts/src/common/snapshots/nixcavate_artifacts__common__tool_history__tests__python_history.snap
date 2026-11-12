@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/common/tool_history.rs
+expression: "run(&PYTHON, \"home/alice/.python_history\", &data, 0)"
+---
+{"host":"memory","artifact":"python-history","source_path":"home/alice/.python_history","source_line":1,"user":"alice","command":"import os"}
+{"host":"memory","artifact":"python-history","source_path":"home/alice/.python_history","source_line":2,"user":"alice","command":"print(os.getcwd())"}

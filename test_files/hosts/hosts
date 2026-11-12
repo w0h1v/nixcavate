@@ -1,0 +1,10 @@
+# /etc/hosts
+127.0.0.1	localhost
+127.0.1.1	web01.example.com web01   # primary name
+192.0.2.10	db01.example.com db01 db
+::1		localhost ip6-localhost ip6-loopback
+2001:db8::1	router.example.com
+203.0.113.7	lonely.example.com
+   
+justonetoken
+# 198.51.100.1 commented.example.com

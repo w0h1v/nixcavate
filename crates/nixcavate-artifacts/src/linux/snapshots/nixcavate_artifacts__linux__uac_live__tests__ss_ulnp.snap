@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "snapshot(&NETWORK, \"../live_response/network/ss_-ulnp.txt\",\n\"live-network/ss_-ulnp.txt\")"
+---
+{"host":"memory","artifact":"live-network","source_path":"../live_response/network/ss_-ulnp.txt","source_line":2,"protocol":"udp","local_address":"*","local_port":5353,"remote_address":"*","remote_port":null,"state":"UNCONN","pid":4362,"program":"python3","user":null}

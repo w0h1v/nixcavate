@@ -1,0 +1,6 @@
+# NetworkManager applet
+[Desktop Entry]
+Name=Network
+Type=Application
+Exec=nm-applet
+OnlyShowIn=GNOME;Unity;

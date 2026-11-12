@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/common/cron.rs
+expression: "run(&SCRIPTS, \"etc/cron.daily/apt-compat\",\n&fixture(\"cron-scripts/apt-compat\"), 1_700_000_000)"
+---
+{"host":"memory","artifact":"cron-scripts","source_path":"etc/cron.daily/apt-compat","source_line":null,"size":1478,"mode":"100644","uid":0,"gid":0,"modified":"2023-11-14T22:13:20Z","interpreter":"/bin/sh","lines":55}

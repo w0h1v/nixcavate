@@ -1,0 +1,7 @@
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:58 +0000] "GET / HTTP/1.1" 200 10956 "-" "curl/7.88.1"
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:58 +0000] "GET /missing.html HTTP/1.1" 404 472 "-" "curl/7.88.1"
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:58 +0000] "POST /submit HTTP/1.1" 404 472 "-" "curl/7.88.1"
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:58 +0000] "GET /index.html?x=1&y=two HTTP/1.1" 200 10956 "http://example.com/ref" "Mozilla/5.0 (X11; Linux x86_64) Test"
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:58 +0000] "GET /also-missing HTTP/1.1" 404 474 "-" "curl/7.88.1"
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:58 +0000] "\x16\x03\x01" 400 531 "-" "-"
+web01.example.com:80 127.0.0.1 - - [11/Nov/2026:19:42:59 +0000] "BADREQUEST" 400 531 "-" "-"

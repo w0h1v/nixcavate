@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/linux/syslog.rs
+expression: "run(&ARTIFACT, \"var/log/syslog\", &fixture(\"syslog/rfc5424\"), MAR_10_2024)"
+---
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":0,"time":"2024-03-10T01:02:03.003Z","time_basis":"recorded","log_host":"web01.example.com","program":"su","pid":2301,"message":"'su root' failed on /dev/pts/8"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":95,"time":"2024-03-09T23:02:04Z","time_basis":"recorded","log_host":"web01","program":"myapp","pid":null,"message":"An application event"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":249,"time":null,"time_basis":null,"log_host":"web01","program":"","pid":null,"message":"nil time, app, pid and structured data"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/syslog","source_offset":310,"time":"2024-03-10T01:02:05Z","time_basis":"recorded","log_host":"web01","program":"app","pid":12,"message":"message with BOM"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-09T23:02:04Z,seconds,recorded,memory,syslog,log,myapp: An application event,var/log/syslog,,95,,
+2024-03-10T01:02:03.003Z,millis,recorded,memory,syslog,log,su: 'su root' failed on /dev/pts/8,var/log/syslog,,0,,
+2024-03-10T01:02:05Z,seconds,recorded,memory,syslog,log,app: message with BOM,var/log/syslog,,310,,

@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/linux/yum_dnf.rs
+expression: "run(&YUM_LOG, \"var/log/yum.log\", &fixture(\"yum-log/yum.log\"),\nMAR_10_2024_EVENING)"
+---
+{"host":"memory","artifact":"yum-log","source_path":"var/log/yum.log","source_offset":0,"time":"2023-12-31T23:59:01Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"openssl-libs-1:1.0.2k-19.el7.x86_64"}
+{"host":"memory","artifact":"yum-log","source_path":"var/log/yum.log","source_offset":63,"time":"2024-03-10T01:02:03Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"nmap-2:7.70-8.el7.x86_64"}
+{"host":"memory","artifact":"yum-log","source_path":"var/log/yum.log","source_offset":115,"time":"2024-03-09T08:00:00Z","time_basis":"inferred_year_assumed_zone","action":"updated","package":"kernel-3.10.0-1160.el7.x86_64"}
+{"host":"memory","artifact":"yum-log","source_path":"var/log/yum.log","source_offset":171,"time":"2024-03-10T02:00:00Z","time_basis":"inferred_year_assumed_zone","action":"erased","package":"nmap-ncat-2:7.70-8.el7.x86_64"}
+{"host":"memory","artifact":"yum-log","source_path":"var/log/yum.log","source_offset":246,"time":null,"time_basis":null,"action":"installed","package":"impossible-1-1.noarch"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-12-31T23:59:01Z,seconds,inferred_year_assumed_zone,memory,yum-log,package_installed,installed openssl-libs-1:1.0.2k-19.el7.x86_64,var/log/yum.log,,0,,
+2024-03-09T08:00:00Z,seconds,inferred_year_assumed_zone,memory,yum-log,package_upgraded,updated kernel-3.10.0-1160.el7.x86_64,var/log/yum.log,,115,,
+2024-03-10T01:02:03Z,seconds,inferred_year_assumed_zone,memory,yum-log,package_installed,installed nmap-2:7.70-8.el7.x86_64,var/log/yum.log,,63,,
+2024-03-10T02:00:00Z,seconds,inferred_year_assumed_zone,memory,yum-log,package_removed,erased nmap-ncat-2:7.70-8.el7.x86_64,var/log/yum.log,,171,,
+--- warning: offset 225: not a yum log line

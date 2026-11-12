@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/common/viminfo.rs
+expression: "run(&ARTIFACT, \"root/.viminfo\", data, 0)"
+---
+{"host":"memory","artifact":"viminfo","source_path":"root/.viminfo","source_line":2,"user":"root","kind":"command","time":null,"text":"wq"}
+{"host":"memory","artifact":"viminfo","source_path":"root/.viminfo","source_line":5,"user":"root","kind":"search","time":null,"text":"foo"}
+{"host":"memory","artifact":"viminfo","source_path":"root/.viminfo","source_line":8,"user":"root","kind":"file_mark","time":null,"text":"/srv/a b.txt"}

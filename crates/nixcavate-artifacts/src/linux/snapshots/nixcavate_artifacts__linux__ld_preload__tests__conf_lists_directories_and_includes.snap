@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/ld_preload.rs
+expression: "run(&ARTIFACT, \"etc/ld.so.conf\", &fixture(\"ld-preload/ld.so.conf\"), 0)"
+---
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.conf","source_line":1,"kind":"include","path":"/etc/ld.so.conf.d/*.conf"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.conf","source_line":3,"kind":"library_path","path":"/usr/local/lib"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.conf","source_line":4,"kind":"library_path","path":"/opt/app/lib"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.conf","source_line":6,"kind":"include","path":"/etc/extra.conf"}
+{"host":"memory","artifact":"ld-preload","source_path":"etc/ld.so.conf","source_line":6,"kind":"include","path":"/etc/more.d/*.conf"}

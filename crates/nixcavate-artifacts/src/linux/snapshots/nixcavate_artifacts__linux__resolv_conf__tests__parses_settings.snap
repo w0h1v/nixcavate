@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/linux/resolv_conf.rs
+expression: "run(&ARTIFACT, \"etc/resolv.conf\", &fixture(\"resolv-conf/resolv.conf\"), 0)"
+---
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":2,"keyword":"search","value":"example.com corp.example.com"}
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":3,"keyword":"domain","value":"example.com"}
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":5,"keyword":"nameserver","value":"192.0.2.53"}
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":6,"keyword":"nameserver","value":"2001:db8::53"}
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":7,"keyword":"options","value":"edns0 trust-ad ndots:2"}
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":8,"keyword":"sortlist","value":"130.155.160.0/255.255.240.0 130.155.0.0"}
+{"host":"memory","artifact":"resolv-conf","source_path":"etc/resolv.conf","source_line":9,"keyword":"OPTIONS","value":"rotate"}

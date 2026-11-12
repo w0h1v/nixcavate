@@ -1,0 +1,8 @@
+State  Recv-Q Send-Q Local Address:Port    Peer Address:Port Process
+LISTEN 0      128          0.0.0.0:ssh          0.0.0.0:*     users:(("sshd",pid=811,fd=3))
+LISTEN 0      511                *:80                 *:*     users:(("nginx",pid=902,fd=6),("nginx",pid=901,fd=6))
+LISTEN 0      4096           [::1]%lo:631            [::]:*
+ESTAB  0      0     [2001:db8::10]:443  [2001:db8:ffff::5]:51234
+ESTAB  0      0         192.0.2.10:22       198.51.100.7:50022 users:(("sshd",pid=1204,fd=4))
+TIME-WAIT 0   0       127.0.0.1:8080       127.0.0.1:34726
+LISTEN 0

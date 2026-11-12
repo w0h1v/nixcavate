@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/at_jobs.rs
+expression: "run(&ARTIFACT, &format!(\"var/spool/cron/atjobs/{name}\"), &data, 0)"
+---
+{"host":"memory","artifact":"at-jobs","source_path":"var/spool/cron/atjobs/a0000201c85f22","source_line":null,"queue":"a","job_number":2,"time":"2026-11-12T23:30:00Z","uid":1000,"gid":1000,"mail_user":"alice","working_dir":"/","command":"id"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T23:30:00Z,seconds,recorded,memory,at-jobs,scheduled_job,at job scheduled to run as uid 1000: id,var/spool/cron/atjobs/a0000201c85f22,,,,

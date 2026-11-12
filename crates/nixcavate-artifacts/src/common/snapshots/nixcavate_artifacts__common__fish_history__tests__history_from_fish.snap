@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/common/fish_history.rs
+expression: "run(&ARTIFACT, \"root/.local/share/fish/fish_history\",\n&fixture(\"fish-history/fish_history\"), 0)"
+---
+{"host":"memory","artifact":"fish-history","source_path":"root/.local/share/fish/fish_history","source_line":1,"user":"root","time":"2026-11-11T19:36:33Z","command":"ls -la /srv","paths":["/srv"]}
+{"host":"memory","artifact":"fish-history","source_path":"root/.local/share/fish/fish_history","source_line":5,"user":"root","time":"2026-11-11T19:36:34Z","command":"echo tab\\there","paths":[]}
+{"host":"memory","artifact":"fish-history","source_path":"root/.local/share/fish/fish_history","source_line":7,"user":"root","time":"2026-11-11T19:36:35Z","command":"echo 日本 done","paths":[]}
+{"host":"memory","artifact":"fish-history","source_path":"root/.local/share/fish/fish_history","source_line":9,"user":"root","time":"2026-11-11T19:36:36Z","command":"exit","paths":[]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:36:33Z,seconds,recorded,memory,fish-history,executed,root ran ls -la /srv,root/.local/share/fish/fish_history,1,,,
+2026-11-11T19:36:34Z,seconds,recorded,memory,fish-history,executed,root ran echo tab\there,root/.local/share/fish/fish_history,5,,,
+2026-11-11T19:36:35Z,seconds,recorded,memory,fish-history,executed,root ran echo 日本 done,root/.local/share/fish/fish_history,7,,,
+2026-11-11T19:36:36Z,seconds,recorded,memory,fish-history,executed,root ran exit,root/.local/share/fish/fish_history,9,,,

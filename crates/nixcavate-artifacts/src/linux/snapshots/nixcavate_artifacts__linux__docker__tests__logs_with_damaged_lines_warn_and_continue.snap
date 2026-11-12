@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/linux/docker.rs
+expression: "run(&LOGS, path, &fixture(\"docker-logs/damaged-json.log\"), 0)"
+---
+{"host":"memory","artifact":"docker-logs","source_path":"var/lib/docker/containers/abc/abc-json.log","source_offset":0,"time":"2026-11-11T19:41:38.083999014Z","container_id":"abc","stream":"stdout","message":"ok"}
+{"host":"memory","artifact":"docker-logs","source_path":"var/lib/docker/containers/abc/abc-json.log","source_offset":90,"time":"2026-11-11T19:41:39Z","container_id":"abc","stream":"stderr","message":"tab\there \"quoted\""}
+{"host":"memory","artifact":"docker-logs","source_path":"var/lib/docker/containers/abc/abc-json.log","source_offset":227,"time":null,"container_id":"abc","stream":"stdout","message":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T19:41:38.083999014Z,nanos,recorded,memory,docker-logs,container_log,ok,var/lib/docker/containers/abc/abc-json.log,,0,,
+2026-11-11T19:41:39Z,seconds,recorded,memory,docker-logs,container_log,"tab	here ""quoted""",var/lib/docker/containers/abc/abc-json.log,,90,,
+--- warning: offset 73: not a json-file log line: expected ident at line 1 column 2
+--- warning: offset 169: not a json-file log line: invalid type: integer `5`, expected a string at line 1 column 8

@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/linux/snap.rs
+expression: "run(&ARTIFACT, \"var/lib/snapd/state.json\", &fixture(\"snap/state.json\"), 0)"
+---
+{"host":"memory","artifact":"snap","source_path":"var/lib/snapd/state.json","source_line":null,"time":null,"snap":"broken","snap_type":"","current_revision":"","channel":"","revisions":[],"active":false}
+{"host":"memory","artifact":"snap","source_path":"var/lib/snapd/state.json","source_line":null,"time":"2024-03-09T12:30:00.500Z","snap":"core22","snap_type":"base","current_revision":"1122","channel":"latest/stable","revisions":["1033","1122"],"active":true}
+{"host":"memory","artifact":"snap","source_path":"var/lib/snapd/state.json","source_line":null,"time":null,"snap":"hello-world","snap_type":"app","current_revision":"29","channel":"latest/edge","revisions":["29"],"active":false}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-09T12:30:00.500Z,millis,recorded,memory,snap,snap_refreshed,snap core22 refreshed (revision 1122),var/lib/snapd/state.json,,,,
+--- warning: snap broken: unreadable refresh time

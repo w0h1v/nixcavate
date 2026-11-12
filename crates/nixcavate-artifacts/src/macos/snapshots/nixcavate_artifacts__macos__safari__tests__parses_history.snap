@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/macos/safari.rs
+expression: "run(&HISTORY, DB, &fixture(\"safari-history/History.db\"), 0)"
+---
+{"host":"memory","artifact":"safari-history","source_path":"Users/alice/Library/Safari/History.db","source_line":null,"time":"2025-11-05T01:46:40.250000Z","user":"alice","url":"https://example.com/","title":"Example Domain","visit_count":2,"load_successful":true,"redirect_source":null,"redirect_destination":null,"origin":0}
+{"host":"memory","artifact":"safari-history","source_path":"Users/alice/Library/Safari/History.db","source_line":null,"time":"2025-11-05T01:48:20.500000Z","user":"alice","url":"https://example.com/old","title":null,"visit_count":1,"load_successful":false,"redirect_source":null,"redirect_destination":3,"origin":1}
+{"host":"memory","artifact":"safari-history","source_path":"Users/alice/Library/Safari/History.db","source_line":null,"time":"2025-11-05T01:48:20.750000Z","user":"alice","url":"https://www.example.org/search?q=a%20b","title":"Search results","visit_count":1,"load_successful":true,"redirect_source":2,"redirect_destination":null,"origin":0}
+{"host":"memory","artifact":"safari-history","source_path":"Users/alice/Library/Safari/History.db","source_line":null,"time":"2025-11-05T01:50:00.125000Z","user":"alice","url":"https://example.com/","title":"Example Domain","visit_count":2,"load_successful":true,"redirect_source":null,"redirect_destination":null,"origin":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-11-05T01:46:40.250000Z,micros,recorded,memory,safari-history,url_visited,alice visited https://example.com/ (Example Domain),Users/alice/Library/Safari/History.db,,,,
+2025-11-05T01:48:20.500000Z,micros,recorded,memory,safari-history,url_visited,alice visited https://example.com/old,Users/alice/Library/Safari/History.db,,,,
+2025-11-05T01:48:20.750000Z,micros,recorded,memory,safari-history,url_visited,alice visited https://www.example.org/search?q=a%20b (Search results),Users/alice/Library/Safari/History.db,,,,
+2025-11-05T01:50:00.125000Z,micros,recorded,memory,safari-history,url_visited,alice visited https://example.com/ (Example Domain),Users/alice/Library/Safari/History.db,,,,

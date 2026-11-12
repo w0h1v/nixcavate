@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/common/chromium.rs
+expression: "run(&DOWNLOADS,\n\"Users/sam/Library/Application Support/Microsoft Edge/Profile 1/History\",\n&fixture(\"chromium-history/History\"), 0)"
+---
+{"host":"memory","artifact":"chromium-downloads","source_path":"Users/sam/Library/Application Support/Microsoft Edge/Profile 1/History","source_line":null,"time":"2026-11-11T20:03:34.000000Z","end_time":"2026-11-11T20:03:35.000000Z","user":"sam","browser":"edge","profile":"Profile 1","target_path":"/home/alice/Downloads/report.txt","url":"http://127.0.0.1:8000/report.txt","referrer":"http://127.0.0.1:8000/index.html","tab_url":"http://127.0.0.1:8000/index.html","received_bytes":12,"total_bytes":12,"state":"complete","danger_type":0,"opened":true,"mime_type":"text/plain"}
+{"host":"memory","artifact":"chromium-downloads","source_path":"Users/sam/Library/Application Support/Microsoft Edge/Profile 1/History","source_line":null,"time":"2026-11-11T20:04:00.000000Z","end_time":null,"user":"sam","browser":"edge","profile":"Profile 1","target_path":"/home/alice/Downloads/big.bin","url":"http://127.0.0.1:8000/big.bin","referrer":"","tab_url":"","received_bytes":1024,"total_bytes":0,"state":"interrupted","danger_type":0,"opened":false,"mime_type":"application/octet-stream"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T20:03:34.000000Z,micros,recorded,memory,chromium-downloads,file_downloaded,sam downloaded http://127.0.0.1:8000/report.txt to /home/alice/Downloads/report.txt,Users/sam/Library/Application Support/Microsoft Edge/Profile 1/History,,,,
+2026-11-11T20:04:00.000000Z,micros,recorded,memory,chromium-downloads,file_downloaded,sam downloaded http://127.0.0.1:8000/big.bin to /home/alice/Downloads/big.bin,Users/sam/Library/Application Support/Microsoft Edge/Profile 1/History,,,,

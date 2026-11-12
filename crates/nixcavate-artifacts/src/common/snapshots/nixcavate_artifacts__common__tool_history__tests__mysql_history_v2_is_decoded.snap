@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/common/tool_history.rs
+expression: "run(&MYSQL, \"root/.mysql_history\", &data, 0)"
+---
+{"host":"memory","artifact":"mysql-history","source_path":"root/.mysql_history","source_line":2,"user":"root","command":"select 1;"}
+{"host":"memory","artifact":"mysql-history","source_path":"root/.mysql_history","source_line":3,"user":"root","command":"show databases;"}
+{"host":"memory","artifact":"mysql-history","source_path":"root/.mysql_history","source_line":4,"user":"root","command":"select 'a b' as x, \"cd\";"}
+{"host":"memory","artifact":"mysql-history","source_path":"root/.mysql_history","source_line":5,"user":"root","command":"select '';"}

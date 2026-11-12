@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/linux/pam.rs
+expression: "run(&ARTIFACT, \"etc/pam.conf\", &fixture(\"pam/pam.conf\"), 0)"
+---
+{"host":"memory","artifact":"pam","source_path":"etc/pam.conf","source_line":2,"service":"login","module_type":"auth","control":"required","module":"pam_unix.so","arguments":""}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.conf","source_line":3,"service":"login","module_type":"account","control":"required","module":"pam_unix.so","arguments":""}
+{"host":"memory","artifact":"pam","source_path":"etc/pam.conf","source_line":4,"service":"other","module_type":"session","control":"optional","module":"pam_exec.so","arguments":"seteuid /usr/local/bin/audit"}

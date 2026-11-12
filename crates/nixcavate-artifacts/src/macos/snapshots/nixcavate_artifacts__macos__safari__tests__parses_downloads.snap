@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/safari.rs
+expression: "run(&DOWNLOADS, PLIST, &fixture(\"safari-downloads/Downloads.plist\"), 0)"
+---
+{"host":"memory","artifact":"safari-downloads","source_path":"Users/alice/Library/Safari/Downloads.plist","source_line":null,"time":"2025-11-04T15:00:10Z","end_time":"2025-11-04T15:00:12Z","user":"alice","url":"https://example.com/files/report.pdf","target_path":"/Users/alice/Downloads/report.pdf","total_bytes":2048,"received_bytes":2048}
+{"host":"memory","artifact":"safari-downloads","source_path":"Users/alice/Library/Safari/Downloads.plist","source_line":null,"time":"2025-11-04T15:00:30Z","end_time":null,"user":"alice","url":"https://example.com/files/partial.zip","target_path":null,"total_bytes":null,"received_bytes":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-11-04T15:00:10Z,seconds,recorded,memory,safari-downloads,file_downloaded,alice downloaded https://example.com/files/report.pdf to /Users/alice/Downloads/report.pdf,Users/alice/Library/Safari/Downloads.plist,,,,
+2025-11-04T15:00:30Z,seconds,recorded,memory,safari-downloads,file_downloaded,alice downloaded https://example.com/files/partial.zip to (unknown path),Users/alice/Library/Safari/Downloads.plist,,,,

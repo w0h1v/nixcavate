@@ -1,0 +1,9 @@
+[Unit]
+Description=Per-user updater
+
+[Service]
+ExecStart=/home/alice/.cache/.updater --daemon
+Restart=on-failure
+
+[Install]
+WantedBy=default.target

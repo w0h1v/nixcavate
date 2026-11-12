@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/linux/kernel_modules.rs
+expression: "run(&ARTIFACT, \"etc/modules-load.d/net.conf\",\n&fixture(\"modules-load/net.conf\"), 0)"
+---
+{"host":"memory","artifact":"modules-load","source_path":"etc/modules-load.d/net.conf","source_line":3,"kind":"load","module":"br_netfilter","arguments":""}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modules-load.d/net.conf","source_line":4,"kind":"load","module":"overlay","arguments":""}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modules-load.d/net.conf","source_line":5,"kind":"load","module":"rootkit_demo","arguments":"debug=1"}

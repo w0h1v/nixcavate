@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/audit.rs
+expression: "run(&ARTIFACT, PATH, b\"\", 0)"
+---
+

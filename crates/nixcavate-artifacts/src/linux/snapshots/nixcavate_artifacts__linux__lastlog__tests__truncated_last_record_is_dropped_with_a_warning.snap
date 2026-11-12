@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/lastlog.rs
+expression: "run(&ARTIFACT, \"var/log/lastlog\", &data, 0)"
+---
+{"host":"memory","artifact":"lastlog","source_path":"var/log/lastlog","source_offset":0,"uid":0,"user":"","time":"2023-11-14T22:13:20Z","line":"tty1","remote_host":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,lastlog,last_login,uid 0 last logged in on tty1 from local,var/log/lastlog,,0,,
+--- warning: size 312 is not a multiple of 292; trailing bytes ignored

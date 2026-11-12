@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/macos/launchd.rs
+expression: "run(&ARTIFACT, \"System/Library/LaunchAgents/wrong-types.plist\", &data, 0)"
+---
+{"host":"memory","artifact":"launchd","source_path":"System/Library/LaunchAgents/wrong-types.plist","source_line":1,"user":"","scope":"system_agent","label":null,"program":null,"program_arguments":["/bin/sh"],"command":"/bin/sh","run_at_load":null,"keep_alive":null,"disabled":null,"start_interval":null,"start_calendar_interval":null,"watch_paths":[],"queue_directories":[],"user_name":null,"group_name":null,"working_directory":null,"environment":{},"mach_services":[],"sockets":false,"standard_out_path":null,"standard_error_path":null,"modified":null}

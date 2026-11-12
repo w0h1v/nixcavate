@@ -1,0 +1,13 @@
+2024-03-10 01:02:03-08 mac01 Installer Progress[57]: Progress UI App Starting
+2024-03-10 01:02:04-08 mac01 installd[310]: PackageKit: Adding client PKInstallDaemonClient pid=501, uid=0 (/usr/sbin/installer)
+2024-03-10 01:02:05-08 mac01 installd[310]: Installed "ExampleTool" (1.2.3)
+2024-03-10 01:02:06-08 mac01 system_installd[311]: Installed "Example Component" ()
+2024-03-10 01:02:07-08 mac01 installer[501]: Install Succeeded: example.pkg
+2024-03-10 01:02:08-08 mac01 installer[501]: Install Failed: broken.pkg (error 7)
+2024-03-10 01:02:09+01 web01 softwareupdated[88]: Installed "Example Update" (14.4)
+2024-03-10 01:02:10+01 web01 softwareupdated[88]: Removing client SUUpdateServiceClient pid=9, uid=0
+2024-03-10 01:02:11+05:30 web01 SoftwareUpdateSettingsExtension[40]: SUAppStoreUpdateController: Installed app update
+2024-03-10 01:02:12-08 mac01 installd[310]: a wrapped message
+    continuation line without a timestamp
+2024-03-10 01:02:13-08 mac01 no-colon-text without a tag
+2024-03-10 01:02:14-08 mac01 tool[abc]: non numeric pid

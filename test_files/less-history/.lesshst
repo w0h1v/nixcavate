@@ -1,0 +1,10 @@
+.less-history-file:
+.search
+"needle
+"two words
+.shell
+"ls -la
+.mark
+m a 1 0 /srv/notes.txt
+.filter
+"ignored

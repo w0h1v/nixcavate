@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "run(artifact, path, b\"\", 0)"
+---
+--- skipped: no modules listed

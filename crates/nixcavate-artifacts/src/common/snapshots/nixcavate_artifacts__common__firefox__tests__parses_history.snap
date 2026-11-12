@@ -1,0 +1,17 @@
+---
+source: crates/nixcavate-artifacts/src/common/firefox.rs
+expression: "run(&HISTORY, PATH, &fixture(\"firefox-history/places.sqlite\"), 0)"
+---
+{"host":"memory","artifact":"firefox-history","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":null,"user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/big.bin","title":"Big","visit_count":1,"visit_type":"link","from_visit":0,"typed":false,"frecency":50}
+{"host":"memory","artifact":"firefox-history","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:03:33.463303Z","user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/index.html","title":"Example Domain","visit_count":1,"visit_type":"link","from_visit":0,"typed":false,"frecency":20937}
+{"host":"memory","artifact":"firefox-history","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:03:33.846573Z","user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/two.html","title":"Second Page","visit_count":1,"visit_type":"link","from_visit":0,"typed":false,"frecency":20937}
+{"host":"memory","artifact":"firefox-history","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:05:00.000000Z","user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/report.txt","title":null,"visit_count":1,"visit_type":"typed","from_visit":1,"typed":true,"frecency":100}
+{"host":"memory","artifact":"firefox-history","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:05:01.000000Z","user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/report.txt","title":null,"visit_count":1,"visit_type":"download","from_visit":3,"typed":true,"frecency":100}
+{"host":"memory","artifact":"firefox-history","source_path":"home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite","source_line":null,"time":"2026-11-11T20:06:40.000000Z","user":"alice","profile":"abcd1234.default-release","url":"http://127.0.0.1:8000/big.bin","title":"Big","visit_count":1,"visit_type":"reload","from_visit":0,"typed":false,"frecency":50}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T20:03:33.463303Z,micros,recorded,memory,firefox-history,url_visited,alice visited http://127.0.0.1:8000/index.html (Example Domain),home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,
+2026-11-11T20:03:33.846573Z,micros,recorded,memory,firefox-history,url_visited,alice visited http://127.0.0.1:8000/two.html (Second Page),home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,
+2026-11-11T20:05:00.000000Z,micros,recorded,memory,firefox-history,url_visited,alice visited http://127.0.0.1:8000/report.txt,home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,
+2026-11-11T20:05:01.000000Z,micros,recorded,memory,firefox-history,url_visited,alice visited http://127.0.0.1:8000/report.txt,home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,
+2026-11-11T20:06:40.000000Z,micros,recorded,memory,firefox-history,url_visited,alice visited http://127.0.0.1:8000/big.bin (Big),home/alice/.mozilla/firefox/abcd1234.default-release/places.sqlite,,,,

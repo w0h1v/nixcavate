@@ -1,0 +1,10 @@
+USER         PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root           1  0.0  0.0   3784  2776 ?        Ss   19:44   0:00 bash -c  apt-get update -qq && apt-get install -y -qq git procps net-tools iproute2 lsof kmod python3 openssh-server >/dev/null 2>&1 useradd -m alice; mkdir -p /run/sshd; /usr/sbin/sshd su alic
+root        4355  0.0  0.0  16292  3396 ?        Ss   19:44   0:00 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups
+alice       4358  0.1  0.0  99200 18524 ?        Sl   19:44   0:00 python3 -m http.server 8080 --bind 0.0.0.0
+alice       4361  0.1  0.0  25392 18452 ?        S    19:44   0:00 python3 -m http.server 8081 --bind ::
+root        4362  0.0  0.0  13580  8792 ?        S    19:44   0:00 python3 -c import socket,time;s=socket.socket(socket.AF_INET6,socket.SOCK_DGRAM);s.bind(("::",5353));time.sleep(600)
+root        4364  0.2  0.0  14772  9404 ?        S    19:44   0:00 python3 -c  import socket,time c=socket.create_connection(("127.0.0.1",8080));time.sleep(600)
+root        4381  0.5  0.0   2896  2100 ?        S    19:45   0:00 /bin/sh ./uac -a ./artifacts/live_response/process/*,./artifacts/live_response/network/*,./artifacts/live_response/system/*,./artifacts/bodyfile/*,./artifacts/files/system/etc.yaml,./artifacts/
+root       12356  0.0  0.0   2896  1784 ?        S    19:45   0:00 /bin/sh ./uac -a ./artifacts/live_response/process/*,./artifacts/live_response/network/*,./artifacts/live_response/system/*,./artifacts/bodyfile/*,./artifacts/files/system/etc.yaml,./artifacts/
+root       12513  0.0  0.0   7992  3924 ?        R    19:45   0:00 ps auxwww

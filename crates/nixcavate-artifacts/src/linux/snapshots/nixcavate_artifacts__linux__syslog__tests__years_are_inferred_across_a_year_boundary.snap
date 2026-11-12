@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/syslog.rs
+expression: "run(&ARTIFACT, \"var/log/messages\", &fixture(\"syslog/year_boundary\"),\nJAN_10_2024)"
+---
+{"host":"memory","artifact":"syslog","source_path":"var/log/messages","source_offset":0,"time":"2023-12-30T23:59:58Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1,"message":"written last year"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/messages","source_offset":49,"time":"2023-12-31T23:59:59Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1,"message":"still last year"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/messages","source_offset":96,"time":"2024-01-01T00:00:01Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1,"message":"new year"}
+{"host":"memory","artifact":"syslog","source_path":"var/log/messages","source_offset":136,"time":"2024-01-09T12:00:00Z","time_basis":"inferred_year_assumed_zone","log_host":"web01","program":"sshd","pid":1,"message":"just before the file was last written"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-12-30T23:59:58Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sshd: written last year,var/log/messages,,0,,
+2023-12-31T23:59:59Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sshd: still last year,var/log/messages,,49,,
+2024-01-01T00:00:01Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sshd: new year,var/log/messages,,96,,
+2024-01-09T12:00:00Z,seconds,inferred_year_assumed_zone,memory,syslog,log,sshd: just before the file was last written,var/log/messages,,136,,

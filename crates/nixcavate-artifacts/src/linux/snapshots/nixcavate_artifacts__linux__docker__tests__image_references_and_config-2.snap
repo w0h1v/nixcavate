@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/docker.rs
+expression: "run(&IMAGES, &path, &fixture(&format!(\"docker-images/{id}\")), 0)"
+---
+{"host":"memory","artifact":"docker-images","source_path":"var/lib/docker/image/overlay2/imagedb/content/sha256/6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","source_line":null,"kind":"image","repository":"","reference":"","image_id":"sha256:6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9","time":"2025-10-08T11:10:40Z","architecture":"arm64","os":"linux","command":"/bin/sh","entrypoint":"","layers":1,"author":"","history":["ADD alpine-minirootfs-3.19.9-aarch64.tar.gz / # buildkit","CMD [\"/bin/sh\"]"]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-10-08T11:10:40Z,seconds,recorded,memory,docker-images,image_created,image sha256:6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9 built,var/lib/docker/image/overlay2/imagedb/content/sha256/6cf065f724d522cbb3e1898559cd88f015db8a1a4210d2d048a0853b69b57ba9,,,,

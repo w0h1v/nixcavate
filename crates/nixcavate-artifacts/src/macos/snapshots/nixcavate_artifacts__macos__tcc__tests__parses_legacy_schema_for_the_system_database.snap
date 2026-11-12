@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/tcc.rs
+expression: "run(&ARTIFACT, path, &fixture(\"tcc/TCC-legacy.db\"), 0)"
+---
+{"host":"memory","artifact":"tcc","source_path":"Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"","service":"kTCCServiceCamera","client":"com.example.video","client_type":"bundle_id","auth_value":"allowed","auth_reason":null,"indirect_object":"UNUSED","time":"2019-06-08T13:20:00Z","flags":0}
+{"host":"memory","artifact":"tcc","source_path":"Library/Application Support/com.apple.TCC/TCC.db","source_line":null,"user":"","service":"kTCCServiceMicrophone","client":"com.example.voice","client_type":"bundle_id","auth_value":"denied","auth_reason":null,"indirect_object":"UNUSED","time":"2019-06-08T13:21:40Z","flags":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2019-06-08T13:20:00Z,seconds,recorded,memory,tcc,tcc_changed,com.example.video allowed for kTCCServiceCamera,Library/Application Support/com.apple.TCC/TCC.db,,,,
+2019-06-08T13:21:40Z,seconds,recorded,memory,tcc,tcc_changed,com.example.voice denied for kTCCServiceMicrophone,Library/Application Support/com.apple.TCC/TCC.db,,,,

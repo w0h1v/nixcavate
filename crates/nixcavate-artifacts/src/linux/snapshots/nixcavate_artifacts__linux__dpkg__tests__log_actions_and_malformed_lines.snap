@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/linux/dpkg.rs
+expression: "run(&LOG, \"var/log/dpkg.log\", &fixture(\"dpkg-log/extra.log\"), 0)"
+---
+{"host":"memory","artifact":"dpkg-log","source_path":"var/log/dpkg.log","source_offset":0,"time":"2024-03-10T01:02:03Z","action":"startup","state":"","package":"","architecture":"","old_version":"","new_version":"","detail":"packages upgrade"}
+{"host":"memory","artifact":"dpkg-log","source_path":"var/log/dpkg.log","source_offset":45,"time":"2024-03-10T01:02:04Z","action":"upgrade","state":"","package":"openssl","architecture":"amd64","old_version":"3.0.11-1~deb12u1","new_version":"3.0.11-1~deb12u2","detail":""}
+{"host":"memory","artifact":"dpkg-log","source_path":"var/log/dpkg.log","source_offset":121,"time":"2024-03-10T01:02:05Z","action":"status","state":"installed","package":"openssl","architecture":"amd64","old_version":"","new_version":"3.0.11-1~deb12u2","detail":""}
+{"host":"memory","artifact":"dpkg-log","source_path":"var/log/dpkg.log","source_offset":189,"time":"2024-03-10T01:02:06Z","action":"conffile","state":"","package":"","architecture":"","old_version":"","new_version":"","detail":"/etc/ssl/openssl.cnf keep"}
+{"host":"memory","artifact":"dpkg-log","source_path":"var/log/dpkg.log","source_offset":244,"time":"2024-03-10T01:02:07Z","action":"purge","state":"","package":"nmap","architecture":"amd64","old_version":"7.93+dfsg1-1","new_version":"","detail":""}
+{"host":"memory","artifact":"dpkg-log","source_path":"var/log/dpkg.log","source_offset":392,"time":"2024-03-10T01:02:09Z","action":"install","state":"","package":"bare","architecture":"","old_version":"1.0","new_version":"2.0","detail":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:04Z,seconds,assumed_zone,memory,dpkg-log,package_upgraded,upgraded openssl 3.0.11-1~deb12u1 -> 3.0.11-1~deb12u2 (amd64),var/log/dpkg.log,,45,,
+2024-03-10T01:02:07Z,seconds,assumed_zone,memory,dpkg-log,package_removed,purged nmap 7.93+dfsg1-1 (amd64),var/log/dpkg.log,,244,,
+2024-03-10T01:02:09Z,seconds,assumed_zone,memory,dpkg-log,package_installed,installed bare 2.0,var/log/dpkg.log,,392,,
+--- warning: offset 301: not a dpkg.log line
+--- warning: offset 322: not a dpkg.log line
+--- warning: offset 371: not a dpkg.log line

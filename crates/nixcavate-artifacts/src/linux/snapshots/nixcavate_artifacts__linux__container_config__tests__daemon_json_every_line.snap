@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/container_config.rs
+expression: "run(&ARTIFACT, \"etc/docker/daemon.json\",\n&fixture(\"container-config/daemon.json\"), 0)"
+---
+{"host":"memory","artifact":"container-config","source_path":"etc/docker/daemon.json","source_line":1,"text":"{"}
+{"host":"memory","artifact":"container-config","source_path":"etc/docker/daemon.json","source_line":2,"text":"\"insecure-registries\": [\"registry.example.com:5000\"],"}
+{"host":"memory","artifact":"container-config","source_path":"etc/docker/daemon.json","source_line":3,"text":"\"hosts\": [\"tcp://0.0.0.0:2375\", \"unix:///var/run/docker.sock\"],"}
+{"host":"memory","artifact":"container-config","source_path":"etc/docker/daemon.json","source_line":4,"text":"\"log-driver\": \"json-file\""}
+{"host":"memory","artifact":"container-config","source_path":"etc/docker/daemon.json","source_line":5,"text":"}"}

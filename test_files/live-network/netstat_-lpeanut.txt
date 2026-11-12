@@ -1,0 +1,9 @@
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name    
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      0          205377096  4355/sshd: /usr/sbi 
+tcp        0      0 0.0.0.0:8080            0.0.0.0:*               LISTEN      1000       205378022  4358/python3        
+tcp        0      0 127.0.0.1:34726         127.0.0.1:8080          ESTABLISHED 0          205381828  4364/python3        
+tcp        0      0 127.0.0.1:8080          127.0.0.1:34726         ESTABLISHED 1000       205381829  4358/python3        
+tcp6       0      0 :::22                   :::*                    LISTEN      0          205377098  4355/sshd: /usr/sbi 
+tcp6       0      0 :::8081                 :::*                    LISTEN      1000       205382676  4361/python3        
+udp6       0      0 :::5353                 :::*                                0          205376211  4362/python3        

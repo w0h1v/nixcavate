@@ -1,0 +1,15 @@
+---
+source: crates/nixcavate-artifacts/src/linux/utmp.rs
+expression: "run(&WTMP, \"var/log/wtmp\", &sample(), 0)"
+---
+{"host":"memory","artifact":"wtmp","source_path":"var/log/wtmp","source_offset":0,"time":"2023-11-14T22:13:20.000005Z","type":"boot_time","user":"reboot","line":"~","remote_host":"6.1.0-18-amd64","address":"","pid":0,"id":"ts/0","session":0,"exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"wtmp","source_path":"var/log/wtmp","source_offset":384,"time":"2023-11-14T22:15:00.250000Z","type":"user_process","user":"alice","line":"pts/0","remote_host":"203.0.113.9","address":"203.0.113.9","pid":4242,"id":"ts/0","session":0,"exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"wtmp","source_path":"var/log/wtmp","source_offset":1152,"time":"2023-11-14T22:15:50.000000Z","type":"user_process","user":"bob","line":"pts/1","remote_host":"","address":"2001:db8::7","pid":4300,"id":"ts/0","session":0,"exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"wtmp","source_path":"var/log/wtmp","source_offset":1536,"time":"2023-11-14T22:16:40.000000Z","type":"dead_process","user":"","line":"pts/0","remote_host":"","address":"","pid":4242,"id":"ts/0","session":0,"exit_termination":0,"exit_status":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20.000005Z,micros,recorded,memory,wtmp,boot,system boot,var/log/wtmp,,0,,
+2023-11-14T22:15:00.250000Z,micros,recorded,memory,wtmp,login,alice logged in on pts/0 from 203.0.113.9,var/log/wtmp,,384,,
+2023-11-14T22:15:50.000000Z,micros,recorded,memory,wtmp,login,bob logged in on pts/1 from 2001:db8::7,var/log/wtmp,,1152,,
+2023-11-14T22:16:40.000000Z,micros,recorded,memory,wtmp,logout,session ended on pts/0,var/log/wtmp,,1536,,
+--- warning: offset 1920: unknown record type 42

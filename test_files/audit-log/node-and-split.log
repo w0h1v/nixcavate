@@ -1,0 +1,6 @@
+node=web01.example.com type=SYSCALL msg=audit(1700001000.100:900): arch=c000003e syscall=59 success=yes exit=0 ppid=1 pid=3000 auid=1000 uid=1000 euid=1000 ses=2 comm="sh" exe="/usr/bin/dash" key="exec"
+node=web01.example.com type=EXECVE msg=audit(1700001000.100:900): argc=3 a0="sh" a1="-c" a2_len=22 a2[0]="echo aaaaaaaaaa" a2[1]="bbbbbbb"
+node=web01.example.com type=EXECVE msg=audit(1700001001.000:901): argc=3 a0="ls" a1="only-one"
+node=web01.example.com type=PROCTITLE msg=audit(1700001000.100:900): proctitle=7368002D6300656368
+node=web01.example.com type=PROCTITLE msg=audit(1700001002.000:902): proctitle="plain title"
+node=web01.example.com type=USER_LOGIN msg=audit(1700001003.0:903): pid=1 uid=0 auid=1000 ses=1 msg='op=login id=1000 exe="/usr/sbin/sshd" hostname=? addr=2001:db8::5 terminal=/dev/pts/0 res=success'

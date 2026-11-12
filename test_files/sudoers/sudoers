@@ -1,0 +1,29 @@
+# This file is synthetic.
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin"
+Defaults:alice	!requiretty
+Defaults@web01	log_output
+
+User_Alias ADMINS = alice, bob
+Runas_Alias OP = root, operator
+Host_Alias WEB = web01, web02.example.com
+Cmnd_Alias SERVICES = /usr/bin/systemctl restart nginx, \
+    /usr/bin/systemctl reload nginx
+
+root	ALL=(ALL:ALL) ALL
+%admin ALL=(ALL) ALL
+%sudo	ALL=(ALL:ALL) ALL
+alice	ALL=(ALL) NOPASSWD: ALL
+bob	web01=(OP) NOPASSWD: SETENV: /usr/bin/apt, \
+	/usr/bin/apt-get
+ADMINS, %ops WEB = (root) /bin/ls, PASSWD: /bin/cat
+#1001 ALL=(ALL) ALL
+carol ALL = /usr/bin/id
+this line has no equals sign
+
+@includedir /etc/sudoers.d
+#include /etc/sudoers.local
+#includedir /etc/sudoers.d
+@include /etc/sudoers.extra
+last	ALL=(ALL) ALL \

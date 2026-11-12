@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/macos/install_history.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"install-history/InstallHistory.plist\"), 0)"
+---
+{"host":"memory","artifact":"install-history","source_path":"Library/Receipts/InstallHistory.plist","source_line":null,"time":"2023-11-14T22:13:20Z","name":"macOS 14.1.1","version":"14.1.1","process":"softwareupdated","content_type":null,"package_ids":[]}
+{"host":"memory","artifact":"install-history","source_path":"Library/Receipts/InstallHistory.plist","source_line":null,"time":"2023-11-15T08:00:00Z","name":"ExampleTool","version":"2.3","process":"installer","content_type":"primary","package_ids":["com.example.tool.pkg","com.example.tool.helper"]}
+{"host":"memory","artifact":"install-history","source_path":"Library/Receipts/InstallHistory.plist","source_line":null,"time":null,"name":"Undated","version":null,"process":null,"content_type":null,"package_ids":["not-an-array"]}
+{"host":"memory","artifact":"install-history","source_path":"Library/Receipts/InstallHistory.plist","source_line":null,"time":null,"name":null,"version":null,"process":null,"content_type":null,"package_ids":[]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,install-history,software_installed,macOS 14.1.1 14.1.1 installed by softwareupdated,Library/Receipts/InstallHistory.plist,,,,
+2023-11-15T08:00:00Z,seconds,recorded,memory,install-history,software_installed,ExampleTool 2.3 installed by installer,Library/Receipts/InstallHistory.plist,,,,
+--- warning: entry 3: not a dictionary

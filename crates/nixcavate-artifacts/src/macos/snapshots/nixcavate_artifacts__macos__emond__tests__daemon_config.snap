@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/macos/emond.rs
+expression: "run(&ARTIFACT, \"private/etc/emond.d/emond.plist\", &data, 0)"
+---
+{"host":"memory","artifact":"emond","source_path":"private/etc/emond.d/emond.plist","source_line":1,"rule":"config","enabled":null,"event_types":[],"action_type":null,"command":null,"arguments":["/etc/emond.d/extra","/Users/Shared/rules"],"run_as":null}

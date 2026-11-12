@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/linux/boot_scripts.rs
+expression: "run(&INIT_D, \"etc/init.d/cron\", &fixture(\"init-d/cron\"), 1_700_000_000)"
+---
+{"host":"memory","artifact":"init-d","source_path":"etc/init.d/cron","source_line":null,"size":119,"mode":"100644","uid":0,"gid":0,"modified":"2023-11-14T22:13:20Z","interpreter":"/bin/sh","lines":7}

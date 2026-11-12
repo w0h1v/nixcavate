@@ -1,0 +1,9 @@
+COMMAND   PID  TID TASKCMD     USER   FD      TYPE             DEVICE SIZE/OFF     NODE NAME
+systemd     1                      0  cwd       DIR              253,0     4096        2 /
+systemd     1                      0  txt       REG              253,0  1620224   131100 /usr/lib/systemd/systemd
+systemd     1                      0  NOFD                                           /proc/1/fd (opendir: Permission denied)
+bash      812                   1000  cwd   unknown                                    /proc/812/cwd (readlink: Permission denied)
+sshd      900   901 sshd        1000    3u     IPv4             205377      0t0      TCP 192.0.2.10:22->198.51.100.7:50022 (ESTABLISHED)
+sshd      900   902 sshd           0    4u     IPv6             205378      0t0      UDP *:5353
+editor   1000                   alice    5w      REG              253,0       12   131200 /home/alice/My Documents/notes (deleted).txt
+this is garbage

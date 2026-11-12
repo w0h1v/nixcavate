@@ -1,0 +1,15 @@
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State
+tcp        0      0 0.0.0.0:ssh             0.0.0.0:*               LISTEN
+tcp6       0      0 :::443                  :::*                    LISTEN
+tcp6       0      0 2001:db8::10:443        2001:db8:ffff::5:51234  ESTABLISHED
+tcp        0      0 192.0.2.10:22           198.51.100.7:50022      ESTABLISHED
+udp        0      0 127.0.0.53:53           0.0.0.0:*
+udp6       0      0 [::1]:323               [::]:*
+raw6       0      0 :::58                   :::*                    7
+tcp        0
+tcp garbage
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   Path
+unix  2      [ ACC ]     STREAM     LISTENING     16620    /run/systemd/private
+unix  3      [ ]         STREAM     CONNECTED     16621

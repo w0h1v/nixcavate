@@ -1,0 +1,34 @@
+COMMAND  PID  TID TASKCMD     USER   FD   TYPE    DEVICE SIZE/OFF      NODE NAME
+bash       1                     0  cwd    DIR     0,384      288 224389278 /uac
+bash       1                     0  rtd    DIR     0,384       72 224375943 /
+bash       1                     0  txt    REG     0,384  1346480 224129237 /usr/bin/bash
+bash       1                     0  mem    REG     0,384  1651408 224129775 /usr/lib/aarch64-linux-gnu/libc.so.6
+bash       1                     0  mem    REG     0,384   199896 224129862 /usr/lib/aarch64-linux-gnu/libtinfo.so.6.4
+bash       1                     0  mem    REG     0,384   202912 224129757 /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+bash       1                     0    0u   CHR       1,3      0t0        35 /dev/null
+bash       1                     0    1w  FIFO      0,15      0t0 205372860 pipe
+bash       1                     0    2w  FIFO      0,15      0t0 205372861 pipe
+sshd    4355                     0  cwd    DIR     0,384       72 224375943 /
+sshd    4355                     0  rtd    DIR     0,384       72 224375943 /
+sshd    4355                     0  txt    REG     0,384  1314416 224380742 /usr/sbin/sshd
+sshd    4355                     0  mem    REG     0,384   198640 224129805 /usr/lib/aarch64-linux-gnu/libgpg-error.so.0.33.1
+sshd    4355                     0  mem    REG     0,384   198960 224380629 /usr/lib/aarch64-linux-gnu/libtirpc.so.3.0.0
+sshd    4355                     0  mem    REG     0,384    68232 224129841 /usr/lib/aarch64-linux-gnu/libresolv.so.2
+sshd    4355                     0  mem    REG     0,384    67432 224380068 /usr/lib/aarch64-linux-gnu/libkeyutils.so.1.10
+sshd    4355                     0  mem    REG     0,384    68576 224380038 /usr/lib/aarch64-linux-gnu/libkrb5support.so.0.1
+sshd    4355                     0  mem    REG     0,384   199352 224380053 /usr/lib/aarch64-linux-gnu/libk5crypto.so.3.1
+sshd    4355                     0  mem    REG     0,384   592440 224129837 /usr/lib/aarch64-linux-gnu/libpcre2-8.so.0.11.2
+sshd    4355                     0  mem    REG     0,384   199056 224129811 /usr/lib/aarch64-linux-gnu/liblz4.so.1.9.4
+sshd    4355                     0  mem    REG     0,384   657352 224129875 /usr/lib/aarch64-linux-gnu/libzstd.so.1.5.4
+python3 4358 4366 python3     1000    1w   CHR       1,3      0t0        35 /dev/null
+python3 4358 4366 python3     1000    2w   CHR       1,3      0t0        35 /dev/null
+python3 4358 4366 python3     1000    3u  IPv4 205378022      0t0       TCP *:8080 (LISTEN)
+python3 4358 4366 python3     1000    4u  IPv4 205381829      0t0       TCP 127.0.0.1:8080->127.0.0.1:34726 (ESTABLISHED)
+python3 4361                  1000  cwd    DIR     0,384       72 224375943 /
+python3 4361                  1000  rtd    DIR     0,384       72 224375943 /
+python3 4361                  1000  txt    REG     0,384  6616880 224381081 /usr/bin/python3.11
+python3 4361                  1000    1w   CHR       1,3      0t0        35 /dev/null
+python3 4361                  1000    2w   CHR       1,3      0t0        35 /dev/null
+python3 4361                  1000    3u  IPv6 205382676      0t0       TCP *:8081 (LISTEN)
+python3 4362                     0  cwd    DIR     0,384       72 224375943 /
+python3 4362                     0  rtd    DIR     0,384       72 224375943 /

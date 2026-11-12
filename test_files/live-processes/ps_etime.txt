@@ -1,0 +1,10 @@
+USER         PID    PPID %CPU %MEM TT       STAT     ELAPSED COMMAND
+root           1       0  0.0  0.0 ?        Ss         00:18 bash -c  apt-get update -qq && apt-get install -y -qq git procps net-tools iproute2 lsof kmod python3 openssh-server >/dev/null 2>&1 useradd -m alice; mkdir -p /run/sshd; /usr/sbin/sshd su alice -c "
+root        4355       1  0.0  0.0 ?        Ss         00:05 sshd: /usr/sbin/sshd [listener] 0 of 10-100 startups
+alice       4358       1  0.1  0.0 ?        Sl         00:05 python3 -m http.server 8080 --bind 0.0.0.0
+alice       4361       1  0.1  0.0 ?        S          00:05 python3 -m http.server 8081 --bind ::
+root        4362       1  0.0  0.0 ?        S          00:05 python3 -c import socket,time;s=socket.socket(socket.AF_INET6,socket.SOCK_DGRAM);s.bind(("::",5353));time.sleep(600)
+root        4364       1  0.2  0.0 ?        S          00:04 python3 -c  import socket,time c=socket.create_connection(("127.0.0.1",8080));time.sleep(600)
+root        4381       1  0.5  0.0 ?        S          00:01 /bin/sh ./uac -a ./artifacts/live_response/process/*,./artifacts/live_response/network/*,./artifacts/live_response/system/*,./artifacts/bodyfile/*,./artifacts/files/system/etc.yaml,./artifacts/files/
+root       12356    4381  0.0  0.0 ?        S          00:00 /bin/sh ./uac -a ./artifacts/live_response/process/*,./artifacts/live_response/network/*,./artifacts/live_response/system/*,./artifacts/bodyfile/*,./artifacts/files/system/etc.yaml,./artifacts/files/
+root       12467   12356  0.0  0.0 ?        R          00:00 ps -eo user,pid,ppid,pcpu,pmem,tty,stat,etime,args

@@ -1,0 +1,23 @@
+[package]
+name = "nixcavate-source"
+description = "Evidence access for nixcavate: directories, archives, host discovery"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+nixcavate-core.workspace = true
+nixcavate-fs.workspace = true
+memmap2.workspace = true
+tar.workspace = true
+zip.workspace = true
+flate2.workspace = true
+zstd.workspace = true
+xz2.workspace = true
+plist.workspace = true
+memchr.workspace = true

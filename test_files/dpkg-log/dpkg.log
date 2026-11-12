@@ -1,0 +1,55 @@
+2026-11-11 19:37:01 startup archives unpack
+2026-11-11 19:37:02 install cron-daemon-common:all <none> 3.0pl1-162
+2026-11-11 19:37:02 status half-installed cron-daemon-common:all 3.0pl1-162
+2026-11-11 19:37:02 status unpacked cron-daemon-common:all 3.0pl1-162
+2026-11-11 19:37:02 install sensible-utils:all <none> 0.0.17+nmu1
+2026-11-11 19:37:02 status half-installed sensible-utils:all 0.0.17+nmu1
+2026-11-11 19:37:02 status unpacked sensible-utils:all 0.0.17+nmu1
+2026-11-11 19:37:02 startup packages configure
+2026-11-11 19:37:02 configure cron-daemon-common:all 3.0pl1-162 <none>
+2026-11-11 19:37:02 status unpacked cron-daemon-common:all 3.0pl1-162
+2026-11-11 19:37:02 status half-configured cron-daemon-common:all 3.0pl1-162
+2026-11-11 19:37:02 status installed cron-daemon-common:all 3.0pl1-162
+2026-11-11 19:37:02 startup archives unpack
+2026-11-11 19:37:02 install cron:amd64 <none> 3.0pl1-162
+2026-11-11 19:37:02 status half-installed cron:amd64 3.0pl1-162
+2026-11-11 19:37:02 status unpacked cron:amd64 3.0pl1-162
+2026-11-11 19:37:02 install libdbus-1-3:amd64 <none> 1.14.10-1~deb12u1
+2026-11-11 19:37:02 status triggers-pending libc-bin:amd64 2.36-9+deb12u14
+2026-11-11 19:37:02 status half-installed libdbus-1-3:amd64 1.14.10-1~deb12u1
+2026-11-11 19:37:02 status unpacked libdbus-1-3:amd64 1.14.10-1~deb12u1
+2026-11-11 19:37:02 install dbus-bin:amd64 <none> 1.14.10-1~deb12u1
+2026-11-11 19:37:02 status half-installed dbus-bin:amd64 1.14.10-1~deb12u1
+2026-11-11 19:37:02 status unpacked dbus-bin:amd64 1.14.10-1~deb12u1
+2026-11-11 19:37:02 install dbus-session-bus-common:all <none> 1.14.10-1~deb12u1
+2026-11-11 19:37:02 status half-installed dbus-session-bus-common:all 1.14.10-1~deb12u1
+2026-11-11 19:37:02 status unpacked dbus-session-bus-common:all 1.14.10-1~deb12u1
+2026-11-11 19:37:02 install libapparmor1:amd64 <none> 3.0.8-3
+2026-11-11 19:37:02 status half-installed libapparmor1:amd64 3.0.8-3
+2026-11-11 19:37:03 status unpacked libapparmor1:amd64 3.0.8-3
+2026-11-11 19:37:03 install libexpat1:amd64 <none> 2.5.0-1+deb12u5
+2026-11-11 19:37:38 status installed bcron:amd64 0.11-19
+2026-11-11 19:37:38 configure runit:amd64 2.1.2-54 <none>
+2026-11-11 19:37:38 status unpacked runit:amd64 2.1.2-54
+2026-11-11 19:37:38 status half-configured runit:amd64 2.1.2-54
+2026-11-11 19:37:39 status installed runit:amd64 2.1.2-54
+2026-11-11 19:37:39 configure runit-run:all 2.1.2-54 <none>
+2026-11-11 19:37:39 status unpacked runit-run:all 2.1.2-54
+2026-11-11 19:37:39 status half-configured runit-run:all 2.1.2-54
+2026-11-11 19:37:39 status installed runit-run:all 2.1.2-54
+2026-11-11 19:37:39 trigproc libc-bin:amd64 2.36-9+deb12u14 <none>
+2026-11-11 19:37:39 status half-configured libc-bin:amd64 2.36-9+deb12u14
+2026-11-11 19:37:39 status installed libc-bin:amd64 2.36-9+deb12u14
+2026-11-11 19:37:41 startup packages remove
+2026-11-11 19:37:41 status installed liblua5.3-0:amd64 5.3.6-2
+2026-11-11 19:37:41 remove liblua5.3-0:amd64 5.3.6-2 <none>
+2026-11-11 19:37:41 status triggers-pending libc-bin:amd64 2.36-9+deb12u14
+2026-11-11 19:37:41 status half-configured liblua5.3-0:amd64 5.3.6-2
+2026-11-11 19:37:41 status half-installed liblua5.3-0:amd64 5.3.6-2
+2026-11-11 19:37:41 status config-files liblua5.3-0:amd64 5.3.6-2
+2026-11-11 19:37:41 status not-installed liblua5.3-0:amd64 <none>
+2026-11-11 19:37:41 startup packages configure
+2026-11-11 19:37:41 trigproc libc-bin:amd64 2.36-9+deb12u14 <none>
+2026-11-11 19:37:41 status half-configured libc-bin:amd64 2.36-9+deb12u14
+2026-11-11 19:37:41 status installed libc-bin:amd64 2.36-9+deb12u14
+2026-11-11 19:37:41 startup packages configure

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>date</key>
+		<date>2023-11-14T22:13:20Z</date>
+		<key>displayName</key>
+		<string>macOS 14.1.1</string>
+		<key>displayVersion</key>
+		<string>14.1.1</string>
+		<key>processName</key>
+		<string>softwareupdated</string>
+	</dict>
+	<dict>
+		<key>contentType</key>
+		<string>primary</string>
+		<key>date</key>
+		<date>2023-11-15T08:00:00Z</date>
+		<key>displayName</key>
+		<string>ExampleTool</string>
+		<key>displayVersion</key>
+		<string>2.3</string>
+		<key>packageIdentifiers</key>
+		<array>
+			<string>com.example.tool.pkg</string>
+			<string>com.example.tool.helper</string>
+		</array>
+		<key>processName</key>
+		<string>installer</string>
+	</dict>
+	<dict>
+		<key>displayName</key>
+		<string>Undated</string>
+		<key>displayVersion</key>
+		<integer>7</integer>
+		<key>packageIdentifiers</key>
+		<string>not-an-array</string>
+	</dict>
+	<string>not-a-dict</string>
+	<dict>
+		<key>contentType</key>
+		<integer>5</integer>
+		<key>date</key>
+		<string>not-a-date</string>
+		<key>displayName</key>
+		<array>
+			<string>wrong</string>
+		</array>
+	</dict>
+</array>
+</plist>

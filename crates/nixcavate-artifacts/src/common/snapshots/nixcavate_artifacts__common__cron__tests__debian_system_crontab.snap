@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/common/cron.rs
+expression: "run(&CRON, \"etc/crontab\", &fixture(\"cron/crontab-debian\"), 0)"
+---
+{"host":"memory","artifact":"cron","source_path":"etc/crontab","source_line":7,"kind":"env","schedule":null,"user":null,"command":null,"name":"SHELL","value":"/bin/sh"}
+{"host":"memory","artifact":"cron","source_path":"etc/crontab","source_line":8,"kind":"env","schedule":null,"user":null,"command":null,"name":"PATH","value":"/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"}
+{"host":"memory","artifact":"cron","source_path":"etc/crontab","source_line":18,"kind":"job","schedule":"17 * * * *","user":"root","command":"cd / && run-parts --report /etc/cron.hourly","name":null,"value":null}
+{"host":"memory","artifact":"cron","source_path":"etc/crontab","source_line":19,"kind":"job","schedule":"25 6 * * *","user":"root","command":"test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.daily; }","name":null,"value":null}
+{"host":"memory","artifact":"cron","source_path":"etc/crontab","source_line":20,"kind":"job","schedule":"47 6 * * 7","user":"root","command":"test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.weekly; }","name":null,"value":null}
+{"host":"memory","artifact":"cron","source_path":"etc/crontab","source_line":21,"kind":"job","schedule":"52 6 1 * *","user":"root","command":"test -x /usr/sbin/anacron || { cd / && run-parts --report /etc/cron.monthly; }","name":null,"value":null}
