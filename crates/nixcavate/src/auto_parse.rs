@@ -65,6 +65,15 @@ pub fn parse_all(options: &Options) -> Result<Manifest, String> {
         .map(|(i, host)| (host.os != Os::Unknown || used.contains(&i)).then(|| unique_dir(&host.name, &mut taken)))
         .collect();
 
+    if dirs.iter().all(Option::is_none) {
+        let _ = fs::remove_dir_all(&scratch);
+        return Err(format!(
+            "no host found in {}: nothing in it looks like a Linux or macOS system (etc/, var/log/, \
+             System/Library/). A collection made of archives inside an archive must be extracted first",
+            options.evidence.display()
+        ));
+    }
+
     let threads = common.threads.unwrap_or_else(|| thread::available_parallelism().map_or(1, |n| n.get())).max(1);
     let target = |task: &Task| {
         let host_dir = options.output.join(dirs[task.host_index].as_deref().unwrap_or("host"));

@@ -158,6 +158,21 @@ fn bigtime_and_legacy_timestamps_outside_32_bits() {
     }
 }
 
+/// `build-symlinks.sh`: with 1 KiB blocks a target longer than 968 bytes takes two blocks,
+/// which are one extent with one header, not a header per block.
+#[test]
+fn remote_symlinks_longer_than_a_block() {
+    let image = unzstd("symlinks-1k.img.zst");
+    let fs = Xfs::open(Bytes(&image)).unwrap();
+    let (nodes, warnings) = walk(&fs);
+    assert!(warnings.is_empty(), "{warnings:?}");
+    for n in [200usize, 968, 969, 1000, 1023] {
+        let expected = String::from(char::from(b'a' + (n % 26) as u8)).repeat(n);
+        let node = nodes.get(&format!("len{n}")).unwrap_or_else(|| panic!("len{n} is not listed"));
+        assert_eq!(node.link_target.as_deref(), Some(expected.as_str()), "len{n}");
+    }
+}
+
 #[test]
 fn unwritten_extents_hide_old_data() {
     // unwritten.bin was preallocated over the blocks of a deleted file: the raw blocks still

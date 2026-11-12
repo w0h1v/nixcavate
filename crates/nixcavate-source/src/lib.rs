@@ -155,7 +155,9 @@ impl Source {
             warnings = notes;
             (entries, None)
         } else {
-            let listing = archive::open(path, keep, scratch)?;
+            // A CatScale collection's inner archives are read after the listing.
+            let keep = |path: &str| keep(path) || archive::catscale_archive(path).is_some();
+            let listing = archive::open(path, &keep, scratch)?;
             warnings = listing.warnings;
             (listing.entries, Some(listing.map))
         };
@@ -172,7 +174,42 @@ impl Source {
         source.scratch = scratch.to_path_buf();
         warnings.append(&mut source.warnings);
         source.warnings = warnings;
+        source.expand_catscale(keep);
         Ok(source)
+    }
+
+    /// Adds the files inside a CatScale collection's inner archives as entries of one host
+    /// root, `<output folder>/<host>/[root]`. A path that several archives hold is kept once.
+    fn expand_catscale(&mut self, keep: &dyn Fn(&str) -> bool) {
+        let inner: Vec<usize> =
+            (0..self.entries.len()).filter(|&i| archive::catscale_archive(&self.entries[i].path).is_some()).collect();
+        // The archive of home directories does not name the host: the others do.
+        let host = inner.iter().find_map(|&i| archive::catscale_archive(&self.entries[i].path).map(|(_, host)| host));
+        let host = host.filter(|h| !h.is_empty()).unwrap_or("catscale").to_string();
+        let mut added = Vec::new();
+        for (nth, &i) in inner.iter().enumerate() {
+            let entry = &self.entries[i];
+            let Some((folder, _)) = archive::catscale_archive(&entry.path) else { continue };
+            let root = format!("{folder}/{host}/[root]");
+            let scratch = self.scratch.join(format!("nested-{nth}"));
+            let mut warnings = Vec::new();
+            let listed = self.read(entry).and_then(|data| archive::nested_tar_gz(&data, keep, &scratch, &mut warnings));
+            match listed {
+                Ok(found) => added.extend(found.into_iter().map(|mut e| {
+                    e.path = format!("{root}/{}", e.path);
+                    e
+                })),
+                Err(e) => warnings.push(format!("not read: {e}")),
+            }
+            let path = entry.path.clone();
+            self.warnings.extend(warnings.into_iter().map(|w| format!("{path}: {w}")));
+        }
+        if !added.is_empty() {
+            self.entries.append(&mut added);
+            // A stable sort keeps the first archive's copy of a path that several hold.
+            self.entries.sort_by(|a, b| a.path.cmp(&b.path));
+            self.entries.dedup_by(|later, first| later.path == first.path);
+        }
     }
 
     /// A source holding one plain file, named by its file name.

@@ -16,7 +16,7 @@
 //!   blocks are read (directory offsets below 32 GiB): the leaf, node and free-index blocks
 //!   only speed up lookups and are not needed to list entries. A walk reads each directory
 //!   block once: a directory whose map names a block already read is listed up to there;
-//! - local and remote symlinks (local or extents format), including the v5 per-block remote
+//! - local and remote symlinks (local or extents format), including the v5 per-extent remote
 //!   symlink header.
 //!
 //! Not supported: files on the realtime device (listed, but `read` refuses them), the log (a
@@ -37,6 +37,8 @@ use dir::{parse_data_block, parse_shortform};
 const DIR_LEAF_OFFSET: u64 = 1 << 35;
 /// Longest symlink target the format allows.
 const MAX_SYMLINK: u64 = 1024;
+/// Extents read for one remote symlink: a target fits in two blocks, so more is damage.
+const MAX_SYMLINK_EXTENTS: usize = 4;
 /// Deepest bmbt the format can build (the root in the inode plus interior levels).
 const MAX_BMBT_LEVEL: u16 = 9;
 /// Extent records accepted for one fork.
@@ -445,25 +447,32 @@ impl<R: ReadAt> Xfs<R> {
                     self.read_mapped(extents, 0, &mut target)?;
                     return Ok(target);
                 }
-                // v5: every block starts with a 56-byte header that says how many bytes follow.
+                // v5: every extent starts with a 56-byte header that says how many bytes of the
+                // target follow it. A target longer than a block is one extent of several blocks
+                // with one header, unless free space was too fragmented for that.
                 target.clear();
-                let bs = self.g.block_size as usize;
-                scratch.resize(bs, 0);
-                let mut block = 0u64;
-                while target.len() < size {
-                    if block >= 4 {
-                        return Err(Error::corrupt("remote symlink spans too many blocks"));
+                let bs = self.g.block_size;
+                scratch.resize(56, 0);
+                for i in 0..extents.len().min(MAX_SYMLINK_EXTENTS) {
+                    if target.len() >= size {
+                        break;
                     }
-                    self.read_mapped(extents, block * self.g.block_size, scratch)?;
+                    let (start, room) = (extents[i].off.saturating_mul(bs), extents[i].len.saturating_mul(bs));
+                    self.read_mapped(extents, start, scratch)?;
                     if scratch.get(0..4) != Some(b"XSLM".as_slice()) {
                         return Err(Error::corrupt("remote symlink block: bad magic"));
                     }
-                    let take = (be32(scratch, 8) as usize).min(bs - 56).min(size - target.len());
+                    let held = u64::from(be32(scratch, 8)).min(room.saturating_sub(56));
+                    let take = (held as usize).min(size - target.len());
                     if take == 0 {
                         return Err(Error::corrupt("remote symlink block is empty"));
                     }
-                    target.extend_from_slice(&scratch[56..56 + take]);
-                    block += 1;
+                    let at = target.len();
+                    target.resize(at + take, 0);
+                    self.read_mapped(extents, start + 56, &mut target[at..])?;
+                }
+                if target.len() < size {
+                    return Err(Error::corrupt("remote symlink is shorter than its size"));
                 }
                 Ok(target)
             }

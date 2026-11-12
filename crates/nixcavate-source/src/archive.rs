@@ -36,6 +36,52 @@ pub(crate) fn xz_decoder(data: &[u8]) -> io::Result<xz2::read::XzDecoder<&[u8]>>
     Ok(xz2::read::XzDecoder::new_stream(data, stream))
 }
 
+/// CatScale keeps the files it collects as tar.gz archives inside its output folder
+/// (`catscale_out/Logs/<host>-<date>-<time>-var-log.tar.gz`, `.../hidden-user-home-dir.tar.gz`),
+/// each holding paths from the host's root. For such an archive: the path of the output folder
+/// and the host named in the file name (empty when it names none).
+pub(crate) fn catscale_archive(path: &str) -> Option<(&str, &str)> {
+    const FOLDER: &str = "catscale_out/";
+    let at = path.find(FOLDER).filter(|&at| at == 0 || path[..at].ends_with('/'))?;
+    let name = path.strip_suffix(".tar.gz")?.rsplit('/').next()?;
+    // `<host>-YYYYMMDD-HHMM-<what>`: the host is what precedes the date.
+    let dated = |rest: &str| {
+        let b = rest.as_bytes();
+        b.len() > 14
+            && b[0] == b'-'
+            && b[9] == b'-'
+            && b[14] == b'-'
+            && [&b[1..9], &b[10..14]].concat().iter().all(u8::is_ascii_digit)
+    };
+    let host = name.char_indices().find(|&(i, _)| dated(&name[i..])).map_or("", |(i, _)| &name[..i]);
+    Some((&path[..at + FOLDER.len() - 1], host))
+}
+
+/// Lists a tar.gz held in memory, as [`open`] lists one on disk.
+pub(crate) fn nested_tar_gz(
+    data: &[u8],
+    keep: &dyn Fn(&str) -> bool,
+    scratch: &Path,
+    warnings: &mut Vec<String>,
+) -> io::Result<Vec<Entry>> {
+    tar_entries(flate2::read::MultiGzDecoder::new(data), None, keep, scratch, data.len() as u64, warnings)
+}
+
+/// The decompressed stream of `data` when it starts like gzip, zstd, xz or bzip2.
+fn decompressor(data: &[u8]) -> io::Result<Option<Box<dyn Read + '_>>> {
+    Ok(Some(if data.starts_with(&[0x1f, 0x8b]) {
+        Box::new(flate2::read::MultiGzDecoder::new(data))
+    } else if data.starts_with(&[0x28, 0xb5, 0x2f, 0xfd]) {
+        Box::new(zstd::stream::read::Decoder::new(data)?)
+    } else if data.starts_with(&[0xfd, b'7', b'z', b'X', b'Z', 0]) {
+        Box::new(xz_decoder(data)?)
+    } else if data.starts_with(b"BZh") && data.get(4..10) == Some(&[0x31, 0x41, 0x59, 0x26, 0x53, 0x59]) {
+        Box::new(bzip2::read::MultiBzDecoder::new(data))
+    } else {
+        return Ok(None);
+    }))
+}
+
 pub(crate) fn open(path: &Path, keep: &dyn Fn(&str) -> bool, scratch: &Path) -> io::Result<Listing> {
     if fs::metadata(path)?.len() == 0 {
         return Err(io::Error::other("empty file"));
@@ -45,14 +91,20 @@ pub(crate) fn open(path: &Path, keep: &dyn Fn(&str) -> bool, scratch: &Path) -> 
     let mut warnings = Vec::new();
     let entries = if data.starts_with(b"PK\x03\x04") || data.starts_with(b"PK\x05\x06") {
         zip_entries(data)?
-    } else if data.starts_with(&[0x1f, 0x8b]) {
-        tar_entries(flate2::read::MultiGzDecoder::new(data), None, keep, scratch, data.len() as u64, &mut warnings)?
-    } else if data.starts_with(&[0x28, 0xb5, 0x2f, 0xfd]) {
-        tar_entries(zstd::stream::read::Decoder::new(data)?, None, keep, scratch, data.len() as u64, &mut warnings)?
-    } else if data.starts_with(&[0xfd, b'7', b'z', b'X', b'Z', 0]) {
-        tar_entries(xz_decoder(data)?, None, keep, scratch, data.len() as u64, &mut warnings)?
-    } else if data.starts_with(b"BZh") && data.get(4..10) == Some(&[0x31, 0x41, 0x59, 0x26, 0x53, 0x59]) {
-        tar_entries(bzip2::read::MultiBzDecoder::new(data), None, keep, scratch, data.len() as u64, &mut warnings)?
+    } else if let Some(stream) = decompressor(data)? {
+        // A compressed disk image or log is a common thing to pass by mistake. It fails as a
+        // tar, or, when it starts with zeros, reads as an empty one.
+        let listed = tar_entries(stream, None, keep, scratch, data.len() as u64, &mut warnings);
+        if !matches!(&listed, Ok(entries) if !entries.is_empty()) {
+            let mut head = Vec::new();
+            let read = decompressor(data).ok().flatten().map(|s| s.take(512).read_to_end(&mut head));
+            if matches!(read, Some(Ok(_))) && head.get(257..262) != Some(b"ustar") {
+                return Err(io::Error::other(
+                    "a compressed file that is not a tar archive (decompress a compressed disk image first)",
+                ));
+            }
+        }
+        listed?
     } else if data.get(257..262) == Some(b"ustar") {
         tar_entries(Cursor::new(data), Some(data.len()), keep, scratch, data.len() as u64, &mut warnings)?
     } else {
@@ -178,7 +230,9 @@ fn zip_entries(data: &[u8]) -> io::Result<Vec<Entry>> {
             (Some(range), zip::CompressionMethod::Deflated, false) => Store::Deflated(range),
             _ => Store::Dropped,
         };
-        let mtime = file.last_modified().and_then(|t| {
+        // The format's zero time, 1980-01-01, is what a tool writes when it records no time.
+        let stamped = file.last_modified().filter(|t| (t.year(), t.month(), t.day()) != (1980, 1, 1));
+        let mtime = stamped.and_then(|t| {
             // Zip times are local with no zone; they are read as UTC, which is close enough
             // for their one use (inferring a log's year).
             secs_from_civil(

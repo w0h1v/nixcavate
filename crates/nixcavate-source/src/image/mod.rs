@@ -88,6 +88,76 @@ impl ReadAt for Mapped {
     }
 }
 
+/// A raw image split into numbered pieces (`disk.001`, `disk.002`...), read as one disk.
+struct Split {
+    /// Each piece with the offset in the disk where it starts.
+    pieces: Vec<(u64, Mmap)>,
+    len: u64,
+}
+
+impl Split {
+    /// The pieces that follow `first` when its extension is `000` or `001`: the same name with
+    /// the next numbers, up to the first one that is missing. `None` when there are none.
+    fn open(first: &Path) -> io::Result<Option<Split>> {
+        let number = first.extension().and_then(|e| e.to_str()).filter(|e| *e == "000" || *e == "001");
+        let Some(start) = number.and_then(|e| e.parse::<u32>().ok()) else { return Ok(None) };
+        let (mut pieces, mut len) = (Vec::new(), 0u64);
+        for n in start..=999 {
+            let path = first.with_extension(format!("{n:03}"));
+            if !path.is_file() {
+                break;
+            }
+            let piece = map(&path)?;
+            let size = piece.len() as u64;
+            pieces.push((len, piece));
+            len += size;
+        }
+        Ok((pieces.len() > 1).then_some(Split { pieces, len }))
+    }
+}
+
+impl ReadAt for Split {
+    fn read_at(&self, offset: u64, buf: &mut [u8]) -> io::Result<()> {
+        let (mut pos, mut done) = (offset, 0usize);
+        while done < buf.len() {
+            // The last piece that starts at or before `pos`.
+            let at = self.pieces.partition_point(|(start, _)| *start <= pos).saturating_sub(1);
+            let (start, piece) = &self.pieces[at];
+            let inside = usize::try_from(pos - start).ok().filter(|&i| i < piece.len());
+            let Some(inside) = inside else {
+                return Err(io::Error::new(io::ErrorKind::UnexpectedEof, "read past the end of the image"));
+            };
+            let n = (piece.len() - inside).min(buf.len() - done);
+            buf[done..done + n].copy_from_slice(&piece[inside..inside + n]);
+            done += n;
+            pos += n as u64;
+        }
+        Ok(())
+    }
+
+    fn size(&self) -> u64 {
+        self.len
+    }
+}
+
+/// Virtual machine disk formats, by signature. They are not read: the error names the format
+/// and the conversion, which is better than "not an image".
+fn virtual_disk(head: &[u8]) -> Option<&'static str> {
+    if head.starts_with(b"QFI\xfb") {
+        Some("qcow2")
+    } else if head.starts_with(b"KDMV") || head.starts_with(b"# Disk DescriptorFile") {
+        Some("VMDK")
+    } else if head.starts_with(b"vhdxfile") {
+        Some("VHDX")
+    } else if head.starts_with(b"<<< ") && head.windows(10).any(|w| w == b"Disk Image") {
+        Some("VDI")
+    } else if head.starts_with(b"conectix") {
+        Some("VHD")
+    } else {
+        None
+    }
+}
+
 /// Opens the filesystems inside one partition. A partition that holds no supported or
 /// readable filesystem gives an empty list.
 fn open_volumes(partition: Part) -> Vec<Opened> {
@@ -123,8 +193,20 @@ pub(crate) fn open(path: &Path, scratch: &Path) -> io::Result<Option<Listed>> {
     if archive || head.is_empty() {
         return Ok(None);
     }
-    let reader: Shared =
-        if ewf::signature(head).is_some() { Arc::new(ewf::Ewf::open(path)?) } else { Arc::new(Mapped(map(path)?)) };
+    if let Some(format) = virtual_disk(head) {
+        return Err(io::Error::other(format!(
+            "a {format} virtual disk is not read; convert it first: qemu-img convert -O raw <disk> disk.raw"
+        )));
+    }
+    let mut segments = None;
+    let reader: Shared = if ewf::signature(head).is_some() {
+        Arc::new(ewf::Ewf::open(path)?)
+    } else if let Some(split) = Split::open(path)? {
+        segments = Some(format!("raw image read from {} segments, {} bytes in all", split.pieces.len(), split.len));
+        Arc::new(split)
+    } else {
+        Arc::new(Mapped(map(path)?))
+    };
     let parts = partitions::scan(&reader);
     if parts.is_empty() {
         // An EWF file is evidence the user meant as an image; a raw file is just not one.
@@ -134,7 +216,9 @@ pub(crate) fn open(path: &Path, scratch: &Path) -> io::Result<Option<Listed>> {
             Ok(None)
         };
     }
-    build(reader, parts, &open_volumes, scratch).map(Some)
+    let (entries, image, mut notes) = build(reader, parts, &open_volumes, scratch)?;
+    notes.splice(0..0, segments);
+    Ok(Some((entries, image, notes)))
 }
 
 /// Opens every partition's volumes, walks them and returns the entries, the open volumes and
@@ -692,6 +776,60 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
     }
 
+    /// Imaging tools split a raw image into `.001`, `.002`...: the pieces are one disk.
+    #[test]
+    fn a_split_raw_image_is_read_as_one_disk() {
+        let dir = std::env::temp_dir().join(format!("nixcavate-image-split-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let fixture = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test_files/image/host/disk.img.zst");
+        let disk = zstd::decode_all(File::open(fixture).unwrap()).unwrap();
+        std::fs::write(dir.join("whole.img"), &disk).unwrap();
+        // Uneven pieces, so no piece boundary falls on a block boundary.
+        for (n, piece) in disk.chunks(3_000_001).enumerate() {
+            std::fs::write(dir.join(format!("disk.{:03}", n + 1)), piece).unwrap();
+        }
+        let listing = |name: &str| {
+            let source = Source::open(&dir.join(name), &|_| true, &dir.join(name).with_extension("scratch")).unwrap();
+            let files: Vec<(String, Vec<u8>)> = source
+                .entries()
+                .iter()
+                .filter(|e| !e.path.contains("bodyfile") && e.link.is_none() && e.mode & 0o170_000 == 0o100_000)
+                .map(|e| (e.path.clone(), source.read(e).unwrap().to_vec()))
+                .collect();
+            (files, source.warnings.clone())
+        };
+        let (whole, _) = listing("whole.img");
+        let (split, warnings) = listing("disk.001");
+        assert!(whole.len() >= 5 && whole == split);
+        assert!(warnings.iter().any(|w| w.contains("3 segments")), "{warnings:?}");
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// Virtual machine disk formats are named, with the way out, instead of "not an image".
+    #[test]
+    fn virtual_disk_formats_are_named() {
+        let dir = std::env::temp_dir().join(format!("nixcavate-image-vm-{}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        let heads: [(&str, &[u8]); 6] = [
+            ("qcow2", b"QFI\xfb\0\0\0\x03"),
+            ("VMDK", b"KDMV\x01\0\0\0"),
+            ("VMDK", b"# Disk DescriptorFile\nversion=1\n"),
+            ("VHDX", b"vhdxfile\0\0"),
+            ("VDI", b"<<< Oracle VM VirtualBox Disk Image >>>\n"),
+            ("VHD", b"conectix\0\0\0\x02"),
+        ];
+        for (name, head) in heads {
+            let mut data = head.to_vec();
+            data.resize(4096, 0);
+            std::fs::write(dir.join("disk"), &data).unwrap();
+            let err = Source::open(&dir.join("disk"), &|_| true, &dir).err().unwrap().to_string();
+            assert!(err.contains(name) && err.contains("qemu-img convert -O raw"), "{name}: {err}");
+        }
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
     #[test]
     fn source_open_recognizes_images_and_leaves_other_files_alone() {
         let dir = std::env::temp_dir().join(format!("nixcavate-image-open-{}", std::process::id()));
@@ -715,6 +853,13 @@ mod tests {
         std::fs::write(dir.join("notes.txt"), b"hello there, this is text").unwrap();
         let err = Source::open(&dir.join("notes.txt"), &keep, &dir).err().unwrap();
         assert!(err.to_string().contains("not a directory, disk image, tar or zip archive"), "{err}");
+
+        // A compressed disk image is not a tar: the error says what to do.
+        let mut gz = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
+        std::io::Write::write_all(&mut gz, &ext).unwrap();
+        std::fs::write(dir.join("a.img.gz"), gz.finish().unwrap()).unwrap();
+        let err = Source::open(&dir.join("a.img.gz"), &keep, &dir).err().unwrap();
+        assert!(err.to_string().contains("decompress a compressed disk image first"), "{err}");
 
         // A zip that happens to hold 0xEF53 where an ext magic would be is still a zip.
         let mut zip = b"PK\x05\x06".to_vec();

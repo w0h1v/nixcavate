@@ -327,6 +327,99 @@ fn symlinks_are_never_followed_out_of_the_evidence() {
     assert!(!out.join("web01/Accounts/passwd").exists(), "a link pointing outside the evidence is not parsed");
 }
 
+/// CatScale keeps the files it collects as tar.gz archives inside its output. They are read
+/// as one host, as an archive and as the extracted folder.
+#[test]
+fn a_catscale_collection_is_one_host() {
+    let scratch = Scratch::new("catscale");
+    let inner = |name: &str, files: &[(&str, &str)]| {
+        let path = scratch.path(name);
+        let files: Vec<(String, Vec<u8>)> = files.iter().map(|(n, c)| (n.to_string(), c.as_bytes().to_vec())).collect();
+        write_tar_gz(&path, &files);
+        fs::read(path).unwrap()
+    };
+    let logs = inner(
+        "logs.tgz",
+        &[(
+            "var/log/secure",
+            "2024-03-10T01:02:03+00:00 web01 sshd[1]: Accepted password for alice from 203.0.113.9 port 50000 ssh2\n",
+        )],
+    );
+    let etc =
+        inner("etc.tgz", &[("etc/passwd", "root:x:0:0::/root:/bin/sh\nalice:x:1000:1000::/home/alice:/bin/sh\n")]);
+    let home = inner("home.tgz", &[("home/alice/.bash_history", "id\n")]);
+    let members = vec![
+        ("catscale_out/Logs/web01-20240310-0102-var-log.tar.gz".to_string(), logs),
+        ("catscale_out/System_Info/web01-20240310-0102-etc-key-files.tar.gz".to_string(), etc.clone()),
+        // The same file again in a second archive is not a second record.
+        ("catscale_out/System_Info/web01-20240310-0102-etc-modified-files.tar.gz".to_string(), etc),
+        ("catscale_out/User_Files/hidden-user-home-dir.tar.gz".to_string(), home),
+        ("catscale_out/Logs/web01-20240310-0102-who.txt".to_string(), b"alice pts/0\n".to_vec()),
+    ];
+    write_tar_gz(&scratch.path("catscale_web01-20240310-0102.tar.gz"), &members);
+    write_dir(&scratch.path("extracted"), &members);
+
+    for (flag, evidence) in [("-f", "catscale_web01-20240310-0102.tar.gz"), ("-d", "extracted")] {
+        let out = scratch.path(&format!("out{flag}"));
+        let run = nixcavate(&[
+            "auto-parse",
+            flag,
+            scratch.path(evidence).to_str().unwrap(),
+            "-o",
+            out.to_str().unwrap(),
+            "-t",
+            "jsonl",
+        ]);
+        assert!(run.status.success(), "{evidence}: {}", text(&run.stderr));
+        let m = manifest(&out);
+        assert_eq!(m["hosts"].as_array().unwrap().len(), 1, "{evidence}: {}", m["hosts"]);
+        assert_eq!(m["hosts"][0]["name"], "web01", "{evidence}");
+        let records = |artifact: &str| -> u64 {
+            let tasks = m["tasks"].as_array().unwrap().iter().filter(|t| t["artifact"] == artifact);
+            tasks.map(|t| t["records"].as_u64().unwrap()).sum()
+        };
+        assert_eq!((records("auth-log"), records("passwd"), records("bash-history")), (1, 2, 1), "{evidence}");
+    }
+}
+
+/// Some collectors write every zip member with the zip format's zero time, 1980-01-01. That
+/// is no modification time: a log line without a year gets no time rather than a year near 1980.
+#[test]
+fn a_zip_member_dated_1980_has_no_modification_time() {
+    let scratch = Scratch::new("zip1980");
+    let path = scratch.path("web01-files.zip");
+    let mut zip = zip::ZipWriter::new(fs::File::create(&path).unwrap());
+    let options = zip::write::SimpleFileOptions::default().last_modified_time(zip::DateTime::default());
+    zip.start_file("etc/hostname", options).unwrap();
+    zip.write_all(b"web01\n").unwrap();
+    zip.start_file("var/log/secure", options).unwrap();
+    zip.write_all(b"Nov 12 17:00:00 web01 sshd[1]: Accepted password for alice from 203.0.113.9 port 50000 ssh2\n")
+        .unwrap();
+    zip.finish().unwrap();
+    let out = scratch.path("out");
+    let run = nixcavate(&["auto-parse", "-f", path.to_str().unwrap(), "-o", out.to_str().unwrap(), "-t", "jsonl"]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let auth = fs::read_to_string(out.join("web01/Logs/auth-log/var_log_secure.jsonl")).unwrap();
+    assert!(auth.contains("\"time\":null") && auth.contains("\"event\":\"ssh_accepted\""), "{auth}");
+}
+
+/// Evidence in which no host is found (here: a collection of nested archives) must not look
+/// like a clean run with nothing to report.
+#[test]
+fn evidence_with_no_host_is_an_error() {
+    let scratch = Scratch::new("nohost");
+    let evidence = scratch.path("collection");
+    fs::create_dir_all(evidence.join("catscale_out/Logs")).unwrap();
+    fs::write(evidence.join("catscale_out/Logs/web01-var-log.bin"), b"opaque bytes").unwrap();
+    let out = scratch.path("out");
+    let run = nixcavate(&["auto-parse", "-d", evidence.to_str().unwrap(), "-o", out.to_str().unwrap()]);
+    assert_eq!(run.status.code(), Some(2), "{}", text(&run.stderr));
+    assert!(text(&run.stderr).contains("no host found"), "{}", text(&run.stderr));
+    let run = nixcavate(&["persistence-hunter", "-d", evidence.to_str().unwrap()]);
+    assert_eq!(run.status.code(), Some(2), "{}", text(&run.stdout));
+    assert!(text(&run.stderr).contains("no host found"), "{}", text(&run.stderr));
+}
+
 /// `test_files/image/lvm/build.sh` made this disk with the real LVM tools: the host's root
 /// filesystem is a logical volume spread over two physical volumes.
 #[test]

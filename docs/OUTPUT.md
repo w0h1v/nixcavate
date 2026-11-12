@@ -149,4 +149,4 @@ level. Detections whose time cannot be read are counted and reported, not guesse
 |---|---|
 | 0 | The run completed; every task succeeded or was skipped |
 | 1 | The run completed; at least one task failed (see the manifest) |
-| 2 | The run could not start: bad arguments, unreadable evidence, an output directory that already holds a run and no `--clobber`, or output and evidence directories that contain each other |
+| 2 | The run could not start: bad arguments, unreadable evidence, evidence in which no host is found, an output directory that already holds a run and no `--clobber`, or output and evidence directories that contain each other |

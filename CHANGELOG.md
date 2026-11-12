@@ -23,6 +23,17 @@ First version.
 - `live-open-files` reads BusyBox `lsof` output (Alpine).
 - The host's OS version falls back to `system-release`, `lsb-release`, `debian_version` and
   `alpine-release` when `os-release` was not collected.
+- `wtmp`, `btmp`, `utmp` and `lastlog` written by a big-endian host (s390x) are read.
+- The OS version falls back to any `etc/*-release` file of the distribution.
+- CatScale collections are read: the archives inside them become one host.
+- Evidence in which no host is found is an error (exit code 2), not an empty successful run.
+- A zip member dated 1980-01-01 (no time recorded) no longer sets the year of the log lines
+  in it; such lines get no time.
+- The fallback host name is the evidence file's name without its archive extension.
+- A raw image split into `.001`, `.002`... is read as one disk.
+- Virtual machine disks, compressed raw images and Btrfs, F2FS and NTFS volumes are named in
+  the error or warning instead of "not a disk image".
+- XFS: a symlink target longer than one block is read (one header per extent).
 - LVM2: linear logical volumes in disk images are read and listed as `<vg>-<lv>` (see [docs/LIMITATIONS.md](docs/LIMITATIONS.md)).
 - `super-timeline --start` and `--end` limit the timeline to a time window.
 - bzip2: `.bz2` log rotations and `.tar.bz2` archives are read.

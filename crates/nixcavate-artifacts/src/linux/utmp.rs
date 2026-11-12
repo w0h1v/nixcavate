@@ -1,9 +1,10 @@
-//! `wtmp`, `btmp` and `utmp`: login records. Format: utmp(5), little-endian, as glibc writes it.
+//! `wtmp`, `btmp` and `utmp`: login records. Format: utmp(5), as glibc writes it.
 //!
 //! The record size depends on the architecture. x86-64 keeps 32-bit session and time fields
 //! for compatibility with 32-bit programs (384 bytes); aarch64 uses 64-bit ones (400 bytes).
-//! The file does not say which it is, so the layout is chosen by which one makes the records'
-//! type fields plausible (see `detect`).
+//! s390x and older PowerPC hosts write the integers big-endian. The file does not say which
+//! it is, so the layout and the byte order are chosen by which make the records' type fields
+//! plausible (see `detect`).
 
 use crate::text::{decompressed, lossy};
 use crate::{Artifact, Category, Input, LINUX};
@@ -40,27 +41,32 @@ struct Layout {
 const X86_64: Layout = Layout { size: 384, session: 336, secs: 340, micros: 344, address: 348, wide: false };
 const AARCH64: Layout = Layout { size: 400, session: 336, secs: 344, micros: 352, address: 360, wide: true };
 
+/// The record layout and whether the integers are big-endian (s390x, older PowerPC).
+///
 /// A whole file is a whole number of records: when only one layout's size divides the length,
 /// that is the layout. Otherwise (both fit, or the file is cut) it is the layout under which
 /// more whole records carry a real type (1..=9). Empty slots (type 0) fit every layout and say
 /// nothing; a type outside 0..=9 counts against it. A remainder that is not a whole record is
-/// ignored, so a trailing byte cannot flip the choice. Ties go to x86-64.
-fn detect(data: &[u8]) -> Layout {
-    let score = |layout: &Layout| -> i64 {
+/// ignored, so a trailing byte cannot flip the choice. The byte order is chosen the same way:
+/// a real type read in the wrong order is a multiple of 256. Ties go to x86-64, little-endian.
+fn detect(data: &[u8]) -> (Layout, bool) {
+    let score = |layout: &Layout, big: bool| -> i64 {
         data.chunks_exact(layout.size)
-            .map(|r| match i16::from_le_bytes([r[0], r[1]]) {
+            .map(|r| match if big { i16::from_be_bytes([r[0], r[1]]) } else { i16::from_le_bytes([r[0], r[1]]) } {
                 0 => 0,
                 1..=9 => 1,
                 _ => -1,
             })
             .sum()
     };
-    match (data.len() % X86_64.size == 0, data.len() % AARCH64.size == 0) {
+    let best = |layout: &Layout| score(layout, false).max(score(layout, true));
+    let layout = match (data.len() % X86_64.size == 0, data.len() % AARCH64.size == 0) {
         (true, false) => X86_64,
         (false, true) => AARCH64,
-        _ if score(&AARCH64) > score(&X86_64) => AARCH64,
+        _ if best(&AARCH64) > best(&X86_64) => AARCH64,
         _ => X86_64,
-    }
+    };
+    (layout, score(&layout, true) > score(&layout, false))
 }
 
 #[derive(Serialize)]
@@ -150,18 +156,36 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     if data.starts_with(b"SQLite format 3\0") {
         return Err(Error::skipped("an SQLite database (wtmpdb), not a utmp file"));
     }
-    let layout = detect(&data);
+    let (layout, big) = detect(&data);
     if data.len() % layout.size != 0 {
         sink.warn(format!("size {} is not a multiple of {}; trailing bytes ignored", data.len(), layout.size));
     }
     let failed = input.path.rsplit('/').next().is_some_and(|name| name.starts_with("btmp"));
     for (index, record) in data.chunks_exact(layout.size).enumerate() {
         let offset = (index * layout.size) as u64;
-        let i16_at = |at: usize| i16::from_le_bytes([record[at], record[at + 1]]);
-        let i32_at = |at: usize| i32::from_le_bytes([record[at], record[at + 1], record[at + 2], record[at + 3]]);
-        let wide_at = |at: usize| match layout.wide {
-            true => i64::from(i32_at(at) as u32) | i64::from(i32_at(at + 4)) << 32,
-            false => i32_at(at).into(),
+        let i16_at = |at: usize| {
+            let bytes = [record[at], record[at + 1]];
+            if big {
+                i16::from_be_bytes(bytes)
+            } else {
+                i16::from_le_bytes(bytes)
+            }
+        };
+        let i32_at = |at: usize| {
+            let bytes = [record[at], record[at + 1], record[at + 2], record[at + 3]];
+            if big {
+                i32::from_be_bytes(bytes)
+            } else {
+                i32::from_le_bytes(bytes)
+            }
+        };
+        let wide_at = |at: usize| {
+            // The half that holds the low 32 bits comes first in little-endian records.
+            let (low, high) = if big { (at + 4, at) } else { (at, at + 4) };
+            match layout.wide {
+                true => i64::from(i32_at(low) as u32) | i64::from(i32_at(high)) << 32,
+                false => i32_at(at).into(),
+            }
         };
         let kind = i16_at(0);
         if kind == 0 {
@@ -268,6 +292,32 @@ mod tests {
             out.contains(r#""time":"2023-11-14T22:13:20.000000Z""#) && out.contains(r#""address":"127.0.0.1""#),
             "{out}"
         );
+    }
+
+    /// s390x (and older PowerPC) hosts write the same records with big-endian integers.
+    #[test]
+    fn big_endian_records_are_read() {
+        let mut wide = vec![0u8; 400];
+        wide[0..2].copy_from_slice(&7i16.to_be_bytes());
+        wide[4..8].copy_from_slice(&588i32.to_be_bytes());
+        wide[8..13].copy_from_slice(b"pts/0");
+        wide[44..49].copy_from_slice(b"alice");
+        wide[344..352].copy_from_slice(&1_700_000_000i64.to_be_bytes());
+        wide[352..360].copy_from_slice(&695_307i64.to_be_bytes());
+        wide[360..364].copy_from_slice(&[127, 0, 0, 1]);
+        let out = run(&WTMP, "var/log/wtmp", &wide, 0);
+        let login = r#""time":"2023-11-14T22:13:20.695307Z","type":"user_process","user":"alice","line":"pts/0","remote_host":"","address":"127.0.0.1","pid":588"#;
+        assert!(out.contains(login) && !out.contains("warning"), "{out}");
+
+        let mut narrow = vec![0u8; 384 * 2];
+        for (n, r) in narrow.chunks_exact_mut(384).enumerate() {
+            r[0..2].copy_from_slice(&7i16.to_be_bytes());
+            r[4..8].copy_from_slice(&(600 + n as i32).to_be_bytes());
+            r[44..47].copy_from_slice(b"bob");
+            r[340..344].copy_from_slice(&1_700_000_000i32.to_be_bytes());
+        }
+        let out = run(&WTMP, "var/log/wtmp", &narrow, 0);
+        assert!(out.contains(r#""time":"2023-11-14T22:13:20.000000Z""#) && out.contains(r#""pid":601"#), "{out}");
     }
 
     #[test]

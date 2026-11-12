@@ -88,6 +88,16 @@ pub fn unsupported_signature(reader: &dyn ReadAt) -> Option<&'static str> {
     if head.starts_with(b"LUKS\xba\xbe") {
         return Some("LUKS encrypted volume");
     }
+    // Filesystems with no reader here: Btrfs (magic at 64 KiB + 64), F2FS (at 1 KiB), NTFS.
+    if read_vec(reader, 0x10040, 8).is_some_and(|magic| magic == b"_BHRfS_M") {
+        return Some("Btrfs filesystem");
+    }
+    if head.get(1024..1028) == Some(&0xF2F5_2010u32.to_le_bytes()) {
+        return Some("F2FS filesystem");
+    }
+    if head.get(3..11) == Some(b"NTFS    ") {
+        return Some("NTFS filesystem");
+    }
     if (0..4).any(|sector| head.get(sector * 512..sector * 512 + 32).is_some_and(is_lvm_label)) {
         return Some(LVM_REASON);
     }
@@ -494,6 +504,23 @@ mod tests {
 
         assert!(scan(&Bytes(&[0u8; 4096])).is_empty());
         assert!(scan(&Bytes(&[])).is_empty());
+    }
+
+    #[test]
+    fn filesystems_that_are_not_read_are_named() {
+        let mut btrfs = vec![0u8; 0x11000];
+        btrfs[0x10040..0x10048].copy_from_slice(b"_BHRfS_M");
+        assert_eq!(scan(&Bytes(&btrfs))[0].unsupported, Some("Btrfs filesystem"));
+        let mut f2fs = vec![0u8; 8192];
+        f2fs[1024..1028].copy_from_slice(&0xF2F5_2010u32.to_le_bytes());
+        assert_eq!(scan(&Bytes(&f2fs))[0].unsupported, Some("F2FS filesystem"));
+        let mut ntfs = vec![0u8; 8192];
+        ntfs[3..11].copy_from_slice(b"NTFS    ");
+        assert_eq!(scan(&Bytes(&ntfs))[0].unsupported, Some("NTFS filesystem"));
+        // ext4 has its own magic at 1080 and is not confused with any of them.
+        let mut ext = vec![0u8; 8192];
+        ext[1080..1082].copy_from_slice(&[0x53, 0xef]);
+        assert_eq!(scan(&Bytes(&ext))[0].unsupported, None);
     }
 
     #[test]

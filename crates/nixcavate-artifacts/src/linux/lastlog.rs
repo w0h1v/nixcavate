@@ -1,8 +1,9 @@
 //! `/var/log/lastlog`: last login per UID. Format: lastlog(8) and glibc `struct lastlog`:
 //! records indexed by UID holding a time, a 32-byte line and a 256-byte host. The time is
-//! 32-bit on x86-64 (292-byte records) and 64-bit on aarch64 (296-byte records); the file
-//! does not say which, so the layout is chosen by the file length and, when that does not
-//! decide, by which one makes the records plausible.
+//! 32-bit on x86-64 (292-byte records) and 64-bit on aarch64 (296-byte records), and
+//! big-endian on s390x. The file says none of this, so the layout is chosen by the file
+//! length and, when that does not decide, by which one makes the records plausible; the byte
+//! order is the one that gives plausible login times.
 
 use super::utmp::field;
 use crate::{Artifact, Category, Input, LINUX};
@@ -62,6 +63,18 @@ fn score(data: &[u8], size: usize) -> i64 {
         .sum()
 }
 
+/// The time of one record: 4 bytes in the 292-byte layout, 8 bytes in the 296-byte one.
+fn seconds(record: &[u8], size: usize, big: bool) -> i64 {
+    let mut raw = [0u8; 8];
+    raw.copy_from_slice(&record[..8]);
+    match (size, big) {
+        (292, false) => i32::from_le_bytes([raw[0], raw[1], raw[2], raw[3]]).into(),
+        (292, true) => i32::from_be_bytes([raw[0], raw[1], raw[2], raw[3]]).into(),
+        (_, false) => i64::from_le_bytes(raw),
+        (_, true) => i64::from_be_bytes(raw),
+    }
+}
+
 fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     let data = input.data;
     if data.is_empty() {
@@ -79,20 +92,21 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     if data.len() % size != 0 {
         sink.warn(format!("size {} is not a multiple of {size}; trailing bytes ignored", data.len()));
     }
+    // The byte order (big-endian on s390x and older PowerPC) is the one under which more
+    // records hold a time a login could have: this century, and not after the file was written.
+    let latest = if input.mtime > 0 { input.mtime.saturating_add(86_400) } else { 4_102_444_800 };
+    let plausible = |big: bool| {
+        let used = data.chunks_exact(size).filter(|r| *r != &ZEROS[..size]);
+        used.filter(|r| (946_684_800..=latest).contains(&seconds(r, size, big))).count()
+    };
+    let big = plausible(true) > plausible(false);
     let passwd = input.host.read_text("etc/passwd").unwrap_or_default();
     let users = users(&passwd);
     let line = size - 288;
     // The file is sparse (index = UID), so nearly every record is zero; one memcmp skips it.
     for (uid, record) in data.chunks_exact(size).enumerate().filter(|(_, r)| *r != &ZEROS[..size]) {
         let uid = uid as u64;
-        let low = i32::from_le_bytes([record[0], record[1], record[2], record[3]]);
-        let secs = match size {
-            292 => i64::from(low),
-            _ => {
-                i64::from(low as u32)
-                    | i64::from(i32::from_le_bytes([record[4], record[5], record[6], record[7]])) << 32
-            }
-        };
+        let secs = seconds(record, size, big);
         sink.emit(
             Loc::Offset(uid * size as u64),
             &LastLogin {
@@ -172,6 +186,22 @@ mod tests {
         assert!(!out.contains("warning"), "{out}");
         let login = r#""uid":1000,"user":"","time":"2023-11-14T22:13:20Z","line":"pts/0","remote_host":"127.0.0.1""#;
         assert!(out.contains(login), "{out}");
+    }
+
+    /// s390x writes the time big-endian. Read the other way it is a date far from any login.
+    #[test]
+    fn big_endian_times_are_read() {
+        let mut wide = vec![0u8; 1001 * 296];
+        wide[296_000..296_008].copy_from_slice(&1_700_000_000i64.to_be_bytes());
+        wide[296_008..296_013].copy_from_slice(b"pts/0");
+        let out = run(&ARTIFACT, "var/log/lastlog", &wide, 1_700_000_100);
+        assert!(out.contains(r#""uid":1000,"user":"","time":"2023-11-14T22:13:20Z","line":"pts/0""#), "{out}");
+
+        let mut narrow = vec![0u8; 3 * 292];
+        narrow[292..296].copy_from_slice(&1_700_000_000i32.to_be_bytes());
+        narrow[296..300].copy_from_slice(b"tty1");
+        let out = run(&ARTIFACT, "var/log/lastlog", &narrow, 1_700_000_100);
+        assert!(out.contains(r#""uid":1,"user":"","time":"2023-11-14T22:13:20Z","line":"tty1""#), "{out}");
     }
 
     #[test]

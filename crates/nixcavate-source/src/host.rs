@@ -56,11 +56,8 @@ pub const DISCOVERY_PATHS: &[&str] = &[
     "etc/hostname",
     "etc/os-release",
     "usr/lib/os-release",
-    "etc/system-release",
-    "etc/redhat-release",
-    "etc/lsb-release",
+    "etc/*-release",
     "etc/debian_version",
-    "etc/alpine-release",
     "etc/localtime",
     "etc/timezone",
     "usr/share/zoneinfo/**",
@@ -148,7 +145,7 @@ impl<'s> Host<'s> {
         if host.name.is_empty() {
             // Fall back to the collection folder or the source file, which UAC names after the host.
             let folder = root.rsplit('/').find(|s| !s.is_empty() && !s.starts_with('['));
-            let file = source.path.file_name().map(|n| n.to_string_lossy().into_owned());
+            let file = source.path.file_name().map(|n| without_extension(&n.to_string_lossy()).to_string());
             let label = folder.map(str::to_string).or(file).unwrap_or_else(|| "host".into());
             host.name = uac_host_name(&label).unwrap_or(&label).to_string();
         }
@@ -183,8 +180,18 @@ impl<'s> Host<'s> {
             let line = text.lines().next()?.trim();
             (!line.is_empty()).then(|| line.to_string())
         };
-        first_line("etc/system-release")
-            .or_else(|| first_line("etc/redhat-release"))
+        // `system-release` and `redhat-release` are often links that were not collected; the
+        // file they point at is named after the distribution (`rocky-release`, `gentoo-release`).
+        let named = Pattern::new("etc/*-release");
+        let mut named: Vec<String> = self
+            .find(&named)
+            .map(|entry| self.rel(entry))
+            .filter(|rel| !["etc/os-release", "etc/lsb-release", "etc/alpine-release"].contains(&rel.as_str()))
+            .collect();
+        named.sort_by_key(|rel| (rel != "etc/system-release", rel != "etc/redhat-release", rel.clone()));
+        named
+            .iter()
+            .find_map(|rel| first_line(rel))
             .or_else(|| {
                 let text = self.read_text("etc/lsb-release")?;
                 let line = text.lines().find_map(|l| l.strip_prefix("DISTRIB_DESCRIPTION="))?;
@@ -315,6 +322,18 @@ impl<'s> Host<'s> {
     pub fn read_text(&self, rel: &str) -> Option<String> {
         self.read(rel).map(|data| String::from_utf8_lossy(&data[..data.len().min(16 << 20)]).into_owned())
     }
+}
+
+/// A file name without its archive or image extension.
+fn without_extension(name: &str) -> &str {
+    const EXTENSIONS: [&str; 14] = [
+        ".tar.gz", ".tar.zst", ".tar.xz", ".tar.bz2", ".tgz", ".tbz2", ".tar", ".zip", ".e01", ".dd", ".raw", ".img",
+        ".001", ".000",
+    ];
+    let lower = name.to_ascii_lowercase();
+    let cut = EXTENSIONS.iter().find(|e| lower.ends_with(*e)).map_or(0, |e| e.len());
+    // Lowercasing ASCII keeps byte lengths, so the cut lands on the same boundary.
+    name.get(..name.len() - cut).filter(|stem| !stem.is_empty()).unwrap_or(name)
 }
 
 /// The host in a UAC collection name: `uac-<host>-<os>-<timestamp>[.tar.gz]`.
@@ -455,9 +474,30 @@ mod tests {
         );
         assert_eq!(version(&[("r/etc/debian_version", b"13.1\n")]), "Debian 13.1");
         assert_eq!(version(&[("r/etc/alpine-release", b"3.22.1\n")]), "Alpine Linux 3.22.1");
+        assert_eq!(
+            version(&[("r/etc/rocky-release", b"Rocky Linux release 9.3 (Blue Onyx)\n")]),
+            "Rocky Linux release 9.3 (Blue Onyx)"
+        );
         let both: [(&str, &[u8]); 2] =
             [("r/etc/os-release", b"PRETTY_NAME=First\n"), ("r/etc/debian_version", b"13\n")];
         assert_eq!(version(&both), "First");
+    }
+
+    /// With no `etc/hostname`, the host is named after the evidence file, without the
+    /// archive or image extension.
+    #[test]
+    fn the_fallback_name_drops_the_archive_extension() {
+        for (file, name) in [
+            ("export.tar", "export"),
+            ("web01-files.zip", "web01-files"),
+            ("case7.tar.gz", "case7"),
+            ("disk.E01", "disk"),
+            ("v1.2-host", "v1.2-host"),
+        ] {
+            let mut source = Source::from_memory(&[("etc/passwd", b"root:x:0:0::/root:/bin/sh\n")]);
+            source.path = std::path::PathBuf::from(format!("/cases/{file}"));
+            assert_eq!(discover(&source, None)[0].name, name, "{file}");
+        }
     }
 
     #[test]

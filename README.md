@@ -55,8 +55,9 @@ evidence may expand (a guard against decompression bombs). Every command has `--
 | Input | Notes |
 |---|---|
 | Directory | An extracted collection, a mounted volume, or a folder of collections and archives (each becomes a host) |
+| Collector output | UAC, CatScale, CyLR, Velociraptor and fastir collections, and plain archives of a root filesystem, as they come |
 | `.tar`, `.tar.gz`, `.tar.bz2`, `.tar.zst`, `.tar.xz`, `.zip` | Read in place; nothing is extracted |
-| Raw and E01 disk images | GPT and MBR partitions and linear LVM2 volumes with ext2/3/4, XFS or APFS. The file timeline comes from the filesystem itself |
+| Raw (also split into `.001`, `.002`...) and E01 disk images | GPT and MBR partitions and linear LVM2 volumes with ext2/3/4, XFS or APFS. The file timeline comes from the filesystem itself |
 
 Hosts are discovered by layout (`[root]/` in UAC, `/etc` and `/var/log` on Linux,
 `/private/var` and `/System` on macOS), so no flag says what kind of collection it is.
