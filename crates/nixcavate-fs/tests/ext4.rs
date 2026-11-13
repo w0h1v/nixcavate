@@ -124,6 +124,20 @@ fn ext4_default() {
     check_against_truth("ext4", true);
 }
 
+/// A volume imaged while mounted has "needs recovery" set: its newest changes are in the
+/// journal, which is not replayed. The listing says so, once.
+#[test]
+fn a_volume_that_needs_recovery_says_so() {
+    let mut data = image("ext2");
+    let fs = Ext4::open(Bytes(&data)).unwrap();
+    assert!(walk(&fs).1.is_empty());
+    data[1024 + 0x60] |= 0x4;
+    let fs = Ext4::open(Bytes(&data)).unwrap();
+    let (nodes, warnings) = walk(&fs);
+    assert!(!nodes.is_empty());
+    assert_eq!(warnings.iter().filter(|w| w.contains("journal is not replayed")).count(), 1, "{warnings:?}");
+}
+
 #[test]
 fn ext3_block_maps() {
     check_against_truth("ext3", true);

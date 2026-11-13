@@ -62,11 +62,23 @@ struct Entry<'a> {
     message: Option<Cow<'a, str>>,
     command: Option<Cow<'a, str>>,
     transport: Option<Cow<'a, str>>,
+    /// The authentication event the message reports (`ssh_accepted`, `sudo_command`, ...), as
+    /// the `auth-log` artifact names them; empty for any other message. A host with no syslog
+    /// daemon has these events only in the journal.
+    event: &'static str,
+    user: String,
+    remote_address: String,
+    /// The timeline text of that event.
+    #[serde(skip)]
+    event_text: String,
     fields: Fields<'a>,
 }
 
 impl Record for Entry<'_> {
     fn events(&self) -> impl Iterator<Item = Event<'_>> {
+        if !self.event.is_empty() {
+            return std::iter::once(Event::new(self.time, self.event, self.event_text.clone()));
+        }
         let message = truncate(self.message.as_deref().unwrap_or(""), MESSAGE_CHARS);
         let text = match &self.program {
             Some(program) => format!("{program}: {message}"),
@@ -325,6 +337,10 @@ impl Reader<'_> {
             message: None,
             command: None,
             transport: None,
+            event: "",
+            user: String::new(),
+            remote_address: String::new(),
+            event_text: String::new(),
             fields: Fields { items: &[], bytes },
         };
         // Fallback sources for `unit` and `program` also stay in `fields`.
@@ -364,6 +380,14 @@ impl Reader<'_> {
         });
         entry.unit = entry.unit.or(unit.or(user_unit).map(lossy));
         entry.program = entry.program.or(comm.map(lossy));
+        if let (Some(program), Some(message)) = (entry.program.as_deref(), entry.message.as_deref()) {
+            if let Some(auth) = super::auth_log::classify(program, message).filter(|a| !a.event.is_empty()) {
+                entry.event = auth.event;
+                entry.user = auth.user.to_string();
+                entry.remote_address = auth.remote_address.to_string();
+                entry.event_text = auth.describe(program, message);
+            }
+        }
         // Stable, so repeated fields keep their order within the entry.
         items.sort_by(|a, b| bytes.key(a).cmp(bytes.key(b)));
         entry.fields.items = items;
@@ -478,6 +502,36 @@ mod tests {
 
     /// Every variant must reproduce what `journalctl -o json --all` printed for it: the same
     /// entries in the same order, with the same timestamps and the same fields.
+    /// A host with no syslog daemon has its logins, sudo and account changes only here.
+    /// `auth.journal` was written by systemd-journal-remote from `auth.export`.
+    #[test]
+    fn auth_events_are_classified() {
+        let out = run(&ARTIFACT, "var/log/journal/m/system.journal", &journal("auth"), 0);
+        let rows: Vec<serde_json::Value> =
+            out.lines().filter(|l| l.starts_with('{')).map(|l| serde_json::from_str(l).unwrap()).collect();
+        let found: Vec<(&str, &str, &str)> = rows
+            .iter()
+            .map(|r| (r["event"].as_str().unwrap(), r["user"].as_str().unwrap(), r["remote_address"].as_str().unwrap()))
+            .collect();
+        assert_eq!(
+            found,
+            [
+                ("ssh_accepted", "alice", "203.0.113.9"),
+                ("ssh_failed", "mallory", "203.0.113.9"),
+                ("auth_failure", "root", "203.0.113.9"),
+                ("sudo_command", "alice", ""),
+                ("su", "alice", ""),
+                ("account_created", "bob", ""),
+                ("", "", ""),
+                ("", "", ""),
+            ]
+        );
+        // The timeline names the event as it does for auth.log.
+        assert!(out.contains(",ssh_accepted,alice logged in via ssh (publickey) from 203.0.113.9,"), "{out}");
+        assert!(out.contains(",sudo_command,alice ran /usr/bin/id as root,"), "{out}");
+        assert!(out.contains(",log,kernel: Linux version 6.1.0,"), "{out}");
+    }
+
     #[test]
     fn matches_journalctl() {
         let expected: Vec<serde_json::Value> = String::from_utf8(fixture("journald/journalctl.json"))

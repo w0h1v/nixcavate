@@ -1,0 +1,6 @@
+Module                  Size  Used by
+ext4                  774144  0
+mbcache                12288  1 ext4
+crc16                  12288  1 ext4
+jbd2                  118784  1 ext4
+xfs                  1826816  0

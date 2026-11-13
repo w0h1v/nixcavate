@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/linux/xbps.rs
+expression: "run(&ARTIFACT, \"var/db/xbps/pkgdb-0.38.plist\", plist.as_bytes(), 0)"
+---
+{"host":"memory","artifact":"xbps-pkgdb","source_path":"var/db/xbps/pkgdb-0.38.plist","source_line":null,"time":"2024-03-10T01:02:00Z","package":"local","version":"1.0_1","pkgver":"local-1.0_1","architecture":"","state":"","automatic_install":true,"installed_size_bytes":null,"repository":"","description":"","maintainer":"","license":"","homepage":""}
+{"host":"memory","artifact":"xbps-pkgdb","source_path":"var/db/xbps/pkgdb-0.38.plist","source_line":null,"time":null,"package":"baddate","version":"2_1","pkgver":"baddate-2_1","architecture":"","state":"","automatic_install":null,"installed_size_bytes":null,"repository":"","description":"","maintainer":"","license":"","homepage":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:00Z,seconds,assumed_zone,memory,xbps-pkgdb,package_installed,installed local-1.0_1,var/db/xbps/pkgdb-0.38.plist,,,,
+--- warning: junk: not a dictionary
+--- warning: baddate: install-date "yesterday" is not a time; left empty

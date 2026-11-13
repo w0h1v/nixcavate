@@ -1,0 +1,6 @@
+=>    40  130992    md1  GPT  (64M)
+      40    1024  md1p1  freebsd-boot  (512K)
+    1064   40960  md1p2  freebsd-ufs  (20M)
+   42024   16384  md1p3  freebsd-swap  (8.0M)
+   58408   72624  md1p4  freebsd-ufs  (35M)
+

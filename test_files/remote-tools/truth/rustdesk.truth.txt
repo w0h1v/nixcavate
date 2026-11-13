@@ -1,0 +1,5 @@
+513311988
+/root/.config/rustdesk/RustDesk.toml
+/root/.local/share/logs/RustDesk/service/rustdesk_rCURRENT.log
+/root/.local/share/logs/RustDesk/get-id/rustdesk_rCURRENT.log
+find: '/var/log/rustdesk*': No such file or directory

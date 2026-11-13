@@ -1,0 +1,8 @@
+SUNWcs                                            0.5.11-151054.0            i--
+ooce/file/tree (extra.omnios)                     2.3.2-151054.0             im-
+ooce/util/jq (extra.omnios)                       1.8.2-151054.0             im-
+package/svr4                                      0.5.11-151054.0            i--
+security/sudo                                     1.9.17.1-151054.0          im-
+shell/bash                                        5.2.32-151054.0            i--
+system/accounting/legacy                          0.5.11-151054.0            i--
+system/header                                     0.5.11-151054.0            im-

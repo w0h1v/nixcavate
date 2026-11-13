@@ -1,0 +1,1 @@
+`/etc/system` of illumos (OmniOS r151054, x86) in a throwaway KVM guest; example users only with the `forceload` and `set` lines the harness added. `moddir` and `exclude` lines are written in the tests from system(5).

@@ -1,0 +1,17 @@
+; "builtin" config from /usr/share/nodejs/npm/npmrc
+
+globalignorefile = "/etc/npmignore" 
+prefix = "/usr/local" 
+
+; "user" config from /home/alice/.npmrc
+
+//npm.pkg.example.com/:_authToken = (protected) 
+//registry.npmjs.org/:_authToken = (protected) 
+
+; node bin location = /usr/bin/node
+; node version = v18.20.4
+; npm local prefix = /
+; npm version = 9.2.0
+; cwd = /
+; HOME = /home/alice
+; Run `npm config ls -l` to show all defaults.

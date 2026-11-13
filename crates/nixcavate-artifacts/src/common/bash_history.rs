@@ -19,6 +19,14 @@ pub const ARTIFACT: Artifact = Artifact::new(
         "Users/*/.bash_history",
         "private/var/root/.bash_history",
         "var/root/.bash_history",
+        "Users/*/.bash_sessions/*.history",
+        "var/root/.bash_sessions/*.history",
+        "export/home/*/.bash_history",
+        // macOS Terminal keeps one history per terminal session.
+        "Users/*/.bash_sessions/*.history*",
+        "private/var/root/.bash_sessions/*.history*",
+        // ESXi's root has `/` as its home and BusyBox ash keeps the history there.
+        ".ash_history",
     ],
     parse,
 );
@@ -47,7 +55,10 @@ fn timestamp_line(line: &[u8]) -> Option<i64> {
 }
 
 fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
-    let user = user_from_path(input.path);
+    let user = match user_from_path(input.path) {
+        "" if input.path == ".ash_history" => "root",
+        user => user,
+    };
     let mut pending = None;
     for_each_line(input, |line| {
         if let Some(secs) = timestamp_line(line.bytes) {
@@ -66,6 +77,12 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
 mod tests {
     use super::*;
     use crate::testing::{fixture, run};
+
+    #[test]
+    fn esxi_ash_history_belongs_to_root() {
+        let out = crate::testing::run(&ARTIFACT, ".ash_history", b"esxcli system version get\nls /vmfs/volumes\n", 0);
+        assert_eq!(out.matches("\"user\":\"root\"").count(), 2, "{out}");
+    }
 
     #[test]
     fn timestamped_history_from_bash() {

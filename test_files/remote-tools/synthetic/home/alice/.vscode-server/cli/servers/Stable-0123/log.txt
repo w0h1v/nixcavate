@@ -1,0 +1,2 @@
+[2026-11-13 01:19:08] info Using GitHub for authentication, run `code tunnel user login --provider <provider>` option to change this.
+[2026-11-13 01:19:09] info tunnel alice-box started

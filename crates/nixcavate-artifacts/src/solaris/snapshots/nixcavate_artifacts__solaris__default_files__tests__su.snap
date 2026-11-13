@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/default_files.rs
+expression: "run(&ARTIFACT, \"etc/default/su\", &fixture(\"default-files/su\"), 0)"
+---
+{"host":"memory","artifact":"default-files","source_path":"etc/default/su","source_line":29,"command":"su","name":"SULOG","value":"/var/adm/sulog"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/su","source_line":38,"command":"su","name":"PATH","value":"/usr/bin:/usr/sbin:/sbin:/opt/ooce/bin:/usr/gnu/bin"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/su","source_line":42,"command":"su","name":"SUPATH","value":"/usr/sbin:/sbin:/opt/ooce/sbin:/usr/bin:/opt/ooce/bin"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/su","source_line":49,"command":"su","name":"SYSLOG","value":"YES"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/su","source_line":51,"command":"su","name":"SUPATH","value":"/tmp/.NXMK_DEFSU:/usr/sbin:/usr/bin"}

@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/utx.rs
+expression: "run(&ARTIFACT, \"var/log/utx.lastlogin\", &fixture(\"utx/utx.lastlogin\"), 0)"
+---
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.lastlogin","source_offset":0,"database":"utx.lastlogin","time":"2026-11-13T01:41:07.337274Z","type":"user_process","user":"alice","line":"pts/1","remote_host":"127.0.0.1","pid":932,"id":"pts/1"}
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.lastlogin","source_offset":197,"database":"utx.lastlogin","time":"2026-11-13T01:39:28.953756Z","type":"user_process","user":"mallory","line":"pts/0","remote_host":"127.0.0.1","pid":1343,"id":"pts/0"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:39:28.953756Z,micros,recorded,memory,utx,login,mallory logged in on pts/0 from 127.0.0.1,var/log/utx.lastlogin,,197,,
+2026-11-13T01:41:07.337274Z,micros,recorded,memory,utx,login,alice logged in on pts/1 from 127.0.0.1,var/log/utx.lastlogin,,0,,

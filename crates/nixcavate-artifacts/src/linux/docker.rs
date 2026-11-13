@@ -1,5 +1,8 @@
 //! Docker engine state under `/var/lib/docker`: container definitions (`config.v2.json` plus
 //! `hostconfig.json`), the `json-file` logging driver's logs, and the image store.
+//! The data root is configurable (`"data-root"` in `daemon.json`, `--data-root`, rootless
+//! `~/.local/share/docker`, the snap's `var-lib-docker`), so the patterns anchor on the
+//! layout below the root (`containers/<id>/...`, `image/<driver>/...`) under any prefix.
 //! Format reference: Moby `container/` and `image/` packages, Docker "JSON File logging driver".
 //! The image store is the classic graph driver layout; hosts using the containerd image store
 //! keep their images elsewhere and yield nothing here.
@@ -18,20 +21,17 @@ pub const CONTAINERS: Artifact = Artifact::new(
     "Docker container definitions and state",
     Category::Containers,
     LINUX,
-    &["var/lib/docker/containers/*/config.v2.json", "home/*/.local/share/docker/containers/*/config.v2.json"],
+    &["**/containers/*/config.v2.json"],
     parse_container,
 )
-.companions(&[
-    "var/lib/docker/containers/*/hostconfig.json",
-    "home/*/.local/share/docker/containers/*/hostconfig.json",
-]);
+.companions(&["**/containers/*/hostconfig.json"]);
 
 pub const LOGS: Artifact = Artifact::new(
     "docker-logs",
     "Docker json-file container logs",
     Category::Containers,
     LINUX,
-    &["var/lib/docker/containers/*/*-json.log*", "home/*/.local/share/docker/containers/*/*-json.log*"],
+    &["**/containers/*/*-json.log*"],
     parse_logs,
 )
 .split_lines();
@@ -41,7 +41,7 @@ pub const IMAGES: Artifact = Artifact::new(
     "Docker image references and image configurations",
     Category::Containers,
     LINUX,
-    &["var/lib/docker/image/*/repositories.json", "var/lib/docker/image/*/imagedb/content/sha256/*"],
+    &["**/image/*/repositories.json", "**/image/*/imagedb/content/sha256/*"],
     parse_images,
 );
 
@@ -371,11 +371,82 @@ mod tests {
     }
 
     #[test]
-    fn rootless_docker_paths_are_covered() {
+    fn rootless_and_moved_docker_roots_are_covered() {
         use nixcavate_source::glob::Pattern;
         let matches = |a: &Artifact, path: &str| a.paths.iter().any(|p| Pattern::new(p).matches(path));
+        assert!(matches(&CONTAINERS, "var/lib/docker/containers/abc/config.v2.json"));
+        assert!(matches(&CONTAINERS, "srv/data/docker/containers/abc/config.v2.json"));
+        assert!(matches(&LOGS, "mnt/vol/dockerd/containers/abc/abc-json.log"));
+        assert!(matches(&IMAGES, "data/docker/image/overlay2/repositories.json"));
+        assert!(matches(&IMAGES, "data/docker/image/overlay2/imagedb/content/sha256/ab"));
+        assert!(!matches(&LOGS, "var/log/containers/abc-json.log"));
         assert!(matches(&CONTAINERS, "home/alice/.local/share/docker/containers/abc/config.v2.json"));
         assert!(matches(&LOGS, "home/alice/.local/share/docker/containers/abc/abc-json.log.1"));
+    }
+
+    /// `test_files/docker-moved-root/build.sh` ran a real dockerd with `--data-root
+    /// /srv/data/docker`: the files below are what it wrote, and `expected.txt` its own counts
+    /// (`docker ps -a`, `docker logs | wc -l`, `docker images`).
+    #[test]
+    fn a_moved_data_root_gives_the_daemons_own_counts() {
+        use nixcavate_source::glob::Pattern;
+        fn walk(dir: &std::path::Path, out: &mut Vec<std::path::PathBuf>) {
+            for item in std::fs::read_dir(dir).unwrap().flatten() {
+                let path = item.path();
+                if path.is_dir() {
+                    walk(&path, out);
+                } else {
+                    out.push(path);
+                }
+            }
+        }
+        let base = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test_files/docker-moved-root");
+        let mut paths = Vec::new();
+        walk(&base.join("srv"), &mut paths);
+        let files: Vec<(String, Vec<u8>)> = paths
+            .iter()
+            .map(|p| (p.strip_prefix(&base).unwrap().to_string_lossy().into_owned(), std::fs::read(p).unwrap()))
+            .collect();
+        let borrowed: Vec<(&str, &[u8])> = files.iter().map(|(p, d)| (p.as_str(), d.as_slice())).collect();
+        let expected = String::from_utf8(fixture("docker-moved-root/expected.txt")).unwrap();
+        let expect = |key: &str| -> Vec<usize> {
+            let rows = expected.lines().filter(|l| l.starts_with(key));
+            rows.map(|l| l.split(' ').next_back().unwrap().parse().unwrap()).collect()
+        };
+        let matching = |a: &Artifact| -> Vec<&str> {
+            let hit = |p: &&(&str, &[u8])| a.paths.iter().any(|g| Pattern::new(g).matches(p.0));
+            borrowed.iter().filter(hit).map(|p| p.0).collect()
+        };
+        // Containers: one config per `docker ps -a` row.
+        let configs = matching(&CONTAINERS);
+        assert_eq!(configs.len(), expect("containers")[0]);
+        let mut records = 0;
+        for config in &configs {
+            let out = run_on_host(&CONTAINERS, &borrowed, config, 0);
+            assert!(!out.contains("--- warning") && !out.contains("--- failed"), "{out}");
+            records += out.matches("\"artifact\":\"docker-containers\"").count();
+        }
+        assert_eq!(records, configs.len());
+        // Logs: one record per line `docker logs` prints, over both containers.
+        let mut lines = 0;
+        for log in matching(&LOGS) {
+            let out = run_on_host(&LOGS, &borrowed, log, 0);
+            assert!(!out.contains("--- warning") && !out.contains("--- failed"), "{out}");
+            lines += out.matches("\"artifact\":\"docker-logs\"").count();
+        }
+        assert_eq!(lines, expect("log_lines").iter().sum::<usize>());
+        // Images: the repository file names the image by tag and by digest, so there can be
+        // more reference rows than images; `docker images -q` counts distinct image ids.
+        let images = matching(&IMAGES);
+        assert_eq!(images.len(), 2);
+        let mut ids = std::collections::BTreeSet::new();
+        for image in images {
+            let out = run_on_host(&IMAGES, &borrowed, image, 0);
+            for row in out.lines().filter(|l| l.contains("\"kind\":\"reference\"")) {
+                ids.insert(row.split("\"image_id\":\"").nth(1).unwrap().split('"').next().unwrap().to_owned());
+            }
+        }
+        assert_eq!(ids.len(), expect("images")[0]);
     }
 
     #[test]

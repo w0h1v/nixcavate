@@ -1,0 +1,34 @@
+{
+    "timestamp": {
+        "seconds": 1794537444,
+        "nanoseconds": 64357131
+    },
+    "submituser": "alice",
+    "command": "/bin/sh",
+    "runuser": "bob",
+    "ttyname": "/dev/console",
+    "submithost": "828831590e80",
+    "submitcwd": "/",
+    "runuid": 1001,
+    "columns": 80,
+    "lines": 24,
+    "runargv": [
+        "/bin/sh",
+        "-c",
+        "echo out-one; echo err-one >&2; sleep 1; echo out-two"
+    ],
+    "runenv": [
+        "HOSTNAME=828831590e80",
+        "TERM=xterm",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "MAIL=/var/mail/bob",
+        "LOGNAME=bob",
+        "USER=bob",
+        "HOME=/home/bob",
+        "SHELL=/bin/sh",
+        "SUDO_COMMAND=/bin/sh -c echo out-one; echo err-one >&2; sleep 1; echo out-two",
+        "SUDO_USER=alice",
+        "SUDO_UID=1000",
+        "SUDO_GID=1000"
+    ]
+}

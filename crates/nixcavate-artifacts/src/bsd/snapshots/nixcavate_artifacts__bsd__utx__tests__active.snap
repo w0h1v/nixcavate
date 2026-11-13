@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/utx.rs
+expression: "run(&ARTIFACT, \"var/run/utx.active\", &fixture(\"utx/utx.active\"), 0)"
+---
+{"host":"memory","artifact":"utx","source_path":"var/run/utx.active","source_offset":0,"database":"utx.active","time":"2026-11-13T01:39:48.930544Z","type":"boot_time","user":"","line":"","remote_host":"","pid":0,"id":""}
+{"host":"memory","artifact":"utx","source_path":"var/run/utx.active","source_offset":197,"database":"utx.active","time":"2026-11-13T01:41:07.341167Z","type":"dead_process","user":"","line":"","remote_host":"","pid":930,"id":"pts/0"}
+{"host":"memory","artifact":"utx","source_path":"var/run/utx.active","source_offset":394,"database":"utx.active","time":"2026-11-13T01:41:07.340333Z","type":"dead_process","user":"","line":"","remote_host":"","pid":932,"id":"pts/1"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:39:48.930544Z,micros,recorded,memory,utx,boot,system boot,var/run/utx.active,,0,,
+2026-11-13T01:41:07.340333Z,micros,recorded,memory,utx,logout,"session ended on ",var/run/utx.active,,394,,
+2026-11-13T01:41:07.341167Z,micros,recorded,memory,utx,logout,"session ended on ",var/run/utx.active,,197,,

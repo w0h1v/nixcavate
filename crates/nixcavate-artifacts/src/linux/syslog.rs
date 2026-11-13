@@ -2,7 +2,7 @@
 //! `common::syslog` for the line layouts.
 
 use crate::common::syslog::{for_each_header, timeline_message};
-use crate::{Artifact, Category, Input, LINUX};
+use crate::{Artifact, Category, Input, UNIX_NOT_ESXI};
 use nixcavate_core::{Basis, Event, Loc, Record, Result, Sink, Timestamp};
 use serde::Serialize;
 
@@ -10,7 +10,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "syslog",
     "General system logs (syslog, messages, kern.log, cron, ...)",
     Category::Logs,
-    LINUX,
+    UNIX_NOT_ESXI,
     &[
         "var/log/syslog*",
         "var/log/messages*",
@@ -23,6 +23,26 @@ pub const ARTIFACT: Artifact = Artifact::new(
         "var/log/boot.log*",
         "var/log/maillog*",
         "var/log/ufw.log*",
+        // FreeBSD, OpenBSD and NetBSD.
+        "var/log/security*",
+        "var/log/daemon",
+        "var/log/xferlog*",
+        "var/log/devd.log*",
+        "var/log/dmesg.today",
+        "var/log/dmesg.yesterday",
+        "var/log/setuid.today",
+        "var/log/pkg*",
+        "var/log/bsdinstall_log*",
+        "var/log/lpd-errs*",
+        "var/log/ppp.log*",
+        "var/log/daily.out*",
+        "var/log/security.out*",
+        "var/log/nuageinit.log*",
+        "var/adm/messages*",
+        "var/adm/messages*",
+        "var/adm/syslog*",
+        "var/adm/authlog*",
+        "var/adm/maillog*",
     ],
     parse,
 )
@@ -147,5 +167,15 @@ mod tests {
                 run(&ARTIFACT, "var/log/syslog", &flipped, MAR_10_2024);
             }
         }
+    }
+
+    /// illumos `/var/adm/messages`: the facility and level come after the tag as `[ID n kern.notice]` and stay in the message.
+    #[test]
+    fn solaris_messages_keep_the_message_id() {
+        const NOV_13_2026: i64 = 1_794_535_000;
+        let out = run(&ARTIFACT, "var/adm/messages", &fixture("syslog/solaris_messages"), NOV_13_2026);
+        insta::assert_snapshot!(out);
+        assert!(out.contains(r#""program":"svc.startd","pid":9,"message":"[ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance"#), "{out}");
+        assert!(out.contains(r#""program":"/sbin/dhcpagent""#), "{out}");
     }
 }

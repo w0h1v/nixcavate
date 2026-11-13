@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/macos/user_prefs.rs
+expression: "run(&LOGINWINDOW, login, &fixture(\"user-prefs/com.apple.loginwindow.plist\"),\n0)"
+---
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"login_hook","order":null,"name":"LoginHook","path":null,"bundle_id":null,"value":"/Users/Shared/.hook.sh","time":null}
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"logout_hook","order":null,"name":"LogoutHook","path":null,"bundle_id":null,"value":"/tmp/logout.sh","time":null}
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"setting","order":null,"name":"lastUser","path":null,"bundle_id":null,"value":"loggedIn","time":null}
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"setting","order":null,"name":"lastUserName","path":null,"bundle_id":null,"value":"alice","time":null}
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"setting","order":null,"name":"autoLoginUser","path":null,"bundle_id":null,"value":"alice","time":null}
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"setting","order":null,"name":"GuestEnabled","path":null,"bundle_id":null,"value":"false","time":null}
+{"host":"memory","artifact":"login-window","source_path":"Library/Preferences/com.apple.loginwindow.plist","source_line":null,"user":"","kind":"relaunch_app","order":0,"name":null,"path":"/Users/alice/Downloads/Helper.app","bundle_id":"com.example.helper","value":null,"time":null}

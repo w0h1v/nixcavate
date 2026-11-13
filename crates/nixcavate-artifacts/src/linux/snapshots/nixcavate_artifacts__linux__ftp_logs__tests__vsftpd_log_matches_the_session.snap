@@ -1,0 +1,30 @@
+---
+source: crates/nixcavate-artifacts/src/linux/ftp_logs.rs
+expression: out
+---
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":0,"time":"2026-11-13T01:22:03Z","pid":3837,"user":null,"result":"","action":"CONNECT","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":64,"time":"2026-11-13T01:22:03Z","pid":3836,"user":"alice","result":"OK","action":"LOGIN","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":137,"time":"2026-11-13T01:22:03Z","pid":3838,"user":"alice","result":"OK","action":"DOWNLOAD","client":"127.0.0.1","path":"/home/alice/big.bin","bytes":20000,"detail":"20000 bytes, 73425.75Kbyte/sec"}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":268,"time":"2026-11-13T01:22:03Z","pid":3838,"user":"alice","result":"OK","action":"UPLOAD","client":"127.0.0.1","path":"/home/alice/new file.txt","bytes":500,"detail":"500 bytes, 3875.25Kbyte/sec"}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":399,"time":"2026-11-13T01:22:03Z","pid":3838,"user":"alice","result":"OK","action":"UPLOAD","client":"127.0.0.1","path":"/home/alice/ascii.txt","bytes":6,"detail":"6 bytes, 91.55Kbyte/sec"}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":523,"time":"2026-11-13T01:22:03Z","pid":3838,"user":"alice","result":"OK","action":"DELETE","client":"127.0.0.1","path":"/home/alice/up.txt","bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":619,"time":"2026-11-13T01:22:03Z","pid":3838,"user":"alice","result":"OK","action":"MKDIR","client":"127.0.0.1","path":"/home/alice/sub","bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":711,"time":"2026-11-13T01:22:03Z","pid":3838,"user":"alice","result":"OK","action":"RMDIR","client":"127.0.0.1","path":"/home/alice/sub","bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":803,"time":"2026-11-13T01:22:03Z","pid":3840,"user":null,"result":"","action":"CONNECT","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":867,"time":"2026-11-13T01:22:06Z","pid":3839,"user":"alice","result":"FAIL","action":"LOGIN","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":942,"time":"2026-11-13T01:22:07Z","pid":3842,"user":null,"result":"","action":"CONNECT","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":1006,"time":"2026-11-13T01:22:08Z","pid":3841,"user":"nosuch","result":"FAIL","action":"LOGIN","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":1082,"time":"2026-11-13T01:22:09Z","pid":3844,"user":null,"result":"","action":"CONNECT","client":"127.0.0.1","path":null,"bytes":null,"detail":""}
+{"host":"memory","artifact":"vsftpd-log","source_path":"var/log/vsftpd.log","source_offset":1146,"time":"2026-11-13T01:22:09Z","pid":3843,"user":"ftp","result":"OK","action":"LOGIN","client":"127.0.0.1","path":null,"bytes":null,"detail":"anon password \"a@b\""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_login,"alice 127.0.0.1 OK LOGIN ",var/log/vsftpd.log,,64,,
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_transfer,alice 127.0.0.1 OK DOWNLOAD /home/alice/big.bin,var/log/vsftpd.log,,137,,
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_transfer,alice 127.0.0.1 OK UPLOAD /home/alice/new file.txt,var/log/vsftpd.log,,268,,
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_transfer,alice 127.0.0.1 OK UPLOAD /home/alice/ascii.txt,var/log/vsftpd.log,,399,,
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_file_change,alice 127.0.0.1 OK DELETE /home/alice/up.txt,var/log/vsftpd.log,,523,,
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_file_change,alice 127.0.0.1 OK MKDIR /home/alice/sub,var/log/vsftpd.log,,619,,
+2026-11-13T01:22:03Z,seconds,assumed_zone,memory,vsftpd-log,ftp_file_change,alice 127.0.0.1 OK RMDIR /home/alice/sub,var/log/vsftpd.log,,711,,
+2026-11-13T01:22:06Z,seconds,assumed_zone,memory,vsftpd-log,ftp_login_failed,"alice 127.0.0.1 FAIL LOGIN ",var/log/vsftpd.log,,867,,
+2026-11-13T01:22:08Z,seconds,assumed_zone,memory,vsftpd-log,ftp_login_failed,"nosuch 127.0.0.1 FAIL LOGIN ",var/log/vsftpd.log,,1006,,
+2026-11-13T01:22:09Z,seconds,assumed_zone,memory,vsftpd-log,ftp_login,"ftp 127.0.0.1 OK LOGIN ",var/log/vsftpd.log,,1146,,

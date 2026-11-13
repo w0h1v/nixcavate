@@ -1,0 +1,5 @@
+alice:
+When                Type  Source                                           Valid
+2026-11-13 02:13:34 RHOST 203.0.113.9                                          V
+2026-11-13 02:13:36 RHOST 203.0.113.9                                          V
+2026-11-13 02:13:38 TTY   pts/3                                                V

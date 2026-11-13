@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/macos/security_db.rs
+expression: "run(&AUTH_DB, AUTH, &fixture(\"security-db/auth.db\"), 0)"
+---
+{"host":"memory","artifact":"auth-db","source_path":"private/var/db/auth.db","source_line":null,"name":"example.rule","rule_type":"right","class":"rule","group":null,"created":"2023-03-08T20:26:40Z","modified":"2023-03-08T20:26:40Z","delegates":["system.privilege.admin"],"mechanisms":[],"comment":"delegates to another rule"}
+{"host":"memory","artifact":"auth-db","source_path":"private/var/db/auth.db","source_line":null,"name":"system.login.console","rule_type":"rule","class":"mechanisms","group":null,"created":"2023-03-08T20:26:40Z","modified":"2023-03-11T04:00:00Z","delegates":[],"mechanisms":["builtin:login-begin","ExamplePlugin:start"],"comment":"Login mechanism based rule"}
+{"host":"memory","artifact":"auth-db","source_path":"private/var/db/auth.db","source_line":null,"name":"system.preferences","rule_type":"right","class":"allow","group":null,"created":"2023-03-08T20:26:40Z","modified":"2023-03-08T20:26:40Z","delegates":[],"mechanisms":[],"comment":"an allow rule"}
+{"host":"memory","artifact":"auth-db","source_path":"private/var/db/auth.db","source_line":null,"name":"system.privilege.admin","rule_type":"right","class":"user","group":"admin","created":"2023-03-08T20:26:40Z","modified":"2023-03-08T20:26:40Z","delegates":[],"mechanisms":[],"comment":"Used by AuthenticationServices"}
+{"host":"memory","artifact":"auth-db","source_path":"private/var/db/auth.db","source_line":null,"name":"weird","rule_type":"3","class":"99","group":null,"created":null,"modified":null,"delegates":[],"mechanisms":[],"comment":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-03-11T04:00:00Z,seconds,recorded,memory,auth-db,authdb_rule_changed,authorization rule system.login.console (mechanisms) changed after creation,private/var/db/auth.db,,,,
+--- warning: created 1000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000 is not a valid time; left empty

@@ -1,0 +1,26 @@
+/usr/sbin/mariadbd, Version: 10.11.19-MariaDB-0+deb12u1-log (Debian 12). started with:
+Tcp port: 0  Unix socket: /run/mysqld/mysqld.sock
+Time		    Id Command	Argument
+261113  1:28:53	     3 Connect	root@localhost on  using Socket
+		     3 Query	CREATE USER alice@localhost IDENTIFIED BY 'Example-Pass-1'
+		     3 Query	GRANT ALL ON *.* TO alice@localhost
+		     3 Query	CREATE DATABASE appdb
+		     3 Quit	
+		     4 Connect	alice@localhost on appdb using Socket
+		     4 Query	CREATE TABLE t(id int, v text)
+		     4 Query	INSERT INTO t VALUES (1,'a'),(2,'b')
+		     4 Query	SELECT * FROM t WHERE id=1
+		     4 Query	SELECT sleep(0.2)
+		     4 Quit	
+		     5 Connect	alice@localhost on  using Socket
+		     5 Connect	Access denied for user 'alice'@'localhost' (using password: YES)
+		     6 Connect	nosuch@localhost on  using Socket
+		     6 Connect	Access denied for user 'nosuch'@'localhost'
+		     7 Connect	alice@localhost on  using Socket
+		     7 Query	SELECT 1,
+  2
+FROM dual
+		     7 Query	DROP DATABASE appdb
+		     7 Quit	
+		     8 Connect	root@localhost on  using Socket
+		     8 Query	SHUTDOWN

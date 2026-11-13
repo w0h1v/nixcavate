@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/legacy_persistence.rs
+expression: "run(&PLUGINS, auth, &fixture(\"legacy-persistence/Info.plist\"), 1_700_000_000)"
+---
+{"host":"memory","artifact":"system-plugins","source_path":"Library/Security/SecurityAgentPlugins/Evil.bundle/Contents/Info.plist","source_line":null,"user":"","kind":"authorization_plugin","bundle":"Evil.bundle","bundle_id":"com.example.evil","name":"Evil","executable":"Evil","version":"1.0","modified":"2023-11-14T22:13:20Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,system-plugins,activity,authorization_plugin bundle Evil.bundle written,Library/Security/SecurityAgentPlugins/Evil.bundle/Contents/Info.plist,,,,

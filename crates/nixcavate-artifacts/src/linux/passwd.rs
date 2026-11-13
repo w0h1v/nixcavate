@@ -1,12 +1,12 @@
 //! `/etc/passwd`: local accounts. Format: passwd(5).
 
 use crate::text::{for_each_line, lossy};
-use crate::{Artifact, Category, Input, LINUX};
+use crate::{Artifact, Category, Input, UNIX};
 use nixcavate_core::{Loc, Record, Result, Sink};
 use serde::Serialize;
 
 pub const ARTIFACT: Artifact =
-    Artifact::new("passwd", "Local user accounts", Category::Accounts, LINUX, &["etc/passwd", "etc/passwd-"], parse);
+    Artifact::new("passwd", "Local user accounts", Category::Accounts, UNIX, &["etc/passwd", "etc/passwd-"], parse);
 
 #[derive(Serialize)]
 struct Account<'a> {

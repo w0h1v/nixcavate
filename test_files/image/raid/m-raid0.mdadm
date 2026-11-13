@@ -1,0 +1,78 @@
+/dev/md/m-raid0:
+           Version : 1.0
+     Creation Time : Thu Nov 12 16:50:48 2026
+        Raid Level : raid0
+        Array Size : 8064 (7.88 MiB 8.26 MB)
+      Raid Devices : 2
+     Total Devices : 2
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 16:50:48 2026
+             State : clean 
+    Active Devices : 2
+   Working Devices : 2
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : original
+        Chunk Size : 64K
+
+Consistency Policy : none
+
+              Name : fixture:m0
+              UUID : 297ff302:7fb8dbbf:5e95ea0c:fc6168c2
+            Events : 0
+
+    Number   Major   Minor   RaidDevice State
+       0       7        0        0      active sync   /dev/loop0
+       1       7        1        1      active sync   /dev/loop1
+/dev/loop0:
+          Magic : a92b4efc
+        Version : 1.0
+    Feature Map : 0x1000
+     Array UUID : 297ff302:7fb8dbbf:5e95ea0c:fc6168c2
+           Name : fixture:m0
+  Creation Time : Thu Nov 12 16:50:48 2026
+     Raid Level : raid0
+   Raid Devices : 2
+
+ Avail Dev Size : 8168 sectors
+   Super Offset : 8176 sectors
+          State : clean
+    Device UUID : d82e4949:0d099427:8415b1a3:234164fa
+
+    Update Time : Thu Nov 12 16:50:48 2026
+  Bad Block Log : 512 entries available at offset -8 sectors
+       Checksum : cf13ef3c - correct
+         Events : 0
+
+         Layout : original
+     Chunk Size : 64K
+
+   Device Role : Active device 0
+   Array State : AA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop1:
+          Magic : a92b4efc
+        Version : 1.0
+    Feature Map : 0x1000
+     Array UUID : 297ff302:7fb8dbbf:5e95ea0c:fc6168c2
+           Name : fixture:m0
+  Creation Time : Thu Nov 12 16:50:48 2026
+     Raid Level : raid0
+   Raid Devices : 2
+
+ Avail Dev Size : 8168 sectors
+   Super Offset : 8176 sectors
+          State : clean
+    Device UUID : 18508411:505613e9:2ae428c8:1d2c126f
+
+    Update Time : Thu Nov 12 16:50:48 2026
+  Bad Block Log : 512 entries available at offset -8 sectors
+       Checksum : f1f41760 - correct
+         Events : 0
+
+         Layout : original
+     Chunk Size : 64K
+
+   Device Role : Active device 1
+   Array State : AA ('A' == active, '.' == missing, 'R' == replacing)

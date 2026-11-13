@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/utmp.rs
+expression: out
+---
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":0,"time":"2023-11-14T22:13:20.008800Z","type":"boot","user":"","line":"boot","remote_host":"system boot"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":520,"time":"2023-11-14T22:15:00.415824Z","type":"login","user":"root","line":"constty","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":1040,"time":"2023-11-14T22:16:40.065049Z","type":"logout","user":"mallory","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":1560,"time":"2023-11-14T22:18:20.000000Z","type":"shutdown","user":"","line":"down","remote_host":"system down"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20.008800Z,micros,recorded,memory,netbsd-utmpx,boot,system boot,var/log/wtmpx,,0,,
+2023-11-14T22:15:00.415824Z,micros,recorded,memory,netbsd-utmpx,login,root logged in on constty from local,var/log/wtmpx,,520,,
+2023-11-14T22:16:40.065049Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,1040,,
+2023-11-14T22:18:20.000000Z,micros,recorded,memory,netbsd-utmpx,shutdown,system shutdown,var/log/wtmpx,,1560,,

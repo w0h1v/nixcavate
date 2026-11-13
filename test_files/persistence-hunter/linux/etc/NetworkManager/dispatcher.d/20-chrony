@@ -1,0 +1,3 @@
+#!/bin/sh
+[ "$2" = "dhcp4-change" ] || exit 0
+systemctl try-reload-or-restart chrony.service

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE service_bundle SYSTEM "/usr/share/lib/xml/dtd/service_bundle.dtd.1">
+<!-- NXMK_SMF example service -->
+<service_bundle type="manifest" name="nxmk-smf">
+  <service name="site/nxmk-smf" type="service" version="1">
+    <create_default_instance enabled="false"/>
+    <single_instance/>
+    <dependency name="fs" grouping="require_all" restart_on="none" type="service"><service_fmri value="svc:/system/filesystem/local"/></dependency>
+    <exec_method type="method" name="start" exec="/var/svc/method/nxmk-smf %m" timeout_seconds="60"/>
+    <exec_method type="method" name="stop" exec=":true" timeout_seconds="60"/>
+    <property_group name="startd" type="framework"><propval name="duration" type="astring" value="transient"/></property_group>
+    <stability value="Unstable"/>
+    <template><common_name><loctext xml:lang="C">NXMK_SMF example</loctext></common_name></template>
+  </service>
+</service_bundle>

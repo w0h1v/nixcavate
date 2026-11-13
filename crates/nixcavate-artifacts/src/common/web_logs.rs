@@ -24,6 +24,12 @@ pub const ACCESS: Artifact = Artifact::new(
         "var/log/nginx/*access*",
         "private/var/log/apache2/*access*",
         "usr/local/var/log/nginx/*access*",
+        "var/log/tomcat*/localhost_access_log*",
+        "var/lib/tomcat*/logs/localhost_access_log*",
+        "usr/local/tomcat/logs/localhost_access_log*",
+        "opt/tomcat*/logs/localhost_access_log*",
+        "opt/apache-tomcat*/logs/localhost_access_log*",
+        "var/log/cups/access_log*",
     ],
     parse_access,
 )
@@ -268,6 +274,10 @@ fn parse_access(input: &Input, sink: &mut Sink) -> Result<()> {
             return Ok(());
         }
         let text = lossy(line.bytes);
+        // Fedora and RHEL leave a one-line note where the log was before it moved to the journal.
+        if text.starts_with("This CUPS log has been moved into journal") {
+            return Ok(());
+        }
         match parse_access_line(&text) {
             Some(record) => sink.emit(Loc::Offset(line.offset), &record),
             None => {
@@ -463,6 +473,14 @@ mod tests {
 
     fn error(name: &str) -> String {
         run(&ERROR, "var/log/apache2/error.log", &fixture(&format!("web-error-log/{name}")), 0)
+    }
+
+    /// Fedora and RHEL leave a one-line note where CUPS's access_log was.
+    #[test]
+    fn the_cups_moved_to_journal_note_is_not_a_request() {
+        let note = b"This CUPS log has been moved into journal by default unless changes have been made in /etc/cups/cups-files.conf. Log messages can be got by \"$ journalctl -u cups -e\"\n";
+        let out = run(&ACCESS, "var/log/cups/access_log", note, 0);
+        assert!(!out.contains("--- warning") && !out.contains("--- failed"), "{out}");
     }
 
     #[test]

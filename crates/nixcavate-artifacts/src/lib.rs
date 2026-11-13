@@ -1,10 +1,14 @@
 //! The artifact parsers. Each artifact is one module that exports one `ARTIFACT` value; adding
 //! an artifact means writing that module and adding one line to its OS registry.
 
+pub mod aix;
+pub mod bsd;
 pub mod common;
+pub mod esxi;
 pub mod linux;
 pub mod logical_lines;
 pub mod macos;
+pub mod solaris;
 pub mod sqlite;
 pub mod testing;
 pub mod text;
@@ -96,6 +100,10 @@ pub struct Artifact {
     /// True when each line parses on its own, so a large file can be split at newlines and
     /// its chunks parsed in parallel. Such parsers must locate records by offset, not line.
     pub split_lines: bool,
+    /// True when the entries themselves are the evidence: symbolic links are planned too (their
+    /// target is the input data, shown and never followed), empty files are not skipped, and
+    /// regular files with content are left out.
+    pub presence: bool,
     pub parse: ParseFn,
 }
 
@@ -108,7 +116,18 @@ impl Artifact {
         paths: &'static [&'static str],
         parse: ParseFn,
     ) -> Self {
-        Self { id, description, category, os, paths, companions: &[], cost: 1.0, split_lines: false, parse }
+        Self {
+            id,
+            description,
+            category,
+            os,
+            paths,
+            companions: &[],
+            cost: 1.0,
+            split_lines: false,
+            presence: false,
+            parse,
+        }
     }
 
     pub const fn companions(mut self, companions: &'static [&'static str]) -> Self {
@@ -125,11 +144,23 @@ impl Artifact {
         self.split_lines = true;
         self
     }
+
+    pub const fn presence(mut self) -> Self {
+        self.presence = true;
+        self
+    }
 }
 
 /// Every artifact, in listing order.
 pub fn artifacts() -> impl Iterator<Item = &'static Artifact> {
-    linux::ARTIFACTS.iter().chain(macos::ARTIFACTS).chain(common::ARTIFACTS)
+    linux::ARTIFACTS
+        .iter()
+        .chain(macos::ARTIFACTS)
+        .chain(esxi::ARTIFACTS)
+        .chain(aix::ARTIFACTS)
+        .chain(solaris::ARTIFACTS)
+        .chain(bsd::ARTIFACTS)
+        .chain(common::ARTIFACTS)
 }
 
 pub fn find(id: &str) -> Option<&'static Artifact> {
@@ -138,7 +169,19 @@ pub fn find(id: &str) -> Option<&'static Artifact> {
 
 pub const LINUX: &[Os] = &[Os::Linux];
 pub const MACOS: &[Os] = &[Os::Macos];
-pub const ANY_OS: &[Os] = &[Os::Linux, Os::Macos];
+pub const ESXI: &[Os] = &[Os::Esxi];
+pub const FREEBSD: &[Os] = &[Os::FreeBsd];
+pub const OPENBSD: &[Os] = &[Os::OpenBsd];
+pub const NETBSD: &[Os] = &[Os::NetBsd];
+pub const BSD: &[Os] = &[Os::FreeBsd, Os::OpenBsd, Os::NetBsd];
+pub const SOLARIS: &[Os] = &[Os::Solaris];
+pub const AIX: &[Os] = &[Os::Aix];
+/// Every Unix but macOS: for the formats they share (syslog, `passwd`, `sudoers`...).
+pub const UNIX: &[Os] = &[Os::Linux, Os::Esxi, Os::FreeBsd, Os::OpenBsd, Os::NetBsd, Os::Solaris, Os::Aix];
+/// [`UNIX`] without ESXi: for the syslog-family logs, which ESXi writes in its own layout (read by
+/// the `esxi-` log artifacts instead).
+pub const UNIX_NOT_ESXI: &[Os] = &[Os::Linux, Os::FreeBsd, Os::OpenBsd, Os::NetBsd, Os::Solaris, Os::Aix];
+pub const ANY_OS: &[Os] = &[Os::Linux, Os::Macos, Os::Esxi, Os::FreeBsd, Os::OpenBsd, Os::NetBsd, Os::Solaris, Os::Aix];
 
 #[cfg(test)]
 mod tests {

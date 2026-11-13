@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TALAppsToRelaunchAtLogin</key>
+	<array>
+		<dict>
+			<key>BackgroundState</key>
+			<integer>2</integer>
+			<key>BundleID</key>
+			<string>com.example.helper</string>
+			<key>Path</key>
+			<string>/Users/alice/Downloads/Helper.app</string>
+		</dict>
+		<dict>
+			<key>BackgroundState</key>
+			<integer>2</integer>
+			<key>BundleID</key>
+			<string>com.apple.Safari</string>
+			<key>Path</key>
+			<string>/Applications/Safari.app</string>
+		</dict>
+	</array>
+</dict>
+</plist>

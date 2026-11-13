@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/rc_scripts.rs
+expression: "run(&ARTIFACT, \"etc/rc2.d/S20sysetup\", &fixture(\"rc-scripts/S20sysetup\"),\n1_700_000_000)"
+---
+{"host":"memory","artifact":"rc-scripts","source_path":"etc/rc2.d/S20sysetup","source_line":null,"size":1584,"mode":"100644","uid":0,"gid":0,"modified":"2023-11-14T22:13:20Z","interpreter":"/sbin/sh","lines":49,"commands":"if [ -z \"$_INIT_PREV_LEVEL\" ]; then; set -- `/usr/bin/who -r`; _INIT_PREV_LEVEL=\"$9\"; fi; [ $_INIT_PREV_LEVEL != S -a $_INIT_PREV_LEVEL != 1 ] && exit 0; [ -d /etc/tm ] && /usr/bin/cat /etc/tm/* 2>/dev/null; if [ -f /etc/rctladm.conf ] && [ -x /usr/sbin/rctladm ]; then; /usr/sbin/rctladm -u; fi"}

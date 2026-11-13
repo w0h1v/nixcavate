@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/config.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-firewall-rules","source_path":"etc/vmware/firewall/custom.xml","source_line":null,"ruleset":"example-backdoor","rule_id":"0000","direction":"outbound","protocol":"tcp","port_type":"dst","port":"4444","enabled":"true"}
+{"host":"memory","artifact":"esxi-firewall-rules","source_path":"etc/vmware/firewall/custom.xml","source_line":null,"ruleset":"example-backdoor","rule_id":"0001","direction":"inbound","protocol":"tcp","port_type":"dst","port":"8000-8010","enabled":"true"}

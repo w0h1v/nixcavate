@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/rc.rs
+expression: "run(&RC_CONF, \"etc/rc.conf\", &fixture(\"rc-conf/rc.conf\"), 0)"
+---
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":1,"variable":"hostname","value":"freebsd","kind":"setting","service":"","enabled":null,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":2,"variable":"firstboot_freebsd_update_enable","value":"YES","kind":"enable","service":"firstboot_freebsd_update","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":3,"variable":"growfs_enable","value":"YES","kind":"enable","service":"growfs","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":4,"variable":"sshd_enable","value":"YES","kind":"enable","service":"sshd","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":5,"variable":"nuageinit_enable","value":"YES","kind":"enable","service":"nuageinit","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":6,"variable":"dumpdev","value":"AUTO","kind":"setting","service":"","enabled":null,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":7,"variable":"ifconfig_DEFAULT","value":"SYNCDHCP accept_rtadv","kind":"setting","service":"","enabled":null,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":8,"variable":"sshd_enable","value":"YES","kind":"enable","service":"sshd","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":9,"variable":"auditd_enable","value":"YES","kind":"enable","service":"auditd","enabled":true,"script_path":"","command":""}
+{"host":"memory","artifact":"rc-conf","source_path":"etc/rc.conf","source_line":10,"variable":"nxmk_enable","value":"YES","kind":"enable","service":"nxmk","enabled":true,"script_path":"","command":""}

@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/packages.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-vib-list","source_path":"commands/localcli_software-vib-list.txt","source_line":3,"name":"example-net-driver","version":"1.0.0-1OEM.670.0.0.8169922","vendor":"Example","acceptance_level":"VMwareCertified","install_date":"2025-01-01T00:00:00Z"}
+{"host":"memory","artifact":"esxi-vib-list","source_path":"commands/localcli_software-vib-list.txt","source_line":4,"name":"esx-base","version":"6.7.0-3.143.19195723","vendor":"VMware","acceptance_level":"VMwareCertified","install_date":"2025-01-01T00:00:00Z"}
+{"host":"memory","artifact":"esxi-vib-list","source_path":"commands/localcli_software-vib-list.txt","source_line":5,"name":"example-agent","version":"1.2.3-1","vendor":"example","acceptance_level":"CommunitySupported","install_date":"2025-01-10T00:00:00Z"}
+{"host":"memory","artifact":"esxi-vib-list","source_path":"commands/localcli_software-vib-list.txt","source_line":6,"name":"bad-date-row","version":"1.0","vendor":"example","acceptance_level":"PartnerSupported","install_date":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-01-01T00:00:00Z,day,recorded,memory,esxi-vib-list,package_installed,VIB example-net-driver 1.0.0-1OEM.670.0.0.8169922 installed (VMwareCertified),commands/localcli_software-vib-list.txt,3,,,
+2025-01-01T00:00:00Z,day,recorded,memory,esxi-vib-list,package_installed,VIB esx-base 6.7.0-3.143.19195723 installed (VMwareCertified),commands/localcli_software-vib-list.txt,4,,,
+2025-01-10T00:00:00Z,day,recorded,memory,esxi-vib-list,package_installed,VIB example-agent 1.2.3-1 installed (CommunitySupported),commands/localcli_software-vib-list.txt,5,,,

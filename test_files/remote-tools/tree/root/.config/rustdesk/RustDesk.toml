@@ -1,0 +1,10 @@
+enc_id = '00AZY+cIpB7TBrmHgMNA03O5Q1poW/F9EmIiYLeuEWSqxeyzXv99ymhp+hpqipOp5MbjI='
+password = ''
+salt = ''
+key_pair = [
+    [],
+    [],
+]
+key_confirmed = false
+
+[keys_confirmed]

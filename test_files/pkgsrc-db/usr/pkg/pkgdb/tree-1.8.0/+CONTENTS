@@ -1,0 +1,24 @@
+@cwd /usr/pkg
+@name tree-1.8.0
+@blddep digest-20220214
+@blddep mktools-20250213
+@blddep gmake-4.4.1
+@blddep cwrappers-20220403
+@comment $NetBSD: PLIST,v 1.2 2007/10/24 23:25:12 wiz Exp $
+bin/tree
+@comment MD5:9b708eb2c0fabd73df007f89b35e2390
+man/man1/tree.1
+@comment MD5:a4d0bce6d3ec8d77eea0fa978bbb76e2
+@cwd /usr/pkg
+@ignore
++COMMENT
+@ignore
++DESC
+@ignore
++BUILD_VERSION
+@ignore
++BUILD_INFO
+@ignore
++SIZE_PKG
+@ignore
++SIZE_ALL

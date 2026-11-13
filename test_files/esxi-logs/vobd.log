@@ -1,0 +1,12 @@
+2025-01-10T11:31:14.114Z: [netCorrelator] 22427618us: [vob.net.firewall.config.changed] Firewall configuration has changed. Operation 'enable' for rule set sshServer succeeded.
+2025-01-10T11:31:14.114Z: [netCorrelator] 22427726us: [esx.audit.net.firewall.config.changed] Firewall configuration has changed. Operation 'enable' for rule set sshServer succeeded.
+2025-01-10T11:31:14.114Z: An event (esx.audit.net.firewall.config.changed) could not be sent immediately to hostd; queueing for retry.
+2025-01-10T11:31:32.583Z: [UserLevelCorrelator] 40897040us: [esx.audit.ssh.enabled] SSH access has been enabled.
+2025-01-10T11:31:49.694Z: [UserLevelCorrelator] 58008086us: [esx.audit.host.boot] Host has booted.
+2025-01-10T11:40:00.000Z: [UserLevelCorrelator] 60000000us: [vob.user.account.locked] Remote access for ESXi local user account 'root' has been locked for 900 seconds after 5 failed login attempts.
+2025-01-10T11:40:00.001Z: [UserLevelCorrelator] 60000100us: [esx.audit.account.locked] Remote access for ESXi local user account 'root' has been locked for 900 seconds after 5 failed login attempts.
+2025-01-10T11:41:00.000Z: [UserLevelCorrelator] 61000000us: [esx.audit.dcui.login.failed] Authentication of user root has failed.
+2025-01-10T13:34:21.936Z: [UserLevelCorrelator] 7410250008us: [esx.audit.host.stop.shutdown] Host is shutting down.
+2025-01-10T13:34:22.000Z: [scsiCorrelator] 7410250100us: [esx.problem.scsi.device.io.latency.high] Device naa.0000 performance has deteriorated.
+2025-01-10T13:34:23Z: Successfully sent event (esx.audit.dcui.disabled) after 1 failure.
+2026-02-03T10:00:00.500Z In(14) vobd[2097900]: [UserLevelCorrelator] 5000000us: [esx.audit.shell.enabled] ESXi Shell access has been enabled.

@@ -1,0 +1,135 @@
+{
+    "accept": {
+        "uuid": "8811b84943-c722-48b0-b0a7-18d891b37a",
+        "server_time": {
+            "seconds": 1794537448,
+            "nanoseconds": 141918994,
+            "iso8601": "20261113023728Z",
+            "localtime": "Nov 13 02:37:28"
+        },
+        "submit_time": {
+            "seconds": 1794537448,
+            "nanoseconds": 141264196,
+            "iso8601": "20261113023728Z",
+            "localtime": "Nov 13 02:37:28"
+        },
+        "iolog_path": "/var/log/sudo-io/00/00/07",
+        "submituser": "alice",
+        "command": "/bin/sh",
+        "runuser": "bob",
+        "runcwd": "/",
+        "ttyname": "/dev/console",
+        "submithost": "828831590e80",
+        "submitcwd": "/",
+        "runuid": 1001,
+        "columns": 80,
+        "lines": 24,
+        "runargv": [
+            "/bin/sh",
+            "-c",
+            "echo json-run; sleep 1"
+        ],
+        "runenv": [
+            "HOSTNAME=828831590e80",
+            "TERM=xterm",
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "MAIL=/var/mail/bob",
+            "LOGNAME=bob",
+            "USER=bob",
+            "HOME=/home/bob",
+            "SHELL=/bin/sh",
+            "SUDO_COMMAND=/bin/sh -c echo json-run; sleep 1",
+            "SUDO_USER=alice",
+            "SUDO_UID=1000",
+            "SUDO_GID=1000"
+        ]
+    },
+    "accept": {
+        "uuid": "24e8929f2f-1ae0-4b8b-8262-04508f9aeb",
+        "server_time": {
+            "seconds": 1794537449,
+            "nanoseconds": 162192625,
+            "iso8601": "20261113023729Z",
+            "localtime": "Nov 13 02:37:29"
+        },
+        "submit_time": {
+            "seconds": 1794537449,
+            "nanoseconds": 160765361,
+            "iso8601": "20261113023729Z",
+            "localtime": "Nov 13 02:37:29"
+        },
+        "iolog_path": "/var/log/sudo-io/00/00/08",
+        "submituser": "alice",
+        "command": "/bin/sh",
+        "runuser": "bob",
+        "runcwd": "/",
+        "ttyname": "/dev/pts/1",
+        "submithost": "828831590e80",
+        "submitcwd": "/",
+        "runuid": 1001,
+        "columns": 80,
+        "lines": 24,
+        "runargv": [
+            "/bin/sh",
+            "-c",
+            "echo json-on-a-tty"
+        ],
+        "runenv": [
+            "HOSTNAME=828831590e80",
+            "LC_CTYPE=C.UTF-8",
+            "TERM=xterm",
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "MAIL=/var/mail/bob",
+            "LOGNAME=bob",
+            "USER=bob",
+            "HOME=/home/bob",
+            "SHELL=/bin/sh",
+            "SUDO_COMMAND=/bin/sh -c echo json-on-a-tty",
+            "SUDO_USER=alice",
+            "SUDO_UID=1000",
+            "SUDO_GID=1000"
+        ]
+    },
+    "reject": {
+        "uuid": "388e84fd90-30c2-4cb2-eee3-672185db06",
+        "reason": "1 incorrect password attempt",
+        "server_time": {
+            "seconds": 1794537450,
+            "nanoseconds": 736940519,
+            "iso8601": "20261113023730Z",
+            "localtime": "Nov 13 02:37:30"
+        },
+        "submit_time": {
+            "seconds": 1794537449,
+            "nanoseconds": 172453599,
+            "iso8601": "20261113023729Z",
+            "localtime": "Nov 13 02:37:29"
+        },
+        "submituser": "alice",
+        "command": "/bin/true",
+        "runuser": "bob",
+        "runcwd": "/",
+        "submithost": "828831590e80",
+        "submitcwd": "/",
+        "runuid": 1001,
+        "columns": 80,
+        "lines": 24,
+        "runargv": [
+            "/bin/true"
+        ],
+        "runenv": [
+            "HOSTNAME=828831590e80",
+            "TERM=xterm",
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "MAIL=/var/mail/bob",
+            "LOGNAME=bob",
+            "USER=bob",
+            "HOME=/home/bob",
+            "SHELL=/bin/sh",
+            "SUDO_COMMAND=/bin/true",
+            "SUDO_USER=alice",
+            "SUDO_UID=1000",
+            "SUDO_GID=1000"
+        ]
+    }
+}

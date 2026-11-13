@@ -1,0 +1,2 @@
+frpc: the configuration file /etc/frp/frpc.toml syntax is ok
+frpc: the configuration file /etc/frp/frpc-old.ini syntax is ok

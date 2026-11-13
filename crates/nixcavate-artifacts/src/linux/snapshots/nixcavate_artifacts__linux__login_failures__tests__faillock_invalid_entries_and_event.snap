@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/login_failures.rs
+expression: out
+---
+{"host":"memory","artifact":"faillock","source_path":"var/run/faillock/carol","source_offset":0,"user":"carol","uid":1002,"time":"2026-11-13T02:13:24Z","source_type":"rhost","source":"192.0.2.5","valid":true}
+{"host":"memory","artifact":"faillock","source_path":"var/run/faillock/carol","source_offset":64,"user":"carol","uid":1002,"time":"2026-11-13T02:13:19Z","source_type":"tty","source":"ssh","valid":false}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:13:19Z,seconds,recorded,memory,faillock,failed_login,failed login for carol from ssh (no longer counted),var/run/faillock/carol,,64,,
+2026-11-13T02:13:24Z,seconds,recorded,memory,faillock,failed_login,failed login for carol from 192.0.2.5,var/run/faillock/carol,,0,,

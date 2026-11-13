@@ -1,0 +1,4 @@
+TIME                         PID  UID  GID SIG     COREFILE EXE              SIZE
+Fri 2026-11-13 02:31:39 UTC 3838 1000 1000 SIGSEGV present  /tmp/web-server 16.3K
+Fri 2026-11-13 02:31:42 UTC 3848 1001 1001 SIGABRT present  /tmp/my-app.v2  16.3K
+Fri 2026-11-13 02:31:45 UTC 3858    0    0 SIGILL  present  /tmp/odd name   16.2K

@@ -1,0 +1,4 @@
+carol:
+When                Type  Source                                           Valid
+2026-11-13 02:13:58 RHOST 192.0.2.5                                            V
+2026-11-13 02:13:53 TTY   ssh                                                  I

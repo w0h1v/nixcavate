@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/aix/lslpp.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-lslpp","source_path":"../live_response/packages/lslpp_-a_-h_-c.txt","source_line":2,"kind":"history","fileset":"openssh.base.server","level":"7.5.102.1801","path":"/usr/lib/objrepos","action":"COMMIT","status":"COMPLETE","time":"2021-03-10T12:55:38Z","state":null,"fix_state":null,"ptf_id":null,"description":null}
+{"host":"memory","artifact":"aix-lslpp","source_path":"../live_response/packages/lslpp_-a_-h_-c.txt","source_line":3,"kind":"history","fileset":"evil.rte","level":"1.0.0.0","path":"/usr/lib/objrepos","action":"APPLY","status":"COMPLETE","time":"2021-03-11T01:02:03Z","state":null,"fix_state":null,"ptf_id":null,"description":null}
+{"host":"memory","artifact":"aix-lslpp","source_path":"../live_response/packages/lslpp_-a_-h_-c.txt","source_line":4,"kind":"history","fileset":"evil.rte","level":"1.0.0.0","path":"/etc/objrepos","action":"DEINSTALL","status":"COMPLETE","time":"2021-03-12T01:02:03Z","state":null,"fix_state":null,"ptf_id":null,"description":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2021-03-10T12:55:38Z,seconds,assumed_zone,memory,aix-lslpp,package_installed,installed openssh.base.server 7.5.102.1801 (COMMIT COMPLETE),../live_response/packages/lslpp_-a_-h_-c.txt,2,,,
+2021-03-11T01:02:03Z,seconds,assumed_zone,memory,aix-lslpp,package_installed,installed evil.rte 1.0.0.0 (APPLY COMPLETE),../live_response/packages/lslpp_-a_-h_-c.txt,3,,,
+2021-03-12T01:02:03Z,seconds,assumed_zone,memory,aix-lslpp,package_removed,removed evil.rte 1.0.0.0 (DEINSTALL COMPLETE),../live_response/packages/lslpp_-a_-h_-c.txt,4,,,
+--- warning: line 5: expected 8 history fields, found 2

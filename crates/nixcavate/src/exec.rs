@@ -86,12 +86,14 @@ fn run_task(task: &Task, settings: &Settings) -> TaskEntry {
 }
 
 fn parse(task: &Task, settings: &Settings) -> (Status, Option<String>, Summary) {
-    if task.bytes == 0 {
+    if task.bytes == 0 && !task.artifact.presence {
         return (Status::Skipped, Some("empty file".into()), Summary::default());
     }
     let whole;
     let data: &[u8] = match &task.chunk {
         Some((data, range)) => &data[range.clone()],
+        // A link has no bytes of its own: the input is its target, which is never opened.
+        None if task.entry.link.is_some() => task.entry.link.as_deref().unwrap_or_default().as_bytes(),
         None => match task.host.open(task.entry) {
             Ok(data) => {
                 whole = data;

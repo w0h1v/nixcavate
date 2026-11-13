@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/svr4.rs
+expression: legacy
+---
+{"host":"memory","artifact":"svr4-pkginfo","source_path":"var/sadm/pkg/SUNW1394/pkginfo","source_line":null,"package":"SUNW1394","name":"Sun IEEE1394 Framework","version":"11.11,REV=2009.11.11","arch":"i386","category":"system","vendor":"Illumos","basedir":"/","installed":"2025-05-03T09:29:00Z","patches":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-05-03T09:29:00Z,seconds,assumed_zone,memory,svr4-pkginfo,package_installed,"SUNW1394 installed (Sun IEEE1394 Framework 11.11,REV=2009.11.11)",var/sadm/pkg/SUNW1394/pkginfo,,,,

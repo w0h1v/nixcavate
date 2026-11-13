@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/aix/errpt.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-errpt","source_path":"../live_response/system/errpt.txt","source_line":2,"label":null,"identifier":"A5E6DB96","time":"2016-04-14T08:34:00Z","sequence_number":null,"node_id":null,"class":"S","error_type":"I","resource_name":"pmig","location":null,"description":"Client Partition Migration Completed"}
+{"host":"memory","artifact":"aix-errpt","source_path":"../live_response/system/errpt.txt","source_line":3,"label":null,"identifier":"516A2BC4","time":"2016-04-14T08:33:00Z","sequence_number":null,"node_id":null,"class":"H","error_type":"P","resource_name":"hdisk9","location":null,"description":"CONNECTION FAILURE"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2016-04-14T08:33:00Z,seconds,assumed_zone,memory,aix-errpt,log,errpt 516A2BC4 hdisk9: CONNECTION FAILURE,../live_response/system/errpt.txt,3,,,
+2016-04-14T08:34:00Z,seconds,assumed_zone,memory,aix-errpt,log,errpt A5E6DB96 pmig: Client Partition Migration Completed,../live_response/system/errpt.txt,2,,,
+--- warning: line 4: not an errpt summary row

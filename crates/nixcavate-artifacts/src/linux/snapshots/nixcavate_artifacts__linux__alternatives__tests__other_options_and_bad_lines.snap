@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/linux/alternatives.rs
+expression: "run(&ARTIFACT, \"var/log/alternatives.log\", log.as_bytes(), 0)"
+---
+{"host":"memory","artifact":"alternatives-log","source_path":"var/log/alternatives.log","source_offset":0,"time":"2024-03-10T01:02:03Z","action":"auto","name":"editor","path":"","detail":"--auto editor"}
+{"host":"memory","artifact":"alternatives-log","source_path":"var/log/alternatives.log","source_offset":64,"time":"2024-03-10T01:02:04Z","action":"remove-all","name":"java","path":"","detail":"--remove-all java"}
+{"host":"memory","artifact":"alternatives-log","source_path":"var/log/alternatives.log","source_offset":132,"time":"2024-03-10T01:02:05Z","action":"config","name":"pager","path":"","detail":"--config pager"}
+{"host":"memory","artifact":"alternatives-log","source_path":"var/log/alternatives.log","source_offset":197,"time":"2024-03-10T01:02:06Z","action":"message","name":"","path":"","detail":"--weird x"}
+{"host":"memory","artifact":"alternatives-log","source_path":"var/log/alternatives.log","source_offset":257,"time":"2024-03-10T01:02:07Z","action":"message","name":"","path":"","detail":"link /usr/bin/foo is dangling"}
+{"host":"memory","artifact":"alternatives-log","source_path":"var/log/alternatives.log","source_offset":328,"time":"2024-03-10T01:02:08Z","action":"message","name":"","path":"","detail":"run with"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:03Z,seconds,assumed_zone,memory,alternatives-log,alternative_changed,alternative editor auto,var/log/alternatives.log,,0,,
+2024-03-10T01:02:04Z,seconds,assumed_zone,memory,alternatives-log,alternative_changed,alternative java remove-all,var/log/alternatives.log,,64,,
+--- warning: offset 378: not an alternatives.log line
+--- warning: offset 437: not an alternatives.log line

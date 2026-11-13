@@ -1,0 +1,3 @@
+#%PAM-1.0
+auth required pam_unix.so
+session optional pam_exec.so type=open_session stdout /bin/uname -snrvm

@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/netusage.rs
+expression: "run(&DHCP_LEASES, lease, &fixture(\"netusage/lease.plist\"), 0)"
+---
+{"host":"memory","artifact":"dhcp-leases","source_path":"private/var/db/dhcpclient/leases/en0-1,aa:bb:cc:dd:ee:ff","source_line":null,"interface":"en0","ip_address":"192.0.2.10","lease_start":"2023-11-14T10:00:00Z","lease_length_secs":86400,"router_ip":"192.0.2.1","router_mac":"aa:bb:cc:dd:ee:ff","ssid":"ExampleNet"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T10:00:00Z,seconds,recorded,memory,dhcp-leases,network_connected,DHCP lease 192.0.2.10 on en0 (SSID ExampleNet),"private/var/db/dhcpclient/leases/en0-1,aa:bb:cc:dd:ee:ff",,,,

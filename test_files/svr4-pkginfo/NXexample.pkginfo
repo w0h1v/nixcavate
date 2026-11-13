@@ -1,0 +1,16 @@
+CLASSES=none
+BASEDIR=/
+LANG=en_US.UTF-8
+TZ=UTC
+PATH=/sbin:/usr/sbin:/usr/bin:/usr/sadm/install/bin
+OAMBASE=/usr/sadm/sysadm
+PKG=NXexample
+NAME=Example SVR4 package
+VERSION=1.0
+ARCH=i386
+CATEGORY=application
+VENDOR=Example
+PSTAMP=host120261113011649
+PKGINST=NXexample
+PKGSAV=/var/sadm/pkg/NXexample/save
+INSTDATE=Nov 13 2026 01:16

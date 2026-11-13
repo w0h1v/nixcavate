@@ -1,0 +1,11 @@
+update-alternatives 2026-11-12 22:56:49: run with --install /usr/local/bin/nxc-tool nxc-tool /bin/true 50
+update-alternatives 2026-11-12 22:56:49: link group nxc-tool updated to point to /bin/true
+update-alternatives 2026-11-12 22:56:49: run with --install /usr/local/bin/nxc-tool nxc-tool /bin/false 60 --slave /usr/local/share/man/nxc.1 nxc.1 /bin/true
+update-alternatives 2026-11-12 22:56:49: link group nxc-tool updated to point to /bin/false
+update-alternatives 2026-11-12 22:56:49: run with --set nxc-tool /bin/true
+update-alternatives 2026-11-12 22:56:49: status of link group /usr/local/bin/nxc-tool set to manual
+update-alternatives 2026-11-12 22:56:49: link group nxc-tool updated to point to /bin/true
+update-alternatives 2026-11-12 22:56:49: run with --auto nxc-tool
+update-alternatives 2026-11-12 22:56:49: status of link group /usr/local/bin/nxc-tool set to auto
+update-alternatives 2026-11-12 22:56:49: link group nxc-tool updated to point to /bin/false
+update-alternatives 2026-11-12 22:56:49: run with --remove nxc-tool /bin/true

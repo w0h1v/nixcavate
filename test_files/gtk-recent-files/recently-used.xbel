@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbel version="1.0"
+      xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
+      xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
+>
+  <bookmark href="file:///home/alice/Documents/report.txt" added="2026-11-13T01:45:47.914631Z" modified="2026-11-13T01:45:53.504975Z" visited="2026-11-13T01:45:47.914632Z">
+    <title>report.txt</title>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:applications>
+          <bookmark:application name="nxapp" exec="&apos;nxapp %u&apos;" modified="2026-11-13T01:45:51.513542Z" count="2"/>
+          <bookmark:application name="gedit" exec="&apos;gedit %u&apos;" modified="2026-11-13T01:45:53.504974Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/alice/Documents/notes%20with%20space.txt" added="2026-11-13T01:45:48.772354Z" modified="2026-11-13T01:45:48.772358Z" visited="2026-11-13T01:45:48.772355Z">
+    <title>notes with space.txt</title>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:applications>
+          <bookmark:application name="nxapp" exec="&apos;nxapp %u&apos;" modified="2026-11-13T01:45:48.772357Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/alice/Documents/caf%C3%A9%20%C3%BCber.txt" added="2026-11-13T01:45:49.654117Z" modified="2026-11-13T01:45:49.654121Z" visited="2026-11-13T01:45:49.654118Z">
+    <title>café über.txt</title>
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="text/plain"/>
+        <bookmark:applications>
+          <bookmark:application name="other" exec="&apos;other %f&apos;" modified="2026-11-13T01:45:49.654119Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/alice/Pictures/photo.png" added="2026-11-13T01:46:01.165058Z" modified="2026-11-13T01:46:01.165061Z" visited="2026-11-13T01:46:01.165058Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="image/png"/>
+        <bookmark:groups>
+          <bookmark:group>Graphics</bookmark:group>
+        </bookmark:groups>
+        <bookmark:applications>
+          <bookmark:application name="Image Viewer" exec="&apos;eog %u&apos;" modified="2026-11-13T01:46:01.165060Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+</xbel>

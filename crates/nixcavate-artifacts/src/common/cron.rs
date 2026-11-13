@@ -22,6 +22,8 @@ pub const CRON: Artifact = Artifact::new(
         "usr/lib/cron/tabs/*",
         "private/var/at/tabs/*",
         "private/etc/crontab",
+        // FreeBSD, OpenBSD and NetBSD.
+        "var/cron/tabs/*",
     ],
     parse,
 );
@@ -41,6 +43,14 @@ pub const SCRIPTS: Artifact = Artifact::new(
         "etc/periodic/monthly/*",
         "private/etc/periodic/*/*",
         "usr/local/etc/periodic/*/*",
+        // FreeBSD, OpenBSD and NetBSD.
+        "etc/daily.local",
+        "etc/weekly.local",
+        "etc/monthly.local",
+        "etc/security.local",
+        "etc/daily",
+        "etc/weekly",
+        "etc/monthly",
     ],
     crate::common::script::file_info,
 );
@@ -131,6 +141,14 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     if input.path.ends_with("crontabs/cron.update") {
         return Err(Error::skipped("crond's list of changed crontabs, not a crontab"));
     }
+    // Solaris keeps audit information beside each crontab (`root.au`) and the daemon's own
+    // control files in `etc/cron.d`; none of them is a crontab.
+    let name = input.path.rsplit('/').next().unwrap_or_default();
+    let solaris_control = input.path.contains("etc/cron.d/")
+        && matches!(name, "at.allow" | "at.deny" | "cron.allow" | "cron.deny" | "queuedefs" | "FIFO" | ".proto");
+    if (input.path.contains("spool/cron/") && name.ends_with(".au")) || solaris_control {
+        return Err(Error::skipped("Solaris cron audit or control file, not a crontab"));
+    }
     let system = input.path.ends_with("etc/crontab") || input.path.contains("etc/cron.d/");
     let owner = (!system).then(|| input.path.rsplit('/').next().unwrap_or_default());
     for_each_line(input, |line| {
@@ -210,6 +228,13 @@ mod tests {
     fn empty_and_garbage() {
         assert_eq!(run(&CRON, "etc/crontab", b"", 0), "");
         let _ = run(&CRON, "var/spool/cron/bob", b"\x00\xff\xfe\n= = =\n@\n* * * *\n\xc3\x28 x\n", 0);
+    }
+
+    /// Solaris keeps the prototype of an at job's script in `etc/cron.d/.proto`.
+    #[test]
+    fn the_solaris_at_job_prototype_is_not_a_crontab() {
+        let out = run(&CRON, "etc/cron.d/.proto", b"#ident\ncd $d\numask $m\n$<\n", 0);
+        assert!(out.contains("skipped") && !out.contains("warning"), "{out}");
     }
 
     #[test]

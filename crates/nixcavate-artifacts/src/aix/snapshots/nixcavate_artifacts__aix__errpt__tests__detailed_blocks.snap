@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/aix/errpt.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-errpt","source_path":"../live_response/system/errpt_-a.txt","source_line":1,"label":"SSH_ERR","identifier":"1A2B3C4D","time":"2021-03-10T01:02:03Z","sequence_number":"1234","node_id":"aixhost","class":"S","error_type":"INFO","resource_name":"sshd","location":null,"description":"AUTHENTICATION FAILURE"}
+{"host":"memory","artifact":"aix-errpt","source_path":"../live_response/system/errpt_-a.txt","source_line":20,"label":"DUMP_STATS","identifier":"9DBCFDEE","time":"2021-03-10T02:00:00Z","sequence_number":null,"node_id":null,"class":null,"error_type":null,"resource_name":"errdemon","location":null,"description":"ERROR LOGGING TURNED ON"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2021-03-10T01:02:03Z,seconds,assumed_zone,memory,aix-errpt,log,errpt SSH_ERR sshd: AUTHENTICATION FAILURE,../live_response/system/errpt_-a.txt,1,,,
+2021-03-10T02:00:00Z,seconds,assumed_zone,memory,aix-errpt,log,errpt DUMP_STATS errdemon: ERROR LOGGING TURNED ON,../live_response/system/errpt_-a.txt,20,,,

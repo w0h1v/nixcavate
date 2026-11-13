@@ -1,0 +1,9 @@
+
+Configuration file [version 4]: /var/ld/ld.config  
+  Platform:	32-bit LSB 80386
+  Default Library Path (ELF):	/lib:/usr/lib:/tmp/.NXMK_CRLE
+  Trusted Directories (ELF):	/lib/secure:/usr/lib/secure  (system default)
+
+Command line:
+  crle -c /var/ld/ld.config -l /lib:/usr/lib:/tmp/.NXMK_CRLE
+

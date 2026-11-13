@@ -1,0 +1,7 @@
+2026-11-13T01:24:06.714925217Z stdout F maxprocs: Leaving GOMAXPROCS=12: CPU quota undefined
+2026-11-13T01:24:06.817272359Z stdout F .:53
+2026-11-13T01:24:06.81740461Z stdout F [INFO] plugin/reload: Running configuration SHA512 = 1b226df79860026c6a52e67daa10d7f0d57ec5b023288ec00c5e05f93523c894564e15b91770d3a07ae1cfbe861d15b37d4a0027e69c546ab112970993a3b03b
+2026-11-13T01:24:06.817418443Z stdout F CoreDNS-1.12.1
+2026-11-13T01:24:06.817430777Z stdout F linux/arm64, go1.24.1, 707c7c1
+2026-11-13T01:25:21.52895604Z stdout F [INFO] SIGTERM: Shutting down servers then terminating
+2026-11-13T01:25:21.529131541Z stdout F [INFO] plugin/health: Going into lameduck mode for 5s

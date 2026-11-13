@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/config.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-rc-local","source_path":"etc/rc.local.d/local.sh","source_line":6,"text":"/tmp/.agent/run --daemon &"}
+{"host":"memory","artifact":"esxi-rc-local","source_path":"etc/rc.local.d/local.sh","source_line":7,"text":"exit 0"}

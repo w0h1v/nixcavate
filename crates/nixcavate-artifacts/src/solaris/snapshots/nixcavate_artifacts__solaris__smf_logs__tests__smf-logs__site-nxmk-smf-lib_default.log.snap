@@ -1,0 +1,20 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/smf_logs.rs
+expression: "run(&ARTIFACT, path, &fixture(file), NOV_13_2026)"
+---
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":0,"time":"2026-11-13T01:16:51Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Enabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":29,"time":"2026-11-13T01:16:51Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Missing start method (/tmp/.NXMK_SMFLIB/agent), changing state to maintenance."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":128,"time":"2026-11-13T01:16:51Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Rereading configuration."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":173,"time":"2026-11-13T01:20:29Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Leaving maintenance because disable requested."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":240,"time":"2026-11-13T01:20:29Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Disabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":270,"time":"2026-11-13T01:20:50Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Enabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf-lib:default.log","source_offset":299,"time":"2026-11-13T01:20:50Z","service":"site-nxmk-smf-lib:default","event":"state","method":"","command":"","exit_status":null,"message":"Missing start method (/tmp/.NXMK_SMFLIB/agent), changing state to maintenance."}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:16:51Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf-lib:default: Enabled.,var/svc/log/site-nxmk-smf-lib:default.log,,0,,
+2026-11-13T01:16:51Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,"site-nxmk-smf-lib:default: Missing start method (/tmp/.NXMK_SMFLIB/agent), changing state to maintenance.",var/svc/log/site-nxmk-smf-lib:default.log,,29,,
+2026-11-13T01:16:51Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf-lib:default: Rereading configuration.,var/svc/log/site-nxmk-smf-lib:default.log,,128,,
+2026-11-13T01:20:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf-lib:default: Leaving maintenance because disable requested.,var/svc/log/site-nxmk-smf-lib:default.log,,173,,
+2026-11-13T01:20:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf-lib:default: Disabled.,var/svc/log/site-nxmk-smf-lib:default.log,,240,,
+2026-11-13T01:20:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf-lib:default: Enabled.,var/svc/log/site-nxmk-smf-lib:default.log,,270,,
+2026-11-13T01:20:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,"site-nxmk-smf-lib:default: Missing start method (/tmp/.NXMK_SMFLIB/agent), changing state to maintenance.",var/svc/log/site-nxmk-smf-lib:default.log,,299,,

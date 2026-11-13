@@ -1,0 +1,14 @@
+Fri Nov 13 01:22:03 2026 [pid 3837] CONNECT: Client "127.0.0.1"
+Fri Nov 13 01:22:03 2026 [pid 3836] [alice] OK LOGIN: Client "127.0.0.1"
+Fri Nov 13 01:22:03 2026 [pid 3838] [alice] OK DOWNLOAD: Client "127.0.0.1", "/home/alice/big.bin", 20000 bytes, 73425.75Kbyte/sec
+Fri Nov 13 01:22:03 2026 [pid 3838] [alice] OK UPLOAD: Client "127.0.0.1", "/home/alice/new file.txt", 500 bytes, 3875.25Kbyte/sec
+Fri Nov 13 01:22:03 2026 [pid 3838] [alice] OK UPLOAD: Client "127.0.0.1", "/home/alice/ascii.txt", 6 bytes, 91.55Kbyte/sec
+Fri Nov 13 01:22:03 2026 [pid 3838] [alice] OK DELETE: Client "127.0.0.1", "/home/alice/up.txt"
+Fri Nov 13 01:22:03 2026 [pid 3838] [alice] OK MKDIR: Client "127.0.0.1", "/home/alice/sub"
+Fri Nov 13 01:22:03 2026 [pid 3838] [alice] OK RMDIR: Client "127.0.0.1", "/home/alice/sub"
+Fri Nov 13 01:22:03 2026 [pid 3840] CONNECT: Client "127.0.0.1"
+Fri Nov 13 01:22:06 2026 [pid 3839] [alice] FAIL LOGIN: Client "127.0.0.1"
+Fri Nov 13 01:22:07 2026 [pid 3842] CONNECT: Client "127.0.0.1"
+Fri Nov 13 01:22:08 2026 [pid 3841] [nosuch] FAIL LOGIN: Client "127.0.0.1"
+Fri Nov 13 01:22:09 2026 [pid 3844] CONNECT: Client "127.0.0.1"
+Fri Nov 13 01:22:09 2026 [pid 3843] [ftp] OK LOGIN: Client "127.0.0.1", anon password "a@b"

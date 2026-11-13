@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/linux/syslog.rs
+expression: out
+---
+{"host":"memory","artifact":"syslog","source_path":"var/adm/messages","source_offset":0,"time":"2026-11-13T01:13:56Z","time_basis":"inferred_year_assumed_zone","log_host":"omnios","program":"in.routed","pid":981,"message":"[ID 749644 daemon.notice] vioif0 has a bad address 0.0.0.0"}
+{"host":"memory","artifact":"syslog","source_path":"var/adm/messages","source_offset":98,"time":"2026-11-13T01:13:56Z","time_basis":"inferred_year_assumed_zone","log_host":"omnios","program":"in.routed","pid":981,"message":"[ID 464608 daemon.error] route 0.0.0.0/8 --> 0.0.0.0 nexthop is not directly connected"}
+{"host":"memory","artifact":"syslog","source_path":"var/adm/messages","source_offset":224,"time":"2026-11-13T01:13:59Z","time_basis":"inferred_year_assumed_zone","log_host":"omnios","program":"/sbin/dhcpagent","pid":1030,"message":"[ID 778557 daemon.warning] configure_v4_lease: no IP broadcast specified for vioif0, making best guess"}
+{"host":"memory","artifact":"syslog","source_path":"var/adm/messages","source_offset":373,"time":"2026-11-13T01:16:51Z","time_basis":"inferred_year_assumed_zone","log_host":"host1","program":"svc.startd","pid":9,"message":"[ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance (see 'svcs -xv' for details)"}
+{"host":"memory","artifact":"syslog","source_path":"var/adm/messages","source_offset":526,"time":"2026-11-13T01:20:49Z","time_basis":"inferred_year_assumed_zone","log_host":"host1","program":"/sbin/dhcpagent","pid":130,"message":"[ID 778557 daemon.warning] configure_v4_lease: no IP broadcast specified for vioif0, making best guess"}
+{"host":"memory","artifact":"syslog","source_path":"var/adm/messages","source_offset":673,"time":"2026-11-13T01:20:50Z","time_basis":"inferred_year_assumed_zone","log_host":"host1","program":"svc.startd","pid":9,"message":"[ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance (see 'svcs -xv' for details)"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:13:56Z,seconds,inferred_year_assumed_zone,memory,syslog,log,in.routed: [ID 749644 daemon.notice] vioif0 has a bad address 0.0.0.0,var/adm/messages,,0,,
+2026-11-13T01:13:56Z,seconds,inferred_year_assumed_zone,memory,syslog,log,in.routed: [ID 464608 daemon.error] route 0.0.0.0/8 --> 0.0.0.0 nexthop is not directly connected,var/adm/messages,,98,,
+2026-11-13T01:13:59Z,seconds,inferred_year_assumed_zone,memory,syslog,log,"/sbin/dhcpagent: [ID 778557 daemon.warning] configure_v4_lease: no IP broadcast specified for vioif0, making best guess",var/adm/messages,,224,,
+2026-11-13T01:16:51Z,seconds,inferred_year_assumed_zone,memory,syslog,log,svc.startd: [ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance (see 'svcs -xv' for details),var/adm/messages,,373,,
+2026-11-13T01:20:49Z,seconds,inferred_year_assumed_zone,memory,syslog,log,"/sbin/dhcpagent: [ID 778557 daemon.warning] configure_v4_lease: no IP broadcast specified for vioif0, making best guess",var/adm/messages,,526,,
+2026-11-13T01:20:50Z,seconds,inferred_year_assumed_zone,memory,syslog,log,svc.startd: [ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance (see 'svcs -xv' for details),var/adm/messages,,673,,

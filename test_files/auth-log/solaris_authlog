@@ -1,0 +1,45 @@
+Nov 13 01:15:29 host1 sshd[1427]: [ID 800047 auth.info] Server listening on :: port 22.
+Nov 13 01:15:29 host1 sshd[1427]: [ID 800047 auth.info] Server listening on 0.0.0.0 port 22.
+Nov 13 01:15:32 host1 sshd-session[1432]: [ID 800047 auth.info] Accepted publickey for alice from 127.0.0.1 port 60616 ssh2: ED25519 SHA256:ho95jdp03bVcUc6wimZk8QjoKtap0o6XZZtwRh6u25M
+Nov 13 01:15:32 host1 sshd-session[1434]: [ID 800047 auth.info] Disconnected from user alice 127.0.0.1 port 60616
+Nov 13 01:15:34 host1 sshd-session[1438]: [ID 800047 auth.info] Accepted publickey for alice from 127.0.0.1 port 45958 ssh2: ED25519 SHA256:ho95jdp03bVcUc6wimZk8QjoKtap0o6XZZtwRh6u25M
+Nov 13 01:15:34 host1 sshd-session[1440]: [ID 800047 auth.info] Disconnected from user alice 127.0.0.1 port 45958
+Nov 13 01:15:35 host1 sshd-session[1444]: [ID 800047 auth.info] Accepted publickey for alice from 127.0.0.1 port 45058 ssh2: ED25519 SHA256:ho95jdp03bVcUc6wimZk8QjoKtap0o6XZZtwRh6u25M
+Nov 13 01:15:35 host1 sshd-session[1446]: [ID 800047 auth.info] Disconnected from user alice 127.0.0.1 port 45058
+Nov 13 01:15:36 host1 sshd-session[1450]: [ID 800047 auth.info] Accepted publickey for alice from 127.0.0.1 port 41708 ssh2: ED25519 SHA256:ho95jdp03bVcUc6wimZk8QjoKtap0o6XZZtwRh6u25M
+Nov 13 01:15:36 host1 sshd-session[1452]: [ID 800047 auth.info] Disconnected from user alice 127.0.0.1 port 41708
+Nov 13 01:15:37 host1 sshd-session[1456]: [ID 800047 auth.info] Accepted publickey for alice from 127.0.0.1 port 65441 ssh2: ED25519 SHA256:ho95jdp03bVcUc6wimZk8QjoKtap0o6XZZtwRh6u25M
+Nov 13 01:15:37 host1 sshd-session[1458]: [ID 800047 auth.info] Disconnected from user alice 127.0.0.1 port 65441
+Nov 13 01:15:38 host1 sshd-session[1463]: [ID 800047 auth.info] Failed password for mallory from 127.0.0.1 port 54903 ssh2
+Nov 13 01:15:39 host1 sshd-session[1468]: [ID 800047 auth.info] Failed password for mallory from 127.0.0.1 port 49429 ssh2
+Nov 13 01:15:40 host1 sshd-session[1473]: [ID 800047 auth.info] Failed password for mallory from 127.0.0.1 port 54549 ssh2
+Nov 13 01:15:42 host1 sshd-session[1478]: [ID 800047 auth.info] Failed password for mallory from 127.0.0.1 port 49684 ssh2
+Nov 13 01:15:43 host1 sshd-session[1483]: [ID 800047 auth.info] Invalid user ghostuser from 127.0.0.1 port 59531
+Nov 13 01:15:43 host1 sshd-session[1483]: [ID 800047 auth.info] Failed password for invalid user ghostuser from 127.0.0.1 port 59531 ssh2
+Nov 13 01:15:44 host1 sshd-session[1488]: [ID 800047 auth.info] Invalid user ghostuser from 127.0.0.1 port 63653
+Nov 13 01:15:44 host1 sshd-session[1488]: [ID 800047 auth.info] Failed password for invalid user ghostuser from 127.0.0.1 port 63653 ssh2
+Nov 13 01:15:44 host1 sshd-session[1490]: [ID 800047 auth.info] Accepted publickey for omnios from 10.0.2.2 port 41088 ssh2: ED25519 SHA256:YywbQgvfta3SsfTCZh8byTjqDh/r9kna1pG30QaY/w4
+Nov 13 01:15:44 host1 sshd-session[1493]: [ID 800047 auth.info] Disconnected from user omnios 10.0.2.2 port 41088
+Nov 13 01:15:45 host1 sshd-session[1498]: [ID 800047 auth.info] Invalid user ghostuser from 127.0.0.1 port 65106
+Nov 13 01:15:45 host1 sshd-session[1498]: [ID 800047 auth.info] Failed password for invalid user ghostuser from 127.0.0.1 port 65106 ssh2
+Nov 13 01:16:07 host1 login: [ID 561941 auth.crit] REPEATED LOGIN FAILURES ON /dev/pts/1, mallory
+Nov 13 01:16:17 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:16:18 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:16:19 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:16:20 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:16:21 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:16:21 host1 su: [ID 366847 auth.notice] 'su root' succeeded for alice on /dev/pts/1
+Nov 13 01:16:21 host1 su: [ID 810491 auth.crit] 'su root' failed for alice on /dev/pts/1
+Nov 13 01:16:25 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:16:25 host1 su: [ID 366847 auth.info] 'su svcrole' succeeded for alice on /dev/pts/1
+Nov 13 01:16:25 host1 su: [ID 366847 auth.info] 'su omnios' succeeded for root on /dev/???
+Nov 13 01:16:32 host1 sshd-session[1576]: [ID 800047 auth.info] Accepted publickey for omnios from 10.0.2.2 port 57134 ssh2: ED25519 SHA256:YywbQgvfta3SsfTCZh8byTjqDh/r9kna1pG30QaY/w4
+Nov 13 01:16:32 host1 sshd-session[1578]: [ID 800047 auth.info] Disconnected from user omnios 10.0.2.2 port 57134
+Nov 13 01:16:49 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:20:18 host1 su: [ID 366847 auth.info] 'su alice' succeeded for root on /dev/???
+Nov 13 01:20:53 host1 sshd[427]: [ID 800047 auth.info] Server listening on :: port 22.
+Nov 13 01:20:53 host1 sshd[427]: [ID 800047 auth.info] Server listening on 0.0.0.0 port 22.
+Nov 13 01:21:28 host1 sshd-session[726]: [ID 800047 auth.info] Accepted publickey for omnios from 10.0.2.2 port 42974 ssh2: ED25519 SHA256:YywbQgvfta3SsfTCZh8byTjqDh/r9kna1pG30QaY/w4
+Nov 13 01:21:28 host1 sshd-session[728]: [ID 800047 auth.info] Disconnected from user omnios 10.0.2.2 port 42974
+Nov 13 01:21:28 host1 sshd-session[730]: [ID 800047 auth.info] Accepted publickey for omnios from 10.0.2.2 port 42990 ssh2: ED25519 SHA256:YywbQgvfta3SsfTCZh8byTjqDh/r9kna1pG30QaY/w4
+Nov 13 01:21:28 host1 sshd-session[732]: [ID 800047 auth.info] Disconnected from user omnios 10.0.2.2 port 42990

@@ -1,0 +1,1 @@
+`/etc/master.passwd` of the FreeBSD 14.5 guest after the scripted run, with every password hash replaced by `$6$FakeSalt$ExampleHash...` (the guest's hashes were of example passwords; the test checks that none is output).

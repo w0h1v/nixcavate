@@ -1,0 +1,1 @@
+`sulog` is `/var/adm/sulog` of illumos (OmniOS r151054, x86) in a throwaway KVM guest; example users only: sixteen `su` attempts, one of them a wrong root password (`-`). Created by `touch` (su writes it only if it exists).

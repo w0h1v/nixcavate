@@ -1,0 +1,3 @@
+alice:
+          Basic Solaris User
+          All

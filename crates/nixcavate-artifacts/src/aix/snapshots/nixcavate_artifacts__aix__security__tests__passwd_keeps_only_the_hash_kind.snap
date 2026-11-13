@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/aix/security.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-security-passwd","source_path":"etc/security/passwd","source_line":2,"user":"root","hash_type":"ssha256","flags":["ADMCHG","NOCHECK"],"last_update":"2023-11-14T22:13:20Z"}
+{"host":"memory","artifact":"aix-security-passwd","source_path":"etc/security/passwd","source_line":7,"user":"old","hash_type":"des","flags":[],"last_update":null}
+{"host":"memory","artifact":"aix-security-passwd","source_path":"etc/security/passwd","source_line":10,"user":"locked","hash_type":"none","flags":[],"last_update":null}
+{"host":"memory","artifact":"aix-security-passwd","source_path":"etc/security/passwd","source_line":13,"user":"odd","hash_type":"unknown","flags":[],"last_update":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,aix-security-passwd,password_changed,password of root changed,etc/security/passwd,2,,,

@@ -1,0 +1,120 @@
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] main.cc(main):142 ===== Hi, me zypper 1.14.94
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] main.cc(main):143 ===== 'zypper' '-n' 'refresh' =====
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(_autodetectSystemArchitecture):147 Uname architecture is 'aarch64'
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(_autodetectTextLocale):309 Default text locale is 'en'
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(Impl):505 libzypp: 17.37.18 (01500:0150600:0)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):86 Start parsing /etc/zypp/zypp.conf[g___]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):75 {#1|/etc/zypp/zypp.conf} START
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):140 Done parsing /etc/zypp/zypp.conf[_eF_]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):95 {#1|/etc/zypp/zypp.conf} END
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(Impl):720 ZConfig singleton created.
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(ZConfig):954 libzypp: 17.37.18 (01500:0150600:0)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(ZConfig):954 libsolv: 0.7.34
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(ZConfig):954 zypp.conf: '/etc/zypp/zypp.conf'
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(ZConfig):954 TextLocale: 'en' (en)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zconfig] ZConfig.cc(ZConfig):954 SystemArchitecture: 'aarch64' (aarch64)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] TmpPath.cc(Impl):53 /var/tmp/zypp.ah8DYb
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] PathInfo.cc(assert_dir):358 mkdir /var/tmp/zypp.ah8DYb/zypper 00755
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(Zypper):185 Zypper instance created.
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] media.h(MediaCallbacks):362 Set media callbacks..
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(processGlobalOptions):302 START
+2026-11-12 22:58:55 <5> c8ae4ca22d43(11) [Measure] Measure.cc(log):184 START MEASURE(ReadConfig)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Augeas.cc(Augeas):537 Going to read zypper config using Augeas...
+2026-11-12 22:58:55 <2> c8ae4ca22d43(11) [zypper] Augeas.cc(Augeas):605 MISS config file: /root/.zypper.conf
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Augeas.cc(Augeas):599 READ config file: /etc/zypp/zypper.conf
+2026-11-12 22:58:55 <5> c8ae4ca22d43(11) [Measure] Measure.cc(log):184 ELAPSED(ReadConfig) 0 (u 0.00 s 0.00 c 0.00)
+2026-11-12 22:58:55 <5> c8ae4ca22d43(11) [Measure] Measure.cc(log):184 MEASURE(ReadConfig) 0 (u 0.00 s 0.00 c 0.00) [0 (u 0.00 s 0.00 c 0.00)]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Config.cc(operator()):335 Entering non-interactive mode
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):312 Verbosity 1
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):313 Output type 1
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):351 repos.d dir = /etc/zypp/repos.d
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):352 cache dir = /var/cache/zypp
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):353 raw cache dir = /var/cache/zypp/raw
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):354 solv cache dir = /var/cache/zypp/solv
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] Zypper.cc(processGlobalOptions):355 package cache dir = /var/cache/zypp/packages
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(processGlobalOptions):359 Repositories enabled
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(processGlobalOptions):362 DONE
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(doCommand):497 START
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(doCommand):610 Going to process command refresh
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] Zypper.cc(doCommand):619 Found new style command << refresh
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] basecommand.cc(parseArguments):124 Done parsing options.
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppFactory.cc(_openLockFile):183 Open lockfile /run/zypp.pid
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppFactory.cc(readLockFile):238 read: Lockfile /run/zypp.pid has pid 0 (our pid: 11) 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppFactory.cc(writeLockFile):250 write: Lockfile /run/zypp.pid got pid 11
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppFactory.cc(_closeLockFile):201 Close lockfile /run/zypp.pid
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppImpl.cc(ZYppImpl):124 libzypp: 17.37.18 (01500:0150600:0)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppImpl.cc(ZYppImpl):124 libsolv: 0.7.34
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppImpl.cc(ZYppImpl):124 zypp.conf: '/etc/zypp/zypp.conf'
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppImpl.cc(ZYppImpl):124 TextLocale: 'en' (en)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppImpl.cc(ZYppImpl):124 SystemArchitecture: 'aarch64' (aarch64)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppImpl.cc(ZYppImpl):125 Initializing keyring...
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] TmpPath.cc(Impl):53 /var/tmp/zypp.ah8DYb/zypp-trusted-kriQcaQM
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] TmpPath.cc(Impl):53 /var/tmp/zypp.ah8DYb/zypp-general-krVQu04X
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::KeyRing] KeyRing.cc(Impl):142 Current KeyRing::DefaultAccept: 0000000000
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] ZYppFactory.cc(ZYpp):335 ZYpp is on...
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper] basecommand.cc(run):248 run: refresh
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypper++] basecommand.cc(defaultSystemSetup):163 FLAGS:[ResetRepoManager]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] PathInfo.cc(dirForEachImpl):560 readdir /etc/zypp/services.d 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] PathInfo.cc(dirForEachImpl):560 readdir /usr/lib/zypp/plugins/services 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::repomanager] repomanager.cc(init_knownRepositories):1402 start construct known repos
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::repomanager] repomanager.cc(repositories_in_dir):190 directory /etc/zypp/repos.d
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] PathInfo.cc(dirForEachImpl):560 readdir /etc/zypp/repos.d 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::repomanager] repomanager.cc(repositories_in_file):169 repo file: /etc/zypp/repos.d/repo-backports-debug-update.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):86 Start parsing /etc/zypp/repos.d/repo-backports-debug-update.repo[g___]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):75 {#2|/etc/zypp/repos.d/repo-backports-debug-update.repo} START
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):140 Done parsing /etc/zypp/repos.d/repo-backports-debug-update.repo[_eF_]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):95 {#2|/etc/zypp/repos.d/repo-backports-debug-update.repo} END
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 --------------------------------------
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - alias       : repo-backports-debug-update
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - name        : Update repository with updates for openSUSE Leap debuginfo packages from openSUSE Backports
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - enabled     : 0
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - autorefresh : 1
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - url         : http://download.opensuse.org/update/leap/$releasever/backports_debug/
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - type        : N/A
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - priority    : 99
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - gpgcheck    : D(Y) repoD(Y)* sig? pkgD(Y)* 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - keeppackages: 0
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - filePath:     /etc/zypp/repos.d/repo-backports-debug-update.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::repomanager] repomanager.cc(repositories_in_file):169 repo file: /etc/zypp/repos.d/repo-backports-update.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):86 Start parsing /etc/zypp/repos.d/repo-backports-update.repo[g___]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):75 {#3|/etc/zypp/repos.d/repo-backports-update.repo} START
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):140 Done parsing /etc/zypp/repos.d/repo-backports-update.repo[_eF_]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):95 {#3|/etc/zypp/repos.d/repo-backports-update.repo} END
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 --------------------------------------
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - alias       : repo-backports-update
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - name        : Update repository of openSUSE Backports
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - enabled     : 1
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - autorefresh : 1
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - url         : http://download.opensuse.org/update/leap/$releasever/backports/
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - path        : /
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - type        : N/A
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - priority    : 99
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - gpgcheck    : D(Y) repoD(Y)* sig? pkgD(Y)* 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - keeppackages: 0
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - filePath:     /etc/zypp/repos.d/repo-backports-update.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::repomanager] repomanager.cc(repositories_in_file):169 repo file: /etc/zypp/repos.d/repo-debug-non-oss.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):86 Start parsing /etc/zypp/repos.d/repo-debug-non-oss.repo[g___]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):75 {#4|/etc/zypp/repos.d/repo-debug-non-oss.repo} START
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):140 Done parsing /etc/zypp/repos.d/repo-debug-non-oss.repo[_eF_]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):95 {#4|/etc/zypp/repos.d/repo-debug-non-oss.repo} END
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 --------------------------------------
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - alias       : repo-debug-non-oss
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - name        : Debug Repository (Non-OSS)
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - enabled     : 0
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - autorefresh : 1
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - url         : http://download.opensuse.org/debug/distribution/leap/$releasever/repo/non-oss/
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - type        : N/A
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - priority    : 99
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - gpgcheck    : D(Y) repoD(Y)* sig? pkgD(Y)* 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - filePath:     /etc/zypp/repos.d/repo-debug-non-oss.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp::repomanager] repomanager.cc(repositories_in_file):169 repo file: /etc/zypp/repos.d/repo-debug-update-non-oss.repo
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):86 Start parsing /etc/zypp/repos.d/repo-debug-update-non-oss.repo[g___]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):75 {#5|/etc/zypp/repos.d/repo-debug-update-non-oss.repo} START
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [DEFINE_LOGGROUP] iniparser.cc(parse):140 Done parsing /etc/zypp/repos.d/repo-debug-update-non-oss.repo[_eF_]
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [Progress++] progressdata.cc(report):95 {#5|/etc/zypp/repos.d/repo-debug-update-non-oss.repo} END
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 --------------------------------------
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - alias       : repo-debug-update-non-oss
+2026-11-12 22:58:55 <1> c8ae4ca22d43(11) [zypp] RepoFileReader.cc(repositories_in_stream):217 - name        : Update Repository (Debug, Non-OSS)

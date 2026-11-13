@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><history><client name="pkg" version="652bdb106"><args><arg><![CDATA[/usr/bin/pkg]]></arg><arg><![CDATA[uninstall]]></arg><arg><![CDATA[ooce/file/lsof]]></arg></args></client><operation name="uninstall" username="omnios" userid="100" result="Succeeded, None" start_time="20261113T011642Z" end_time="20261113T011649Z" be="omnios-r151054" be_uuid="a9982655-a109-4202-a4dc-6a7dc8e45eee" snapshot="2026-11-13-01:16:46"><start_state><![CDATA[Solver: [ Variables: 694 Clauses: 20858 Iterations: 1 State: Succeeded]
+Timings: [phase 1:  0.092, phase 1:  0.081, phase 2:  0.005, phase 3:  0.003, phase 4:  0.004, phase 5:  0.000, phase 6:  0.000, phase 7:  0.000, phase 8:  0.146, phase 9:  0.014, phase 10:  0.000, phase 11:  0.036, phase 12:  0.002, phase 13:  0.006, phase 14:  0.000, phase 15:  0.329, phase 16:  0.004]
+Maintained incorporations: pkg://omnios/consolidation/osnet/osnet-incorporation@0.5.11,5.11-151054.0:20250502T145900Z
+	pkg://omnios/library/security/oqs-provider@0.8.0,5.11-151054.0:20250502T150729Z
+
+Package version changes:
+pkg://extra.omnios/ooce/file/lsof@4.99.3,5.11-151054.0:20250414T180726Z -> None
+]]></start_state><end_state><![CDATA[pkg://extra.omnios/ooce/file/lsof@4.99.3,5.11-151054.0:20250414T180726Z -> None
+]]></end_state></operation></history>

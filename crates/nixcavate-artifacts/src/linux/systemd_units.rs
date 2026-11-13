@@ -1,10 +1,11 @@
 //! systemd unit files and drop-ins. Formats: systemd.syntax(7), systemd.unit(5),
 //! systemd.service(5), systemd.timer(5), systemd.socket(5), systemd.path(5).
 //!
-//! Limits: enablement is expressed as symlinks (`*.wants/`, `*.requires/`, masking by a link
-//! to `/dev/null`), and links are not parsed here. A unit's `[Install]` section says what
-//! enabling it would do, not that it is enabled. `.target` units run nothing and are left
-//! out, as are file times as timeline events: they are not reliable enough to assert on.
+//! Enablement is expressed as symlinks (`*.wants/`, `*.requires/`, masking by a link to
+//! `/dev/null`). Unit files are parsed here; the links are read by [`ENABLEMENT`]. A unit's
+//! `[Install]` section says what enabling it would do, not that it is enabled. `.target`
+//! units run nothing and are left out, as are file times as timeline events: they are not
+//! reliable enough to assert on.
 //! `modified` is the file's mtime from collection metadata, not an event recorded in the
 //! unit; no timeline event is built from it.
 
@@ -46,6 +47,88 @@ pub const ARTIFACT: Artifact = Artifact::new(
     ),
     parse,
 );
+
+/// The links `systemctl enable`, `mask` and `link` leave, and lingering users. Only the links
+/// under `etc/` and in home directories count: `usr/lib` and `lib` hold presets, which say
+/// what a distribution enables on first boot, not what this host enabled. Each task is one
+/// link (its target is the input; it is shown and never followed) or one empty file (an empty
+/// unit file masks the unit, and an empty `var/lib/systemd/linger/<user>` file is a linger flag).
+pub const ENABLEMENT: Artifact = Artifact::new(
+    "systemd-enablement",
+    "systemd enablement links, masks, aliases and lingering users",
+    Category::Persistence,
+    LINUX,
+    &[
+        "etc/systemd/system/*",
+        "etc/systemd/system/*.wants/*",
+        "etc/systemd/system/*.requires/*",
+        "etc/systemd/system/*.upholds/*",
+        "etc/systemd/user/*",
+        "etc/systemd/user/*.wants/*",
+        "etc/systemd/user/*.requires/*",
+        "home/*/.config/systemd/user/*",
+        "home/*/.config/systemd/user/*.wants/*",
+        "home/*/.config/systemd/user/*.requires/*",
+        "root/.config/systemd/user/*",
+        "root/.config/systemd/user/*.wants/*",
+        "root/.config/systemd/user/*.requires/*",
+        "var/lib/systemd/linger/*",
+    ],
+    parse_enablement,
+)
+.presence();
+
+/// One link, mask or lingering user.
+#[derive(Serialize)]
+struct Enablement<'a> {
+    /// `wants`, `requires` or `upholds` (a link in a `<target>.wants/`-style directory: the unit
+    /// is enabled), `mask`, `link` (any other link in a unit directory: an alias, or a unit
+    /// file linked in from elsewhere) or `linger`.
+    kind: &'static str,
+    /// The unit the link is named for. Empty for `linger`.
+    unit: &'a str,
+    /// The unit that pulls it in: `multi-user.target` for `multi-user.target.wants/x.service`.
+    enabled_by: Option<&'a str>,
+    /// Where the link points, as stored. Empty for a mask made of an empty file.
+    target: &'a str,
+    /// `system` or `user`.
+    scope: &'static str,
+    /// The user of `home/<user>/` or `root/`; the user of a `linger` flag. Empty otherwise.
+    owner: &'a str,
+}
+
+impl Record for Enablement<'_> {}
+
+fn parse_enablement(input: &Input, sink: &mut Sink) -> Result<()> {
+    let target = String::from_utf8_lossy(input.data);
+    let target = target.trim();
+    let mut parts = input.path.rsplit('/');
+    let file = parts.next().unwrap_or_default();
+    let dir = parts.next().unwrap_or_default();
+    let user_scope = input.path.contains("systemd/user/");
+    let owner = match input.path.split('/').collect::<Vec<_>>().as_slice() {
+        ["home", user, ..] => user,
+        ["root", ..] => "root",
+        ["var", "lib", "systemd", "linger", user] => user,
+        _ => "",
+    };
+    let (kind, unit, enabled_by) = if input.path.starts_with("var/lib/systemd/linger/") {
+        ("linger", "", None)
+    } else if let Some((by, kind)) = [(".wants", "wants"), (".requires", "requires"), (".upholds", "upholds")]
+        .iter()
+        .find_map(|(suffix, kind)| dir.strip_suffix(suffix).map(|by| (by, *kind)))
+    {
+        (kind, file, Some(by))
+    } else if target.is_empty() || target == "/dev/null" || target.ends_with("/dev/null") {
+        ("mask", file, None)
+    } else {
+        ("link", file, None)
+    };
+    sink.emit(
+        Loc::None,
+        &Enablement { kind, unit, enabled_by, target, scope: if user_scope { "user" } else { "system" }, owner },
+    )
+}
 
 /// Repeated keys make lists, so every list value is joined with ` ; `.
 #[derive(Serialize)]
@@ -305,6 +388,47 @@ mod tests {
             b"\xff\x00\n[\n=\n]\nExecStart\n\\\n[Service]\nExecStart=\\",
             0,
         );
+    }
+
+    fn link(path: &str, target: &str) -> String {
+        run(&ENABLEMENT, path, target.as_bytes(), 0)
+    }
+
+    #[test]
+    fn enablement_links_masks_aliases_and_linger() {
+        let wants = link("etc/systemd/system/multi-user.target.wants/x.service", "/etc/systemd/system/x.service");
+        for want in [
+            "\"kind\":\"wants\"",
+            "\"unit\":\"x.service\"",
+            "\"enabled_by\":\"multi-user.target\"",
+            "\"scope\":\"system\"",
+        ] {
+            assert!(wants.contains(want), "{want} in {wants}");
+        }
+        let user = link("home/alice/.config/systemd/user/default.target.wants/u.service", "../u.service");
+        for want in ["\"scope\":\"user\"", "\"owner\":\"alice\"", "\"enabled_by\":\"default.target\""] {
+            assert!(user.contains(want), "{want} in {user}");
+        }
+        assert!(link("etc/systemd/system/cups.service", "/dev/null").contains("\"kind\":\"mask\""));
+        assert!(link("etc/systemd/system/x.service", "").contains("\"kind\":\"mask\""));
+        let alias = link("etc/systemd/system/sshd.service", "/lib/systemd/system/ssh.service");
+        assert!(alias.contains("\"kind\":\"link\"") && alias.contains("\"enabled_by\":null"), "{alias}");
+        let linger = link("var/lib/systemd/linger/alice", "");
+        assert!(linger.contains("\"kind\":\"linger\"") && linger.contains("\"owner\":\"alice\""), "{linger}");
+        let root = link("root/.config/systemd/user/default.target.wants/r.service", "/x");
+        assert!(root.contains("\"owner\":\"root\""), "{root}");
+    }
+
+    #[test]
+    fn enablement_patterns_cover_links_but_not_vendor_presets() {
+        let matches = |path: &str| ENABLEMENT.paths.iter().any(|p| Pattern::new(p).matches(path));
+        assert!(matches("etc/systemd/system/multi-user.target.wants/x.service"));
+        assert!(matches("etc/systemd/system/x.service"));
+        assert!(matches("etc/systemd/user/default.target.wants/x.service"));
+        assert!(matches("home/alice/.config/systemd/user/default.target.wants/x.service"));
+        assert!(matches("var/lib/systemd/linger/alice"));
+        assert!(!matches("usr/lib/systemd/system/multi-user.target.wants/x.service"));
+        assert!(!matches("lib/systemd/system/multi-user.target.wants/x.service"));
     }
 
     #[test]

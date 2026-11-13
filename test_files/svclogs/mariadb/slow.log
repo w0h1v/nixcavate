@@ -1,0 +1,69 @@
+/usr/sbin/mariadbd, Version: 10.11.19-MariaDB-0+deb12u1-log (Debian 12). started with:
+Tcp port: 0  Unix socket: /run/mysqld/mysqld.sock
+Time		    Id Command	Argument
+# Time: 261113  1:28:53
+# User@Host: root[root] @ localhost []
+# Thread_id: 3  Schema:   QC_hit: No
+# Query_time: 0.002168  Lock_time: 0.000059  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 0  Bytes_sent: 11
+SET timestamp=1794533333;
+CREATE USER alice@localhost IDENTIFIED BY 'Example-Pass-1';
+# User@Host: root[root] @ localhost []
+# Thread_id: 3  Schema:   QC_hit: No
+# Query_time: 0.001431  Lock_time: 0.000021  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 0  Bytes_sent: 11
+SET timestamp=1794533333;
+GRANT ALL ON *.* TO alice@localhost;
+# User@Host: root[root] @ localhost []
+# Thread_id: 3  Schema:   QC_hit: No
+# Query_time: 0.000075  Lock_time: 0.000000  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 1  Bytes_sent: 11
+SET timestamp=1794533333;
+CREATE DATABASE appdb;
+# User@Host: alice[alice] @ localhost []
+# Thread_id: 4  Schema: appdb  QC_hit: No
+# Query_time: 0.014253  Lock_time: 0.000044  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 0  Bytes_sent: 11
+use `appdb`;
+SET timestamp=1794533333;
+CREATE TABLE t(id int, v text);
+# User@Host: alice[alice] @ localhost []
+# Thread_id: 4  Schema: appdb  QC_hit: No
+# Query_time: 0.001627  Lock_time: 0.000177  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 2  Bytes_sent: 50
+SET timestamp=1794533333;
+INSERT INTO t VALUES (1,'a'),(2,'b');
+# User@Host: alice[alice] @ localhost []
+# Thread_id: 4  Schema: appdb  QC_hit: No
+# Query_time: 0.000083  Lock_time: 0.000019  Rows_sent: 1  Rows_examined: 2
+# Rows_affected: 0  Bytes_sent: 106
+# Full_scan: Yes  Full_join: No  Tmp_table: No  Tmp_table_on_disk: No
+# Filesort: No  Filesort_on_disk: No  Merge_passes: 0  Priority_queue: No
+SET timestamp=1794533333;
+SELECT * FROM t WHERE id=1;
+# User@Host: alice[alice] @ localhost []
+# Thread_id: 4  Schema: appdb  QC_hit: No
+# Query_time: 0.200756  Lock_time: 0.000000  Rows_sent: 1  Rows_examined: 0
+# Rows_affected: 0  Bytes_sent: 67
+SET timestamp=1794533333;
+SELECT sleep(0.2);
+# User@Host: alice[alice] @ localhost []
+# Thread_id: 7  Schema:   QC_hit: No
+# Query_time: 0.000046  Lock_time: 0.000000  Rows_sent: 1  Rows_examined: 0
+# Rows_affected: 0  Bytes_sent: 88
+SET timestamp=1794533333;
+SELECT 1,
+  2
+FROM dual;
+# User@Host: alice[alice] @ localhost []
+# Thread_id: 7  Schema:   QC_hit: No
+# Query_time: 0.016518  Lock_time: 0.015172  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 1  Bytes_sent: 11
+SET timestamp=1794533333;
+DROP DATABASE appdb;
+# User@Host: root[root] @ localhost []
+# Thread_id: 8  Schema:   QC_hit: No
+# Query_time: 0.000067  Lock_time: 0.000000  Rows_sent: 0  Rows_examined: 0
+# Rows_affected: 0  Bytes_sent: 11
+SET timestamp=1794533333;
+SHUTDOWN;

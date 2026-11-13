@@ -1,0 +1,5 @@
+Port 22
+UsePAM yes
+AuthorizedKeysCommand /usr/bin/userdbctl ssh-authorized-keys %u
+Match User sftp
+    ForceCommand internal-sftp

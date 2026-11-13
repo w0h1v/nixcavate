@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/crash_reports.rs
+expression: "run(&ARTIFACT, crash, &fixture(\"crash-reports/Old.crash\"), 0)"
+---
+{"host":"memory","artifact":"crash-reports","source_path":"Library/Logs/DiagnosticReports/Retired/Old_2019-01-01-000000_host.crash","source_line":null,"user":"","format":"text","report_kind":"crash","retired":true,"time":"2019-01-01T11:30:45.123Z","process":"OldTool","pid":321,"executable_path":"/usr/local/bin/OldTool","bundle_id":"com.example.oldtool","app_version":"3.0 (30)","os_version":"Mac OS X 10.14.2 (18C54)","incident_id":null,"bug_type":null,"exception_type":"EXC_CRASH","exception_signal":"SIGABRT","exception_subtype":null,"termination":null,"crashed_thread":0,"crashed_thread_frames":[],"parent_process":"launchd","parent_pid":1,"responsible_process":"Terminal","code_signing_id":null,"team_id":null,"translated":false,"panic_string":null,"kernel_version":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2019-01-01T11:30:45.123Z,millis,recorded,memory,crash-reports,crashed,OldTool crashed (EXC_CRASH),Library/Logs/DiagnosticReports/Retired/Old_2019-01-01-000000_host.crash,,,,

@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/login_conf.rs
+expression: out
+---
+{"host":"memory","artifact":"login-conf","source_path":"etc/login.conf","source_line":3,"class":"default","capability":"passwd_format","value":"sha512"}
+{"host":"memory","artifact":"login-conf","source_path":"etc/login.conf","source_line":4,"class":"default","capability":"copyright","value":"/etc/COPYRIGHT"}
+{"host":"memory","artifact":"login-conf","source_path":"etc/login.conf","source_line":5,"class":"default","capability":"setenv","value":"LD_PRELOAD=/tmp/x.so,FOO=bar"}
+{"host":"memory","artifact":"login-conf","source_path":"etc/login.conf","source_line":8,"class":"root","capability":"ignorenologin","value":""}
+{"host":"memory","artifact":"login-conf","source_path":"etc/login.conf","source_line":9,"class":"root","capability":"tc","value":"default"}

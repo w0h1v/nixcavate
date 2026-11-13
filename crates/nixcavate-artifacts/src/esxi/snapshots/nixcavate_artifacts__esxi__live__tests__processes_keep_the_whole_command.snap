@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/live.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-live-processes","source_path":"commands/ps_-cPTgjstz.txt","source_line":2,"world_id":2097153,"cartel_id":0,"world_name":"idle1","group_id":2097153,"parent_group_id":0,"session_id":0,"parent_cartel_id":0,"world_type":"SI","state":"RUN","wait":"NONE","cpu":"1","cpu_time":"0.0","command":""}
+{"host":"memory","artifact":"esxi-live-processes","source_path":"commands/ps_-cPTgjstz.txt","source_line":3,"world_id":2098815,"cartel_id":2098815,"world_name":"sh","group_id":2098815,"parent_group_id":2098815,"session_id":2098815,"parent_cartel_id":2097557,"world_type":"U","state":"WAIT","wait":"USIG","cpu":"0-23","cpu_time":"0.5966","command":"/bin/sh /sbin/watchdog.sh -s hostdCgiServer hostdCgiServer"}
+{"host":"memory","artifact":"esxi-live-processes","source_path":"commands/ps_-cPTgjstz.txt","source_line":4,"world_id":2099900,"cartel_id":2099900,"world_name":"agent","group_id":2099900,"parent_group_id":2099900,"session_id":2099900,"parent_cartel_id":1,"world_type":"UX","state":"WAIT","wait":"FUTX","cpu":"4","cpu_time":"12.5","command":"/tmp/.agent/run --daemon"}
+--- warning: line 5: too few columns

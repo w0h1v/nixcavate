@@ -1,0 +1,1 @@
+`var/db/pkg/quirks-7.147/+CONTENTS` and `var/db/pkg/tree-0.62/+CONTENTS` of a throwaway OpenBSD 7.8 guest (qemu, installed from the official `miniroot78.img`) after a scripted run of the same kind (`useradd`, `pkg_add sudo tree jq zip`, `pkg_delete zip`, `doas`, `su`, `crontab`, `at`, one reboot). Only example data.

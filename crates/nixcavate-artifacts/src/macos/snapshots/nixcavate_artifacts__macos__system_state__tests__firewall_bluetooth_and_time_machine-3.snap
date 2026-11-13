@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_state.rs
+expression: "check(&TIME_MACHINE, \"Library/Preferences/com.apple.TimeMachine.plist\",\n\"com.apple.TimeMachine.plist\")"
+---
+{"host":"memory","artifact":"time-machine","source_path":"Library/Preferences/com.apple.TimeMachine.plist","source_line":null,"destination_id":"DEST-1","volume_name":"Backup","snapshot_time":"2023-11-13T01:00:00Z"}
+{"host":"memory","artifact":"time-machine","source_path":"Library/Preferences/com.apple.TimeMachine.plist","source_line":null,"destination_id":"DEST-1","volume_name":"Backup","snapshot_time":"2023-11-14T01:00:00Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-13T01:00:00Z,seconds,recorded,memory,time-machine,activity,Time Machine backup to Backup,Library/Preferences/com.apple.TimeMachine.plist,,,,
+2023-11-14T01:00:00Z,seconds,recorded,memory,time-machine,activity,Time Machine backup to Backup,Library/Preferences/com.apple.TimeMachine.plist,,,,

@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/ips_history.rs
+expression: out
+---
+{"host":"memory","artifact":"ips-history","source_path":"var/pkg/history/20250503T094201Z-01.xml","source_line":null,"operation":"add-publisher","start":"2025-05-03T09:42:01Z","end":"2025-05-03T09:42:01Z","result":"Succeeded, None","user":"root","uid":0,"command":"/usr/bin/pkg set-publisher --no-refresh -O https://pkg.omnios.org/r151054/extra extra.omnios","boot_environment":"omnios-r151054","changes":[]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-05-03T09:42:01Z,seconds,recorded,memory,ips-history,package_command,add-publisher (/usr/bin/pkg set-publisher --no-refresh -O https://pkg.omnios.org/r151054/extra extra.omnios),var/pkg/history/20250503T094201Z-01.xml,,,,

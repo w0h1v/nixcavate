@@ -1,0 +1,7 @@
+[ Nov 13 01:16:51 Enabled. ]
+[ Nov 13 01:16:51 Missing start method (/tmp/.NXMK_SMFLIB/agent), changing state to maintenance. ]
+[ Nov 13 01:16:51 Rereading configuration. ]
+[ Nov 13 01:20:29 Leaving maintenance because disable requested. ]
+[ Nov 13 01:20:29 Disabled. ]
+[ Nov 13 01:20:50 Enabled. ]
+[ Nov 13 01:20:50 Missing start method (/tmp/.NXMK_SMFLIB/agent), changing state to maintenance. ]

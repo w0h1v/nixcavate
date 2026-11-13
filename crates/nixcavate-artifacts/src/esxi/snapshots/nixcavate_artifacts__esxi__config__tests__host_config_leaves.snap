@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/config.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-host-config","source_path":"etc/vmware/hostd/hostsvc.xml","source_line":null,"key":"ConfigRoot/mode","value":"normal","redacted":false}
+{"host":"memory","artifact":"esxi-host-config","source_path":"etc/vmware/hostd/hostsvc.xml","source_line":null,"key":"ConfigRoot/service/TSM-SSH","value":"on","redacted":false}
+{"host":"memory","artifact":"esxi-host-config","source_path":"etc/vmware/hostd/hostsvc.xml","source_line":null,"key":"ConfigRoot/service/TSM","value":"on","redacted":false}
+{"host":"memory","artifact":"esxi-host-config","source_path":"etc/vmware/hostd/hostsvc.xml","source_line":null,"key":"ConfigRoot/service/ntpd","value":"off","redacted":false}

@@ -1,0 +1,3 @@
+1794537448:alice:bob::/dev/console:24:80
+/
+/bin/sh -c echo json-run; sleep 1

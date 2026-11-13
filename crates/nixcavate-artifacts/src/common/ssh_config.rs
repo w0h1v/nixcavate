@@ -23,6 +23,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
         "etc/ssh/sshd_config",
         "etc/ssh/sshd_config.d/*",
         "private/etc/ssh/sshd_config",
+        "export/home/*/.ssh/config",
     ],
     parse,
 );

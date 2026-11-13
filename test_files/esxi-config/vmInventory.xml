@@ -1,0 +1,16 @@
+<ConfigRoot>
+  <ConfigEntry id="0007">
+    <objID>8</objID>
+    <secDomain/>
+    <vmxCfgPath>/vmfs/volumes/3a4fd8ce-fc4375c4-effb-5cf3fce846f8/web01/web01.vmx</vmxCfgPath>
+  </ConfigEntry>
+  <ConfigEntry id="0011">
+    <objID>12</objID>
+    <secDomain>9</secDomain>
+    <vmxCfgPath>/vmfs/volumes/datastore1/db01/db01.vmx</vmxCfgPath>
+  </ConfigEntry>
+  <ConfigEntry id="0012">
+    <objID>13</objID>
+    <vmxCfgPath>/tmp/odd.vmx</vmxCfgPath>
+  </ConfigEntry>
+</ConfigRoot>

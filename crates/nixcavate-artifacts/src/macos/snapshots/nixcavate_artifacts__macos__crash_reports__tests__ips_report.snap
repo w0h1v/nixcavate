@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/crash_reports.rs
+expression: "run(&ARTIFACT, IPS, &fixture(\"crash-reports/Example.ips\"), 0)"
+---
+{"host":"memory","artifact":"crash-reports","source_path":"Users/alice/Library/Logs/DiagnosticReports/Example_2023-11-14-100000_host.ips","source_line":null,"user":"alice","format":"ips","report_kind":"crash","retired":false,"time":"2023-11-14T18:00:00.123400Z","process":"Example","pid":4242,"executable_path":"/Applications/Example.app/Contents/MacOS/Example","bundle_id":"com.example.app","app_version":"1.2","os_version":"macOS 14.1 (23B74)","incident_id":"11111111-2222-3333-4444-555555555555","bug_type":"309","exception_type":"EXC_BAD_ACCESS","exception_signal":"SIGSEGV","exception_subtype":"KERN_INVALID_ADDRESS at 0x0","termination":"Segmentation fault: 11","crashed_thread":1,"crashed_thread_frames":["Example main","libsystem_c.dylib abort","? ?"],"parent_process":"launchd","parent_pid":1,"responsible_process":"Example","code_signing_id":"com.example.app","team_id":"EXAMPLE123","translated":true,"panic_string":null,"kernel_version":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T18:00:00.123400Z,micros,recorded,memory,crash-reports,crashed,Example crashed (EXC_BAD_ACCESS),Users/alice/Library/Logs/DiagnosticReports/Example_2023-11-14-100000_host.ips,,,,

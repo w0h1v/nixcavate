@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/linux/net_service_logs.rs
+expression: "format!(\"{server}{client}\")"
+---
+{"host":"memory","artifact":"dhcpd-leases","source_path":"var/lib/dhcp/dhcpd.leases","source_line":9,"time":"2026-11-13T01:28:38Z","ip":"10.77.0.100","starts":"2026-11-13T01:28:38Z","ends":"2026-11-13T01:38:38Z","cltt":"2026-11-13T01:28:38Z","binding_state":"active","next_binding_state":"free","mac":"02:42:0a:4d:00:aa","client_hostname":"f25f0eb56143","vendor_class":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:28:38Z,seconds,recorded,memory,dhcpd-leases,dhcp_lease,10.77.0.100 leased to 02:42:0a:4d:00:aa f25f0eb56143 (active),var/lib/dhcp/dhcpd.leases,9,,,
+{"host":"memory","artifact":"dhclient-leases","source_path":"var/lib/dhcp/dhclient.leases","source_line":1,"leased_at":"2026-11-13T01:28:38Z","interface":"mv0","address":"10.77.0.100","subnet_mask":"255.255.255.0","routers":"10.77.0.1","dns_servers":"10.77.0.1","domain_name":null,"dhcp_server":"10.77.0.2","lease_seconds":600,"renew":"2026-11-13T01:32:28Z","rebind":"2026-11-13T01:37:23Z","expire":"2026-11-13T01:38:38Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:28:38Z,seconds,recorded,memory,dhclient-leases,dhcp_lease,mv0 leased 10.77.0.100 from 10.77.0.2,var/lib/dhcp/dhclient.leases,1,,,

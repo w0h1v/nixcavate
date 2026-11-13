@@ -355,6 +355,12 @@ fn a_catscale_collection_is_one_host() {
         ("catscale_out/System_Info/web01-20240310-0102-etc-modified-files.tar.gz".to_string(), etc),
         ("catscale_out/User_Files/hidden-user-home-dir.tar.gz".to_string(), home),
         ("catscale_out/Logs/web01-20240310-0102-who.txt".to_string(), b"alice pts/0\n".to_vec()),
+        // Command output sits beside the host's `[root]`, like UAC's `live_response/`.
+        (
+            "catscale_out/Process_and_Network/web01-20240310-0102-processes-axwwSo.txt".to_string(),
+            b"USER PID PPID VSZ RSS TTY STAT STIME TIME COMMAND\nroot 1 0 2240 1128 ? Ss 22:50 00:00:00 sleep 600\n"
+                .to_vec(),
+        ),
     ];
     write_tar_gz(&scratch.path("catscale_web01-20240310-0102.tar.gz"), &members);
     write_dir(&scratch.path("extracted"), &members);
@@ -379,7 +385,34 @@ fn a_catscale_collection_is_one_host() {
             tasks.map(|t| t["records"].as_u64().unwrap()).sum()
         };
         assert_eq!((records("auth-log"), records("passwd"), records("bash-history")), (1, 2, 1), "{evidence}");
+        assert_eq!(records("live-processes"), 1, "{evidence}");
     }
+}
+
+/// A UAC collection is often wrapped in a second archive for transfer, beside its log.
+#[test]
+fn a_uac_collection_inside_an_archive_is_read() {
+    let scratch = Scratch::new("wrapped");
+    let inner_path = scratch.path("inner.tar.gz");
+    let files = vec![
+        ("[root]/etc/hostname".to_string(), b"web01\n".to_vec()),
+        ("[root]/etc/passwd".to_string(), b"root:x:0:0::/root:/bin/sh\n".to_vec()),
+        ("uac.log".to_string(), b"log\n".to_vec()),
+    ];
+    write_tar_gz(&inner_path, &files);
+    let wrapped = vec![
+        ("uac-web01-linux-20240310010203.tar.gz".to_string(), fs::read(&inner_path).unwrap()),
+        ("uac-web01-linux-20240310010203.log".to_string(), b"acquisition log\n".to_vec()),
+    ];
+    write_tar_gz(&scratch.path("evidence.tgz"), &wrapped);
+    let out = scratch.path("out");
+    let run =
+        nixcavate(&["auto-parse", "-f", scratch.path("evidence.tgz").to_str().unwrap(), "-o", out.to_str().unwrap()]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let m = manifest(&out);
+    assert_eq!(m["hosts"].as_array().unwrap().len(), 1, "{}", m["hosts"]);
+    assert_eq!(m["hosts"][0]["name"], "web01");
+    assert!(m["tasks"].as_array().unwrap().iter().any(|t| t["artifact"] == "passwd" && t["records"] == 1));
 }
 
 /// Some collectors write every zip member with the zip format's zero time, 1980-01-01. That
@@ -661,4 +694,184 @@ fn an_over_expanding_log_reports_what_it_covers() {
         summary.contains("skipped inputs that hold data") && summary.contains("not an SQLite database (last written"),
         "{summary}"
     );
+}
+
+/// `test_files/image/raid/build.sh` made these with the real mdadm: a RAID5 over three disks,
+/// each acquired as its own image file. Giving the CLI the first finds the other two beside it.
+#[test]
+fn a_raid5_acquired_as_one_image_per_disk_is_one_host() {
+    let scratch = Scratch::new("raid5");
+    let fixtures = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test_files/image/raid");
+    for n in 1..=3 {
+        let packed = fs::read(fixtures.join(format!("m-raid5-d{n}.img.zst"))).unwrap();
+        fs::write(scratch.path(&format!("disk{n}.img")), zstd::decode_all(&packed[..]).unwrap()).unwrap();
+    }
+    let out = scratch.path("out");
+    let run =
+        nixcavate(&["auto-parse", "-f", scratch.path("disk1.img").to_str().unwrap(), "-o", out.to_str().unwrap()]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    assert!(text(&run.stderr).contains("disk2.img, disk3.img"), "{}", text(&run.stderr));
+    let m = manifest(&out);
+    assert_eq!(m["hosts"].as_array().unwrap().len(), 1);
+    assert_eq!(m["hosts"][0]["name"], "raidhost");
+    assert!(m["hosts"][0]["root"].as_str().unwrap().starts_with("md-fixture_m5"), "{}", m["hosts"][0]["root"]);
+    let tasks = m["tasks"].as_array().unwrap();
+    assert!(tasks.iter().all(|t| t["status"] == "succeeded"), "{tasks:?}");
+    assert!(
+        tasks.iter().any(|t| t["artifact"] == "auth-log" && t["input"] == "var/log/secure" && t["records"] == 1),
+        "{tasks:?}"
+    );
+
+    // Without the other two images the array cannot be built, and the error says so.
+    fs::remove_file(scratch.path("disk2.img")).unwrap();
+    fs::remove_file(scratch.path("disk3.img")).unwrap();
+    let run = nixcavate(&[
+        "auto-parse",
+        "-f",
+        scratch.path("disk1.img").to_str().unwrap(),
+        "-o",
+        scratch.path("out2").to_str().unwrap(),
+    ]);
+    assert_eq!(run.status.code(), Some(2));
+    assert!(text(&run.stderr).contains("2 of 3 members are not in the image"), "{}", text(&run.stderr));
+}
+
+/// `test_files/image/graft/build.sh` made this GPT disk with `/boot`, `/var` (XFS) and `/home`
+/// (LVM) on volumes of their own: its fstab makes them one host, so `/var/log` is found.
+#[test]
+fn the_volumes_of_one_disk_are_one_host_with_their_logs_and_one_body_file() {
+    use std::io::{Read, Seek, SeekFrom};
+    let scratch = Scratch::new("graft");
+    let fixture = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../test_files/image/graft/disk.img.zst");
+    // 345 MiB, almost all zero: write only the blocks that are not.
+    let mut decoder = zstd::stream::read::Decoder::new(fs::File::open(fixture).unwrap()).unwrap();
+    let mut disk = fs::File::create(scratch.path("disk.img")).unwrap();
+    let (mut block, mut total) = (vec![0u8; 1 << 20], 0u64);
+    loop {
+        let mut filled = 0;
+        while filled < block.len() {
+            let n = decoder.read(&mut block[filled..]).unwrap();
+            if n == 0 {
+                break;
+            }
+            filled += n;
+        }
+        if filled == 0 {
+            break;
+        }
+        if block[..filled].iter().any(|&b| b != 0) {
+            disk.seek(SeekFrom::Start(total)).unwrap();
+            disk.write_all(&block[..filled]).unwrap();
+        }
+        total += filled as u64;
+    }
+    disk.set_len(total).unwrap();
+    drop(disk);
+
+    let out = scratch.path("out");
+    let run = nixcavate(&[
+        "auto-parse",
+        "-f",
+        scratch.path("disk.img").to_str().unwrap(),
+        "-o",
+        out.to_str().unwrap(),
+        "-t",
+        "jsonl",
+    ]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let m = manifest(&out);
+    assert_eq!(m["hosts"].as_array().unwrap().len(), 1, "{}", m["hosts"]);
+    assert_eq!((m["hosts"][0]["name"].as_str(), m["hosts"][0]["root"].as_str()), (Some("graftbox"), Some("p3/[root]")));
+    let tasks = m["tasks"].as_array().unwrap();
+    assert!(tasks.iter().all(|t| t["status"] == "succeeded"), "{tasks:?}");
+    let task = |artifact: &str, input: &str| tasks.iter().find(|t| t["artifact"] == artifact && t["input"] == input);
+    assert_eq!(task("auth-log", "var/log/secure").map(|t| t["records"].as_u64()), Some(Some(1)), "{tasks:?}");
+    assert!(task("syslog", "var/log/messages").is_some() && task("bash-history", "home/alice/.bash_history").is_some());
+    // One body file for the host, and the other volumes' files are in it under their mount points.
+    let bodies: Vec<&serde_json::Value> = tasks.iter().filter(|t| t["artifact"] == "bodyfile").collect();
+    assert_eq!(bodies.len(), 1, "{bodies:?}");
+    let body: String = walk(&out.join("graftbox").join("Filesystem"))
+        .iter()
+        .map(|f| fs::read_to_string(f).unwrap_or_default())
+        .collect();
+    assert!(
+        body.contains("/boot/vmlinuz-6.1.0")
+            && body.contains("/var/log/secure")
+            && body.contains("/home/alice/notes.txt"),
+        "{}",
+        body.len()
+    );
+    assert!(!body.contains("shadowed") && !body.contains("rootvar"));
+}
+
+/// Every file below `dir`.
+fn walk(dir: &Path) -> Vec<PathBuf> {
+    let mut files = Vec::new();
+    for item in fs::read_dir(dir).into_iter().flatten().flatten() {
+        let path = item.path();
+        if path.is_dir() {
+            files.extend(walk(&path));
+        } else {
+            files.push(path);
+        }
+    }
+    files
+}
+
+/// A tool such as fastir writes `<folder>/<run>/<host>-files.zip`: `-d <folder>` finds it
+/// three levels down, and still does not enter a folder that is itself a host.
+#[test]
+fn archives_a_few_levels_down_in_a_folder_are_opened() {
+    let scratch = Scratch::new("deep");
+    let folder = scratch.path("evidence");
+    let files = vec![
+        ("etc/hostname".to_string(), b"web01\n".to_vec()),
+        ("etc/passwd".to_string(), b"root:x:0:0::/root:/bin/sh\n".to_vec()),
+    ];
+    fs::create_dir_all(folder.join("20240310-web01")).unwrap();
+    write_zip(&folder.join("20240310-web01/web01-files.zip"), &files);
+    fs::write(folder.join("20240310-web01/web01-logs.txt"), b"not an archive\n").unwrap();
+    let out = scratch.path("out");
+    let run = nixcavate(&["auto-parse", "-d", folder.to_str().unwrap(), "-o", out.to_str().unwrap()]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let m = manifest(&out);
+    assert_eq!(m["hosts"][0]["name"], "web01", "{}", m["hosts"]);
+    assert!(m["tasks"].as_array().unwrap().iter().any(|t| t["artifact"] == "passwd" && t["records"] == 1));
+
+    // Four levels down is out of reach.
+    let too_deep = scratch.path("too-deep");
+    fs::create_dir_all(too_deep.join("a/b/c")).unwrap();
+    write_zip(&too_deep.join("a/b/c/web01-files.zip"), &files);
+    let run =
+        nixcavate(&["auto-parse", "-d", too_deep.to_str().unwrap(), "-o", scratch.path("out2").to_str().unwrap()]);
+    assert_eq!(run.status.code(), Some(2), "{}", text(&run.stderr));
+    assert!(text(&run.stderr).contains("no host found"), "{}", text(&run.stderr));
+}
+
+/// A folder that is already an extracted host is parsed as before: an archive kept somewhere
+/// inside it (a backup, a package cache) is data of that host, not further evidence.
+#[test]
+fn an_extracted_host_does_not_open_the_archives_inside_it() {
+    let scratch = Scratch::new("deep-host");
+    let folder = scratch.path("host");
+    write_dir(
+        &folder,
+        &[
+            ("etc/hostname".to_string(), b"web01\n".to_vec()),
+            ("etc/passwd".to_string(), b"root:x:0:0::/root:/bin/sh\n".to_vec()),
+        ],
+    );
+    fs::create_dir_all(folder.join("var/backups")).unwrap();
+    write_zip(
+        &folder.join("var/backups/other-files.zip"),
+        &[
+            ("etc/hostname".to_string(), b"other\n".to_vec()),
+            ("etc/passwd".to_string(), b"mallory:x:0:0::/root:/bin/sh\n".to_vec()),
+        ],
+    );
+    let out = scratch.path("out");
+    let run = nixcavate(&["auto-parse", "-d", folder.to_str().unwrap(), "-o", out.to_str().unwrap()]);
+    assert!(run.status.success(), "{}", text(&run.stderr));
+    let hosts = manifest(&out)["hosts"].clone();
+    assert_eq!(hosts.as_array().unwrap().len(), 1, "{hosts}");
 }

@@ -1,0 +1,5 @@
+#!/bin/sh
+# Stock-style header script.
+[ -r /etc/lsb-release ] && . /etc/lsb-release
+printf "Welcome to %s\n" "$DISTRIB_DESCRIPTION"
+uname -snrvm

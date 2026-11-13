@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/linux/cups_logs.rs
+expression: out
+---
+{"host":"memory","artifact":"cups-page-log","source_path":"var/log/cups/page_log","source_offset":0,"time":"2026-11-13T01:49:28Z","printer":"nxprint","user":"alice","job_id":1,"page":"total","copies":1,"billing":"-","client_host":"localhost","job_name":"Q3 Financial Report","media":"-","sides":"-"}
+{"host":"memory","artifact":"cups-page-log","source_path":"var/log/cups/page_log","source_offset":89,"time":"2026-11-13T01:49:29Z","printer":"nxprint","user":"alice","job_id":2,"page":"total","copies":2,"billing":"-","client_host":"localhost","job_name":"Resume of A. Person.docx","media":"-","sides":"-"}
+{"host":"memory","artifact":"cups-page-log","source_path":"var/log/cups/page_log","source_offset":183,"time":"2026-11-13T01:49:29Z","printer":"nxprint","user":"bob","job_id":3,"page":"total","copies":4,"billing":"-","client_host":"localhost","job_name":"Secret-plan.pdf","media":"-","sides":"-"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:49:28Z,seconds,recorded,memory,cups-page-log,print_job,"alice printed ""Q3 Financial Report"" on nxprint from localhost",var/log/cups/page_log,,0,,
+2026-11-13T01:49:29Z,seconds,recorded,memory,cups-page-log,print_job,"alice printed ""Resume of A. Person.docx"" on nxprint from localhost",var/log/cups/page_log,,89,,
+2026-11-13T01:49:29Z,seconds,recorded,memory,cups-page-log,print_job,"bob printed ""Secret-plan.pdf"" on nxprint from localhost",var/log/cups/page_log,,183,,

@@ -1,0 +1,28 @@
+accton                 root     pts/0      0.00 secs Fri Nov 13 02:04
+sleep                  root     pts/0      0.00 secs Fri Nov 13 02:04
+sh               S     alice    pts/0      0.00 secs Fri Nov 13 02:04
+sleep                  alice    pts/0      0.00 secs Fri Nov 13 02:04
+t                S     bob      pts/0      0.00 secs Fri Nov 13 02:04
+sh               S     root     pts/0      0.00 secs Fri Nov 13 02:04
+chown            S     root     pts/0      0.00 secs Fri Nov 13 02:04
+chmod                  root     pts/0      0.00 secs Fri Nov 13 02:04
+cp               S     root     pts/0      0.00 secs Fri Nov 13 02:04
+sh                     root     pts/0      0.00 secs Fri Nov 13 02:04
+sh                   X root     pts/0      0.00 secs Fri Nov 13 02:04
+sh               S  DX root     pts/0      0.00 secs Fri Nov 13 02:04
+su               S     root     pts/0      0.00 secs Fri Nov 13 02:04
+sh               S     alice    __         0.00 secs Fri Nov 13 02:04
+sleep            S     alice    __         0.00 secs Fri Nov 13 02:04
+sh                     alice    __         0.00 secs Fri Nov 13 02:04
+sh                F    alice    __         0.00 secs Fri Nov 13 02:04
+sh                     root     pts/0      0.00 secs Fri Nov 13 02:04
+sh                F    root     pts/0      0.00 secs Fri Nov 13 02:04
+sh                F    root     pts/0      0.00 secs Fri Nov 13 02:04
+su               S     root     pts/0      0.00 secs Fri Nov 13 02:04
+sh               S     bob      __         0.00 secs Fri Nov 13 02:04
+echo             S     bob      __         0.00 secs Fri Nov 13 02:04
+su               S     root     pts/0      0.00 secs Fri Nov 13 02:04
+sh               S     alice    __         0.00 secs Fri Nov 13 02:04
+ls               S     alice    __         0.00 secs Fri Nov 13 02:04
+true             S     root     pts/0      0.00 secs Fri Nov 13 02:04
+accton           S     root     pts/0      0.00 secs Fri Nov 13 02:04

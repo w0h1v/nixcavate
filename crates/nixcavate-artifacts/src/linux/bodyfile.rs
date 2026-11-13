@@ -78,15 +78,30 @@ fn number<T: TryFrom<u64>>(bytes: &[u8]) -> Option<T> {
 }
 
 fn parse_line<'a>(line: &'a [u8]) -> Option<Entry<'a>> {
-    // The name may contain `|`, so the nine fixed fields are cut from the right.
+    // The name may contain `|`, so the nine fixed fields are cut from the right. A line with
+    // eight has no creation time: UAC writes it for a file system that records none.
     let rest = &line[memchr::memchr(b'|', line)? + 1..];
-    let mut cuts = [0usize; 9];
-    let mut end = rest.len();
-    for cut in cuts.iter_mut().rev() {
-        end = memchr::memrchr(b'|', &rest[..end])?;
-        *cut = end;
-    }
-    let field = |n: usize| &rest[cuts[n] + 1..cuts.get(n + 1).copied().unwrap_or(rest.len())];
+    let cut_from_right = |count: usize| {
+        let mut cuts = [rest.len(); 9];
+        let mut end = rest.len();
+        for cut in cuts[..count].iter_mut().rev() {
+            end = memchr::memrchr(b'|', &rest[..end])?;
+            *cut = end;
+        }
+        Some(cuts)
+    };
+    // The short form is accepted only with a mode where the mode belongs: the second half of a
+    // name that holds a newline has as many separators, and must stay a line of its own.
+    let is_mode = |cuts: &[usize; 9]| {
+        let mode = &rest[cuts[1] + 1..cuts[2]];
+        mode.len() == 10 && b"-dlcbps".contains(&mode[0])
+    };
+    let cuts = cut_from_right(9).or_else(|| cut_from_right(8).filter(is_mode))?;
+    let field = |n: usize| match cuts.get(n + 1) {
+        _ if cuts[n] == rest.len() => &rest[rest.len()..],
+        Some(&next) => &rest[cuts[n] + 1..next],
+        None => &rest[cuts[n] + 1..],
+    };
 
     let name = &rest[..cuts[0]];
     let mode_bytes = field(1);
@@ -165,6 +180,16 @@ mod tests {
     // patterns have; the parsers only look at the file name.
     use super::*;
     use crate::testing::{fixture, run};
+
+    /// UAC writes ten fields, with no creation time, for a file system that has none (the
+    /// FAT partition at `/boot/efi`).
+    #[test]
+    fn a_line_without_a_creation_time_is_a_body_file_line() {
+        let entry = parse_line(b"0|/boot/efi|1|drwx------|0|0|512|1700000000|1700000001|1700000002").unwrap();
+        assert_eq!((entry.path.as_ref(), entry.size, entry.created.is_none()), ("/boot/efi", Some(512), true));
+        assert_eq!(entry.changed.map(|t| t.utc), Some(1_700_000_002_000_000_000));
+        assert!(parse_line(b"0|/x|1|drwx------|0|0|512|1|2").is_none());
+    }
 
     #[test]
     fn parses_uac_bodyfile() {

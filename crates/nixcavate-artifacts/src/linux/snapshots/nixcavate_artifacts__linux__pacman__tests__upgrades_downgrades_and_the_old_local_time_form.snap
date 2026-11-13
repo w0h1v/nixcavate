@@ -1,0 +1,20 @@
+---
+source: crates/nixcavate-artifacts/src/linux/pacman.rs
+expression: "run(&LOG, \"var/log/pacman.log\", log.as_bytes(), 0)"
+---
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":0,"time":"2019-01-02T03:04:00Z","time_basis":"assumed_zone","source":"PACMAN","action":"","package":"","version":"","old_version":"","command":"pacman -Syu","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":50,"time":"2019-01-02T03:04:00Z","time_basis":"assumed_zone","source":"ALPM","action":"upgraded","package":"linux","version":"5.0.2-1","old_version":"5.0.1-1","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":112,"time":"2019-01-02T03:05:00Z","time_basis":"assumed_zone","source":"ALPM","action":"downgraded","package":"foo","version":"1.9-1","old_version":"2.0-1","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":170,"time":"2019-01-02T03:05:00Z","time_basis":"assumed_zone","source":"ALPM","action":"reinstalled","package":"bar","version":"1.0-1","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":220,"time":"2019-01-02T03:05:00Z","time_basis":"assumed_zone","source":"ALPM-SCRIPTLET","action":"","package":"","version":"","old_version":"","command":"","message":"installed (this is script output)"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":290,"time":"2019-01-02T03:06:00Z","time_basis":"assumed_zone","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"warning: /etc/foo installed as /etc/foo.pacnew"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":363,"time":"2019-01-02T03:06:00Z","time_basis":"assumed_zone","source":"","action":"installed","package":"legacy","version":"0.1-1","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":407,"time":"2019-01-02T03:06:00Z","time_basis":"assumed_zone","source":"","action":"","package":"","version":"","old_version":"","command":"","message":"not a [ALPM] line either"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2019-01-02T03:04:00Z,seconds,assumed_zone,memory,pacman-log,package_command,pacman -Syu,var/log/pacman.log,,0,,
+2019-01-02T03:04:00Z,seconds,assumed_zone,memory,pacman-log,package_upgraded,upgraded linux 5.0.1-1 -> 5.0.2-1,var/log/pacman.log,,50,,
+2019-01-02T03:05:00Z,seconds,assumed_zone,memory,pacman-log,package_changed,downgraded foo 2.0-1 -> 1.9-1,var/log/pacman.log,,112,,
+2019-01-02T03:05:00Z,seconds,assumed_zone,memory,pacman-log,package_changed,reinstalled bar 1.0-1,var/log/pacman.log,,170,,
+2019-01-02T03:06:00Z,seconds,assumed_zone,memory,pacman-log,package_installed,installed legacy 0.1-1,var/log/pacman.log,,363,,
+--- warning: offset 451: not a pacman.log line

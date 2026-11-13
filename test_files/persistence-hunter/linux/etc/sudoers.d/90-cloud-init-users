@@ -1,0 +1,2 @@
+# Created by cloud-init
+alice ALL=(ALL) NOPASSWD:ALL

@@ -1,0 +1,47 @@
+---
+source: crates/nixcavate-artifacts/src/linux/mysql_logs.rs
+expression: maria
+---
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":4,"time":"2026-11-13T01:28:53Z","thread_id":3,"command":"Connect","event":"db_connect","user":"root","client_host":"localhost","database":null,"argument":"root@localhost on  using Socket"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":5,"time":"2026-11-13T01:28:53Z","thread_id":3,"command":"Query","event":"db_statement","user":"root","client_host":"localhost","database":null,"argument":"CREATE USER alice@localhost IDENTIFIED BY '<redacted>'"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":6,"time":"2026-11-13T01:28:53Z","thread_id":3,"command":"Query","event":"db_statement","user":"root","client_host":"localhost","database":null,"argument":"GRANT ALL ON *.* TO alice@localhost"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":7,"time":"2026-11-13T01:28:53Z","thread_id":3,"command":"Query","event":"db_statement","user":"root","client_host":"localhost","database":null,"argument":"CREATE DATABASE appdb"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":8,"time":"2026-11-13T01:28:53Z","thread_id":3,"command":"Quit","event":null,"user":null,"client_host":null,"database":null,"argument":""}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":9,"time":"2026-11-13T01:28:53Z","thread_id":4,"command":"Connect","event":"db_connect","user":"alice","client_host":"localhost","database":"appdb","argument":"alice@localhost on appdb using Socket"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":10,"time":"2026-11-13T01:28:53Z","thread_id":4,"command":"Query","event":"db_statement","user":"alice","client_host":"localhost","database":null,"argument":"CREATE TABLE t(id int, v text)"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":11,"time":"2026-11-13T01:28:53Z","thread_id":4,"command":"Query","event":"db_statement","user":"alice","client_host":"localhost","database":null,"argument":"INSERT INTO t VALUES (1,'a'),(2,'b')"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":12,"time":"2026-11-13T01:28:53Z","thread_id":4,"command":"Query","event":"db_statement","user":"alice","client_host":"localhost","database":null,"argument":"SELECT * FROM t WHERE id=1"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":13,"time":"2026-11-13T01:28:53Z","thread_id":4,"command":"Query","event":"db_statement","user":"alice","client_host":"localhost","database":null,"argument":"SELECT sleep(0.2)"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":14,"time":"2026-11-13T01:28:53Z","thread_id":4,"command":"Quit","event":null,"user":null,"client_host":null,"database":null,"argument":""}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":15,"time":"2026-11-13T01:28:53Z","thread_id":5,"command":"Connect","event":"db_connect","user":"alice","client_host":"localhost","database":null,"argument":"alice@localhost on  using Socket"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":16,"time":"2026-11-13T01:28:53Z","thread_id":5,"command":"Connect","event":"db_login_failed","user":"alice","client_host":"localhost","database":null,"argument":"Access denied for user 'alice'@'localhost' (using password: YES)"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":17,"time":"2026-11-13T01:28:53Z","thread_id":6,"command":"Connect","event":"db_connect","user":"nosuch","client_host":"localhost","database":null,"argument":"nosuch@localhost on  using Socket"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":18,"time":"2026-11-13T01:28:53Z","thread_id":6,"command":"Connect","event":"db_login_failed","user":"nosuch","client_host":"localhost","database":null,"argument":"Access denied for user 'nosuch'@'localhost'"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":19,"time":"2026-11-13T01:28:53Z","thread_id":7,"command":"Connect","event":"db_connect","user":"alice","client_host":"localhost","database":null,"argument":"alice@localhost on  using Socket"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":20,"time":"2026-11-13T01:28:53Z","thread_id":7,"command":"Query","event":"db_statement","user":"alice","client_host":"localhost","database":null,"argument":"SELECT 1,\n  2\nFROM dual"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":23,"time":"2026-11-13T01:28:53Z","thread_id":7,"command":"Query","event":"db_statement","user":"alice","client_host":"localhost","database":null,"argument":"DROP DATABASE appdb"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":24,"time":"2026-11-13T01:28:53Z","thread_id":7,"command":"Quit","event":null,"user":null,"client_host":null,"database":null,"argument":""}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":25,"time":"2026-11-13T01:28:53Z","thread_id":8,"command":"Connect","event":"db_connect","user":"root","client_host":"localhost","database":null,"argument":"root@localhost on  using Socket"}
+{"host":"memory","artifact":"mysql-general-log","source_path":"var/log/mysql/mysql.log","source_line":26,"time":"2026-11-13T01:28:53Z","thread_id":8,"command":"Query","event":"db_statement","user":"root","client_host":"localhost","database":null,"argument":"SHUTDOWN"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_connect,root@localhost: root@localhost on  using Socket,var/log/mysql/mysql.log,4,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,root@localhost: CREATE USER alice@localhost IDENTIFIED BY '<redacted>',var/log/mysql/mysql.log,5,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,root@localhost: GRANT ALL ON *.* TO alice@localhost,var/log/mysql/mysql.log,6,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,root@localhost: CREATE DATABASE appdb,var/log/mysql/mysql.log,7,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_connect,alice@localhost: alice@localhost on appdb using Socket,var/log/mysql/mysql.log,9,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,"alice@localhost: CREATE TABLE t(id int, v text)",var/log/mysql/mysql.log,10,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,"alice@localhost: INSERT INTO t VALUES (1,'a'),(2,'b')",var/log/mysql/mysql.log,11,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,alice@localhost: SELECT * FROM t WHERE id=1,var/log/mysql/mysql.log,12,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,alice@localhost: SELECT sleep(0.2),var/log/mysql/mysql.log,13,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_connect,alice@localhost: alice@localhost on  using Socket,var/log/mysql/mysql.log,15,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_login_failed,alice@localhost: Access denied for user 'alice'@'localhost' (using password: YES),var/log/mysql/mysql.log,16,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_connect,nosuch@localhost: nosuch@localhost on  using Socket,var/log/mysql/mysql.log,17,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_login_failed,nosuch@localhost: Access denied for user 'nosuch'@'localhost',var/log/mysql/mysql.log,18,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_connect,alice@localhost: alice@localhost on  using Socket,var/log/mysql/mysql.log,19,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,"alice@localhost: SELECT 1,
+  2
+FROM dual",var/log/mysql/mysql.log,20,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,alice@localhost: DROP DATABASE appdb,var/log/mysql/mysql.log,23,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_connect,root@localhost: root@localhost on  using Socket,var/log/mysql/mysql.log,25,,,
+2026-11-13T01:28:53Z,seconds,assumed_zone,memory,mysql-general-log,db_statement,root@localhost: SHUTDOWN,var/log/mysql/mysql.log,26,,,

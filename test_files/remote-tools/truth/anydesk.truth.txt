@@ -1,0 +1,26 @@
+(process:5030): GLib-GObject-CRITICAL **: 01:28:34.382: g_signal_connect_data: assertion 'G_TYPE_CHECK_INSTANCE (instance)' failed
+1000000001/etc/anydesk/connection_trace.txt
+/etc/anydesk/system.conf.lock
+/etc/anydesk/service.conf.lock
+/etc/anydesk/.iid
+/etc/anydesk/cache/device-id.cache
+/etc/anydesk/service.conf
+/etc/anydesk/system.conf
+/var/log/apt/eipp.log.xz
+/var/log/apt/term.log
+/var/log/apt/history.log
+/var/log/btmp
+/var/log/faillog
+/var/log/lastlog
+/var/log/wtmp
+/var/log/dpkg.log
+/var/log/fontconfig.log
+/var/log/alternatives.log
+/var/log/anydesk.trace
+/root/.anydesk/.anydesk.trace
+/root/.anydesk/anydesk.trace
+sh: 1: lspci: not found
+sh: 1: lsb_release: not found
+sh: 1: ip: not found
+sh: 1: ip: not found
+sh: 1: lspci: not found

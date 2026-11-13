@@ -1,0 +1,190 @@
+[2026/11/13 01:22:34.412191,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_spnego' registered
+[2026/11/13 01:22:34.412208,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5' registered
+[2026/11/13 01:22:34.412213,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5_sasl' registered
+[2026/11/13 01:22:34.412215,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'spnego' registered
+[2026/11/13 01:22:34.412218,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'schannel' registered
+[2026/11/13 01:22:34.412220,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ncalrpc_as_system' registered
+[2026/11/13 01:22:34.412222,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'sasl-EXTERNAL' registered
+[2026/11/13 01:22:34.412225,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp' registered
+[2026/11/13 01:22:34.412227,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp_resume_ccache' registered
+[2026/11/13 01:22:34.412229,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_basic' registered
+[2026/11/13 01:22:34.412231,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_ntlm' registered
+[2026/11/13 01:22:34.412233,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_negotiate' registered
+[2026/11/13 01:22:34.412236,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'krb5' registered
+[2026/11/13 01:22:34.412238,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'fake_gssapi_krb5' registered
+[2026/11/13 01:22:34.413363,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.413498,  3] ../../auth/ntlmssp/ntlmssp_server.c:509(ntlmssp_server_preauth)
+  Got user=[alice] domain=[WORKGROUP] workstation=[F4EF9E08EF59] len1=24 len2=260
+[2026/11/13 01:22:34.413511,  3] ../../source3/auth/auth.c:201(auth_check_ntlm_password)
+  check_ntlm_password:  Checking password for unmapped user [WORKGROUP]\[alice]@[F4EF9E08EF59] with the new password interface
+[2026/11/13 01:22:34.413517,  3] ../../source3/auth/auth.c:204(auth_check_ntlm_password)
+  check_ntlm_password:  mapped user is: [WORKGROUP]\[alice]@[F4EF9E08EF59]
+[2026/11/13 01:22:34.413756,  3] ../../source3/auth/auth.c:268(auth_check_ntlm_password)
+  auth_check_ntlm_password: sam_ignoredomain authentication for user [alice] succeeded
+[2026/11/13 01:22:34.413765,  2] ../../source3/auth/auth.c:324(auth_check_ntlm_password)
+  check_ntlm_password:  authentication for user [alice] -> [alice] -> [alice] succeeded
+[2026/11/13 01:22:34.413862,  3] ../../auth/ntlmssp/ntlmssp_sign.c:623(ntlmssp_sign_reset)
+  NTLMSSP Sign/Seal - Initialising with flags:
+[2026/11/13 01:22:34.413866,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.413876,  3] ../../auth/ntlmssp/ntlmssp_sign.c:623(ntlmssp_sign_reset)
+  NTLMSSP Sign/Seal - Initialising with flags:
+[2026/11/13 01:22:34.413879,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.434533,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_spnego' registered
+[2026/11/13 01:22:34.434548,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5' registered
+[2026/11/13 01:22:34.434552,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5_sasl' registered
+[2026/11/13 01:22:34.434554,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'spnego' registered
+[2026/11/13 01:22:34.434556,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'schannel' registered
+[2026/11/13 01:22:34.434559,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ncalrpc_as_system' registered
+[2026/11/13 01:22:34.434564,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'sasl-EXTERNAL' registered
+[2026/11/13 01:22:34.434568,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp' registered
+[2026/11/13 01:22:34.434570,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp_resume_ccache' registered
+[2026/11/13 01:22:34.434572,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_basic' registered
+[2026/11/13 01:22:34.434574,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_ntlm' registered
+[2026/11/13 01:22:34.434576,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_negotiate' registered
+[2026/11/13 01:22:34.434579,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'krb5' registered
+[2026/11/13 01:22:34.434581,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'fake_gssapi_krb5' registered
+[2026/11/13 01:22:34.435250,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.435362,  3] ../../auth/ntlmssp/ntlmssp_server.c:509(ntlmssp_server_preauth)
+  Got user=[alice] domain=[WORKGROUP] workstation=[F4EF9E08EF59] len1=24 len2=260
+[2026/11/13 01:22:34.435375,  3] ../../source3/auth/auth.c:201(auth_check_ntlm_password)
+  check_ntlm_password:  Checking password for unmapped user [WORKGROUP]\[alice]@[F4EF9E08EF59] with the new password interface
+[2026/11/13 01:22:34.435379,  3] ../../source3/auth/auth.c:204(auth_check_ntlm_password)
+  check_ntlm_password:  mapped user is: [WORKGROUP]\[alice]@[F4EF9E08EF59]
+[2026/11/13 01:22:34.435605,  2] ../../source3/auth/auth.c:345(auth_check_ntlm_password)
+  check_ntlm_password:  Authentication for user [alice] -> [alice] FAILED with error NT_STATUS_WRONG_PASSWORD, authoritative=1
+[2026/11/13 01:22:34.435627,  3] ../../auth/gensec/spnego.c:1443(gensec_spnego_server_negTokenTarg_step)
+  gensec_spnego_server_negTokenTarg_step: SPNEGO(ntlmssp) login failed: NT_STATUS_WRONG_PASSWORD
+[2026/11/13 01:22:34.452608,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_spnego' registered
+[2026/11/13 01:22:34.452627,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5' registered
+[2026/11/13 01:22:34.452631,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5_sasl' registered
+[2026/11/13 01:22:34.452633,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'spnego' registered
+[2026/11/13 01:22:34.452635,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'schannel' registered
+[2026/11/13 01:22:34.452637,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ncalrpc_as_system' registered
+[2026/11/13 01:22:34.452640,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'sasl-EXTERNAL' registered
+[2026/11/13 01:22:34.452642,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp' registered
+[2026/11/13 01:22:34.452644,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp_resume_ccache' registered
+[2026/11/13 01:22:34.452646,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_basic' registered
+[2026/11/13 01:22:34.452648,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_ntlm' registered
+[2026/11/13 01:22:34.452650,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_negotiate' registered
+[2026/11/13 01:22:34.452652,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'krb5' registered
+[2026/11/13 01:22:34.452654,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'fake_gssapi_krb5' registered
+[2026/11/13 01:22:34.453456,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.453574,  3] ../../auth/ntlmssp/ntlmssp_server.c:509(ntlmssp_server_preauth)
+  Got user=[nosuch] domain=[WORKGROUP] workstation=[F4EF9E08EF59] len1=24 len2=260
+[2026/11/13 01:22:34.453590,  3] ../../source3/auth/auth.c:201(auth_check_ntlm_password)
+  check_ntlm_password:  Checking password for unmapped user [WORKGROUP]\[nosuch]@[F4EF9E08EF59] with the new password interface
+[2026/11/13 01:22:34.453594,  3] ../../source3/auth/auth.c:204(auth_check_ntlm_password)
+  check_ntlm_password:  mapped user is: [WORKGROUP]\[nosuch]@[F4EF9E08EF59]
+[2026/11/13 01:22:34.453608,  3] ../../source3/auth/check_samsec.c:401(check_sam_security)
+  check_sam_security: Couldn't find user 'nosuch' in passdb.
+[2026/11/13 01:22:34.453611,  2] ../../source3/auth/auth.c:345(auth_check_ntlm_password)
+  check_ntlm_password:  Authentication for user [nosuch] -> [nosuch] FAILED with error NT_STATUS_NO_SUCH_USER, authoritative=1
+[2026/11/13 01:22:34.453623,  3] ../../auth/gensec/spnego.c:1443(gensec_spnego_server_negTokenTarg_step)
+  gensec_spnego_server_negTokenTarg_step: SPNEGO(ntlmssp) login failed: NT_STATUS_NO_SUCH_USER
+[2026/11/13 01:22:34.469850,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_spnego' registered
+[2026/11/13 01:22:34.469866,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5' registered
+[2026/11/13 01:22:34.469869,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'gssapi_krb5_sasl' registered
+[2026/11/13 01:22:34.469872,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'spnego' registered
+[2026/11/13 01:22:34.469874,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'schannel' registered
+[2026/11/13 01:22:34.469876,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ncalrpc_as_system' registered
+[2026/11/13 01:22:34.469879,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'sasl-EXTERNAL' registered
+[2026/11/13 01:22:34.469881,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp' registered
+[2026/11/13 01:22:34.469883,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'ntlmssp_resume_ccache' registered
+[2026/11/13 01:22:34.469885,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_basic' registered
+[2026/11/13 01:22:34.469887,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_ntlm' registered
+[2026/11/13 01:22:34.469889,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'http_negotiate' registered
+[2026/11/13 01:22:34.469892,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'krb5' registered
+[2026/11/13 01:22:34.469894,  3] ../../auth/gensec/gensec_start.c:1083(gensec_register)
+  GENSEC backend 'fake_gssapi_krb5' registered
+[2026/11/13 01:22:34.470554,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.470675,  3] ../../auth/ntlmssp/ntlmssp_server.c:509(ntlmssp_server_preauth)
+  Got user=[root] domain=[WORKGROUP] workstation=[F4EF9E08EF59] len1=0 len2=0
+[2026/11/13 01:22:34.470683,  3] ../../source3/auth/auth.c:201(auth_check_ntlm_password)
+  check_ntlm_password:  Checking password for unmapped user [WORKGROUP]\[root]@[F4EF9E08EF59] with the new password interface
+[2026/11/13 01:22:34.470686,  3] ../../source3/auth/auth.c:204(auth_check_ntlm_password)
+  check_ntlm_password:  mapped user is: [WORKGROUP]\[root]@[F4EF9E08EF59]
+[2026/11/13 01:22:34.470698,  3] ../../source3/auth/check_samsec.c:401(check_sam_security)
+  check_sam_security: Couldn't find user 'root' in passdb.
+[2026/11/13 01:22:34.470701,  2] ../../source3/auth/auth.c:345(auth_check_ntlm_password)
+  check_ntlm_password:  Authentication for user [root] -> [root] FAILED with error NT_STATUS_NO_SUCH_USER, authoritative=1
+[2026/11/13 01:22:34.470716,  3] ../../auth/gensec/spnego.c:1443(gensec_spnego_server_negTokenTarg_step)
+  gensec_spnego_server_negTokenTarg_step: SPNEGO(ntlmssp) login failed: NT_STATUS_NO_SUCH_USER
+[2026/11/13 01:22:34.470830,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62088215
+[2026/11/13 01:22:34.470881,  3] ../../auth/ntlmssp/ntlmssp_server.c:509(ntlmssp_server_preauth)
+  Got user=[] domain=[] workstation=[] len1=0 len2=0
+[2026/11/13 01:22:34.470887,  3] ../../source3/auth/auth.c:201(auth_check_ntlm_password)
+  check_ntlm_password:  Checking password for unmapped user []\[]@[] with the new password interface
+[2026/11/13 01:22:34.470889,  3] ../../source3/auth/auth.c:204(auth_check_ntlm_password)
+  check_ntlm_password:  mapped user is: []\[]@[]
+[2026/11/13 01:22:34.470893,  3] ../../source3/auth/auth.c:268(auth_check_ntlm_password)
+  auth_check_ntlm_password: anonymous authentication for user [] succeeded
+[2026/11/13 01:22:34.470985,  3] ../../auth/ntlmssp/ntlmssp_sign.c:623(ntlmssp_sign_reset)
+  NTLMSSP Sign/Seal - Initialising with flags:
+[2026/11/13 01:22:34.470988,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62008215
+[2026/11/13 01:22:34.470992,  3] ../../auth/ntlmssp/ntlmssp_sign.c:623(ntlmssp_sign_reset)
+  NTLMSSP Sign/Seal - Initialising with flags:
+[2026/11/13 01:22:34.470994,  3] ../../auth/ntlmssp/ntlmssp_util.c:72(debug_ntlmssp_flags)
+  Got NTLMSSP neg_flags=0x62008215

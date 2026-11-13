@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_state.rs
+expression: "check(&APPLICATION_FIREWALL, \"Library/Preferences/com.apple.alf.plist\",\n\"com.apple.alf.plist\")"
+---
+{"host":"memory","artifact":"application-firewall","source_path":"Library/Preferences/com.apple.alf.plist","source_line":null,"kind":"setting","name":"globalstate","value":"1"}
+{"host":"memory","artifact":"application-firewall","source_path":"Library/Preferences/com.apple.alf.plist","source_line":null,"kind":"setting","name":"stealthenabled","value":"0"}
+{"host":"memory","artifact":"application-firewall","source_path":"Library/Preferences/com.apple.alf.plist","source_line":null,"kind":"setting","name":"loggingenabled","value":"1"}
+{"host":"memory","artifact":"application-firewall","source_path":"Library/Preferences/com.apple.alf.plist","source_line":null,"kind":"application","name":"/Applications/Example.app","value":"applications:3"}
+{"host":"memory","artifact":"application-firewall","source_path":"Library/Preferences/com.apple.alf.plist","source_line":null,"kind":"application","name":"/usr/libexec/sshd-keygen-wrapper","value":"exceptions:3"}

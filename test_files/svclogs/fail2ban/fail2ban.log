@@ -1,0 +1,27 @@
+2026-11-13 01:25:21,564 fail2ban.server         [4218]: INFO    --------------------------------------------------
+2026-11-13 01:25:21,564 fail2ban.server         [4218]: INFO    Starting Fail2ban v1.0.2
+2026-11-13 01:25:21,564 fail2ban.server         [4218]: INFO    Daemon started
+2026-11-13 01:25:21,565 fail2ban.observer       [4218]: INFO    Observer start...
+2026-11-13 01:25:21,570 fail2ban.database       [4218]: INFO    Connected to fail2ban persistent database '/var/lib/fail2ban/fail2ban.sqlite3'
+2026-11-13 01:25:21,571 fail2ban.database       [4218]: WARNING New database created. Version '4'
+2026-11-13 01:25:21,572 fail2ban.jail           [4218]: INFO    Creating new jail 'sshd'
+2026-11-13 01:25:21,572 fail2ban.jail           [4218]: INFO    Jail 'sshd' uses poller {}
+2026-11-13 01:25:21,572 fail2ban.jail           [4218]: INFO    Initiated 'polling' backend
+2026-11-13 01:25:21,573 fail2ban.filter         [4218]: INFO      maxLines: 1
+2026-11-13 01:25:21,579 fail2ban.filter         [4218]: INFO      maxRetry: 3
+2026-11-13 01:25:21,579 fail2ban.filter         [4218]: INFO      findtime: 60
+2026-11-13 01:25:21,580 fail2ban.actions        [4218]: INFO      banTime: 30
+2026-11-13 01:25:21,580 fail2ban.filter         [4218]: INFO      encoding: UTF-8
+2026-11-13 01:25:21,580 fail2ban.filter         [4218]: INFO    Added logfile: '/var/log/auth.log' (pos = 0, hash = 17580ce01fc674b0de897f54e6d7987420194033)
+2026-11-13 01:25:21,582 fail2ban.jail           [4218]: INFO    Jail 'sshd' started
+2026-11-13 01:25:27,802 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:27
+2026-11-13 01:25:29,814 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:29
+2026-11-13 01:25:33,023 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:32
+2026-11-13 01:25:33,616 fail2ban.actions        [4218]: NOTICE  [sshd] Ban 127.0.0.1
+2026-11-13 01:25:36,235 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:36
+2026-11-13 01:25:38,243 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:37
+2026-11-13 01:25:39,450 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:39
+2026-11-13 01:25:39,647 fail2ban.actions        [4218]: NOTICE  [sshd] 127.0.0.1 already banned
+2026-11-13 01:25:39,853 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:39
+2026-11-13 01:25:42,461 fail2ban.filter         [4218]: INFO    [sshd] Found 127.0.0.1 - 2026-11-13 01:25:42
+2026-11-13 01:25:49,261 fail2ban.actions        [4218]: NOTICE  [sshd] Unban 127.0.0.1

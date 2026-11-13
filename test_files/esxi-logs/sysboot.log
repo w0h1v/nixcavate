@@ -1,0 +1,4 @@
+VMKernel Initialization Time: 15000000
+[2026-01-10 07:55:24.649244 - 2026-01-10 07:55:24.651093] sysboot: register-vmw-satp
+[2026-01-10 07:55:39.102518 - 2026-01-10 07:55:39.153570] sysboot: oem-modules
+[2026-01-10 07:55:xx - broken] sysboot: x

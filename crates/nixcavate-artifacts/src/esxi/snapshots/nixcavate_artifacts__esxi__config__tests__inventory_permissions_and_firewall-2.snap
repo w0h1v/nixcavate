@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/config.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-permissions","source_path":"etc/vmware/hostd/authorization.xml","source_line":null,"id":"10","entity":"ha-folder-root","user":"root","is_group":false,"role_id":-1,"propagate":true}
+{"host":"memory","artifact":"esxi-permissions","source_path":"etc/vmware/hostd/authorization.xml","source_line":null,"id":"13","entity":"ha-folder-root","user":"mallory","is_group":false,"role_id":-1,"propagate":true}

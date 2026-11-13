@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IPAddress</key>
+	<string>192.0.2.10</string>
+	<key>LeaseLength</key>
+	<integer>86400</integer>
+	<key>LeaseStartDate</key>
+	<date>2023-11-14T10:00:00Z</date>
+	<key>PacketData</key>
+	<data>
+	cGxhbnRlZC1kaGNwLXBhY2tldA==
+	</data>
+	<key>RouterHardwareAddress</key>
+	<data>
+	qrvM3e7/
+	</data>
+	<key>RouterIPAddress</key>
+	<string>192.0.2.1</string>
+	<key>SSID</key>
+	<string>ExampleNet</string>
+</dict>
+</plist>

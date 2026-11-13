@@ -43,7 +43,22 @@ impl Pattern {
 
     /// Matches a path relative to the pattern's base (the host root or its parent).
     pub fn matches(&self, path: &str) -> bool {
-        match_from(&self.segments, path)
+        self.tail_fits(path) && match_from(&self.segments, path)
+    }
+
+    /// Cheap reject before the full match: the pattern's last two segments, when they are names,
+    /// must match the path's last two. Most paths fail here, which keeps a leading `**`
+    /// affordable on listings of millions of entries.
+    fn tail_fits(&self, path: &str) -> bool {
+        let mut parts = path.rsplit('/');
+        for segment in self.segments.iter().rev().take(2) {
+            let Segment::Name(pattern) = segment else { return true };
+            match parts.next() {
+                Some(name) if wildcard(pattern.as_bytes(), name.as_bytes()) => {}
+                _ => return false,
+            }
+        }
+        true
     }
 
     /// Matches when the pattern fits some trailing part of `path`, starting at a segment
@@ -154,6 +169,19 @@ mod tests {
         let p = Pattern::new("home/*/.bash_history");
         assert!(p.matches("home/alice/.bash_history"));
         assert!(!p.matches("home/alice/x/.bash_history"));
+    }
+
+    #[test]
+    fn tail_reject_agrees_with_the_full_match() {
+        let p = Pattern::new("**/image/*/imagedb/content/sha256/*");
+        assert!(p.matches("data/docker/image/overlay2/imagedb/content/sha256/ab"));
+        assert!(!p.matches("data/docker/image/overlay2/imagedb/content/sha257/ab"));
+        assert!(!p.matches("sha256/ab"));
+        let p = Pattern::new("**/containers/*/config.v2.json");
+        assert!(p.matches("srv/docker/containers/abc/config.v2.json"));
+        assert!(p.matches("containers/abc/config.v2.json"));
+        assert!(!p.matches("config.v2.json"));
+        assert!(!p.matches("containers/config.v2.json"));
     }
 
     #[test]

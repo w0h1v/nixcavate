@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/aix/live.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-live-network","source_path":"../live_response/network/netstat_-an.txt","source_line":3,"pcb":null,"protocol":"tcp4","recv_q":0,"send_q":0,"local_address":null,"local_port":22,"remote_address":null,"remote_port":null,"state":"LISTEN"}
+{"host":"memory","artifact":"aix-live-network","source_path":"../live_response/network/netstat_-an.txt","source_line":4,"pcb":null,"protocol":"tcp4","recv_q":0,"send_q":0,"local_address":"10.0.0.5","local_port":22,"remote_address":"203.0.113.9","remote_port":51234,"state":"ESTABLISHED"}
+{"host":"memory","artifact":"aix-live-network","source_path":"../live_response/network/netstat_-an.txt","source_line":5,"pcb":null,"protocol":"tcp6","recv_q":0,"send_q":0,"local_address":"::1","local_port":25,"remote_address":null,"remote_port":null,"state":"LISTEN"}
+{"host":"memory","artifact":"aix-live-network","source_path":"../live_response/network/netstat_-an.txt","source_line":6,"pcb":null,"protocol":"udp4","recv_q":0,"send_q":0,"local_address":null,"local_port":123,"remote_address":null,"remote_port":null,"state":null}

@@ -1,0 +1,6 @@
+Cluster "demo" set.
+User "admin" set.
+Context "demo" created.
+Switched to context "demo".
+CURRENT   NAME   CLUSTER   AUTHINFO   NAMESPACE
+*         demo   demo      admin      

@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/utx.rs
+expression: "run(&ARTIFACT, \"var/log/utx.log\", &fixture(\"utx/utx.log\"), 0)"
+---
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.log","source_offset":0,"database":"utx.log","time":"2026-11-13T01:36:43.245138Z","type":"boot_time","user":"","line":"","remote_host":"","pid":0,"id":""}
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.log","source_offset":11,"database":"utx.log","time":"2026-11-13T01:37:01.441240Z","type":"boot_time","user":"","line":"","remote_host":"","pid":0,"id":""}
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.log","source_offset":22,"database":"utx.log","time":"2026-11-13T01:38:58.353736Z","type":"user_process","user":"alice","line":"pts/0","remote_host":"127.0.0.1","pid":1194,"id":"pts/0"}
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.log","source_offset":102,"database":"utx.log","time":"2026-11-13T01:38:58.356510Z","type":"dead_process","user":"","line":"","remote_host":"","pid":1194,"id":"pts/0"}
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.log","source_offset":125,"database":"utx.log","time":"2026-11-13T01:38:59.563795Z","type":"user_process","user":"alice","line":"pts/0","remote_host":"127.0.0.1","pid":1200,"id":"pts/0"}
+{"host":"memory","artifact":"utx","source_path":"var/log/utx.log","source_offset":205,"database":"utx.log","time":"2026-11-13T01:38:59.566435Z","type":"dead_process","user":"","line":"","remote_host":"","pid":1200,"id":"pts/0"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:36:43.245138Z,micros,recorded,memory,utx,boot,system boot,var/log/utx.log,,0,,
+2026-11-13T01:37:01.441240Z,micros,recorded,memory,utx,boot,system boot,var/log/utx.log,,11,,
+2026-11-13T01:38:58.353736Z,micros,recorded,memory,utx,login,alice logged in on pts/0 from 127.0.0.1,var/log/utx.log,,22,,
+2026-11-13T01:38:58.356510Z,micros,recorded,memory,utx,logout,"session ended on ",var/log/utx.log,,102,,
+2026-11-13T01:38:59.563795Z,micros,recorded,memory,utx,login,alice logged in on pts/0 from 127.0.0.1,var/log/utx.log,,125,,
+2026-11-13T01:38:59.566435Z,micros,recorded,memory,utx,logout,"session ended on ",var/log/utx.log,,205,,

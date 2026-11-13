@@ -1,0 +1,25 @@
+Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init-local' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.51 seconds.
+Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.89 seconds.
+ci-info: +++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++
+ci-info: +--------+------+---------------+---------------+--------+-------------------+
+ci-info: | Device |  Up  |    Address    |      Mask     | Scope  |     Hw-Address    |
+ci-info: +--------+------+---------------+---------------+--------+-------------------+
+ci-info: |  eth0  | True | 192.0.2.6     | 255.255.255.0 | global | 02:00:00:00:00:01 |
+ci-info: |   lo   | True |   127.0.0.1   |   255.0.0.0   |  host  |         .         |
+ci-info: |   lo   | True |    ::1/128    |       .       |  host  |         .         |
+ci-info: +--------+------+---------------+---------------+--------+-------------------+
+ci-info: +++++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++++
+ci-info: +-------+---------------+---------------+---------------+-----------+-------+
+ci-info: | Route |  Destination  |    Gateway    |    Genmask    | Interface | Flags |
+ci-info: +-------+---------------+---------------+---------------+-----------+-------+
+ci-info: |   0   |    0.0.0.0    | 192.0.2.1     |    0.0.0.0    |    eth0   |   UG  |
+ci-info: |   1   | 192.0.2.0     |    0.0.0.0    | 255.255.255.0 |    eth0   |   U   |
+ci-info: +-------+---------------+---------------+---------------+-----------+-------+
+ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: | Route | Destination | Gateway | Interface | Flags |
+ci-info: +-------+-------------+---------+-----------+-------+
+ci-info: +-------+-------------+---------+-----------+-------+
+2026-11-12 22:57:21,822 - log_util.py[WARNING]: Failed generating key type rsa to file /etc/ssh/ssh_host_rsa_key
+2026-11-12 22:57:21,830 - log_util.py[WARNING]: Failed generating key type ecdsa to file /etc/ssh/ssh_host_ecdsa_key
+2026-11-12 22:57:21,831 - log_util.py[WARNING]: Failed generating key type ed25519 to file /etc/ssh/ssh_host_ed25519_key

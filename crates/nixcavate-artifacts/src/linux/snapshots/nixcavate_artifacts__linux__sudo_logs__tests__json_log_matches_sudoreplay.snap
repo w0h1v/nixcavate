@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/linux/sudo_logs.rs
+expression: "log_on(\"debian12\", \"sudo.json\", \"var/log/sudo.json\", 0)"
+---
+{"host":"memory","artifact":"sudo-log","source_path":"var/log/sudo.json","source_offset":0,"time":"2026-11-13T02:37:28.141918994Z","time_basis":"recorded","format":"json","event":"accept","user":"alice","message":"","run_user":"bob","run_group":"","tty":"/dev/console","cwd":"/","submit_host":"828831590e80","command":"/bin/sh -c echo json-run; sleep 1","tsid":"","uuid":"8811b84943-c722-48b0-b0a7-18d891b37a","exit_value":null}
+{"host":"memory","artifact":"sudo-log","source_path":"var/log/sudo.json","source_offset":1,"time":"2026-11-13T02:37:29.162192625Z","time_basis":"recorded","format":"json","event":"accept","user":"alice","message":"","run_user":"bob","run_group":"","tty":"/dev/pts/1","cwd":"/","submit_host":"828831590e80","command":"/bin/sh -c echo json-on-a-tty","tsid":"","uuid":"24e8929f2f-1ae0-4b8b-8262-04508f9aeb","exit_value":null}
+{"host":"memory","artifact":"sudo-log","source_path":"var/log/sudo.json","source_offset":2,"time":"2026-11-13T02:37:30.736940519Z","time_basis":"recorded","format":"json","event":"reject","user":"alice","message":"1 incorrect password attempt","run_user":"bob","run_group":"","tty":"","cwd":"/","submit_host":"828831590e80","command":"/bin/true","tsid":"","uuid":"388e84fd90-30c2-4cb2-eee3-672185db06","exit_value":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:37:28.141918994Z,nanos,recorded,memory,sudo-log,executed,alice as bob ran /bin/sh -c echo json-run; sleep 1 through sudo,var/log/sudo.json,,0,,
+2026-11-13T02:37:29.162192625Z,nanos,recorded,memory,sudo-log,executed,alice as bob ran /bin/sh -c echo json-on-a-tty through sudo,var/log/sudo.json,,1,,
+2026-11-13T02:37:30.736940519Z,nanos,recorded,memory,sudo-log,failed_login,sudo: alice (alice as bob): 1 incorrect password attempt,var/log/sudo.json,,2,,

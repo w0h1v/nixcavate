@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/rhosts.rs
+expression: "run(&ARTIFACT, \"etc/hosts.equiv\", &fixture(\"rhosts/hosts.equiv\"), 0)"
+---
+{"host":"memory","artifact":"rhosts","source_path":"etc/hosts.equiv","source_line":1,"trusted_host":"+","user":"+","denies":false,"wildcard":true}

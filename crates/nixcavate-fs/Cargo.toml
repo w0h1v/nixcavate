@@ -1,6 +1,6 @@
 [package]
 name = "nixcavate-fs"
-description = "Read-only filesystem readers (ext4, XFS, APFS) for disk images"
+description = "Read-only filesystem readers (ext4, XFS, APFS, Btrfs, ZFS) for disk images"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -13,7 +13,9 @@ workspace = true
 # No dependencies on purpose: these readers face hostile images and are fuzzed on their own.
 [dependencies]
 
-# Tests only: decompress the fixture images and check file contents.
+# Tests only: decompress the fixture images and check file contents (flate2 and zstd also
+# stand in for the decompressor nixcavate-source gives the Btrfs reader).
 [dev-dependencies]
 zstd.workspace = true
 sha2.workspace = true
+flate2.workspace = true

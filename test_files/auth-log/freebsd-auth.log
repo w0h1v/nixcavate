@@ -1,0 +1,16 @@
+Nov 13 01:37:08 bsd145u sshd-session[860]: Accepted publickey for root from 10.0.2.2 port 37872 ssh2: ED25519 SHA256:3DnoXuV2Sgn2kGZT3gmVGJHXC9cgA+L/bzCwetL16NA
+Nov 13 01:38:38 bsd145u sshd-session[868]: Accepted publickey for root from 10.0.2.2 port 51596 ssh2: ED25519 SHA256:3DnoXuV2Sgn2kGZT3gmVGJHXC9cgA+L/bzCwetL16NA
+Nov 13 01:39:04 bsd145u sshd-session[1222]: Failed password for mallory from 127.0.0.1 port 23180 ssh2
+Nov 13 01:39:05 bsd145u sshd-session[1227]: Failed password for mallory from 127.0.0.1 port 13370 ssh2
+Nov 13 01:39:06 bsd145u sshd-session[1232]: Failed password for mallory from 127.0.0.1 port 52699 ssh2
+Nov 13 01:39:07 bsd145u sshd-session[1237]: Failed password for mallory from 127.0.0.1 port 10800 ssh2
+Nov 13 01:39:12 bsd145u sudo[1262]:    alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/id -u
+Nov 13 01:39:13 bsd145u sudo[1270]:    alice : TTY=pts/0 ; PWD=/home/alice ; USER=root ; COMMAND=/usr/bin/id -u
+Nov 13 01:39:17 bsd145u doas[1294]: alice ran command /usr/bin/id -u as root from /home/alice
+Nov 13 01:39:18 bsd145u doas[1300]: alice ran command /usr/bin/id -u as root from /home/alice
+Nov 13 01:39:19 bsd145u doas[1306]: alice ran command /usr/bin/id -u as root from /home/alice
+Nov 13 01:39:24 bsd145u su[1329]: alice to root on /dev/pts/0
+Nov 13 01:39:28 bsd145u su[1337]: BAD SU alice to bob on /dev/pts/0
+Nov 13 01:39:28 bsd145u su[1346]: BAD SU mallory to root on /dev/pts/0
+Nov 13 01:39:30 bsd145u shutdown[1582]: reboot by root: 
+Nov 13 01:39:30 bsd145u init[1]: /etc/rc.shutdown terminated abnormally, going to single user mode

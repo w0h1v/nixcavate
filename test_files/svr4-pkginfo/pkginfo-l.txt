@@ -1,0 +1,14 @@
+   PKGINST:  NXexample
+      NAME:  Example SVR4 package
+  CATEGORY:  application
+      ARCH:  i386
+   VERSION:  1.0
+   BASEDIR:  /
+    VENDOR:  Example
+    PSTAMP:  host120261113011649
+  INSTDATE:  Nov 13 2026 01:16
+    STATUS:  completely installed
+     FILES:        2 installed pathnames
+                   1 directories
+                   1 blocks used (approx)
+

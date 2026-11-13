@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/at_jobs.rs
+expression: out
+---
+{"host":"memory","artifact":"solaris-at-jobs","source_path":"var/spool/cron/atjobs/1794791809.a","source_line":null,"queue":"a","time":"2026-11-16T01:16:49Z","uid":0,"job_name":"stdin","mail":"no","project":"3","submitted_by":"omnios","working_dir":"/home/omnios","umask":"22","command":"/tmp/.NXMK_AT/agent --quiet","environment":["SHELL='/bin/bash'","PWD='/home/omnios'","LOGNAME='omnios'","TZ='UTC'","HOME='/root'","LANG='en_US.UTF-8'","SSH_CONNECTION='10.0.2.2 49112 10.0.2.15 22'","USER='omnios'","SHLVL='2'","SSH_CLIENT='10.0.2.2 49112 22'","PATH='/usr/bin:/usr/sbin:/sbin:/opt/ooce/bin:/usr/gnu/bin'","A__z='\"*SHLVL'","_='/usr/bin/at'"]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-16T01:16:49Z,seconds,recorded,memory,solaris-at-jobs,scheduled_job,at job scheduled to run as uid 0: /tmp/.NXMK_AT/agent --quiet,var/spool/cron/atjobs/1794791809.a,,,,

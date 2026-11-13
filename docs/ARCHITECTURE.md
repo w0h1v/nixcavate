@@ -18,7 +18,9 @@ evidence ──► Source ──► Host ──► plan ──► tasks ──�
    when read, a zip or plain-tar entry is a range of the mapped archive, an image entry is
    read through a filesystem reader.
 2. **Host**. Discovery finds each host root inside a source (`[root]` in a UAC collection,
-   `/` in a mounted volume) and reads its name, OS and time zone.
+   `/` in a mounted volume) and reads its name, OS and time zone. In a disk image each volume
+   (partition, logical volume, RAID array) is a host root, except that the volumes a root's
+   `etc/fstab` mounts are listed under that root at their mount points, so one disk is one host.
 3. **Plan** (`plan.rs`). Each artifact lists path patterns. Every matching file becomes one
    task. A large plain-text file whose parser works line by line is cut at newlines into
    64 MiB chunks, each its own task. Tasks are sorted by estimated work, largest first.
@@ -37,9 +39,9 @@ evidence ──► Source ──► Host ──► plan ──► tasks ──�
 | Crate | Holds | Depends on |
 |---|---|---|
 | `nixcavate-core` | `Timestamp`, the row serializer, `Sink`, timeline runs and their merge, the manifest | serde, memchr, itoa, ryu |
-| `nixcavate-fs` | Read-only ext4, XFS and APFS readers | nothing |
-| `nixcavate-source` | Directories, archives, disk images (E01, partition tables), host discovery, zones, path patterns | core, fs |
-| `nixcavate-artifacts` | One module per artifact, under `linux/`, `macos/`, `common/` | core, source |
+| `nixcavate-fs` | Read-only ext4, XFS, APFS, Btrfs, UFS and ZFS readers (zlib and zstd for Btrfs and ZFS come from `nixcavate-source` through a trait) | nothing |
+| `nixcavate-source` | Directories, archives, disk images (E01, partition tables, BSD disklabels and Solaris VTOCs), host discovery, zones, path patterns | core, fs |
+| `nixcavate-artifacts` | One module per artifact, under `linux/`, `macos/`, `bsd/`, `common/` | core, source |
 | `nixcavate` | The commands, the planner, the executor, the summary | all of the above |
 
 ## Where the speed comes from

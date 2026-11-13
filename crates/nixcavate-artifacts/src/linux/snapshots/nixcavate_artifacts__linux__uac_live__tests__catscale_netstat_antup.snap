@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "catscale(&NETWORK, \"Process_and_Network\", \"netstat-antup\")"
+---
+{"host":"memory","artifact":"live-network","source_path":"../Process_and_Network/host-20261112-1838-netstat-antup.txt","source_line":3,"protocol":"tcp","local_address":"0.0.0.0","local_port":4444,"remote_address":"0.0.0.0","remote_port":null,"state":"LISTEN","pid":473,"program":"nc","user":null}
+{"host":"memory","artifact":"live-network","source_path":"../Process_and_Network/host-20261112-1838-netstat-antup.txt","source_line":4,"protocol":"udp","local_address":"0.0.0.0","local_port":5353,"remote_address":"0.0.0.0","remote_port":null,"state":null,"pid":479,"program":"nc","user":null}

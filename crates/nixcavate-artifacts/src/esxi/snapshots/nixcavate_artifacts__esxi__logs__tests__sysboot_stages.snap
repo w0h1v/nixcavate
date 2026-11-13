@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/logs.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-sysboot","source_path":"var/log/sysboot.log","source_line":1,"start":null,"end":null,"stage":"","message":"VMKernel Initialization Time: 15000000"}
+{"host":"memory","artifact":"esxi-sysboot","source_path":"var/log/sysboot.log","source_line":2,"start":"2026-01-10T07:55:24.649244Z","end":"2026-01-10T07:55:24.651093Z","stage":"register-vmw-satp","message":""}
+{"host":"memory","artifact":"esxi-sysboot","source_path":"var/log/sysboot.log","source_line":3,"start":"2026-01-10T07:55:39.102518Z","end":"2026-01-10T07:55:39.153570Z","stage":"oem-modules","message":""}
+{"host":"memory","artifact":"esxi-sysboot","source_path":"var/log/sysboot.log","source_line":4,"start":null,"end":null,"stage":"","message":"[2026-01-10 07:55:xx - broken] sysboot: x"}

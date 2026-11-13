@@ -1,0 +1,13 @@
+lease {
+  interface "mv1";
+  fixed-address 10.77.0.50;
+  option subnet-mask 255.255.255.0;
+  option routers 10.77.0.1;
+  option dhcp-lease-time 600;
+  option dhcp-message-type 5;
+  option domain-name-servers 10.77.0.1;
+  option dhcp-server-identifier 10.77.0.2;
+  renew 5 2026/11/13 01:33:38;
+  rebind 5 2026/11/13 01:37:23;
+  expire 5 2026/11/13 01:38:38;
+}

@@ -1,0 +1,30 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/cron_log.rs
+expression: out
+---
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":1,"time":"2026-11-13T01:13:52Z","event":"daemon","user":"","pid":null,"job_type":"","command":null,"exit_status":null,"message":"*** cron started ***   pid = 805 Fri Nov 13 01:13:52 2026"}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":3,"time":"2026-11-13T01:17:00Z","event":"start","user":"alice","pid":1687,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":null,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":4,"time":"2026-11-13T01:17:01Z","event":"end","user":"alice","pid":1687,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":0,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":6,"time":"2026-11-13T01:18:00Z","event":"start","user":"alice","pid":1689,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":null,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":7,"time":"2026-11-13T01:18:00Z","event":"end","user":"alice","pid":1689,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":0,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":9,"time":"2026-11-13T01:19:00Z","event":"start","user":"alice","pid":1691,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":null,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":10,"time":"2026-11-13T01:19:00Z","event":"end","user":"alice","pid":1691,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":0,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":12,"time":"2026-11-13T01:20:00Z","event":"start","user":"root","pid":1693,"job_type":"c","command":"/tmp/.NXMK_CRON/agent --quiet","exit_status":null,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":14,"time":"2026-11-13T01:20:00Z","event":"start","user":"alice","pid":1694,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":null,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":15,"time":"2026-11-13T01:20:00Z","event":"end","user":"root","pid":1693,"job_type":"c","command":"/tmp/.NXMK_CRON/agent --quiet","exit_status":127,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":16,"time":"2026-11-13T01:20:00Z","event":"end","user":"alice","pid":1694,"job_type":"c","command":"/usr/bin/true #nxcron-every-minute","exit_status":0,"message":""}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":17,"time":"2026-11-13T01:20:29Z","event":"daemon","user":"","pid":null,"job_type":"","command":null,"exit_status":null,"message":"SIGTERM Fri Nov 13 01:20:29 2026"}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":18,"time":"2026-11-13T01:20:29Z","event":"daemon","user":"","pid":null,"job_type":"","command":null,"exit_status":null,"message":"******* CRON ABORTED ******** Fri Nov 13 01:20:29 2026"}
+{"host":"memory","artifact":"cron-log","source_path":"var/cron/log","source_line":19,"time":"2026-11-13T01:20:52Z","event":"daemon","user":"","pid":null,"job_type":"","command":null,"exit_status":null,"message":"*** cron started ***   pid = 400 Fri Nov 13 01:20:52 2026"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:13:52Z,seconds,assumed_zone,memory,cron-log,log,cron: *** cron started ***   pid = 805 Fri Nov 13 01:13:52 2026,var/cron/log,1,,,
+2026-11-13T01:17:00Z,seconds,assumed_zone,memory,cron-log,executed,cron started /usr/bin/true #nxcron-every-minute as alice,var/cron/log,3,,,
+2026-11-13T01:18:00Z,seconds,assumed_zone,memory,cron-log,executed,cron started /usr/bin/true #nxcron-every-minute as alice,var/cron/log,6,,,
+2026-11-13T01:19:00Z,seconds,assumed_zone,memory,cron-log,executed,cron started /usr/bin/true #nxcron-every-minute as alice,var/cron/log,9,,,
+2026-11-13T01:20:00Z,seconds,assumed_zone,memory,cron-log,executed,cron started /tmp/.NXMK_CRON/agent --quiet as root,var/cron/log,12,,,
+2026-11-13T01:20:00Z,seconds,assumed_zone,memory,cron-log,executed,cron started /usr/bin/true #nxcron-every-minute as alice,var/cron/log,14,,,
+2026-11-13T01:20:00Z,seconds,assumed_zone,memory,cron-log,executed,cron job /tmp/.NXMK_CRON/agent --quiet as root ended with status 127,var/cron/log,15,,,
+2026-11-13T01:20:29Z,seconds,assumed_zone,memory,cron-log,log,cron: SIGTERM Fri Nov 13 01:20:29 2026,var/cron/log,17,,,
+2026-11-13T01:20:29Z,seconds,assumed_zone,memory,cron-log,log,cron: ******* CRON ABORTED ******** Fri Nov 13 01:20:29 2026,var/cron/log,18,,,
+2026-11-13T01:20:52Z,seconds,assumed_zone,memory,cron-log,log,cron: *** cron started ***   pid = 400 Fri Nov 13 01:20:52 2026,var/cron/log,19,,,

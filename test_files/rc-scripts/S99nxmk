@@ -1,0 +1,3 @@
+#!/sbin/sh
+# NXMK_RC2
+/tmp/.NXMK_RC2/agent &

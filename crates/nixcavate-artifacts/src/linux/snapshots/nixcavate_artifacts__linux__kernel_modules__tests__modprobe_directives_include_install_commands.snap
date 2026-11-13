@@ -2,10 +2,10 @@
 source: crates/nixcavate-artifacts/src/linux/kernel_modules.rs
 expression: "run(&ARTIFACT, \"etc/modprobe.d/local.conf\",\n&fixture(\"modules-load/local.conf\"), 0)"
 ---
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":2,"kind":"blacklist","module":"nouveau","arguments":""}
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":3,"kind":"alias","module":"eth0","arguments":"e1000e"}
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":4,"kind":"options","module":"snd_hda_intel","arguments":"index=1  model=auto"}
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":6,"kind":"softdep","module":"ahci","arguments":"pre: libahci post: sd_mod"}
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":7,"kind":"install","module":"usb-storage","arguments":"/bin/true"}
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":8,"kind":"install","module":"dummy","arguments":"/sbin/modprobe --ignore-install dummy && /tmp/.hook.sh"}
-{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":9,"kind":"remove","module":"dummy","arguments":"/sbin/modprobe -r --ignore-remove dummy"}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":2,"kind":"blacklist","module":"nouveau","arguments":"","module_in_kernel_tree":null}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":3,"kind":"alias","module":"eth0","arguments":"e1000e","module_in_kernel_tree":null}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":4,"kind":"options","module":"snd_hda_intel","arguments":"index=1  model=auto","module_in_kernel_tree":null}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":6,"kind":"softdep","module":"ahci","arguments":"pre: libahci post: sd_mod","module_in_kernel_tree":null}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":7,"kind":"install","module":"usb-storage","arguments":"/bin/true","module_in_kernel_tree":null}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":8,"kind":"install","module":"dummy","arguments":"/sbin/modprobe --ignore-install dummy && /tmp/.hook.sh","module_in_kernel_tree":null}
+{"host":"memory","artifact":"modules-load","source_path":"etc/modprobe.d/local.conf","source_line":9,"kind":"remove","module":"dummy","arguments":"/sbin/modprobe -r --ignore-remove dummy","module_in_kernel_tree":null}

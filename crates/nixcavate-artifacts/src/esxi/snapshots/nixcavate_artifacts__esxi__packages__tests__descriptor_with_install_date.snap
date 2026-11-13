@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/packages.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-vib","source_path":"var/db/esximg/vibs/example-1.xml","source_line":null,"name":"example-agent","version":"1.2.3-1","vendor":"example","vib_type":"bootbank","acceptance_level":"community","summary":"Example & test agent","release_date":"2025-01-09T14:02:15Z","install_date":"2025-01-10T01:39:06.106766Z","files":["etc/init.d/example-agent","bin/example-agent"],"payload_sha256":["1111111111111111111111111111111111111111111111111111111111111111","2222222222222222222222222222222222222222222222222222222222222222"]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-01-10T01:39:06.106766Z,micros,recorded,memory,esxi-vib,package_installed,VIB example-agent 1.2.3-1 installed (community),var/db/esximg/vibs/example-1.xml,,,,

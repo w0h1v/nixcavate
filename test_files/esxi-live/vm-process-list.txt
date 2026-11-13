@@ -1,0 +1,11 @@
+web01:
+   World ID: 2099654
+   Process ID: 0
+   VMX Cartel ID: 2099653
+   UUID: 56 4d 97 0f 96 60 f1 9b-6f e0 32 2b 1b 34 59 ef
+   Display Name: web01
+   Config File: /vmfs/volumes/3a4fd8ce-fc4375c4-effb-5cf3fce846f8/web01/web01.vmx
+
+db01:
+   World ID: 2099801
+   Display Name: db01

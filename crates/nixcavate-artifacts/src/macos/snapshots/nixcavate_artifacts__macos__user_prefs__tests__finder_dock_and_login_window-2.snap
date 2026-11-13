@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/user_prefs.rs
+expression: "run(&DOCK, dock, &fixture(\"user-prefs/com.apple.dock.plist\"), 0)"
+---
+{"host":"memory","artifact":"dock-items","source_path":"Users/alice/Library/Preferences/com.apple.dock.plist","source_line":null,"user":"alice","kind":"pinned_app","order":0,"name":"Safari","path":"file:///Applications/Safari.app/","bundle_id":"com.apple.Safari","value":null,"time":null}
+{"host":"memory","artifact":"dock-items","source_path":"Users/alice/Library/Preferences/com.apple.dock.plist","source_line":null,"user":"alice","kind":"pinned_app","order":1,"name":"Helper","path":"file:///Users/alice/Downloads/Helper.app/","bundle_id":"com.example.helper","value":null,"time":null}
+{"host":"memory","artifact":"dock-items","source_path":"Users/alice/Library/Preferences/com.apple.dock.plist","source_line":null,"user":"alice","kind":"pinned_item","order":0,"name":"Downloads","path":"file:///Users/alice/Downloads/","bundle_id":"","value":null,"time":null}
+{"host":"memory","artifact":"dock-items","source_path":"Users/alice/Library/Preferences/com.apple.dock.plist","source_line":null,"user":"alice","kind":"recent_app","order":0,"name":"Notes","path":"file:///System/Applications/Notes.app/","bundle_id":"com.apple.Notes","value":null,"time":null}

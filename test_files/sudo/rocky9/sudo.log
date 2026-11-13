@@ -1,0 +1,14 @@
+Nov 13 02:37:48 : alice : PWD=/ ; USER=bob ; TSID=000001 ; COMMAND=/bin/true
+Nov 13 02:37:48 : alice : PWD=/ ; USER=bob ; TSID=000002 ; COMMAND=/bin/sh -c
+    'echo out-one; echo err-one >&2; sleep 1; echo out-two'
+Nov 13 02:37:49 : alice : PWD=/ ; USER=bob ; TSID=000003 ; COMMAND=/bin/ls /home
+Nov 13 02:37:49 : alice : PWD=/ ; USER=bob ; TSID=000004 ; COMMAND=/bin/echo
+    argument-1 argument-2 argument-3 argument-4 argument-5 argument-6 argument-7
+    argument-8 argument-9 argument-10 argument-11 argument-12 argument-13
+    argument-14 argument-15 argument-16 argument-17 argument-18 argument-19
+    argument-20
+Nov 13 02:37:51 : alice : 1 incorrect password attempt ; PWD=/ ; USER=bob ;
+    COMMAND=/bin/true
+Nov 13 02:37:51 : alice : TTY=pts/1 ; PWD=/tmp ; USER=bob ; TSID=000005 ;
+    COMMAND=/bin/sh -c 'echo typed-on-a-tty; sleep 1; echo done'
+Nov 13 02:37:52 : bob : PWD=/ ; USER=root ; TSID=000006 ; COMMAND=/bin/true

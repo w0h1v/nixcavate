@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/uac_live.rs
+expression: "catscale(&MODULES, \"System_Info\", \"lsmod\")"
+---
+{"host":"memory","artifact":"live-modules","source_path":"../System_Info/host-20261112-1838-lsmod.txt","source_line":2,"module":"ext4","size_bytes":774144,"used_count":0,"used_by":[]}
+{"host":"memory","artifact":"live-modules","source_path":"../System_Info/host-20261112-1838-lsmod.txt","source_line":3,"module":"mbcache","size_bytes":12288,"used_count":1,"used_by":["ext4"]}
+{"host":"memory","artifact":"live-modules","source_path":"../System_Info/host-20261112-1838-lsmod.txt","source_line":4,"module":"crc16","size_bytes":12288,"used_count":1,"used_by":["ext4"]}
+{"host":"memory","artifact":"live-modules","source_path":"../System_Info/host-20261112-1838-lsmod.txt","source_line":5,"module":"jbd2","size_bytes":118784,"used_count":1,"used_by":["ext4"]}
+{"host":"memory","artifact":"live-modules","source_path":"../System_Info/host-20261112-1838-lsmod.txt","source_line":6,"module":"xfs","size_bytes":1826816,"used_count":0,"used_by":[]}

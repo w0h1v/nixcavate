@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/boot.rs
+expression: "run(&LOADER_CONF, \"boot/loader.conf\", &fixture(\"boot/loader.conf\"), 0)"
+---
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":1,"variable":"autoboot_delay","value":"-1","kind":"setting","module":"","enabled":null}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":2,"variable":"beastie_disable","value":"YES","kind":"setting","module":"","enabled":null}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":3,"variable":"loader_logo","value":"none","kind":"setting","module":"","enabled":null}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":4,"variable":"console","value":"comconsole,vidconsole","kind":"setting","module":"","enabled":null}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":5,"variable":"nxmk_load","value":"YES","kind":"module_load","module":"nxmk","enabled":true}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":6,"variable":"nxmk_name","value":"/boot/modules/nxmk.ko","kind":"module_file","module":"nxmk","enabled":null}

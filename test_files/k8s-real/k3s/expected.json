@@ -1,0 +1,419 @@
+{
+ "audit": {
+  "categories": {
+   "change": 11,
+   "exec": 8,
+   "secret_read": 2
+  },
+  "lines": 106
+ },
+ "containers": [
+  {
+   "attempt": 0,
+   "container": "tick",
+   "id": "060ab00810db8b24fdfff8bef9b63dfc9e595c98de75ed55766af487b14ba524",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "ticker-29908888-h7mpg",
+   "uid": "60b4cbe9-10d3-4cab-81ad-2b6166e571bc"
+  },
+  {
+   "attempt": 0,
+   "container": "tick",
+   "id": "7318ad764a3601f00df94ec7f42a6f2b9e7c0a883ab4cb627e358a3b641b003b",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "ticker-29908887-c764w",
+   "uid": "06bcda8f-cf3d-4ce3-b096-84d9708cda5c"
+  },
+  {
+   "attempt": 0,
+   "container": "coredns",
+   "id": "c5f40bcadfacacfa9f07388f874d55f4f03bd55402d28c86d37653f8b24a3e3f",
+   "image": "sha256:7ff8c97cbda192b744217508a185c1a88f9c3e7d190990ff86db0dff4c20909d",
+   "namespace": "kube-system",
+   "pod": "coredns-7896679cc-htq8p",
+   "uid": "9f128eb4-9a40-45cf-ad37-fa19eeece5b7"
+  },
+  {
+   "attempt": 0,
+   "container": "local-path-provisioner",
+   "id": "61f16f13260580739e3a9898104912febd1561c3c6ed2fbce270c9516b47e037",
+   "image": "sha256:0594e75cdd5df85c117280c0671da048b04e853ac30c7e078fe5ad981dfa92cd",
+   "namespace": "kube-system",
+   "pod": "local-path-provisioner-578895bd58-fg99f",
+   "uid": "235c8d23-9b1f-4a7b-a957-644b95e7878f"
+  },
+  {
+   "attempt": 0,
+   "container": "helper",
+   "id": "37536607ee3d1af4d4cc71e761b657122d49fd1230a81c3f5f95791795734d95",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "tools",
+   "pod": "node-helper-s927b",
+   "uid": "25e1a173-ab16-4f79-b81d-689246328ecf"
+  },
+  {
+   "attempt": 0,
+   "container": "nginx",
+   "id": "e7a655996e834dd18db478814869d5c2b478931c9ee54e5ad9a829694369e8df",
+   "image": "sha256:96868d9fa38f469a86d2f25787e43ee9ad330339d30be260aa9f5a338bb03751",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-k8vzf",
+   "uid": "cbd57dab-438a-4d61-aeea-f86b41b831fe"
+  },
+  {
+   "attempt": 0,
+   "container": "web",
+   "id": "5ddd30486ed0a4e0fcd9381fa4f57735faa67588a87a83cd390f5069b693449e",
+   "image": "sha256:96868d9fa38f469a86d2f25787e43ee9ad330339d30be260aa9f5a338bb03751",
+   "namespace": "kube-system",
+   "pod": "static-web-eff7ee265999",
+   "uid": "2b1dd0dc35d1c75722a685653e445c26"
+  },
+  {
+   "attempt": 0,
+   "container": "nginx",
+   "id": "dea0abbabc1f619c2a47ef5b92714e6246f64e33ec1ad5190e74ea389bb65462",
+   "image": "sha256:96868d9fa38f469a86d2f25787e43ee9ad330339d30be260aa9f5a338bb03751",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-45pk2",
+   "uid": "aa5dfb50-07be-4b5f-9cb1-9e5d7273b36e"
+  },
+  {
+   "attempt": 0,
+   "container": "c",
+   "id": "962b373b3af5d302ba158f8f5ce00eda9554d7a8414a215dcba066ba11cad4f5",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "longline",
+   "uid": "8b0d3b58-c7ca-40c9-b631-6bd3fdf5435a"
+  },
+  {
+   "attempt": 0,
+   "container": "shell",
+   "id": "51228da7495244a963bbb8afbd18e850f4461b915e023a152d0e566f7c30c372",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "priv-host",
+   "uid": "d700996d-8632-4d82-8d67-f7ea699327f6"
+  },
+  {
+   "attempt": 0,
+   "container": "execer",
+   "id": "15ad8d5f9e5aefd9b40901f5c4aa2be6d9b32b9e36a448d14503b0758107868d",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "execer",
+   "uid": "f4890fe8-66ec-4d08-9b86-a08424b6ed39"
+  },
+  {
+   "attempt": 0,
+   "container": "agent",
+   "id": "0b6fea5aba64eefac0d0975526e01f6cadeba00d48da0d13dc9b2d5b6d9ba6fe",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "agentd-cbxxn",
+   "uid": "ab8d0263-f300-430c-9014-ab59f3dab431"
+  },
+  {
+   "attempt": 0,
+   "container": "c",
+   "id": "180f87c4d0b3caa8f4da2688221242b82ed314a1ed05a9da881e2006bf1e00a6",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "secret-user",
+   "uid": "2a1e257d-f6dc-4339-bb71-b9317d0a2555"
+  }
+ ],
+ "kubectl_pods": [
+  "default/agentd-cbxxn/ab8d0263-f300-430c-9014-ab59f3dab431",
+  "default/badpull/ccdec821-4442-44f8-8615-57c4087ea9bc",
+  "default/execer/f4890fe8-66ec-4d08-9b86-a08424b6ed39",
+  "default/longline/8b0d3b58-c7ca-40c9-b631-6bd3fdf5435a",
+  "default/priv-host/d700996d-8632-4d82-8d67-f7ea699327f6",
+  "default/secret-user/2a1e257d-f6dc-4339-bb71-b9317d0a2555",
+  "default/ticker-29908887-c764w/06bcda8f-cf3d-4ce3-b096-84d9708cda5c",
+  "default/ticker-29908888-h7mpg/60b4cbe9-10d3-4cab-81ad-2b6166e571bc",
+  "default/web-79ffc79c64-45pk2/aa5dfb50-07be-4b5f-9cb1-9e5d7273b36e",
+  "default/web-79ffc79c64-k8vzf/cbd57dab-438a-4d61-aeea-f86b41b831fe",
+  "kube-system/coredns-7896679cc-htq8p/9f128eb4-9a40-45cf-ad37-fa19eeece5b7",
+  "kube-system/local-path-provisioner-578895bd58-fg99f/235c8d23-9b1f-4a7b-a957-644b95e7878f",
+  "kube-system/static-web-eff7ee265999/34ac5d45-e3bd-4633-8e5b-0bf7866b1fba",
+  "tools/node-helper-s927b/25e1a173-ab16-4f79-b81d-689246328ecf"
+ ],
+ "pod_facts": [
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "agentd-cbxxn",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "registry.invalid/nope:1"
+   ],
+   "name": "badpull",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "execer",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "longline",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": true,
+   "hostPaths": [
+    "/"
+   ],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "priv-host",
+   "namespace": "default",
+   "privileged": true,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "secret-user",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "ticker-29908887-c764w",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "ticker-29908888-h7mpg",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "nginx:1.27-alpine"
+   ],
+   "name": "web-79ffc79c64-45pk2",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "nginx:1.27-alpine"
+   ],
+   "name": "web-79ffc79c64-k8vzf",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "rancher/mirrored-coredns-coredns:1.12.3"
+   ],
+   "name": "coredns-7896679cc-htq8p",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "rancher/local-path-provisioner:v0.0.32"
+   ],
+   "name": "local-path-provisioner-578895bd58-fg99f",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/var/run/docker.sock"
+   ],
+   "images": [
+    "nginx:1.27-alpine"
+   ],
+   "name": "static-web-eff7ee265999",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": true
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": true,
+   "hostPaths": [
+    "/"
+   ],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "node-helper-s927b",
+   "namespace": "tools",
+   "privileged": true,
+   "static": false
+  }
+ ],
+ "sandboxes": [
+  {
+   "id": "98865a0a4f23894f2d18df988ce704b7d5c57534a44040bd641f8d1a6c9c4d30",
+   "namespace": "default",
+   "pod": "ticker-29908888-h7mpg",
+   "uid": "60b4cbe9-10d3-4cab-81ad-2b6166e571bc"
+  },
+  {
+   "id": "c60557549abc05473122b3805e30f757a3d2e38a2a614f591366513727261ea0",
+   "namespace": "dev",
+   "pod": "alice-pod",
+   "uid": "2d5a70a9-3d5b-456d-a0ba-d0401d50ed5a"
+  },
+  {
+   "id": "fce2746c13fc415cd0f71d52e16e248174d35d9312381d6bf6dadfa8257f36e6",
+   "namespace": "default",
+   "pod": "doomed",
+   "uid": "38462dcb-f4f7-4760-b35e-b3f25754d9fa"
+  },
+  {
+   "id": "bb61c2fdbdd4456e8a5aa2517aaf2e5cb078fccb7a22b1b388c2f7420f9ac2cf",
+   "namespace": "tools",
+   "pod": "node-helper-s927b",
+   "uid": "25e1a173-ab16-4f79-b81d-689246328ecf"
+  },
+  {
+   "id": "082cc4e6d6798ce00092d974d93d80fb77b5a6fab9bc340cf4864e3f7dd2698d",
+   "namespace": "default",
+   "pod": "ticker-29908887-c764w",
+   "uid": "06bcda8f-cf3d-4ce3-b096-84d9708cda5c"
+  },
+  {
+   "id": "bfe060ac5a629718413a172bd60b10a0cb81388db13d993837bbfe346c072520",
+   "namespace": "default",
+   "pod": "badpull",
+   "uid": "ccdec821-4442-44f8-8615-57c4087ea9bc"
+  },
+  {
+   "id": "d435db149d249daf5b2631377d405130aef5969cb557367e918c7d3a5fe88e10",
+   "namespace": "default",
+   "pod": "priv-host",
+   "uid": "d700996d-8632-4d82-8d67-f7ea699327f6"
+  },
+  {
+   "id": "dc97a50a9f5cc0054a8f8a0b8c72109efba05785f327e0344e0a413684f2e560",
+   "namespace": "default",
+   "pod": "longline",
+   "uid": "8b0d3b58-c7ca-40c9-b631-6bd3fdf5435a"
+  },
+  {
+   "id": "713dd6029da6c36d4fc5a81dd85f20879db1e7706115871497d3e0669d9a90c3",
+   "namespace": "default",
+   "pod": "execer",
+   "uid": "f4890fe8-66ec-4d08-9b86-a08424b6ed39"
+  },
+  {
+   "id": "94c307dc98d42bca09137e93da86abfd311ca6bfd86606f8825900bd24492b0a",
+   "namespace": "default",
+   "pod": "agentd-cbxxn",
+   "uid": "ab8d0263-f300-430c-9014-ab59f3dab431"
+  },
+  {
+   "id": "91a251ff2e0bf16472a4d9a9c94ea9129ee12bd6920fad13c762d755c8614513",
+   "namespace": "default",
+   "pod": "secret-user",
+   "uid": "2a1e257d-f6dc-4339-bb71-b9317d0a2555"
+  },
+  {
+   "id": "b02903d5d1eda6a1f97ebc5ff4e7539d80189990810d2e240418c65790e4c701",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-k8vzf",
+   "uid": "cbd57dab-438a-4d61-aeea-f86b41b831fe"
+  },
+  {
+   "id": "42a3037c179ff069d41c16fe794ac48f7ad28aedff3eae86a912401550fa039e",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-45pk2",
+   "uid": "aa5dfb50-07be-4b5f-9cb1-9e5d7273b36e"
+  },
+  {
+   "id": "f74e28111e27ce951a99149878e44dddff9fd44fa2dadabeba40965f923f994a",
+   "namespace": "kube-system",
+   "pod": "local-path-provisioner-578895bd58-fg99f",
+   "uid": "235c8d23-9b1f-4a7b-a957-644b95e7878f"
+  },
+  {
+   "id": "02959ab65973dc6a707b9d91f6f5d755c91f905162227fe74e12b11f35bf8f54",
+   "namespace": "kube-system",
+   "pod": "static-web-eff7ee265999",
+   "uid": "2b1dd0dc35d1c75722a685653e445c26"
+  },
+  {
+   "id": "fa1c92f696c455f91913972f242517d30549c6a624e7edb34e6c00a6f26447d6",
+   "namespace": "kube-system",
+   "pod": "coredns-7896679cc-htq8p",
+   "uid": "9f128eb4-9a40-45cf-ad37-fa19eeece5b7"
+  }
+ ]
+}

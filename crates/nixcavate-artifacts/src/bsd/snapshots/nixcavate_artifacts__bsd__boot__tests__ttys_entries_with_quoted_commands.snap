@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/boot.rs
+expression: out
+---
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":2,"tty":"console","command":"none","terminal_type":"unknown","status":"off","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":3,"tty":"ttyv0","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"on","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":4,"tty":"nxmk","command":"/tmp/x -d","terminal_type":"vt100","status":"off","secure":false}

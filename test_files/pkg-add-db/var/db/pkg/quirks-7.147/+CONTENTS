@@ -1,0 +1,19 @@
+@name quirks-7.147
+@url https://cdn.openbsd.org/pub/OpenBSD/7.8/packages/amd64/quirks-7.147.tgz
+@signer openbsd-78-pkg
+@digital-signature signify2:2025-10-10T23:15:26Z:external
+@option manual-installation
+@option always-update vaPO6+mmJJ5CPsXEii8xFNxRHz2IGvGNiejaxlyWfPk
+@comment pkgpath=devel/quirks ftp=yes
+@arch *
++DESC
+@sha QlhrALke4uc2HCSDAPSr7jg5vSunPW1N5wMstNnb/EA=
+@size 268
+@depend databases/updatedb:updatedb-*:updatedb-0p0
+@cwd /usr/local
+libdata/perl5/site_perl/OpenBSD/
+libdata/perl5/site_perl/OpenBSD/Quirks/
+libdata/perl5/site_perl/OpenBSD/Quirks.pm
+@sha J7ZCvKW/mHpM5mVRbUkYol8woM42RN2WmGbEaNehJ/8=
+@size 48060
+@ts 1760132502

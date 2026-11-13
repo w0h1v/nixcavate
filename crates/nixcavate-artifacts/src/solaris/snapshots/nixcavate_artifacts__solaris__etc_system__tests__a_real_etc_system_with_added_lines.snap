@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/etc_system.rs
+expression: out
+---
+{"host":"memory","artifact":"etc-system","source_path":"etc/system","source_line":112,"directive":"forceload","name":"drv/nxmk_NXMK_FORCELOAD","value":""}
+{"host":"memory","artifact":"etc-system","source_path":"etc/system","source_line":113,"directive":"set","name":"nxmk_tunable","value":"1"}

@@ -1,0 +1,2 @@
+/run/sudo/ts/alice 280 1794537449.1703872870
+/var/run/sudo/ts/alice 280 1794537449.1703872870

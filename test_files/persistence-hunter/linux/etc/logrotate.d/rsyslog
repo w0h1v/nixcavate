@@ -1,0 +1,7 @@
+/var/log/syslog {
+    weekly
+    rotate 4
+    postrotate
+        invoke-rc.d rsyslog rotate > /dev/null
+    endscript
+}

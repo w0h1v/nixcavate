@@ -1,0 +1,6 @@
+[core]
+account = alice@example.com
+project = example-project
+
+[compute]
+region = europe-west1

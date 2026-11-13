@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/ips_packages.rs
+expression: out
+---
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/catalog.db","source_line":null,"publisher":"extra.omnios","name":"ooce/file/tree","version":"2.3.2,5.11-151060.0:20261003T132140Z","last_install":"2026-11-13T01:16:19.660910Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/catalog.db","source_line":null,"publisher":"omnios","name":"SUNWcs","version":"0.5.11,5.11-151060.0:20261022T141522Z","last_install":"2026-10-22T16:52:34.690444Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/catalog.db","source_line":null,"publisher":"omnios","name":"package/svr4","version":"0.5.11,5.11-151060.0:20261022T131301Z","last_install":"2026-10-22T16:52:34.689007Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/catalog.db","source_line":null,"publisher":"omnios","name":"security/sudo","version":"1.9.17.2,5.11-151060.0:20261022T132757Z","last_install":"2026-10-22T16:53:16.442547Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/catalog.db","source_line":null,"publisher":"omnios","name":"shell/bash","version":"5.3.20,5.11-151060.0:20261022T133129Z","last_install":"2026-10-22T16:53:16.443175Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/catalog.db","source_line":null,"publisher":"omnios","name":"system/header","version":"0.5.11,5.11-151060.0:20261022T131301Z","last_install":"2026-11-13T01:14:55.738289Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-10-22T16:52:34.689007Z,micros,recorded,memory,ips-packages,package_installed,"package/svr4 installed (0.5.11,5.11-151060.0)",var/pkg/state/catalog.db,,,,
+2026-10-22T16:52:34.690444Z,micros,recorded,memory,ips-packages,package_installed,"SUNWcs installed (0.5.11,5.11-151060.0)",var/pkg/state/catalog.db,,,,
+2026-10-22T16:53:16.442547Z,micros,recorded,memory,ips-packages,package_installed,"security/sudo installed (1.9.17.2,5.11-151060.0)",var/pkg/state/catalog.db,,,,
+2026-10-22T16:53:16.443175Z,micros,recorded,memory,ips-packages,package_installed,"shell/bash installed (5.3.20,5.11-151060.0)",var/pkg/state/catalog.db,,,,
+2026-11-13T01:14:55.738289Z,micros,recorded,memory,ips-packages,package_installed,"system/header installed (0.5.11,5.11-151060.0)",var/pkg/state/catalog.db,,,,
+2026-11-13T01:16:19.660910Z,micros,recorded,memory,ips-packages,package_installed,"ooce/file/tree installed (2.3.2,5.11-151060.0)",var/pkg/state/catalog.db,,,,

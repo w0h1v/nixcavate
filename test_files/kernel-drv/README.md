@@ -1,0 +1,1 @@
+`nxmk_drv.conf` is the driver configuration file the harness added to `/kernel/drv` of illumos (OmniOS r151054, x86) in a throwaway KVM guest; example users only (no module of that name exists). Stock files are built in the tests from driver.conf(5).

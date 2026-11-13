@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/crle.rs
+expression: out64
+---
+{"host":"memory","artifact":"crle-config","source_path":"var/ld/64/ld.config","source_offset":104,"class":64,"byte_order":"little-endian","machine":"amd64","version":4,"kind":"path","value":"/lib/64:/usr/lib/64:/tmp/.NXMK_CRLE64","directories":["/lib/64","/usr/lib/64","/tmp/.NXMK_CRLE64"]}
+--- warning: the crle tables of alternative objects and hashes are not decoded; only the strings are listed

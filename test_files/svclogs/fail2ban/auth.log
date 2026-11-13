@@ -1,0 +1,24 @@
+2026-11-13T01:25:20.494016+00:00 15450aeef3f7 sshd[4209]: Server listening on 0.0.0.0 port 22.
+2026-11-13T01:25:20.494042+00:00 15450aeef3f7 sshd[4209]: Server listening on :: port 22.
+2026-11-13T01:25:25.747233+00:00 15450aeef3f7 sshd[4228]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=127.0.0.1  user=alice
+2026-11-13T01:25:27.348041+00:00 15450aeef3f7 sshd[4228]: Failed password for alice from 127.0.0.1 port 35386 ssh2
+2026-11-13T01:25:27.382286+00:00 15450aeef3f7 sshd[4228]: Connection closed by authenticating user alice 127.0.0.1 port 35386 [preauth]
+2026-11-13T01:25:27.514904+00:00 15450aeef3f7 sshd[4232]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=127.0.0.1  user=alice
+2026-11-13T01:25:29.723371+00:00 15450aeef3f7 sshd[4232]: Failed password for alice from 127.0.0.1 port 35390 ssh2
+2026-11-13T01:25:30.824730+00:00 15450aeef3f7 sshd[4232]: Connection closed by authenticating user alice 127.0.0.1 port 35390 [preauth]
+2026-11-13T01:25:30.959219+00:00 15450aeef3f7 sshd[4236]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=127.0.0.1  user=alice
+2026-11-13T01:25:32.910356+00:00 15450aeef3f7 sshd[4236]: Failed password for alice from 127.0.0.1 port 35398 ssh2
+2026-11-13T01:25:34.265677+00:00 15450aeef3f7 sshd[4236]: Connection closed by authenticating user alice 127.0.0.1 port 35398 [preauth]
+2026-11-13T01:25:34.392241+00:00 15450aeef3f7 sshd[4241]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=127.0.0.1  user=alice
+2026-11-13T01:25:36.230141+00:00 15450aeef3f7 sshd[4241]: Failed password for alice from 127.0.0.1 port 59158 ssh2
+2026-11-13T01:25:37.704075+00:00 15450aeef3f7 sshd[4241]: Connection closed by authenticating user alice 127.0.0.1 port 59158 [preauth]
+2026-11-13T01:25:37.820092+00:00 15450aeef3f7 sshd[4245]: Invalid user nosuchuser from 127.0.0.1 port 59166
+2026-11-13T01:25:37.828289+00:00 15450aeef3f7 sshd[4245]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-13T01:25:37.828329+00:00 15450aeef3f7 sshd[4245]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=127.0.0.1 
+2026-11-13T01:25:39.409020+00:00 15450aeef3f7 sshd[4245]: Failed password for invalid user nosuchuser from 127.0.0.1 port 59166 ssh2
+2026-11-13T01:25:39.575156+00:00 15450aeef3f7 sshd[4245]: Connection closed by invalid user nosuchuser 127.0.0.1 port 59166 [preauth]
+2026-11-13T01:25:39.691106+00:00 15450aeef3f7 sshd[4249]: Invalid user nosuchuser from 127.0.0.1 port 59176
+2026-11-13T01:25:39.699992+00:00 15450aeef3f7 sshd[4249]: pam_unix(sshd:auth): check pass; user unknown
+2026-11-13T01:25:39.700008+00:00 15450aeef3f7 sshd[4249]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=127.0.0.1 
+2026-11-13T01:25:42.224654+00:00 15450aeef3f7 sshd[4249]: Failed password for invalid user nosuchuser from 127.0.0.1 port 59176 ssh2
+2026-11-13T01:25:43.191144+00:00 15450aeef3f7 sshd[4249]: Connection closed by invalid user nosuchuser 127.0.0.1 port 59176 [preauth]

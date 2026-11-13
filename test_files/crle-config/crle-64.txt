@@ -1,0 +1,9 @@
+
+Configuration file [version 4]: /var/ld/64/ld.config  
+  Platform:	64-bit LSB AMD64
+  Default Library Path (ELF):	/lib/64:/usr/lib/64:/tmp/.NXMK_CRLE64
+  Trusted Directories (ELF):	/lib/secure/64:/usr/lib/secure/64  (system default)
+
+Command line:
+  crle -64 -c /var/ld/64/ld.config -l /lib/64:/usr/lib/64:/tmp/.NXMK_CRLE64
+

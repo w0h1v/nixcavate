@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/aix/security.rs
+expression: "run(&LASTLOG, \"etc/security/lastlog\", LASTLOG_TEXT, 0)"
+---
+{"host":"memory","artifact":"aix-lastlog","source_path":"etc/security/lastlog","source_line":1,"user":"alice","last_login":"2024-03-10T01:00:00Z","last_login_tty":"/dev/pts/0","last_login_host":"203.0.113.9","unsuccessful_login_count":2,"last_unsuccessful_login":"2024-03-10T00:53:20Z","last_unsuccessful_login_tty":"ssh","last_unsuccessful_login_host":"198.51.100.4"}
+{"host":"memory","artifact":"aix-lastlog","source_path":"etc/security/lastlog","source_line":10,"user":"bob","last_login":null,"last_login_tty":null,"last_login_host":null,"unsuccessful_login_count":0,"last_unsuccessful_login":null,"last_unsuccessful_login_tty":null,"last_unsuccessful_login_host":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T00:53:20Z,seconds,recorded,memory,aix-lastlog,failed_login,last unsuccessful login of alice on ssh from 198.51.100.4,etc/security/lastlog,1,,,
+2024-03-10T01:00:00Z,seconds,recorded,memory,aix-lastlog,last_login,last login of alice on /dev/pts/0 from 203.0.113.9,etc/security/lastlog,1,,,

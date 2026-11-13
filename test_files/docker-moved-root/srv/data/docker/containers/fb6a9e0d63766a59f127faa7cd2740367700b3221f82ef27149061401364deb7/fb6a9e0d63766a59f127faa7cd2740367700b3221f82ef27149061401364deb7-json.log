@@ -1,0 +1,3 @@
+{"log":"web started\n","stream":"stdout","time":"2026-11-12T23:42:58.257964585Z"}
+{"log":"two words\n","stream":"stdout","time":"2026-11-12T23:42:58.257979377Z"}
+{"log":"web warning\n","stream":"stderr","time":"2026-11-12T23:42:58.257988835Z"}

@@ -1,0 +1,90 @@
+{
+  "Version": "1.104.7-tfb3b9b296-g0651cc45e",
+  "TUN": false,
+  "BackendState": "Running",
+  "HaveNodeKey": true,
+  "AuthURL": "",
+  "TailscaleIPs": [
+    "100.64.0.1",
+    "fd7a:115c:a1e0::1"
+  ],
+  "Self": {
+    "ID": "1",
+    "NodeID": 1,
+    "PublicKey": "nodekey:6ddbe88538a3a58cf0f6276cf40453b930b6f4bb809fdd704707da14cf86056b",
+    "HostName": "alice-laptop",
+    "DNSName": "alice-laptop.example.test.",
+    "OS": "linux",
+    "UserID": 1,
+    "TailscaleIPs": [
+      "100.64.0.1",
+      "fd7a:115c:a1e0::1"
+    ],
+    "AllowedIPs": [
+      "100.64.0.1/32",
+      "fd7a:115c:a1e0::1/128"
+    ],
+    "Addrs": [
+      "203.0.113.10:41565",
+      "192.168.158.3:41565"
+    ],
+    "CurAddr": "",
+    "Relay": "nyc",
+    "PeerRelay": "",
+    "RxBytes": 0,
+    "TxBytes": 0,
+    "Created": "2026-11-13T01:40:50.470973912Z",
+    "LastWrite": "0001-01-01T00:00:00Z",
+    "LastSeen": "0001-01-01T00:00:00Z",
+    "LastHandshake": "0001-01-01T00:00:00Z",
+    "Online": true,
+    "ExitNode": false,
+    "ExitNodeOption": false,
+    "Active": false,
+    "PeerAPIURL": [
+      "http://100.64.0.1:58436",
+      "http://[fd7a:115c:a1e0::1]:58436"
+    ],
+    "TaildropTarget": 0,
+    "NoFileSharingReason": "",
+    "Capabilities": [
+      "HTTPS://TAILSCALE.COM/s/DEPRECATED-NODE-CAPS#see-https://github.com/tailscale/tailscale/issues/11508",
+      "default-auto-update",
+      "https://tailscale.com/cap/file-sharing",
+      "https://tailscale.com/cap/is-admin",
+      "https://tailscale.com/cap/ssh",
+      "ssh-env-vars"
+    ],
+    "CapMap": {
+      "default-auto-update": [
+        false
+      ],
+      "https://tailscale.com/cap/file-sharing": [],
+      "https://tailscale.com/cap/is-admin": [],
+      "https://tailscale.com/cap/ssh": [],
+      "ssh-env-vars": []
+    },
+    "InNetworkMap": true,
+    "InMagicSock": false,
+    "InEngine": false
+  },
+  "Health": [],
+  "MagicDNSSuffix": "example.test",
+  "CurrentTailnet": {
+    "Name": "l8s-headscale",
+    "StableID": "",
+    "MagicDNSSuffix": "example.test",
+    "MagicDNSEnabled": false
+  },
+  "CertDomains": null,
+  "ExtraRecords": null,
+  "Peer": null,
+  "User": {
+    "1": {
+      "ID": 1,
+      "LoginName": "demo",
+      "DisplayName": "demo"
+    }
+  },
+  "ClientVersion": null
+}

@@ -1,0 +1,26 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/smf_logs.rs
+expression: "run(&ARTIFACT, path, &fixture(file), NOV_13_2026)"
+---
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":0,"time":"2026-11-13T01:16:50Z","service":"site-nxmk-smf:default","event":"state","method":"","command":"","exit_status":null,"message":"Disabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":30,"time":"2026-11-13T01:16:50Z","service":"site-nxmk-smf:default","event":"state","method":"","command":"","exit_status":null,"message":"Rereading configuration."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":75,"time":"2026-11-13T01:16:50Z","service":"site-nxmk-smf:default","event":"state","method":"","command":"","exit_status":null,"message":"Enabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":104,"time":"2026-11-13T01:16:50Z","service":"site-nxmk-smf:default","event":"method_start","method":"start","command":"/var/svc/method/nxmk-smf start","exit_status":null,"message":"Executing start method (\"/var/svc/method/nxmk-smf start\")."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":183,"time":"2026-11-13T01:16:50Z","service":"site-nxmk-smf:default","event":"method_exit","method":"start","command":"","exit_status":0,"message":"Method \"start\" exited with status 0."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":240,"time":"2026-11-13T01:20:29Z","service":"site-nxmk-smf:default","event":"state","method":"","command":"","exit_status":null,"message":"Stopping because service disabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":295,"time":"2026-11-13T01:20:29Z","service":"site-nxmk-smf:default","event":"method_start","method":"stop","command":"","exit_status":null,"message":"Executing stop method (null)."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":345,"time":"2026-11-13T01:20:50Z","service":"site-nxmk-smf:default","event":"state","method":"","command":"","exit_status":null,"message":"Enabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":374,"time":"2026-11-13T01:20:52Z","service":"site-nxmk-smf:default","event":"method_start","method":"start","command":"/var/svc/method/nxmk-smf start","exit_status":null,"message":"Executing start method (\"/var/svc/method/nxmk-smf start\")."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/site-nxmk-smf:default.log","source_offset":453,"time":"2026-11-13T01:20:52Z","service":"site-nxmk-smf:default","event":"method_exit","method":"start","command":"","exit_status":0,"message":"Method \"start\" exited with status 0."}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:16:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf:default: Disabled.,var/svc/log/site-nxmk-smf:default.log,,0,,
+2026-11-13T01:16:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf:default: Rereading configuration.,var/svc/log/site-nxmk-smf:default.log,,30,,
+2026-11-13T01:16:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf:default: Enabled.,var/svc/log/site-nxmk-smf:default.log,,75,,
+2026-11-13T01:16:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,site-nxmk-smf:default start method: /var/svc/method/nxmk-smf start,var/svc/log/site-nxmk-smf:default.log,,104,,
+2026-11-13T01:16:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,site-nxmk-smf:default start method exited with status 0,var/svc/log/site-nxmk-smf:default.log,,183,,
+2026-11-13T01:20:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf:default: Stopping because service disabled.,var/svc/log/site-nxmk-smf:default.log,,240,,
+2026-11-13T01:20:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,"site-nxmk-smf:default stop method: ",var/svc/log/site-nxmk-smf:default.log,,295,,
+2026-11-13T01:20:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,site-nxmk-smf:default: Enabled.,var/svc/log/site-nxmk-smf:default.log,,345,,
+2026-11-13T01:20:52Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,site-nxmk-smf:default start method: /var/svc/method/nxmk-smf start,var/svc/log/site-nxmk-smf:default.log,,374,,
+2026-11-13T01:20:52Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,site-nxmk-smf:default start method exited with status 0,var/svc/log/site-nxmk-smf:default.log,,453,,

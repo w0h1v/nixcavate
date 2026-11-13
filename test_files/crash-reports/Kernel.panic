@@ -1,0 +1,9 @@
+panic(cpu 2 caller 0xffffff8000b0c2d3): "Example kernel panic string"@/path/example.c:123
+Backtrace (CPU 2), Frame : Return Address (4 potential args on stack)
+
+BSD process name corresponding to current thread: kernel_task
+Mac OS version:
+18C54
+
+Kernel version:
+Darwin Kernel Version 18.2.0: Thu Dec 20 20:46:53 PST 2018; root:xnu-4903.241.1~1/RELEASE_X86_64

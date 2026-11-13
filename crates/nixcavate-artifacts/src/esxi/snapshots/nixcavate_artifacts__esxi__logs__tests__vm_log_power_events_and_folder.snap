@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/logs.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":0,"time":"2025-01-10T01:18:32.354Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vmx","severity":"I","message":"Log for VMware ESX pid=2100403 version=6.7.0 build=build-19195723 option=Release","event":""}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":118,"time":"2025-01-10T01:18:32.360Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vmx","severity":"I","message":"Vix: [mainDispatch.c:4239]: VMAutomation_ReportPowerOpFinished: statevar=0, newAppState=1870, success=1 additionalError=0","event":""}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":277,"time":"2025-01-10T01:18:32.417Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vmx","severity":"W","message":"PowerOn","event":"vm_power_on"}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":322,"time":"2025-01-10T01:18:34.331Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vmx","severity":"I","message":"Tools: sending 'OS_PowerOn' (state = 3) state change request","event":""}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":420,"time":"2025-01-10T01:18:40.000Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vcpu-0","severity":"W","message":"GuestRpc: application toolbox, changing channel 65535 -> 0","event":""}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":519,"time":"2025-01-10T05:31:37.075Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vmx","severity":"I","message":"VMX exit (0).","event":""}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":570,"time":"2025-01-10T05:31:37.076Z","time_basis":"recorded","datastore":"ds1","vm_folder":"web01","thread":"vmx","severity":"W","message":"VMX has left the building: 0.","event":"vm_power_off"}
+{"host":"memory","artifact":"esxi-vm-log","source_path":"vmfs/volumes/ds1/web01/vmware.log","source_offset":637,"time":null,"time_basis":null,"datastore":"ds1","vm_folder":"web01","thread":"","severity":"","message":"a line without a header","event":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-01-10T01:18:32.417Z,millis,recorded,memory,esxi-vm-log,vm_power_on,web01 powered on,vmfs/volumes/ds1/web01/vmware.log,,277,,
+2025-01-10T05:31:37.076Z,millis,recorded,memory,esxi-vm-log,vm_power_off,web01 powered off (VMX process exited),vmfs/volumes/ds1/web01/vmware.log,,570,,

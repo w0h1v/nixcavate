@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/ips_history.rs
+expression: out
+---
+{"host":"memory","artifact":"ips-history","source_path":"var/pkg/history/20261113T011642Z-01.xml","source_line":null,"operation":"uninstall","start":"2026-11-13T01:16:42Z","end":"2026-11-13T01:16:49Z","result":"Succeeded, None","user":"omnios","uid":100,"command":"/usr/bin/pkg uninstall ooce/file/lsof","boot_environment":"omnios-r151054","changes":["pkg://extra.omnios/ooce/file/lsof@4.99.3,5.11-151054.0:20250414T180726Z -> None"]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:16:49Z,seconds,recorded,memory,ips-history,package_removed,"package_removed: ooce/file/lsof@4.99.3,5.11-151054.0 (/usr/bin/pkg uninstall ooce/file/lsof)",var/pkg/history/20261113T011642Z-01.xml,,,,

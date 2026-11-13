@@ -1,0 +1,4 @@
+Vmid   Name           File                              Guest OS         Version   Annotation
+1      web01          [datastore1] web01/web01.vmx      debian10_64Guest vmx-14    Public web server
+2      db01           [datastore1] db01/db01.vmx        rhel8_64Guest    vmx-19
+Skipping invalid VM '5'

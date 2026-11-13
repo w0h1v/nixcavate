@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/crash_reports.rs
+expression: out
+---
+{"host":"memory","artifact":"kernel-crash","source_path":"var/crash/202311142213/dmesg.202311142213","source_line":null,"directory":"202311142213","time":"2023-11-14T22:13:00Z","time_basis":"assumed_zone","first_line":"[    0.000000] Linux version 5.14.0","reason":"[ 1234.5] BUG: unable to handle kernel NULL pointer dereference","size_bytes":154}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:00Z,seconds,assumed_zone,memory,kernel-crash,crashed,kernel crash dump saved: [ 1234.5] BUG: unable to handle kernel NULL pointer dereference,var/crash/202311142213/dmesg.202311142213,,,,

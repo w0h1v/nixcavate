@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/svr4.rs
+expression: out
+---
+{"host":"memory","artifact":"svr4-contents","source_path":"var/sadm/install/contents","source_offset":0,"path":"/opt/nxsvr4","target":"","file_type":"d","class":"none","mode":"0755","owner":"root","group":"bin","size":null,"checksum":null,"modified":null,"packages":["NXexample"]}
+{"host":"memory","artifact":"svr4-contents","source_path":"var/sadm/install/contents","source_offset":43,"path":"/opt/nxsvr4/readme","target":"","file_type":"f","class":"none","mode":"0644","owner":"root","group":"bin","size":21,"checksum":1871,"modified":"2026-11-13T01:16:49Z","packages":["NXexample"]}

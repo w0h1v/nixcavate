@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/login_failures.rs
+expression: "on_host(&TALLYLOG, \"centos7\", \"var/log/tallylog\", &data)"
+---
+{"host":"memory","artifact":"tallylog","source_path":"var/log/tallylog","source_offset":64000,"uid":1000,"user":"alice","failures":3,"last_source":"pts/3","last_failure":"2026-11-13T02:14:45Z"}
+{"host":"memory","artifact":"tallylog","source_path":"var/log/tallylog","source_offset":64064,"uid":1001,"user":"bob","failures":4,"last_source":"198.51.100.77","last_failure":"2026-11-13T02:14:54Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:14:45Z,seconds,recorded,memory,tallylog,failed_login,3 failed login(s) for alice; the last one from pts/3,var/log/tallylog,,64000,,
+2026-11-13T02:14:54Z,seconds,recorded,memory,tallylog,failed_login,4 failed login(s) for bob; the last one from 198.51.100.77,var/log/tallylog,,64064,,

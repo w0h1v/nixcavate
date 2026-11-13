@@ -1,0 +1,134 @@
+2026/11/13 01:27:18.754  4878  4876 S   Logger started.
+2026/11/13 01:27:18.756  4878  4878 S!! LateBinding [libTeamViewerTracing.so.1]: Could not open library (), Errorcode=2
+2026/11/13 01:27:18.757  4878  4878 S   Found 0 stack dump files ...
+2026/11/13 01:27:18.758  4878  4878 S!! tvdbus::Connection::InitializeConnection: unable to open bus unix:path=/var/run/dbus/system_bus_socket (err=org.freedesktop.DBus.Error.FileNotFound), Errorcode=2
+2026/11/13 01:27:18.758  4878  4878 S!! tvdbus::SystemBus::Initialize: Initializing System DBus failed, Errorcode=2
+2026/11/13 01:27:18.758  4878  4878 S   systemd: DBus error, logind unavailable
+2026/11/13 01:27:18.758  4878  4878 S   SysSessionInfoManager: observing sessions from logind is marked as unreliable
+2026/11/13 01:27:18.758  4878  4878 S   SysSessionInfoManager: Session Information provided by VT [priority: 1]
+2026/11/13 01:27:18.759  4878  4878 S!  FrameBuffer: Cannot access /dev/fb0, frame buffer support unavailable
+2026/11/13 01:27:18.759  4878  4878 S   Starting as daemon
+2026/11/13 01:27:18.759  4878  4878 S!! tvdbus::Connection::InitializeConnection: unable to open bus unix:path=/var/run/dbus/system_bus_socket (err=org.freedesktop.DBus.Error.FileNotFound), Errorcode=2
+2026/11/13 01:27:18.759  4878  4878 S!! tvdbus::SystemBus::Initialize: Initializing System DBus failed, Errorcode=2
+2026/11/13 01:27:18.759  4878  4878 S!! SystemObserver: DBus error, Errorcode=2
+2026/11/13 01:27:18.760  4878  4878 S   Generating new RSA private/public key pair
+2026/11/13 01:27:18.767  4878  4878 S   InitializeRemoteAccessAPI
+2026/11/13 01:27:18.768  4878  4878 S!! tvdbus::Connection::InitializeConnection: unable to open bus unix:path=/var/run/dbus/system_bus_socket (err=org.freedesktop.DBus.Error.FileNotFound), Errorcode=2
+2026/11/13 01:27:18.768  4878  4878 S!! tvdbus::SystemBus::Initialize: Initializing System DBus failed, Errorcode=2
+2026/11/13 01:27:18.768  4878  4878 S   IdentityManagement: Load ManagerIDs from local Storage: 
+2026/11/13 01:27:18.768  4878  4878 S   InitializeDeviceManagementV2
+2026/11/13 01:27:18.768  4878  4878 S   ManagedDeviceClientModule: Trigger Startup
+2026/11/13 01:27:18.768  4878  4878 S   MDv2::ProviderRegistrationController::UpdateRegistration: device is offline
+2026/11/13 01:27:18.768  4878  4878 S   ManagedDeviceClientModule::ManagedDeviceClientModule(): Started ManagedDevice V2 module
+2026/11/13 01:27:18.841  4878  4878 S!! SysSessionInfoManager::GetOwnProcessSession: No session found!, Errorcode=2
+2026/11/13 01:27:18.841  4878  4878 S!  System clock possibly not synced (status: 8256 rval 5). Consider enabling systemd-time-wait-sync.service
+2026/11/13 01:27:18.842  4878  4878 S   System uptime: 1461100 seconds
+2026/11/13 01:27:18.842  4878  4878 S!! MACAddressSelection: no MAC found for MID version 1!, Errorcode=2
+2026/11/13 01:27:18.842  4878  4878 S!! ProcessorInfo::GetCPUId: Could not obtain CPU id, Errorcode=2
+2026/11/13 01:27:18.842  4878  4878 S!! tvmidhandling::DiskInfo::GetDiskId: Read from disk failed., Errorcode=2
+2026/11/13 01:27:18.842  4878  4878 S   SystemID m=1 s=0 00000000000000000000000000000000
+2026/11/13 01:27:18.842  4878  4878 S!! tvmidhandling::DiskInfo::GetDiskId: Read from disk failed., Errorcode=2
+2026/11/13 01:27:18.842  4878  4878 S!! tvmidhandling::DiskInfo::GetDiskId: Read from disk failed., Errorcode=2
+2026/11/13 01:27:18.842  4878  4878 S   
+Start:              2026/11/13 01:27:18.842 (UTC+0:00)
+Version:            15.83.3 H
+Version short hash: 5c21b88f77a
+ID:                 0
+Loglevel:           Info
+License:            0
+IC:                 1000000000
+CPU:                
+OS:                 Lx Debian 12 bookwor (64-bit)
+IP:                 192.168.215.5
+MID:                0000000000_00000000_0000000000000000
+MIDv:               0
+Proxy-Settings:     Type=0 IP= User=
+AppPath:            /opt/teamviewer/
+Server-Environment: Global
+
+2026/11/13 01:27:18.842  4878  4878 S   LanguageControl: device language is 'en'
+2026/11/13 01:27:18.842  4878  4878 S   NetWatchDogLinux: using RTLink event handler
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsStore::LoadLastReceivedPolicies : Storage Entry Remote_Settings_RemoteManagement_Policy empty
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsStore::LoadLastReceivedPolicies : Storage Entry Remote_Settings_TVClientSetting_Policy empty
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsReception::HandleRestoredStatusFromRemoteSettingsStoreEvent.
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsMDRelationshipWatchDog::ActivateWatchDog
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsMDRelationshipWatchDog: DEVICE ISN'T A MANAGED DEVICE
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsReception::HandleManagementStatusChanged
+2026/11/13 01:27:18.843  4878  4932 S   RemoteSettingsStore: Cleanup all policies from version: 1
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsMDv2RelationshipWatchdog: Start WatchDog
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsMDv2RelationshipWatchdog::HandleManagementChanged
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsMDv2RelationshipWatchdog: Device isn't a managed v2 device anymore
+2026/11/13 01:27:18.843  4878  4878 S   RemoteSettingsReception::HandleManagmentv2StatusChanged
+2026/11/13 01:27:18.843  4878  4932 S   RemoteSettingsStore: Cleanup all policies from version: 2
+2026/11/13 01:27:18.843  4878  4878 S!  MDv2::ManagedDeviceController::UpdateDeviceFlags: cannot update flags for a device that is not managed
+2026/11/13 01:27:18.843  4878  4878 S   tvrmmonitoring::RemoteManagementCallbackHandler::RegisterRemoteManagementCallbacks::lambda: RMMonitoringMigrationPossible flag was set
+2026/11/13 01:27:18.843  4878  4878 S   Using IPC-Port 5939
+2026/11/13 01:27:18.843  4878  4878 S   TVNetwork::StartCustomizable: success 1 updated 0
+2026/11/13 01:27:18.843  4878  4878 S   DeviceDataLinux::Init: Fetching DeviceInfo for ARM
+2026/11/13 01:27:18.843  4878  4878 S   DeviceDataLinux::Init: Manufacturer: standard SystemFamily:  ModelName: virt
+2026/11/13 01:27:18.843  4878  4878 S!  OptOutManager::[]ResultCB: Send message result 0
+2026/11/13 01:27:18.843  4878  4883 S   OSSessionEventTranslatorLinux::RegisterSessionEvents(): Start observing session events
+2026/11/13 01:27:18.843  4878  4883 S!! OSSessionEventTranslator: No session info available.
+2026/11/13 01:27:18.843  4878  4883 S   NetworkControl::UpdateOnlineState alwaysOnline=1 delayOffline=0 otherProcess=0 restart=0 termsOfUseAccepted=1
+2026/11/13 01:27:18.843  4878  4883 S   TeamViewer is going online!
+2026/11/13 01:27:18.843  4878  4883 S   CKeepAliveClientClient::DoReconnectInternal: doing nothing, state = 0
+2026/11/13 01:27:18.843  4878  4883 S   tvautoservice::AutoServiceInstallationController::Initialize: Initializing AutoServiceInstallationController
+2026/11/13 01:27:18.843  4878  4883 S   tvautoservice::AutoServiceInstallationController::OnFeatureFlagChanged: Feature flag disabled, stopping AutoServiceInstallation
+2026/11/13 01:27:18.843  4878  4883 S   ManagedDeviceController:: ManagmentStatusChanged to unmanaged.
+2026/11/13 01:27:18.843  4878  4883 S   NetworkControlLinux::ShouldDelayOffline: Start delay update online state
+2026/11/13 01:27:18.843  4878  4883 S   NetworkControl::UpdateOnlineState alwaysOnline=1 delayOffline=1 otherProcess=0 restart=0 termsOfUseAccepted=1
+2026/11/13 01:27:18.843  4878  4884 S   CKeepAliveClientClient::StartConnect(): Protocol 8 proxy -- IP router8.teamviewer.com
+2026/11/13 01:27:18.843  4878  4884 S   Activating Router Carrier
+2026/11/13 01:27:18.862  4878  4887 S   CTcpConnectionBase[1]::HandleResolveSuccess(): Connecting to router8.teamviewer.com
+2026/11/13 01:27:18.862  4878  4887 S   TcpConnectorv6[1]::ConnectEndpoint(): Connecting to endpoint 2a00:11c0:39:351:213:227:172:132:5938
+2026/11/13 01:27:18.862  4878  4887 S   TcpConnectorv4[1]::ConnectEndpoint(): Connecting to endpoint 213.227.173.138:5938
+2026/11/13 01:27:18.862  4878  4879 S!  TcpConnectorv6[1]::CheckForNextEndpoint: Connect failed to dest-ip 2605:380:54:351:188:172:213:75:5938 with error system:101. Trying next address.
+2026/11/13 01:27:18.862  4878  4879 S   TcpConnectorv6[1]::ConnectEndpoint(): Connecting to endpoint 2605:380:54:351:188:172:213:75:5938
+2026/11/13 01:27:18.862  4878  4879 S!  TcpConnectorv6[1]::CheckForNextEndpoint: Connect failed to dest-ip 2605:380:56:351:162:250:6:134:5938 with error system:101. Trying next address.
+2026/11/13 01:27:18.862  4878  4879 S   TcpConnectorv6[1]::ConnectEndpoint(): Connecting to endpoint 2605:380:56:351:162:250:6:134:5938
+2026/11/13 01:27:18.862  4878  4879 S!  TcpConnectorv6[1]::CheckForNextEndpoint: Connect failed to dest-ip 2a00:11c0:21:351:162:220:222:165:5938 with error system:101. Trying next address.
+2026/11/13 01:27:18.862  4878  4879 S   TcpConnectorv6[1]::ConnectEndpoint(): Connecting to endpoint 2a00:11c0:21:351:162:220:222:165:5938
+2026/11/13 01:27:18.862  4878  4882 S!  TcpConnectorv6[1]::CheckForNextEndpoint: Connect failed to dest-ip 2a00:11c0:2d:351:162:250:3:73:5938 with error system:101. Trying next address.
+2026/11/13 01:27:18.862  4878  4882 S   TcpConnectorv6[1]::ConnectEndpoint(): Connecting to endpoint 2a00:11c0:2d:351:162:250:3:73:5938
+2026/11/13 01:27:18.910  4878  4886 S   KeepAliveSessionOutgoing::ConnectSuccessHandler(): KeepAliveConnect to router8.teamviewer.com successful
+2026/11/13 01:27:18.910  4878  4886 S   KeepAliveSessionOutgoing::KeepAliveChannelInitialized(): KeepAliveConnection to router8.teamviewer.com initialized
+2026/11/13 01:27:18.910  4878  4886 S   KeepAliveSession::KeepAliveChannelInitialized(): KeepAlive-Connection initialized with ID 0 (IP: 213.227.173.138), SendQueue 0 (0 Bytes), SendIndex 0, AckIndex 0, RemoteSessionID 1
+2026/11/13 01:27:18.910  4878  4886 S   IdentifyRequest: ID = 0, IC = 1000000000, IsTemporaryID = 0, InitiativeGUID = 00000000-0000-0000-0000-000000000000, CanStoreGUID = 1, MIDHistory = {0000000000_00000000_0000000000000000|l00000000000000000000000000000000:~~~~~~~~~~~~:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~|0linux0000000000000000000000000000000000:~~~~~~~~~~~~:~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}, MIDv = 0, MaxSupportedMIDv = 2, RebootHash = {00000000-0000-0000-0000-000000000000}, MIDFlags = 16, MIDForceUpdateFlags = 0, AttractionGUID = 00000000-0000-0000-0000-000000000000, TerminalServerIDsInToken = 1
+2026/11/13 01:27:19.120  4878  4891 S   TVRouterClock: received router time: 20261113T012718.995781
+2026/11/13 01:27:19.121  4878  4891 S   TVRouterClock Schedule next request in 43200s seconds
+2026/11/13 01:27:19.671  4878  4885 S   SelfSignedCertificateManager::CallbackWithCertificateData: created new 4096 bit RSA private key with fingerprint SHA256:i/Q+w1UxwKVqRLnf+Q38iNDv4XWdEHkbxlLzlns/zFw
+2026/11/13 01:27:20.265  4878  4883 S   AdminFileUnix: Wrote admin file: /opt/teamviewer/rolloutfile.tv13
+2026/11/13 01:27:20.265  4878  4883 S   Login::Identify::ManageLogin(): ID: 100000001 IC 1000000000 MIDv1
+2026/11/13 01:27:20.265  4878  4883 S   NetWatchdog: Internet is now connected
+2026/11/13 01:27:20.265  4878  4883 S   CKeepAliveClientClient::OnKeepAliveSucceeded(): Protocol 8 proxy -- IP 213.227.173.138
+2026/11/13 01:27:20.265  4878  4883 S   TeamViewerIDTracker::UpdateMachineID: New machineID = 100000001
+2026/11/13 01:27:20.265  4878  4891 S   tvsecurenetworkimpl::CertificateManager::RequestCertificate: starting new certificate request
+2026/11/13 01:27:20.272  4878  4891 S   tvsecurenetworkimpl::CertificateManager::StartNewCertificateRequest: sending CA sign request (retry: 1)
+2026/11/13 01:27:20.749  4878  4890 S   tvsecurenetworkimpl::CertificateManager::ReceivedNewCertificate: success
+2026/11/13 01:27:20.749  4878  4890 S   tvsecurenetworkimpl::CertificateManager::RequestRevocationCheck: starting new revocation check request
+2026/11/13 01:27:20.749  4878  4890 S   tvsecurenetworkimpl::CertificateManager::StartNewRevocationRequest: sending revocation check request (retry: 1)
+2026/11/13 01:27:20.904  4878  4891 S   tvsecurenetworkimpl::CertificateManager::ReceivedNewRevocationCheck: success
+2026/11/13 01:27:21.490  4878  4889 S   LicenseTracker::UpdateMachineLicense() local license differs from master license
+2026/11/13 01:27:21.655  4878  4885 S!  tvcore::tvremoteaccessapi::RemoteAccessAPIVerifier::VerifyReachStatus: Unable to verify REACH status because the device has not been registered as such.
+2026/11/13 01:27:21.655  4878  4885 S   SyncManagersFunction::Start: current managerlist size: 0
+2026/11/13 01:27:21.655  4878  4885 S   MDv2::ProviderRegistrationController::UpdateRegistration: entry: registered=0 dirty=0 inProgress=0 managed=0
+2026/11/13 01:27:21.655  4878  4885 S   ManagedDeviceController::RegisterForOnlineState(): Device came online. Triggering initial sync.
+2026/11/13 01:27:21.655  4878  4885 S   ManagedDeviceController::TriggerSync(): Triggering sync with timer (initial: 1)
+2026/11/13 01:27:21.656  4878  4885 S   HandlePartnerMachineIdMitigation::FetchAndReportPartnerMachineID(): Trying to retrieve partner MachineId...
+2026/11/13 01:27:21.656  4878  4885 S!! FetchMalwareBytesDeviceInfoImpl::GetCommandAndArgs(): Could not find client settings file, Errorcode=2
+2026/11/13 01:27:21.656  4878  4885 S!! ProcessExecutor::Execute(): Executable was not found, Errorcode=2
+2026/11/13 01:27:21.656  4878  4885 S   HandlePartnerMachineIdMitigation::Start(): Couldn't retrieve partner machine Id: (3) Executable not found
+2026/11/13 01:27:21.657  4878  4885 S   HttpCustomConfigurationDownloader::SetProxyListInternal: Update proxy vector with proxy settings: [No proxy]
+2026/11/13 01:27:21.657  4878  4885 S   Client logged in and online
+2026/11/13 01:27:21.845  4878  4879 S   AsyncMessaging::UnregisterAtAsyncMessageProvider(): Unregister successful
+2026/11/13 01:27:21.855  4878  4887 S   RequestIPAddress::RequestResult: Client country code: ZZ
+2026/11/13 01:27:21.886  4878  4883 S   tvnetwork::SecureNetworkConfigurationAdapter::CacheSettings: Received SecureNetwork Configuration: TLSStatus = 1
+2026/11/13 01:27:21.888  4878  4881 S   tvautoservice::AutoServiceInstallationController::OnFeatureFlagChanged: Feature flag enabled, starting AutoServiceInstallation
+2026/11/13 01:27:21.929  4878  4884 S   tvnetwork::SecureNetworkConfigurationAdapter::CacheSettings: Received SecureNetwork Configuration: TLSStatus = 1
+2026/11/13 01:27:26.658  4878  4891 S   ManagedDeviceController::TriggerSyncWithTimer(): Timer finished successfully
+2026/11/13 01:27:26.658  4878  4891 S   UpdateStates::Start(): No device state found, reporting Device as not managed
+2026/11/13 01:27:27.287  4878  4886 S   MDv2::Sync::UpdateStates::ReportUnmanagedDevice::lambda: successfully reported as unmanaged
+2026/11/13 01:27:27.288  4878  4886 S   ManagedDeviceController::OnSyncFinished(): Sync finished
+2026/11/13 01:27:27.288  4878  4886 S   MDv2::ProviderRegistrationController::UpdateRegistration: entry: registered=0 dirty=1 inProgress=0 managed=0
+2026/11/13 01:27:27.288  4878  4886 S   tvautoservice::DeviceHelper::HandleManagedDeviceDetails: New details: ManagedDeviceDetails{companyId=0}
+2026/11/13 01:27:27.288  4878  4886 S   tvautoservice::AutoServiceInstallationController::OnDeviceStateChanged: Device is not company managed, cancelling sync and updating state to reach observers

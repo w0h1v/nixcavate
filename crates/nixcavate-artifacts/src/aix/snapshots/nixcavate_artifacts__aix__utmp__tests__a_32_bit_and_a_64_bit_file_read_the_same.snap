@@ -1,0 +1,21 @@
+---
+source: crates/nixcavate-artifacts/src/aix/utmp.rs
+expression: ilp32
+---
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":0,"time":"2024-03-10T01:00:00Z","type":"boot_time","user":"reboot","line":"system boot","remote_host":"","pid":0,"id":"","exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":648,"time":"2024-03-10T01:00:20Z","type":"run_level","user":"runlevel","line":"run-level 2","remote_host":"","pid":1,"id":"rc","exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":1296,"time":"2024-03-10T01:00:30Z","type":"init_process","user":"","line":"vty0","remote_host":"","pid":3211,"id":"vty0","exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":1944,"time":"2024-03-10T01:10:00Z","type":"user_process","user":"alice","line":"pts/1","remote_host":"203.0.113.9","pid":8913,"id":"ts/1","exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":2592,"time":"2024-03-10T01:11:40Z","type":"user_process","user":"bob","line":"pts/2","remote_host":"","pid":8921,"id":"ts/2","exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":3240,"time":"2024-03-10T01:20:00Z","type":"dead_process","user":"","line":"pts/1","remote_host":"","pid":8913,"id":"ts/1","exit_termination":0,"exit_status":2}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":3888,"time":"2024-03-10T01:21:40Z","type":"new_time","user":"date","line":"new time","remote_host":"","pid":0,"id":"","exit_termination":0,"exit_status":0}
+{"host":"memory","artifact":"aix-wtmp","source_path":"var/adm/wtmp","source_offset":4536,"time":"2024-03-10T01:25:00Z","type":"dead_process","user":"","line":"pts/2","remote_host":"","pid":8921,"id":"ts/2","exit_termination":0,"exit_status":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:00:00Z,seconds,recorded,memory,aix-wtmp,boot,system boot,var/adm/wtmp,,0,,
+2024-03-10T01:00:20Z,seconds,recorded,memory,aix-wtmp,run_level,run level change (run-level 2),var/adm/wtmp,,648,,
+2024-03-10T01:10:00Z,seconds,recorded,memory,aix-wtmp,login,alice logged in on pts/1 from 203.0.113.9,var/adm/wtmp,,1944,,
+2024-03-10T01:11:40Z,seconds,recorded,memory,aix-wtmp,login,bob logged in on pts/2 from local,var/adm/wtmp,,2592,,
+2024-03-10T01:20:00Z,seconds,recorded,memory,aix-wtmp,logout,session ended on pts/1,var/adm/wtmp,,3240,,
+2024-03-10T01:21:40Z,seconds,recorded,memory,aix-wtmp,time_change,system clock changed (new_time),var/adm/wtmp,,3888,,
+2024-03-10T01:25:00Z,seconds,recorded,memory,aix-wtmp,logout,session ended on pts/2,var/adm/wtmp,,4536,,

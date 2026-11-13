@@ -1,0 +1,3 @@
+/run/sudo/ts/alice 224 1794537489.9447193430
+/var/db/sudo/lectured/alice 0 1794537485.8806968310
+/var/run/sudo/ts/alice 224 1794537489.9447193430

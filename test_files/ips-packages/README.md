@@ -1,0 +1,3 @@
+`catalog.base.C` is `/var/pkg/state/installed/catalog.base.C` of illumos (OmniOS r151054, x86) in a throwaway KVM guest; example users only, cut to eight packages with
+`python3 -c 'import json;...'` (the real file lists 424; the cut keeps each entry exactly as written, so it is valid JSON of the same shape).
+`pkg-list.txt` is the matching lines of `pkg list -H`. `catalog.db` is `/var/pkg/state/catalog.db` of an OmniOS r151060 guest (the newer SQLite form), cut with Python's `sqlite3` to six installed and three available packages (`delete from packages ...; vacuum`); `pkg-list-r151060.txt` is the matching `pkg list -H` lines.

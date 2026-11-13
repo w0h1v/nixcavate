@@ -2,12 +2,12 @@
 //! a common sign of DNS hijacking.
 
 use crate::text::{for_each_line, lossy};
-use crate::{Artifact, Category, Input, LINUX};
+use crate::{Artifact, Category, Input, UNIX};
 use nixcavate_core::{Loc, Record, Result, Sink};
 use serde::Serialize;
 
 pub const ARTIFACT: Artifact =
-    Artifact::new("resolv-conf", "DNS resolver configuration", Category::Network, LINUX, &["etc/resolv.conf"], parse);
+    Artifact::new("resolv-conf", "DNS resolver configuration", Category::Network, UNIX, &["etc/resolv.conf"], parse);
 
 #[derive(Serialize)]
 struct Setting<'a> {

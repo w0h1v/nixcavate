@@ -20,6 +20,10 @@ pub const ARTIFACT: Artifact = Artifact::new(
         "Users/*/.ssh/authorized_keys*",
         "private/var/root/.ssh/authorized_keys*",
         "var/root/.ssh/authorized_keys*",
+        "export/home/*/.ssh/authorized_keys*",
+        // ESXi keeps them outside home directories, one folder per account.
+        "etc/ssh/keys-*/authorized_keys*",
+        ".ssh/authorized_keys*",
     ],
     parse,
 );
@@ -40,6 +44,11 @@ struct Key<'a> {
 }
 
 impl Record for Key<'_> {}
+
+/// `etc/ssh/keys-alice/authorized_keys` gives `alice` (ESXi).
+fn esxi_user(path: &str) -> &str {
+    path.strip_prefix("etc/ssh/keys-").and_then(|rest| rest.split_once('/')).map_or("", |(user, _)| user)
+}
 
 fn is_key_type(word: &str) -> bool {
     word.starts_with("ssh-") || word.starts_with("ecdsa-sha2-") || word.starts_with("sk-")
@@ -103,7 +112,10 @@ fn option_value(options: &str, name: &str) -> Option<String> {
 }
 
 fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
-    let user = user_from_path(input.path);
+    let user = match user_from_path(input.path) {
+        "" => esxi_user(input.path),
+        user => user,
+    };
     for_each_line(input, |line| {
         let text = lossy(line.bytes);
         let text = text.trim();
@@ -147,6 +159,15 @@ mod tests {
     fn var_root_home_is_covered() {
         use nixcavate_source::glob::Pattern;
         assert!(ARTIFACT.paths.iter().any(|p| Pattern::new(p).matches("var/root/.ssh/authorized_keys")));
+    }
+
+    #[test]
+    fn esxi_keys_are_attributed_to_the_folder_user() {
+        use nixcavate_source::glob::Pattern;
+        assert!(ARTIFACT.paths.iter().any(|p| Pattern::new(p).matches("etc/ssh/keys-root/authorized_keys")));
+        let key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEYlXzPqDnZkQ8M2kz2uGQmBfNn5KkQ8d1pJp2o8y3sH op@example\n";
+        let out = run(&ARTIFACT, "etc/ssh/keys-root/authorized_keys", key.as_bytes(), 0);
+        assert!(out.contains("\"user\":\"root\""), "{out}");
     }
 
     #[test]

@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/common/firefox.rs
+expression: out
+---
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":15,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"app.update.auto","value":"false"}
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":72,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"network.proxy.http","value":"\"proxy.example.test\""}
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":73,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"network.proxy.http_port","value":"3128"}
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":74,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"network.proxy.type","value":"1"}
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":75,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"network.trr.mode","value":"2"}
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":76,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"network.trr.uri","value":"\"https://dns.example.test/dns-query\""}
+{"host":"memory","artifact":"firefox-prefs","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/prefs.js","source_line":95,"user":"alice","profile":"abcd1234.default-esr","file":"prefs.js","name":"xpinstall.signatures.required","value":"false"}

@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/lastlog.rs
+expression: out
+---
+{"host":"memory","artifact":"solaris-lastlog","source_path":"var/adm/lastlog.v2","source_offset":30400,"uid":100,"user":"omnios","time":"2026-11-13T01:27:19Z","line":"ssh","remote_host":"10.0.2.2"}
+{"host":"memory","artifact":"solaris-lastlog","source_path":"var/adm/lastlog.v2","source_offset":30704,"uid":101,"user":"alice","time":"2026-11-13T01:21:33Z","line":"ssh","remote_host":"127.0.0.1"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:21:33Z,seconds,recorded,memory,solaris-lastlog,last_login,alice last logged in on ssh from 127.0.0.1,var/adm/lastlog.v2,,30704,,
+2026-11-13T01:27:19Z,seconds,recorded,memory,solaris-lastlog,last_login,omnios last logged in on ssh from 10.0.2.2,var/adm/lastlog.v2,,30400,,

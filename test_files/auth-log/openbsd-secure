@@ -1,0 +1,2 @@
+Nov 13 02:14:35 bsd78o doas: command not permitted for mallory: /usr/bin/id -u
+Nov 13 02:40:29 bsd78o doas: alice ran command /usr/bin/id -u as root from /home/alice

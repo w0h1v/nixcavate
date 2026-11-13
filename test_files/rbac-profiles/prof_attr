@@ -1,0 +1,26 @@
+All:::Execute any command as the user or role:help=RtAll.html
+Audit Configuration:::Configure Solaris Audit:auths=solaris.smf.value.audit;help=RtAuditCfg.html
+Audit Control:::Control Solaris Audit:auths=solaris.smf.manage.audit;help=RtAuditCtrl.html
+Audit Review:::Review Solaris Auditing logs:help=RtAuditReview.html
+Basic Solaris User:::Automatically assigned rights:auths=solaris.profmgr.read,solaris.mail.mailq,solaris.device.mount.removable,solaris.admin.wusb.read;profiles=All;help=RtDefault.html
+Brightness:::For authorized users to Control LCD Brightness:auths=solaris.system.power.brightness;help=RtSysPowerMgmtBrightness.html
+CPU Power Management:::For authorized users to manage CPU Power:auths=solaris.system.power.cpu;help=RtCPUPowerManagement.html
+Console User:::Manage System as the Console User:profiles=Suspend To RAM,Suspend To Disk,Brightness,CPU Power Management,Network Autoconf User;auths=solaris.system.shutdown;help=RtConsUser.html
+Contract Observer:::Reliably observe any/all contract events:help=RtContractObserver.html
+Cron Management:::Manage at and cron jobs:auths=solaris.jobs.*,solaris.smf.manage.cron;help=RtCronMngmnt.html
+Crypto Management:::Cryptographic Framework Administration:help=RtCryptoMngmnt.html
+D-BUS Management:::Manage D-BUS:auths=solaris.smf.manage.dbus;help=RtDBUSMngmnt.html
+DAT Administration:::Manage the DAT configuration:help=RtDatAdmin.html
+DHCP Management:::Manage the DHCP service:auths=solaris.dhcpmgr.*;help=RtDHCPMngmnt.html
+Device Management:::Control Access to Removable Media:auths=solaris.device.*;help=RtDeviceMngmnt.html
+Device Security:::Manage devices and Volume Manager:auths=solaris.device.*,solaris.smf.manage.vt,solaris.smf.manage.allocate;help=RtDeviceSecurity.html
+Event Notification Agent Management:::Manage Event Notification Agents:auths=solaris.smf.manage.smtp-notify,solaris.smf.manage.snmp-notify,solaris.smf.value.smtp-notify,solaris.smf.value.snmp-notify
+Extended Accounting Flow Management:::Manage the Flow Extended Accounting service:auths=solaris.smf.manage.extended-accounting.flow,solaris.smf.value.extended-accounting.flow;profiles=acctadm;help=RtExActtFlow.html
+Extended Accounting Net Management:::Manage the Net Extended Accounting service:auths=solaris.smf.manage.extended-accounting.net,solaris.smf.value.extended-accounting.net;profiles=acctadm;help=RtExActtNet.html
+Extended Accounting Process Management:::Manage the Process Extended Accounting service:auths=solaris.smf.manage.extended-accounting.process,solaris.smf.value.extended-accounting.process;profiles=acctadm;hep=RtExAcctProcess.html
+Extended Accounting Task Management:::Manage the Task Extended Accounting service:auths=solaris.smf.manage.extended-accounting.task,solaris.smf.value.extended-accounting.task;profiles=acctadm;help=RtExAcctTask.html
+FTP Management:::Manage the FTP server:help=RtFTPMngmnt.html
+File System Management:::Manage, mount, share file systems:profiles=SMB Management,VSCAN Management,SMBFS Management;auths=solaris.smf.manage.autofs,solaris.smf.manage.shares.*,solaris.smf.value.shares.*;help=RtFileSysMngmnt.html
+File System Security:::Manage file system security attributes:help=RtFileSysSecurity.html
+Forced Privilege:::Commands with forced privileges associated with them:help=RtReservedProfile.html
+NXMK_Profile:::NXMK_PROFATTR example profile:help=

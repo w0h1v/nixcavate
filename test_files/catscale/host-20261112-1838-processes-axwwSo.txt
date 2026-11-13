@@ -1,0 +1,10 @@
+USER         PID    PPID    VSZ   RSS TTY      STAT STIME     TIME COMMAND
+root           1       0   2240  1128 ?        Ss   22:50 00:00:00 sleep 600
+root         468       0   2340  1436 ?        Ss   22:50 00:00:00 sh -c nc -l -p 4444 >/dev/null 2>&1; true
+root         473     468   3224  1372 ?        S    22:50 00:00:00 nc -l -p 4444
+root         474       0   2340  1424 ?        Ss   22:50 00:00:00 sh -c nc -u -l -p 5353 >/dev/null 2>&1; true
+root         479     474   3224  1376 ?        S    22:50 00:00:00 nc -u -l -p 5353
+root         480       0   2340  1436 ?        Ss   22:50 00:00:00 sh -c sleep 301
+root         485     480   2240  1136 ?        S    22:50 00:00:00 sleep 301
+root         486       0   2340  1412 ?        Ss   22:50 00:00:00 sh -c    ps axwwSo user,pid,ppid,vsz,rss,tname,stat,stime,time,args > /tmp/processes-axwwSo.txt   ss -anepo > /tmp/ss-anepo.txt   netstat -pvWanoee > /tmp/netstat-pvWanoee.txt   netstat -antup > /tmp/netstat-antup.txt   netstat -an > /tmp/netstat-an.txt   lsof +c0 -M -R -V -w -n -P > /tmp/lsof-list-open-files.txt 2>/dev/null   lsmod > /tmp/lsmod.txt 2>/dev/null || true 
+root         491     486   7992  3912 ?        R    22:50 00:00:00 ps axwwSo user,pid,ppid,vsz,rss,tname,stat,stime,time,args

@@ -1,0 +1,6 @@
+total 60
+drwxr-xr-x  1 root root   474 Nov 13 02:31 .
+drwxr-xr-x  1 root root    94 Nov 13 02:31 ..
+-rw-r-----+ 1 root root 16704 Nov 13 02:31 core.my-app\x2ev2.1001.de5e571206794cb9bde01e489b870e71.3848.1794537102000000.zst
+-rw-r-----  1 root root 16667 Nov 13 02:31 core.odd\x20name.0.de5e571206794cb9bde01e489b870e71.3858.1794537105000000.zst
+-rw-r-----+ 1 root root 16713 Nov 13 02:31 core.web-server.1000.de5e571206794cb9bde01e489b870e71.3838.1794537099000000.zst

@@ -1,0 +1,100 @@
+2026-11-13 01:17:51.181 UTC [5789] LOG:  starting PostgreSQL 15.19 (Debian 15.19-0+deb12u1) on aarch64-unknown-linux-gnu, compiled by gcc (Debian 12.2.0-14+deb12u1) 12.2.0, 64-bit
+2026-11-13 01:17:51.182 UTC [5789] LOG:  listening on IPv6 address "::1", port 5432
+2026-11-13 01:17:51.182 UTC [5789] LOG:  listening on IPv4 address "127.0.0.1", port 5432
+2026-11-13 01:17:51.186 UTC [5789] LOG:  listening on Unix socket "/var/run/postgresql/.s.PGSQL.5432"
+2026-11-13 01:17:51.189 UTC [5793] LOG:  database system was shut down at 2026-11-13 01:17:49 UTC
+2026-11-13 01:17:51.192 UTC [5789] LOG:  database system is ready to accept connections
+2026-11-13 01:17:51.767 UTC [5797] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-11-13 01:17:52.272 UTC [5800] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-11-13 01:17:52.272 UTC [5800] postgres@template1 LOG:  connection authenticated: identity="postgres" method=peer (/etc/postgresql/15/main/pg_hba.conf:90)
+2026-11-13 01:17:52.272 UTC [5800] postgres@template1 LOG:  connection authorized: user=postgres database=template1 application_name=psql
+2026-11-13 01:17:52.274 UTC [5800] postgres@template1 LOG:  statement: 
+2026-11-13 01:17:52.274 UTC [5800] postgres@template1 LOG:  duration: 0.032 ms
+2026-11-13 01:17:52.274 UTC [5800] postgres@template1 LOG:  disconnection: session time: 0:00:00.002 user=postgres database=template1 host=[local]
+2026-11-13 01:17:52.779 UTC [5803] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-11-13 01:17:52.780 UTC [5803] postgres@template1 LOG:  connection authenticated: identity="postgres" method=peer (/etc/postgresql/15/main/pg_hba.conf:90)
+2026-11-13 01:17:52.780 UTC [5803] postgres@template1 LOG:  connection authorized: user=postgres database=template1 application_name=psql
+2026-11-13 01:17:52.780 UTC [5803] postgres@template1 LOG:  statement: 
+2026-11-13 01:17:52.780 UTC [5803] postgres@template1 LOG:  duration: 0.027 ms
+2026-11-13 01:17:52.780 UTC [5803] postgres@template1 LOG:  disconnection: session time: 0:00:00.000 user=postgres database=template1 host=[local]
+2026-11-13 01:17:53.285 UTC [5806] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-11-13 01:17:53.285 UTC [5806] postgres@template1 LOG:  connection authenticated: identity="postgres" method=peer (/etc/postgresql/15/main/pg_hba.conf:90)
+2026-11-13 01:17:53.285 UTC [5806] postgres@template1 LOG:  connection authorized: user=postgres database=template1 application_name=psql
+2026-11-13 01:17:53.286 UTC [5806] postgres@template1 LOG:  statement: 
+2026-11-13 01:17:53.286 UTC [5806] postgres@template1 LOG:  duration: 0.028 ms
+2026-11-13 01:17:53.286 UTC [5806] postgres@template1 LOG:  disconnection: session time: 0:00:00.001 user=postgres database=template1 host=[local]
+2026-11-13 01:17:57.307 UTC [5811] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-11-13 01:17:57.308 UTC [5811] postgres@postgres LOG:  connection authenticated: identity="postgres" method=peer (/etc/postgresql/15/main/pg_hba.conf:90)
+2026-11-13 01:17:57.308 UTC [5811] postgres@postgres LOG:  connection authorized: user=postgres database=postgres application_name=psql
+2026-11-13 01:17:57.310 UTC [5811] postgres@postgres LOG:  statement: CREATE ROLE alice LOGIN PASSWORD 'Example-Pass-1'
+2026-11-13 01:17:57.321 UTC [5811] postgres@postgres LOG:  duration: 10.453 ms
+2026-11-13 01:17:57.321 UTC [5811] postgres@postgres LOG:  disconnection: session time: 0:00:00.014 user=postgres database=postgres host=[local]
+2026-11-13 01:17:57.336 UTC [5812] [unknown]@[unknown] LOG:  connection received: host=[local]
+2026-11-13 01:17:57.336 UTC [5812] postgres@postgres LOG:  connection authenticated: identity="postgres" method=peer (/etc/postgresql/15/main/pg_hba.conf:90)
+2026-11-13 01:17:57.336 UTC [5812] postgres@postgres LOG:  connection authorized: user=postgres database=postgres application_name=psql
+2026-11-13 01:17:57.336 UTC [5812] postgres@postgres LOG:  statement: CREATE DATABASE appdb OWNER alice
+2026-11-13 01:17:57.362 UTC [5812] postgres@postgres LOG:  duration: 26.062 ms
+2026-11-13 01:17:57.363 UTC [5812] postgres@postgres LOG:  disconnection: session time: 0:00:00.027 user=postgres database=postgres host=[local]
+2026-11-13 01:17:57.378 UTC [5814] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=53982
+2026-11-13 01:17:57.384 UTC [5814] alice@appdb LOG:  connection authenticated: identity="alice" method=scram-sha-256 (/etc/postgresql/15/main/pg_hba.conf:97)
+2026-11-13 01:17:57.384 UTC [5814] alice@appdb LOG:  connection authorized: user=alice database=appdb application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-11-13 01:17:57.386 UTC [5814] alice@appdb LOG:  statement: CREATE TABLE t(id int primary key, name text)
+2026-11-13 01:17:57.404 UTC [5814] alice@appdb LOG:  duration: 17.840 ms
+2026-11-13 01:17:57.404 UTC [5814] alice@appdb LOG:  statement: INSERT INTO t VALUES (1,$$a$$)
+2026-11-13 01:17:57.406 UTC [5814] alice@appdb LOG:  duration: 1.860 ms
+2026-11-13 01:17:57.406 UTC [5814] alice@appdb LOG:  disconnection: session time: 0:00:00.028 user=alice database=appdb host=127.0.0.1 port=53982
+2026-11-13 01:17:57.421 UTC [5816] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=53994
+2026-11-13 01:17:57.427 UTC [5816] alice@appdb LOG:  connection authenticated: identity="alice" method=scram-sha-256 (/etc/postgresql/15/main/pg_hba.conf:97)
+2026-11-13 01:17:57.427 UTC [5816] alice@appdb LOG:  connection authorized: user=alice database=appdb application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-11-13 01:17:57.427 UTC [5816] alice@appdb LOG:  statement: INSERT INTO t VALUES (1,$$dup$$)
+2026-11-13 01:17:57.428 UTC [5816] alice@appdb ERROR:  duplicate key value violates unique constraint "t_pkey"
+2026-11-13 01:17:57.428 UTC [5816] alice@appdb DETAIL:  Key (id)=(1) already exists.
+2026-11-13 01:17:57.428 UTC [5816] alice@appdb STATEMENT:  INSERT INTO t VALUES (1,$$dup$$)
+2026-11-13 01:17:57.428 UTC [5816] alice@appdb LOG:  disconnection: session time: 0:00:00.007 user=alice database=appdb host=127.0.0.1 port=53994
+2026-11-13 01:17:57.443 UTC [5818] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=53998
+2026-11-13 01:17:57.450 UTC [5818] alice@appdb LOG:  connection authenticated: identity="alice" method=scram-sha-256 (/etc/postgresql/15/main/pg_hba.conf:97)
+2026-11-13 01:17:57.450 UTC [5818] alice@appdb LOG:  connection authorized: user=alice database=appdb application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-11-13 01:17:57.450 UTC [5818] alice@appdb LOG:  statement: SELECT * FROM nosuchtable
+2026-11-13 01:17:57.450 UTC [5818] alice@appdb ERROR:  relation "nosuchtable" does not exist at character 15
+2026-11-13 01:17:57.450 UTC [5818] alice@appdb STATEMENT:  SELECT * FROM nosuchtable
+2026-11-13 01:17:57.451 UTC [5818] alice@appdb LOG:  disconnection: session time: 0:00:00.007 user=alice database=appdb host=127.0.0.1 port=53998
+2026-11-13 01:17:57.466 UTC [5820] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54002
+2026-11-13 01:17:57.472 UTC [5820] alice@appdb LOG:  connection authenticated: identity="alice" method=scram-sha-256 (/etc/postgresql/15/main/pg_hba.conf:97)
+2026-11-13 01:17:57.472 UTC [5820] alice@appdb LOG:  connection authorized: user=alice database=appdb application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-11-13 01:17:57.473 UTC [5820] alice@appdb LOG:  statement: SELECT id,
+	     name
+	   FROM t
+	  WHERE id = 1
+2026-11-13 01:17:57.473 UTC [5820] alice@appdb LOG:  duration: 0.314 ms
+2026-11-13 01:17:57.473 UTC [5820] alice@appdb LOG:  disconnection: session time: 0:00:00.007 user=alice database=appdb host=127.0.0.1 port=54002
+2026-11-13 01:17:57.488 UTC [5822] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54010
+2026-11-13 01:17:57.494 UTC [5822] alice@appdb FATAL:  password authentication failed for user "alice"
+2026-11-13 01:17:57.494 UTC [5822] alice@appdb DETAIL:  Connection matched pg_hba.conf line 97: "host    all             all             127.0.0.1/32            scram-sha-256"
+2026-11-13 01:17:57.495 UTC [5823] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54020
+2026-11-13 01:17:57.498 UTC [5823] alice@appdb FATAL:  password authentication failed for user "alice"
+2026-11-13 01:17:57.498 UTC [5823] alice@appdb DETAIL:  Connection matched pg_hba.conf line 97: "host    all             all             127.0.0.1/32            scram-sha-256"
+2026-11-13 01:17:57.513 UTC [5825] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54034
+2026-11-13 01:17:57.519 UTC [5825] nosuchuser@appdb FATAL:  password authentication failed for user "nosuchuser"
+2026-11-13 01:17:57.519 UTC [5825] nosuchuser@appdb DETAIL:  Role "nosuchuser" does not exist.
+	Connection matched pg_hba.conf line 97: "host    all             all             127.0.0.1/32            scram-sha-256"
+2026-11-13 01:17:57.521 UTC [5826] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54044
+2026-11-13 01:17:57.524 UTC [5826] nosuchuser@appdb FATAL:  password authentication failed for user "nosuchuser"
+2026-11-13 01:17:57.524 UTC [5826] nosuchuser@appdb DETAIL:  Role "nosuchuser" does not exist.
+	Connection matched pg_hba.conf line 97: "host    all             all             127.0.0.1/32            scram-sha-256"
+2026-11-13 01:17:57.538 UTC [5828] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54050
+2026-11-13 01:17:57.544 UTC [5828] alice@nosuchdb LOG:  connection authenticated: identity="alice" method=scram-sha-256 (/etc/postgresql/15/main/pg_hba.conf:97)
+2026-11-13 01:17:57.544 UTC [5828] alice@nosuchdb LOG:  connection authorized: user=alice database=nosuchdb application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-11-13 01:17:57.544 UTC [5828] alice@nosuchdb FATAL:  database "nosuchdb" does not exist
+2026-11-13 01:17:57.559 UTC [5830] [unknown]@[unknown] LOG:  connection received: host=127.0.0.1 port=54052
+2026-11-13 01:17:57.564 UTC [5830] alice@appdb LOG:  connection authenticated: identity="alice" method=scram-sha-256 (/etc/postgresql/15/main/pg_hba.conf:97)
+2026-11-13 01:17:57.564 UTC [5830] alice@appdb LOG:  connection authorized: user=alice database=appdb application_name=psql SSL enabled (protocol=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384, bits=256)
+2026-11-13 01:17:57.565 UTC [5830] alice@appdb LOG:  statement: DROP TABLE IF EXISTS t
+2026-11-13 01:17:57.568 UTC [5830] alice@appdb LOG:  duration: 2.990 ms
+2026-11-13 01:17:57.568 UTC [5830] alice@appdb LOG:  disconnection: session time: 0:00:00.009 user=alice database=appdb host=127.0.0.1 port=54052
+2026-11-13 01:17:57.601 UTC [5789] LOG:  received fast shutdown request
+2026-11-13 01:17:57.603 UTC [5789] LOG:  aborting any active transactions
+2026-11-13 01:17:57.604 UTC [5789] LOG:  background worker "logical replication launcher" (PID 5796) exited with exit code 1
+2026-11-13 01:17:57.605 UTC [5791] LOG:  shutting down
+2026-11-13 01:17:57.606 UTC [5791] LOG:  checkpoint starting: shutdown immediate
+2026-11-13 01:17:58.593 UTC [5791] LOG:  checkpoint complete: wrote 927 buffers (5.7%); 0 WAL file(s) added, 0 removed, 0 recycled; write=0.005 s, sync=0.972 s, total=0.989 s; sync files=312, longest=0.190 s, average=0.004 s; distance=4242 kB, estimate=4242 kB
+2026-11-13 01:17:58.598 UTC [5789] LOG:  database system is shut down

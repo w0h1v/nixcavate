@@ -1,0 +1,12 @@
+1|1|1|1|site/nxmk-smf|3|default
+1|2|2|1|site/nxmk-smf|0|
+4|1|7|2|site/nxmk-smf|4|default
+4|2|8|2|site/nxmk-smf|0|
+5|1|9|2|site/nxmk-smf|4|default
+5|2|10|2|site/nxmk-smf|0|
+6|1|11|5|site/nxmk-smf-lib|7|default
+6|2|12|5|site/nxmk-smf-lib|0|
+9|1|17|6|site/nxmk-smf-lib|8|default
+9|2|18|6|site/nxmk-smf-lib|0|
+10|1|19|6|site/nxmk-smf-lib|8|default
+10|2|20|6|site/nxmk-smf-lib|0|

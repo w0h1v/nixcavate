@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/communications.rs
+expression: out
+---
+{"host":"memory","artifact":"mail-envelopes","source_path":"Users/alice/Library/Mail/V10/MailData/Envelope Index","source_line":null,"user":"alice","sent":"2023-11-14T22:13:20Z","received":"2023-11-14T22:13:30Z","sender":"billing@example.com","subject":"Invoice 42","mailbox":"imap://alice@example.com/INBOX","read":false,"message_id":"<abc@example.com>"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:30Z,seconds,recorded,memory,mail-envelopes,mail,mail from billing@example.com: Invoice 42,Users/alice/Library/Mail/V10/MailData/Envelope Index,,,,

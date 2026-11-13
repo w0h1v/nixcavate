@@ -1,0 +1,16 @@
+serverAddr = "198.51.100.7"
+serverPort = 7000
+auth.token = "PLANTED-FRP-TOKEN-0003"
+
+[[proxies]]
+name = "ssh"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 22
+remotePort = 6000
+
+[[proxies]]
+name = "web"
+type = "http"
+localPort = 80
+customDomains = ["www.example.com"]

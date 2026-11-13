@@ -192,7 +192,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: 
     <div class="grid g3" style="margin-top:20px">
       <div class="card"><span class="k">auto-parse</span><p>Finds each host in the evidence, runs every parser, and writes per-host results and <code>manifest.json</code>.</p></div>
       <div class="card"><span class="k">super-timeline</span><p>Merges the timeline events of a run, and imported ChopChopGo or Zircolite results, into one sorted file.</p></div>
-      <div class="card"><span class="k">persistence-hunter</span><p>Runs 32 checks mapped to ATT&amp;CK techniques, with a YAML allow and block profile.</p></div>
+      <div class="card"><span class="k">persistence-hunter</span><p>Runs 117 checks mapped to ATT&amp;CK techniques, with a YAML allow and block profile.</p></div>
     </div>
   </section>
 
@@ -210,7 +210,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: 
     <div class="grid g2" style="margin-top:20px">
       <div class="card">
         <h3>Inputs</h3>
-        <p>Extracted collections and mounted volumes. <code>.tar</code>, <code>.tar.gz</code>, <code>.tar.bz2</code>, <code>.tar.zst</code>, <code>.tar.xz</code> and <code>.zip</code> read in place. Raw and E01 disk images with GPT or MBR partitions and linear LVM2 volumes holding ext2/3/4, XFS or APFS. A folder of collections becomes several hosts.</p>
+        <p>Extracted collections and mounted volumes. <code>.tar</code>, <code>.tar.gz</code>, <code>.tar.bz2</code>, <code>.tar.zst</code>, <code>.tar.xz</code> and <code>.zip</code> read in place. Raw, E01, qcow2, VMDK, VHD, VHDX and VDI disk images with GPT or MBR partitions and linear LVM2 volumes holding ext2/3/4, XFS or APFS. A folder of collections becomes several hosts.</p>
       </div>
       <div class="card">
         <h3>Output</h3>
@@ -229,7 +229,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: 
 
   <section id="artifacts">
     <h2>Artifacts</h2>
-    <p class="sub">88 parsers: 66 apply to Linux and 45 to macOS. <code>nixcavate list</code> prints the authoritative table with the paths each one reads.</p>
+    <p class="sub">310 parsers: 162 apply to Linux and 90 to macOS; the rest read FreeBSD, OpenBSD, NetBSD, Solaris and illumos, ESXi and AIX hosts. <code>nixcavate list</code> prints the authoritative table with the paths each one reads.</p>
     <div class="tbl">
       <table>
         <thead><tr><th>Area</th><th>Linux</th><th>macOS</th></tr></thead>
@@ -279,7 +279,7 @@ footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: 
 
   <section id="safety">
     <h2>Built for hostile evidence</h2>
-    <p class="sub">Evidence is attacker-controlled. Five adversarial reviews and 33 fuzz targets shaped these rules, and every proven finding has a regression test.</p>
+    <p class="sub">Evidence is attacker-controlled. Five adversarial reviews and 71 fuzz targets shaped these rules, and every proven finding has a regression test.</p>
     <ul class="checks">
       <li><b>Paths stay inside the evidence.</b> Entry names are matched and displayed, never used as paths on the analyst's machine.</li>
       <li><b>Symlinks are not followed out.</b> A link inside a host root resolves against that root only.</li>

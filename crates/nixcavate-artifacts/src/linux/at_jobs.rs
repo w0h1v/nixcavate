@@ -14,7 +14,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "Jobs queued with at(1)",
     Category::Persistence,
     LINUX,
-    &["var/spool/cron/atjobs/*", "var/spool/at/*", "var/spool/atjobs/*"],
+    &["var/spool/cron/atjobs/*", "var/spool/at/*", "var/spool/atjobs/*", "var/spool/atd/*"],
     parse,
 );
 
@@ -45,26 +45,39 @@ impl Record for Job<'_> {
 }
 
 /// Queue letter, job number and run time from the file name.
-fn decode_name(name: &str) -> Option<(&str, u32, Timestamp)> {
+fn decode_name(name: &str) -> Option<(&str, Option<u32>, Timestamp)> {
+    // OpenBSD names a job `<run time in epoch seconds>.<queue letter>`: no job number.
+    if let Some((secs, queue)) = name.split_once('.') {
+        let queue_ok = queue.len() == 1 && queue.as_bytes()[0].is_ascii_alphabetic();
+        let secs: Option<i64> = (queue_ok && secs.bytes().all(|b| b.is_ascii_digit()) && secs.len() <= 12)
+            .then(|| secs.parse().ok())
+            .flatten();
+        return secs.map(|s| (queue, None, Timestamp::from_secs(s, Basis::Recorded)));
+    }
     let bytes = name.as_bytes();
     if bytes.len() != 14 || !bytes[0].is_ascii_alphabetic() || !bytes[1..].iter().all(u8::is_ascii_hexdigit) {
         return None;
     }
     let number = u32::from_str_radix(&name[1..6], 16).ok()?;
     let minutes = i64::from_str_radix(&name[6..], 16).ok()?;
-    Some((&name[..1], number, Timestamp::from_secs(minutes * 60, Basis::Recorded)))
+    Some((&name[..1], Some(number), Timestamp::from_secs(minutes * 60, Basis::Recorded)))
 }
 
-const HEREDOC: &str = "${SHELL:-/bin/sh} << '";
+/// The delimiter of a here-document opened as `<shell> << 'DELIMITER'` (RHEL writes
+/// `${SHELL:-/bin/sh} << '...'`, OpenBSD `/bin/ksh << '_END_OF_AT_JOB'`).
+fn heredoc_delimiter(line: &str) -> Option<&str> {
+    line.split_once(" << '")?.1.strip_suffix('\'')
+}
 
 fn id_value(text: &str, key: &str) -> Option<u32> {
     text.split_whitespace().find_map(|word| word.strip_prefix(key)?.parse().ok())
 }
 
-fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
+pub(crate) fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     let name = input.path.rsplit('/').next().unwrap_or_default();
-    if name == ".SEQ" {
-        return Err(Error::skipped("at job counter, not a job"));
+    // `.SEQ` is the job counter; BSD at also keeps a `.lockfile` beside the jobs.
+    if name == ".SEQ" || name == ".lockfile" {
+        return Err(Error::skipped("at bookkeeping file, not a job"));
     }
     let decoded = decode_name(name);
     if decoded.is_none() {
@@ -88,13 +101,12 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
         } else if in_cd && line == "}" {
             start = Some(i + 1);
             // RHEL opens its here-document right after the block.
-            let heredoc = lines.get(i + 1).and_then(|l| l.strip_prefix(HEREDOC));
-            if let Some(after) = heredoc {
-                (delimiter, start) = (after.strip_suffix('\''), Some(i + 2));
+            if let Some(found) = lines.get(i + 1).and_then(|l| heredoc_delimiter(l)) {
+                (delimiter, start) = (Some(found), Some(i + 2));
             }
             break;
-        } else if let Some(after) = line.strip_prefix(HEREDOC) {
-            delimiter = after.strip_suffix('\'');
+        } else if let Some(found) = heredoc_delimiter(line) {
+            delimiter = Some(found);
             start = Some(i + 1);
             break;
         }
@@ -112,7 +124,7 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
         }
     };
     let (queue, job_number, time) = match decoded {
-        Some((queue, number, time)) => (Some(queue), Some(number), Some(time)),
+        Some((queue, number, time)) => (Some(queue), number, Some(time)),
         None => (None, None, None),
     };
     sink.emit(Loc::None, &Job { queue, job_number, time, uid, gid, mail_user, working_dir, command })

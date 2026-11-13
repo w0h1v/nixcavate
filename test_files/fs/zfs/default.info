@@ -1,0 +1,15 @@
+version	-
+ashift	12
+feature@lz4_compress	active
+feature@spacemap_histogram	active
+feature@enabled_txg	active
+feature@hole_birth	active
+feature@extensible_dataset	active
+feature@embedded_data	active
+feature@userobj_accounting	active
+feature@project_quota	active
+feature@spacemap_v2	active
+feature@log_spacemap	active
+feature@zilsaxattr	active
+feature@head_errlog	active
+feature@vdev_zaps_v2	active

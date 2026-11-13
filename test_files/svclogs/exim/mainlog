@@ -1,0 +1,33 @@
+2026-11-13 01:18:12 Warning: No server certificate defined; will use a selfsigned one.
+ Suggested action: either install a certificate or change tls_advertise_hosts option
+2026-11-13 01:18:12 exim 4.96 daemon started: pid=4010, -q30m, listening for SMTP on [127.0.0.1]:25
+2026-11-13 01:18:12 Start queue run: pid=4014
+2026-11-13 01:18:12 End queue run: pid=4014
+2026-11-13 01:18:15 1xRfvj-00012n-0A <= bob@example.test H=localhost (client.example.test) [127.0.0.1] P=esmtp S=347
+2026-11-13 01:18:15 1xRfvj-00012n-0A => alice <alice@mail.example.test> R=local_user T=mail_spool
+2026-11-13 01:18:15 1xRfvj-00012n-0A Completed
+2026-11-13 01:18:15 1xRfvj-00012r-0r <= carol@example.test H=localhost (client.example.test) [127.0.0.1] P=esmtp S=322
+2026-11-13 01:18:15 1xRfvj-00012r-0r => alice <alice@mail.example.test> R=local_user T=mail_spool
+2026-11-13 01:18:15 1xRfvj-00012r-0r => bob <bob@mail.example.test> R=local_user T=mail_spool
+2026-11-13 01:18:15 1xRfvj-00012r-0r Completed
+2026-11-13 01:18:15 1xRfvj-00012w-1X <= x@example.test H=localhost (client.example.test) [127.0.0.1] P=esmtp S=343
+2026-11-13 01:18:15 1xRfvj-00012w-1X ** ghost@mail.example.test: Unrouteable address
+2026-11-13 01:18:15 1xRfvj-00012z-1a <= <> R=1xRfvj-00012w-1X U=Debian-exim P=local S=1586
+2026-11-13 01:18:15 1xRfvj-00012w-1X Completed
+2026-11-13 01:18:15 1xRfvj-00012z-1a ** x@example.test: Unrouteable address
+2026-11-13 01:18:15 1xRfvj-00012z-1a Frozen (delivery error message)
+2026-11-13 01:18:15 1xRfvj-000132-2D <= alice@mail.example.test H=localhost (client.example.test) [127.0.0.1] P=esmtp S=359
+2026-11-13 01:18:15 1xRfvj-000132-2D => bob <bob@mail.example.test> R=local_user T=mail_spool
+2026-11-13 01:18:15 1xRfvj-000132-2D Completed
+2026-11-13 01:18:15 1xRfvj-000136-34 <= alice@mail.example.test H=localhost (client.example.test) [127.0.0.1] P=esmtp S=359
+2026-11-13 01:18:15 1xRfvj-000136-34 => bob <bob@mail.example.test> R=local_user T=mail_spool
+2026-11-13 01:18:15 1xRfvj-000136-34 Completed
+2026-11-13 01:18:16 1xRfvk-00013A-0Y <= m@example.test H=localhost (client.example.test) [127.0.0.1] P=esmtp S=339
+2026-11-13 01:18:16 1xRfvk-00013A-0Y ** x@elsewhere.invalid: Unrouteable address
+2026-11-13 01:18:16 1xRfvk-00013D-0p <= <> R=1xRfvk-00013A-0Y U=Debian-exim P=local S=1565
+2026-11-13 01:18:16 1xRfvk-00013D-0p ** m@example.test: Unrouteable address
+2026-11-13 01:18:16 1xRfvk-00013D-0p Frozen (delivery error message)
+2026-11-13 01:18:16 1xRfvk-00013A-0Y Completed
+2026-11-13 01:18:20 1xRfvo-00013H-1N <= root@mail.example.test U=root P=local S=308
+2026-11-13 01:18:20 1xRfvo-00013H-1N => alice <alice@75720faf4b72> R=local_user T=mail_spool
+2026-11-13 01:18:20 1xRfvo-00013H-1N Completed

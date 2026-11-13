@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ns0:Environment xmlns:ns0="http://schemas.dmtf.org/ovf/environment/1" xmlns:ns1="http://schemas.microsoft.com/windowsazure">
+  <ns1:ProvisioningSection>
+    <ns1:Version>1.0</ns1:Version>
+    <ns1:LinuxProvisioningConfigurationSet>
+      <ns1:ConfigurationSetType>LinuxProvisioningConfiguration</ns1:ConfigurationSetType>
+      <ns1:HostName>vm-example-01</ns1:HostName>
+      <ns1:UserName>azureuser</ns1:UserName>
+      <ns1:UserPassword>PLANTED-AZURE-PASSWORD-HASH-0028</ns1:UserPassword>
+      <ns1:DisableSshPasswordAuthentication>true</ns1:DisableSshPasswordAuthentication>
+      <ns1:CustomData>IyEvYmluL3NoCmVjaG8gaGk=</ns1:CustomData>
+    </ns1:LinuxProvisioningConfigurationSet>
+  </ns1:ProvisioningSection>
+</ns0:Environment>

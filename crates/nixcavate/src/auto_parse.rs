@@ -51,7 +51,7 @@ pub fn parse_all(options: &Options) -> Result<Manifest, String> {
     prepare_output(&options.output, common.clobber)?;
     let scratch = options.output.join(".scratch");
 
-    let sources = open_sources(&options.evidence, &scratch)?;
+    let sources = open_sources(&options.evidence, &options.output, &scratch)?;
     let zoneinfo = common.zoneinfo.is_dir().then_some(common.zoneinfo.as_path());
     let hosts: Vec<Host> = sources.iter().flat_map(|source| discover(source, zoneinfo)).collect();
     let tasks = plan(&hosts, &|a| selected(a));
@@ -68,7 +68,7 @@ pub fn parse_all(options: &Options) -> Result<Manifest, String> {
     if dirs.iter().all(Option::is_none) {
         let _ = fs::remove_dir_all(&scratch);
         return Err(format!(
-            "no host found in {}: nothing in it looks like a Linux or macOS system (etc/, var/log/, \
+            "no host found in {}: nothing in it looks like a supported system (etc/, var/log/, var/adm/, \
              System/Library/). A collection made of archives inside an archive must be extracted first",
             options.evidence.display()
         ));
@@ -239,8 +239,85 @@ fn prepare_output(output: &Path, clobber: bool) -> Result<(), String> {
     fs::remove_file(&manifest_path).map_err(|e| format!("{}: {e}", manifest_path.display()))
 }
 
-/// The evidence itself, plus any archives directly inside an evidence directory.
-fn open_sources(evidence: &Path, scratch: &Path) -> Result<Vec<Source>, String> {
+/// How far below an evidence folder archives are looked for when it holds no host itself
+/// (fastir writes `<folder>/<run>/<host>-files.zip`), counted in path components, and how many
+/// directory entries that search examines before it stops.
+const DEEPEST: usize = 3;
+const EXAMINED: usize = 4096;
+
+/// The archives and images in `dir` and, up to `DEEPEST` components down, in its folders.
+/// Only regular files and real folders are followed (a link may point out of the evidence),
+/// and the output folder is never entered.
+fn archives_below(dir: &Path, output: &Path) -> Vec<PathBuf> {
+    let (mut found, mut examined) = (Vec::new(), 0usize);
+    let mut level = vec![dir.to_path_buf()];
+    for depth in 1..=DEEPEST {
+        let mut next = Vec::new();
+        for folder in &level {
+            let Ok(listing) = fs::read_dir(folder) else { continue };
+            let mut items: Vec<_> = listing.flatten().collect();
+            items.sort_by_key(|item| item.file_name());
+            for item in items {
+                examined += 1;
+                if examined > EXAMINED {
+                    eprintln!("nixcavate: {}: stopped looking for archives after {EXAMINED} entries", dir.display());
+                    return found;
+                }
+                let Ok(kind) = item.file_type() else { continue };
+                let path = item.path();
+                if kind.is_dir() && depth < DEEPEST && resolved(&path) != resolved(output) {
+                    next.push(path);
+                } else if kind.is_file() {
+                    let name = item.file_name().to_string_lossy().to_ascii_lowercase();
+                    if ARCHIVE_SUFFIXES.iter().any(|suffix| name.ends_with(suffix)) {
+                        found.push(path);
+                    }
+                }
+            }
+        }
+        level = next;
+    }
+    found
+}
+
+/// Opens each path as a source, listing archives in parallel (decompressing a tar stream is
+/// single-threaded). `first` is the path the user named: it must open; a stray bad archive
+/// beside it is reported and skipped. `index` numbers the scratch folders.
+fn open_all(paths: &[PathBuf], first: Option<&Path>, index: usize, scratch: &Path) -> Result<Vec<Source>, String> {
+    let patterns = keep_patterns();
+    let keep = |path: &str| patterns.iter().any(|p| p.matches_suffix(path));
+    let opened: Vec<_> = thread::scope(|scope| {
+        let handles: Vec<_> = paths
+            .iter()
+            .enumerate()
+            .map(|(i, path)| {
+                let keep = &keep;
+                scope.spawn(move || Source::open(path, keep, &scratch.join(format!("source-{}", index + i))))
+            })
+            .collect();
+        handles.into_iter().map(|h| h.join()).collect()
+    });
+    let mut sources = Vec::new();
+    for (path, result) in paths.iter().zip(opened) {
+        match result {
+            Ok(Ok(source)) => {
+                for warning in &source.warnings {
+                    eprintln!("nixcavate: {}: {warning}", path.display());
+                }
+                sources.push(source)
+            }
+            Ok(Err(e)) if Some(path.as_path()) == first => return Err(format!("{}: {e}", path.display())),
+            Ok(Err(e)) => eprintln!("nixcavate: skipping {}: {e}", path.display()),
+            Err(_) => return Err(format!("{}: reading the archive panicked", path.display())),
+        }
+    }
+    Ok(sources)
+}
+
+/// The evidence itself, plus any archives directly inside an evidence directory. A directory
+/// that holds no host (not itself, and none in the archives beside it) is searched further
+/// down for archives and images, so a tool's `<folder>/<run>/<host>-files.zip` is found.
+fn open_sources(evidence: &Path, output: &Path, scratch: &Path) -> Result<Vec<Source>, String> {
     let mut paths = vec![evidence.to_path_buf()];
     if evidence.is_dir() {
         let listing = fs::read_dir(evidence).map_err(|e| format!("{}: {e}", evidence.display()))?;
@@ -257,34 +334,11 @@ fn open_sources(evidence: &Path, scratch: &Path) -> Result<Vec<Source>, String> 
         archives.sort();
         paths.extend(archives);
     }
-    let patterns = keep_patterns();
-    let keep = |path: &str| patterns.iter().any(|p| p.matches_suffix(path));
-    // Archives are listed in parallel: decompressing a tar stream is single-threaded.
-    let opened: Vec<_> = thread::scope(|scope| {
-        let handles: Vec<_> = paths
-            .iter()
-            .enumerate()
-            .map(|(i, path)| {
-                let keep = &keep;
-                scope.spawn(move || Source::open(path, keep, &scratch.join(format!("source-{i}"))))
-            })
-            .collect();
-        handles.into_iter().map(|h| h.join()).collect()
-    });
-    let mut sources = Vec::new();
-    for (path, result) in paths.iter().zip(opened) {
-        match result {
-            Ok(Ok(source)) => {
-                for warning in &source.warnings {
-                    eprintln!("nixcavate: {}: {warning}", path.display());
-                }
-                sources.push(source)
-            }
-            // The evidence the user named must open; a stray bad archive beside it is reported.
-            Ok(Err(e)) if path == evidence => return Err(format!("{}: {e}", path.display())),
-            Ok(Err(e)) => eprintln!("nixcavate: skipping {}: {e}", path.display()),
-            Err(_) => return Err(format!("{}: reading the archive panicked", path.display())),
-        }
+    let mut sources = open_all(&paths, Some(evidence), 0, scratch)?;
+    if evidence.is_dir() && !sources.iter().any(|source| discover(source, None).iter().any(|h| h.os != Os::Unknown)) {
+        let deeper: Vec<PathBuf> =
+            archives_below(evidence, output).into_iter().filter(|p| !paths.contains(p)).collect();
+        sources.extend(open_all(&deeper, None, paths.len(), scratch)?);
     }
     Ok(sources)
 }

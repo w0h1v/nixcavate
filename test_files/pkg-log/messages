@@ -1,0 +1,18 @@
+Nov 13 01:35:08 bsd145u newsyslog[779]: logfile first created
+Nov 13 01:35:08 bsd145u syslogd: kernel boot file is /boot/kernel/kernel
+Nov 13 01:35:08 bsd145u freebsd-update[835]: src component not installed, skipped
+Nov 13 01:35:08 bsd145u freebsd-update[835]: Looking up update.FreeBSD.org mirrors... 3 mirrors found.
+Nov 13 01:35:09 bsd145u freebsd-update[835]: Fetching public key from update2.freebsd.org... done.
+Nov 13 01:35:09 bsd145u freebsd-update[835]: Fetching metadata signature for 14.5-RELEASE from update2.freebsd.org... done.
+Nov 13 01:35:09 bsd145u freebsd-update[835]: Fetching metadata index... done.
+Nov 13 01:35:09 bsd145u freebsd-update[835]: Fetching 2 metadata files... done.
+Nov 13 01:38:53 bsd145u pkg[954]: doas-6.4 installed
+Nov 13 01:38:53 bsd145u pkg[954]: indexinfo-0.3.1_1 installed
+Nov 13 01:38:53 bsd145u pkg[954]: gettext-runtime-1.0_1 installed
+Nov 13 01:38:53 bsd145u pkg[954]: oniguruma-6.9.10 installed
+Nov 13 01:38:53 bsd145u pkg[954]: jq-1.8.2 installed
+Nov 13 01:38:53 bsd145u pkg[954]: sudo-1.9.17p2_2 installed
+Nov 13 01:38:53 bsd145u pkg[954]: tree-2.3.2 installed
+Nov 13 01:38:53 bsd145u pkg[954]: zip-3.0_6 installed
+Nov 13 01:38:54 bsd145u pkg[1071]: zip-3.0_6 deinstalled
+Nov 13 01:41:09 bsd145u pkg[937]: nano-9.2 installed

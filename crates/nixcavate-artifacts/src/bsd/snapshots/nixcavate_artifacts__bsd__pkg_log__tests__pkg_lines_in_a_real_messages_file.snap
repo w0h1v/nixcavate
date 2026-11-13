@@ -1,0 +1,26 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/pkg_log.rs
+expression: "run(&ARTIFACT, \"var/log/messages\", &fixture(\"pkg-log/messages\"),\n1_794_600_000)"
+---
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":701,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"doas","version":"6.4","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":754,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"indexinfo","version":"0.3.1_1","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":816,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"gettext-runtime","version":"1.0_1","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":882,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"oniguruma","version":"6.9.10","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":943,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"jq","version":"1.8.2","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":996,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"sudo","version":"1.9.17p2_2","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":1056,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"tree","version":"2.3.2","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":1111,"time":"2026-11-13T01:38:53Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"zip","version":"3.0_6","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":1165,"time":"2026-11-13T01:38:54Z","time_basis":"inferred_year_assumed_zone","action":"deinstalled","package":"zip","version":"3.0_6","old_version":""}
+{"host":"memory","artifact":"pkg-log","source_path":"var/log/messages","source_offset":1222,"time":"2026-11-13T01:41:09Z","time_basis":"inferred_year_assumed_zone","action":"installed","package":"nano","version":"9.2","old_version":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed doas 6.4,var/log/messages,,701,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed indexinfo 0.3.1_1,var/log/messages,,754,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed gettext-runtime 1.0_1,var/log/messages,,816,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed oniguruma 6.9.10,var/log/messages,,882,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed jq 1.8.2,var/log/messages,,943,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed sudo 1.9.17p2_2,var/log/messages,,996,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed tree 2.3.2,var/log/messages,,1056,,
+2026-11-13T01:38:53Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed zip 3.0_6,var/log/messages,,1111,,
+2026-11-13T01:38:54Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_removed,removed zip 3.0_6,var/log/messages,,1165,,
+2026-11-13T01:41:09Z,seconds,inferred_year_assumed_zone,memory,pkg-log,package_installed,installed nano 9.2,var/log/messages,,1222,,

@@ -1,0 +1,4 @@
+2025-01-10T05:19:23.253Z - last log rotation time, 2025-01-09T00:44:44.413Z - time the service was last started, Section for VMware ESX, pid=2098898, version=6.7.0, build=19195723, option=Release
+2025-01-10T05:19:29.999Z verbose rhttpproxy[2101895] [Originator@6876 sub=Proxy Req 00544] New proxy client <SSL(<io_obj p:0x000000875550a890, h:16, <TCP '192.0.2.10 : 443'>, <TCP '203.0.113.20 : 51776'>>)>
+2025-01-10T05:19:29.999Z verbose rhttpproxy[2098919] [Originator@6876 sub=Proxy Req 00544] Resolved endpoint : [N7Vmacore4Http16LocalServiceSpecE:0x0000008755511720] _serverNamespace = /vpxa action = Allow _port = 8089
+2025-01-10T05:19:30.000Z verbose rhttpproxy[2099582] [Originator@6876 sub=Proxy Req 00544] Connected to localhost:8089 (/vpxa) over <io_obj p:0x0000008712ec1460, h:21, <TCP '127.0.0.1 : 15466'>, <TCP '127.0.0.1 : 8089'>>

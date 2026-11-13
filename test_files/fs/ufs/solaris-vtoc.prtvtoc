@@ -1,0 +1,32 @@
+* /dev/rdsk/c4t0d0s2 partition map
+*
+* Dimensions:
+*         512 bytes/sector
+*          32 sectors/track
+*          64 tracks/cylinder
+*        2048 sectors/cylinder
+*          63 cylinders
+*          63 accessible cylinders
+*      129024 sectors
+*      129024 accessible sectors
+*
+* Flags:
+*   1: unmountable
+*  10: read-only
+*
+* Unallocated space:
+*         First       Sector      Last
+*         Sector       Count      Sector
+*             0        4096        4095
+*         94208       34816      129023
+*
+*                            First       Sector      Last
+* Partition  Tag  Flags      Sector       Count      Sector  Mount Directory
+       0      2    00         4096       32768       36863
+       1      3    01        36864       16384       53247
+       2      5    01            0      129024      129023
+       7      8    00        53248       40960       94207
+  191   128  255    63     1023    255    63     1023    2048       129024    
+  0     0    0      0      0       0      0      0       0          0         
+  0     0    0      0      0       0      0      0       0          0         
+  0     0    0      0      0       0      0      0       0          0         

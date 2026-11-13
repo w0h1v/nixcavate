@@ -1,0 +1,114 @@
+/dev/md/raid10-n2-3:
+           Version : 1.2
+     Creation Time : Thu Nov 12 16:50:32 2026
+        Raid Level : raid10
+        Array Size : 4608
+     Used Dev Size : 3072
+      Raid Devices : 3
+     Total Devices : 3
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 16:50:33 2026
+             State : active 
+    Active Devices : 3
+   Working Devices : 3
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : near=2
+        Chunk Size : 64K
+
+Consistency Policy : resync
+
+              Name : fixture:r10
+              UUID : 4e007803:8f1bbb48:cb637632:05cb7071
+            Events : 17
+
+    Number   Major   Minor   RaidDevice State
+       0       7        0        0      active sync   /dev/loop0
+       1       7        1        1      active sync   /dev/loop1
+       2       7        2        2      active sync   /dev/loop2
+/dev/loop0:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : 4e007803:8f1bbb48:cb637632:05cb7071
+           Name : fixture:r10
+  Creation Time : Thu Nov 12 16:50:32 2026
+     Raid Level : raid10
+   Raid Devices : 3
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 4608 KiB
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : 3cd7ef84:94d1a62f:863a2c85:1eba3cc9
+
+    Update Time : Thu Nov 12 16:50:33 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : 2148041c - correct
+         Events : 17
+
+         Layout : near=2
+     Chunk Size : 64K
+
+   Device Role : Active device 0
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop1:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : 4e007803:8f1bbb48:cb637632:05cb7071
+           Name : fixture:r10
+  Creation Time : Thu Nov 12 16:50:32 2026
+     Raid Level : raid10
+   Raid Devices : 3
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 4608 KiB
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : 8c51aca5:67bc4cda:81412596:68b4f977
+
+    Update Time : Thu Nov 12 16:50:33 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : ac606a85 - correct
+         Events : 17
+
+         Layout : near=2
+     Chunk Size : 64K
+
+   Device Role : Active device 1
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop2:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : 4e007803:8f1bbb48:cb637632:05cb7071
+           Name : fixture:r10
+  Creation Time : Thu Nov 12 16:50:32 2026
+     Raid Level : raid10
+   Raid Devices : 3
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 4608 KiB
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : 8825fb35:ccbf27df:342966ca:5d34c411
+
+    Update Time : Thu Nov 12 16:50:33 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : f95a98f - correct
+         Events : 17
+
+         Layout : near=2
+     Chunk Size : 64K
+
+   Device Role : Active device 2
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)

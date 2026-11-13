@@ -1,0 +1,12 @@
+Nov 13 02:14:06 bsd78o useradd[26172]: new group added: name=mallory, gid=1001
+Nov 13 02:14:06 bsd78o useradd[26172]: new user added: name=mallory, uid=1001, gid=1001, home=/home/mallory, shell=/bin/ksh
+Nov 13 02:14:06 bsd78o useradd[65122]: new group added: name=bob, gid=1002
+Nov 13 02:14:06 bsd78o useradd[65122]: new user added: name=bob, uid=1002, gid=1002, home=/home/bob, shell=/bin/ksh
+Nov 13 02:14:06 bsd78o usermod[55088]: user information modified: name=alice, uid=1000, gid=1000, home=/home/alice, shell=/bin/ksh
+Nov 13 02:14:06 bsd78o usermod[52520]: user information modified: name=mallory, uid=1001, gid=1001, home=/home/mallory, shell=/bin/ksh
+Nov 13 02:14:44 bsd78o useradd[88773]: new group added: name=carol, gid=1003
+Nov 13 02:14:44 bsd78o useradd[88773]: new user added: name=carol, uid=1003, gid=1003, home=/home/carol, shell=/bin/sh
+Nov 13 02:14:44 bsd78o usermod[35888]: user information modified: name=carol, uid=1003, gid=1003, home=/home/carol, shell=/bin/sh
+Nov 13 02:14:44 bsd78o usermod[68883]: user information modified: name=carol, uid=1003, gid=1003, home=/home/carol, shell=/bin/sh
+Nov 13 02:14:44 bsd78o userdel[79511]: user removed: name=carol
+Nov 13 02:14:44 bsd78o groupdel[36306]: group deleted: name=nxgrp

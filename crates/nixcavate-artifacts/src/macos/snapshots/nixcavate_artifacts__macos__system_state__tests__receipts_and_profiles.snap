@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_state.rs
+expression: r
+---
+{"host":"memory","artifact":"pkg-receipts","source_path":"private/var/db/receipts/com.example.pkg.plist","source_line":null,"package_id":"com.example.pkg","version":"1.2.3","install_time":"2023-11-14T10:00:00Z","install_prefix":"/","install_process":"installer"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T10:00:00Z,seconds,recorded,memory,pkg-receipts,package_installed,package com.example.pkg 1.2.3 installed by installer,private/var/db/receipts/com.example.pkg.plist,,,,

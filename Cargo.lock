@@ -617,6 +617,7 @@ dependencies = [
 name = "nixcavate-fs"
 version = "0.1.0"
 dependencies = [
+ "flate2",
  "sha2",
  "zstd",
 ]
@@ -632,6 +633,7 @@ dependencies = [
  "nixcavate-core",
  "nixcavate-fs",
  "plist",
+ "sha2",
  "tar",
  "xz2",
  "zip",

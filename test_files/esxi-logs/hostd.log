@@ -1,0 +1,17 @@
+2025-01-10T04:04:13.757Z - last log rotation time, 2025-01-09T19:31:26.265Z - time the service was last started, Section for VMware ESX, pid=2098864, version=6.7.0, build=19195723, option=Release
+2025-01-10T07:46:48.332Z info hostd[2099437] [Originator@6876 sub=Default opID=d7db5643] Accepted password for user vpxuser from 192.0.2.2
+2025-01-10T07:46:48.332Z info hostd[2099437] [Originator@6876 sub=Vimsvc.ha-eventmgr opID=d7db5643] Event 112 : User vpxuser@192.0.2.2 logged in as VMware-client/6.5.0
+2025-01-10T07:46:48.741Z info hostd[2099445] [Originator@6876 sub=Vimsvc.ha-eventmgr opID=d7db5647 user=vpxuser] Event 113 : User vpxuser@192.0.2.2 logged out (login time: Friday, 10 January, 2025 07:46:48 AM, number of API invocations: 0, user agent: VMware-client/6.5.0)
+2025-01-10T10:19:29.626Z warning hostd[2099429] [Originator@6876 sub=Default opID=esxui-18d5-756b] Rejected password for user root from 203.0.113.50
+2025-01-10T10:19:29.627Z info hostd[2099429] [Originator@6876 sub=Vimsvc.ha-eventmgr opID=esxui-18d5-756b] Event 114 : Cannot login root@203.0.113.50
+2025-01-10T10:19:40.000Z info hostd[2099429] [Originator@6876 sub=Vimsvc.ha-eventmgr opID=esxui-18d5-7570] Event 115 : User root@203.0.113.50 logged in as Mozilla/5.0 (X11; Linux x86_64) Firefox/134.0
+2025-01-10T10:25:05.499Z info hostd[2099437] [Originator@6876 sub=Vimsvc.ha-eventmgr opID=esxui-b86-779a user=root] Event 116 : Removed web01 on esx01 from ha-datacenter
+2025-01-10T10:30:00.000Z info hostd[2099437] [Originator@6876 sub=Vimsvc.ha-eventmgr user=root] Event 117 : Registered web01 on  esx01 in ha-datacenter
+2025-01-10T10:54:07.136Z info hostd[2099431] [Originator@6876 sub=Vimsvc.ha-eventmgr] Event 118 : db01 on  esx01 in ha-datacenter is powered off
+2025-01-10T10:54:11.164Z info hostd[2099427] [Originator@6876 sub=Vimsvc.ha-eventmgr] Event 119 : db01 on  esx01 in ha-datacenter is powered on
+2025-01-10T10:55:00.000Z info hostd[2099427] [Originator@6876 sub=Vimsvc.ha-eventmgr user=root] Event 120 : Task: Create virtual machine snapshot
+2025-01-10T11:40:00.000Z info hostd[2099427] [Originator@6876 sub=Vimsvc.ha-eventmgr] Event 121 : Remote access for ESXi local user account 'root' has been locked for 900 seconds after 5 failed login attempts.
+2025-01-10T11:41:00.000Z info hostd[2099427] [Originator@6876 sub=Vimsvc.ha-eventmgr] Event 122 : SSH access has been enabled.
+2025-01-10T11:42:00.000Z warning hostd[2099427] [Originator@6876 sub=Vmsvc.vm:/vmfs/volumes/ds1/web01/web01.vmx] File - failed to get objectId
+2026-02-03T02:56:51.118Z Db(167) Hostd[1001392583]: [Originator@6876 sub=AdapterServer opID=531c52d7-9d8a sid=52806149 user=vpxuser:<no user>] New request: target='vim.HostSystem:ha-host'
+2026-02-03T03:00:00.000Z In(166) Hostd[1001392583]: [Originator@6876 sub=Vimsvc.ha-eventmgr opID=esxui-1 user=root] Event 4 : User alice@198.51.100.9 logged in as Mozilla/5.0

@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/aix/history.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-sh-history","source_path":"home/alice/.sh_history","source_offset":2,"user":"alice","command":"ls -l","cancelled":false}
+{"host":"memory","artifact":"aix-sh-history","source_path":"home/alice/.sh_history","source_offset":14,"user":"alice","command":"rm -rf /tmp/x","cancelled":true}
+{"host":"memory","artifact":"aix-sh-history","source_path":"home/alice/.sh_history","source_offset":30,"user":"alice","command":"su - oracle","cancelled":false}
+{"host":"memory","artifact":"aix-sh-history","source_path":"home/alice/.sh_history","source_offset":43,"user":"alice","command":"café �","cancelled":false}

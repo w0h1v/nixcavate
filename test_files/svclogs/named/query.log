@@ -1,0 +1,8 @@
+13-Nov-2026 01:24:56.747 queries: info: client @0xffffa0230098 127.0.0.1#35571 (www.example.test): query: www.example.test IN A +E(0)K (127.0.0.1)
+13-Nov-2026 01:24:56.762 queries: info: client @0xffffae680098 127.0.0.1#33083 (www.example.test): query: www.example.test IN AAAA +E(0)K (127.0.0.1)
+13-Nov-2026 01:24:56.777 queries: info: client @0xffffb0f90098 127.0.0.1#52905 (example.test): query: example.test IN MX +E(0)K (127.0.0.1)
+13-Nov-2026 01:24:56.793 queries: info: client @0xffff9f761c98 127.0.0.1#34763 (example.test): query: example.test IN TXT +E(0)TK (127.0.0.1)
+13-Nov-2026 01:24:56.811 queries: info: client @0xffffb1d90098 127.0.0.1#38440 (nosuch.example.test): query: nosuch.example.test IN A +E(0)K (127.0.0.1)
+13-Nov-2026 01:24:56.816 queries: info: client @0xffffb0b90098 127.0.0.1#57090 (10.2.0.192.in-addr.arpa): query: 10.2.0.192.in-addr.arpa IN PTR +E(0)K (127.0.0.1)
+13-Nov-2026 01:24:56.832 queries: info: client @0xffffa0230098 127.0.0.1#38212 (www.example.test): query: www.example.test IN A -E(0) (127.0.0.1)
+13-Nov-2026 01:24:56.849 queries: info: client @0xffffa0233898 127.0.0.1#37559 (example.test): query: example.test IN ANY +E(0)TK (127.0.0.1)

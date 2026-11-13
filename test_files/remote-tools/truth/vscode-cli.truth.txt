@@ -1,0 +1,14 @@
+code 1.146.0 (commit 69047191fc427f2f92828279aae1d90d8eeda7ab)
+-rwxrwxr-x 1 alice alice 29509368 Nov 10 19:36 /usr/local/bin/code
+*
+* Visual Studio Code Server
+*
+* By using the software, you agree to
+* the Visual Studio Code Server License Terms (https://aka.ms/vscode-server-license) and
+* the Microsoft Privacy Statement (https://privacy.microsoft.com/en-US/privacystatement).
+*
+[2026-11-13 01:19:08] info Using GitHub for authentication, run `code tunnel user login --provider <provider>` option to change this.
+To grant access to the server, please log into https://github.com/login/device and use code CE0F-AE75
+/home/alice/.vscode
+/home/alice/.vscode/cli
+/home/alice/.vscode/cli/tunnel-stable.lock

@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/linux/login_failures.rs
+expression: "on_host(&FAILLOG, \"debian9-i386\", \"var/log/faillog\",\n&fixture(\"failed-logins/debian9-i386/faillog.shadow\"))"
+---
+{"host":"memory","artifact":"faillog","source_path":"var/log/faillog","source_offset":24000,"uid":1000,"user":"alice","failures":2,"max_failures":5,"line":"pts/3","last_failure":"2026-11-13T02:33:40Z","lock_seconds":600}
+{"host":"memory","artifact":"faillog","source_path":"var/log/faillog","source_offset":24024,"uid":1001,"user":"bob","failures":3,"max_failures":0,"line":"198.51.100.","last_failure":"2026-11-13T02:33:49Z","lock_seconds":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:33:40Z,seconds,recorded,memory,faillog,failed_login,2 failed login(s) for alice; the last one on pts/3,var/log/faillog,,24000,,
+2026-11-13T02:33:49Z,seconds,recorded,memory,faillog,failed_login,3 failed login(s) for bob; the last one on 198.51.100.,var/log/faillog,,24024,,

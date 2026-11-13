@@ -1,0 +1,11 @@
+2025-01-10T00:20:40.756Z cpu23:2098417)Elf: 2101: module example_nmp_shim has license VMware
+2025-01-10T00:20:40.757Z cpu23:2098417)Mod: 4962: Initialization of example_nmp_shim succeeded with module ID 90.
+2025-01-10T00:20:40.757Z cpu23:2098417)example_nmp_shim loaded successfully.
+2025-01-10T00:21:02.100Z cpu7:2097735 opID=a1b2c3d4)WARNING: ScsiScan: 1638: Failed to add path vmhba0:C0:T9:L0 : Not found
+2025-01-10T00:21:03.200Z cpu7:2097735)ALERT: Failed to verify signatures of the following vib(s): [example-vib]
+0:00:00:05.344 cpu0:2097152)WARNING: VTD: 715: ACPI DMAR table not found
+2026-02-03T10:00:00Z In(182) vmkernel: VMB: 65: Reserved 4 MPNs starting @ 0x4c1
+2026-02-03T10:00:01.123Z Wa(180) vmkwarning: cpu0:263421 opID=a03fc439)WARNING: Sched: vm 265285: 6404: could not create container group
+2026-02-03T10:00:02.123Z In(182) vmkernel: cpu3:2099999)NMP: nmp_ThrottleLogForDevice:3856: Cmd 0x2a to dev "naa.0000" failed
+
+continuation without a header

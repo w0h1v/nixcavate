@@ -44,6 +44,9 @@ for c in lz4 xz; do
 done
 write nixcavate-journal-249 v249-zstd 0 zstd
 write nixcavate-journal-245 v245-lz4 0 lz4
+# Auth events as a journal-only host records them (auth.export is hand-written).
+docker run --rm -v "$here:/gen:ro" -v "$out:/out" nixcavate-journal-252 sh -c "
+    /lib/systemd/systemd-journal-remote --compress=no -o /out/auth.journal - < /gen/auth.export"
 for f in "$out"/*.journal; do zstd -19 -q -f "$f" -o "$f.zst"; done
 python3 -c '
 import json, sys

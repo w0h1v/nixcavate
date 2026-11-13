@@ -1,0 +1,33 @@
+---
+source: crates/nixcavate-artifacts/src/linux/cloud_init.rs
+expression: out
+---
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":1,"time":"2026-11-12T22:57:21Z","message":"Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init-local' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.51 seconds."}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":2,"time":"2026-11-12T22:57:21Z","message":"Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.89 seconds."}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":3,"time":null,"message":"ci-info: +++++++++++++++++++++++++++++++Net device info++++++++++++++++++++++++++++++++"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":4,"time":null,"message":"ci-info: +--------+------+---------------+---------------+--------+-------------------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":5,"time":null,"message":"ci-info: | Device |  Up  |    Address    |      Mask     | Scope  |     Hw-Address    |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":6,"time":null,"message":"ci-info: +--------+------+---------------+---------------+--------+-------------------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":7,"time":null,"message":"ci-info: |  eth0  | True | 192.0.2.6     | 255.255.255.0 | global | 02:00:00:00:00:01 |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":8,"time":null,"message":"ci-info: |   lo   | True |   127.0.0.1   |   255.0.0.0   |  host  |         .         |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":9,"time":null,"message":"ci-info: |   lo   | True |    ::1/128    |       .       |  host  |         .         |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":10,"time":null,"message":"ci-info: +--------+------+---------------+---------------+--------+-------------------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":11,"time":null,"message":"ci-info: +++++++++++++++++++++++++++++++Route IPv4 info+++++++++++++++++++++++++++++++"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":12,"time":null,"message":"ci-info: +-------+---------------+---------------+---------------+-----------+-------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":13,"time":null,"message":"ci-info: | Route |  Destination  |    Gateway    |    Genmask    | Interface | Flags |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":14,"time":null,"message":"ci-info: +-------+---------------+---------------+---------------+-----------+-------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":15,"time":null,"message":"ci-info: |   0   |    0.0.0.0    | 192.0.2.1     |    0.0.0.0    |    eth0   |   UG  |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":16,"time":null,"message":"ci-info: |   1   | 192.0.2.0     |    0.0.0.0    | 255.255.255.0 |    eth0   |   U   |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":17,"time":null,"message":"ci-info: +-------+---------------+---------------+---------------+-----------+-------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":18,"time":null,"message":"ci-info: +++++++++++++++++++Route IPv6 info+++++++++++++++++++"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":19,"time":null,"message":"ci-info: +-------+-------------+---------+-----------+-------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":20,"time":null,"message":"ci-info: | Route | Destination | Gateway | Interface | Flags |"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":21,"time":null,"message":"ci-info: +-------+-------------+---------+-----------+-------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":22,"time":null,"message":"ci-info: +-------+-------------+---------+-----------+-------+"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":23,"time":null,"message":"2026-11-12 22:57:21,822 - log_util.py[WARNING]: Failed generating key type rsa to file /etc/ssh/ssh_host_rsa_key"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":24,"time":null,"message":"2026-11-12 22:57:21,830 - log_util.py[WARNING]: Failed generating key type ecdsa to file /etc/ssh/ssh_host_ecdsa_key"}
+{"host":"memory","artifact":"cloud-init-output","source_path":"var/log/cloud-init-output.log","source_line":25,"time":null,"message":"2026-11-12 22:57:21,831 - log_util.py[WARNING]: Failed generating key type ed25519 to file /etc/ssh/ssh_host_ed25519_key"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:57:21Z,seconds,recorded,memory,cloud-init-output,cloud_init,"Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init-local' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.51 seconds.",var/log/cloud-init-output.log,1,,,
+2026-11-12T22:57:21Z,seconds,recorded,memory,cloud-init-output,cloud_init,"Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.89 seconds.",var/log/cloud-init-output.log,2,,,

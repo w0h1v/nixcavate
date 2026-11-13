@@ -1,6 +1,9 @@
 //! Podman (containers/storage) metadata: the container and image indexes
 //! `containers.json` and `images.json`, for the rootful store and for rootless users.
 //! Format reference: containers/storage `containers.go` and `images.go` (JSON arrays).
+//! The graph root is configurable (`graphroot` in storage.conf, `--root`) and its folders are
+//! named after the storage driver (`overlay-containers`, `vfs-containers`), so the patterns
+//! anchor on those names under any prefix.
 
 use super::docker::time_of;
 use crate::common::home::user_from_path;
@@ -14,11 +17,7 @@ pub const CONTAINERS: Artifact = Artifact::new(
     "Podman container index",
     Category::Containers,
     LINUX,
-    &[
-        "var/lib/containers/storage/*-containers/containers.json",
-        "home/*/.local/share/containers/storage/*-containers/containers.json",
-        "root/.local/share/containers/storage/*-containers/containers.json",
-    ],
+    &["**/*-containers/containers.json"],
     parse_containers,
 );
 
@@ -27,11 +26,7 @@ pub const IMAGES: Artifact = Artifact::new(
     "Podman image index",
     Category::Containers,
     LINUX,
-    &[
-        "var/lib/containers/storage/*-images/images.json",
-        "home/*/.local/share/containers/storage/*-images/images.json",
-        "root/.local/share/containers/storage/*-images/images.json",
-    ],
+    &["**/*-images/images.json"],
     parse_images,
 );
 
@@ -158,6 +153,33 @@ mod tests {
     fn rootless_images() {
         let path = "home/alice/.local/share/containers/storage/vfs-images/images.json";
         insta::assert_snapshot!(run(&IMAGES, path, &fixture("podman-images/images.json"), 0));
+    }
+
+    /// `test_files/podman-real/build.sh` ran the real podman: a rootful store, a rootless one
+    /// and a graph root moved with `--root`. `expected.txt` holds podman's own counts.
+    #[test]
+    fn real_podman_stores_give_podmans_own_counts() {
+        use nixcavate_source::glob::Pattern;
+        let expected = String::from_utf8(fixture("podman-real/expected.txt")).unwrap();
+        let stores = [
+            ("root", "var/lib/containers/storage", ""),
+            ("podman", "home/podman/.local/share/containers/storage", "podman"),
+            ("moved", "srv/data/containers", ""),
+        ];
+        for (label, root, user) in stores {
+            let row: Vec<&str> = expected.lines().find(|l| l.starts_with(label)).unwrap().split(' ').collect();
+            let (containers, images) = (row[2].parse::<usize>().unwrap(), row[4].parse::<usize>().unwrap());
+            let (cpath, ipath) =
+                (format!("{root}/vfs-containers/containers.json"), format!("{root}/vfs-images/images.json"));
+            assert!(CONTAINERS.paths.iter().any(|p| Pattern::new(p).matches(&cpath)), "{cpath}");
+            assert!(IMAGES.paths.iter().any(|p| Pattern::new(p).matches(&ipath)), "{ipath}");
+            let out = run(&CONTAINERS, &cpath, &fixture(&format!("podman-real/{cpath}")), 0);
+            assert_eq!(out.matches("\"artifact\":\"podman-containers\"").count(), containers, "{label}: {out}");
+            assert!(out.matches(&format!("\"user\":\"{user}\"")).count() == containers, "{out}");
+            let out = run(&IMAGES, &ipath, &fixture(&format!("podman-real/{ipath}")), 0);
+            assert_eq!(out.matches("\"artifact\":\"podman-images\"").count(), images, "{label}: {out}");
+            assert!(!out.contains("--- warning") && !out.contains("--- failed"), "{out}");
+        }
     }
 
     #[test]

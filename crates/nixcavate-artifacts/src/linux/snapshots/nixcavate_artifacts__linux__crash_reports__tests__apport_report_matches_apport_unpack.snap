@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/crash_reports.rs
+expression: out
+---
+{"host":"memory","artifact":"apport-crash","source_path":"var/crash/_tmp_my-daemon.1001.crash","source_line":null,"problem_type":"Crash","time":"2026-11-13T02:28:34Z","time_basis":"assumed_zone","executable":"/tmp/my-daemon","command_line":"/tmp/my-daemon 1000","uid":1001,"user":"alice","signal":"11","package":"coreutils 9.4-3ubuntu6","architecture":"arm64","size_bytes":4096}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:28:34Z,seconds,assumed_zone,memory,apport-crash,crashed,"Crash report for /tmp/my-daemon, signal 11",var/crash/_tmp_my-daemon.1001.crash,,,,

@@ -1,0 +1,33 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/smf_logs.rs
+expression: "run(&ARTIFACT, path, &fixture(file), NOV_13_2026)"
+---
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":0,"time":"2026-11-13T01:13:42Z","service":"network-ssh:default","event":"state","method":"","command":"","exit_status":null,"message":"Enabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":29,"time":"2026-11-13T01:13:50Z","service":"network-ssh:default","event":"state","method":"","command":"","exit_status":null,"message":"Rereading configuration."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":74,"time":"2026-11-13T01:13:51Z","service":"network-ssh:default","event":"method_start","method":"start","command":"/lib/svc/method/sshd start","exit_status":null,"message":"Executing start method (\"/lib/svc/method/sshd start\")."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":149,"time":null,"service":"network-ssh:default","event":"output","method":"","command":"","exit_status":null,"message":"ssh-keygen: generating new host keys: RSA ECDSA ED25519 "}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":206,"time":"2026-11-13T01:13:53Z","service":"network-ssh:default","event":"method_exit","method":"start","command":"","exit_status":0,"message":"Method \"start\" exited with status 0."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":263,"time":"2026-11-13T01:15:29Z","service":"network-ssh:default","event":"state","method":"","command":"","exit_status":null,"message":"Stopping because service restarting."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":320,"time":"2026-11-13T01:15:29Z","service":"network-ssh:default","event":"method_start","method":"stop","command":"","exit_status":null,"message":"Executing stop method (:kill)."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":371,"time":"2026-11-13T01:15:29Z","service":"network-ssh:default","event":"method_start","method":"start","command":"/lib/svc/method/sshd start","exit_status":null,"message":"Executing start method (\"/lib/svc/method/sshd start\")."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":446,"time":"2026-11-13T01:15:29Z","service":"network-ssh:default","event":"method_exit","method":"start","command":"","exit_status":0,"message":"Method \"start\" exited with status 0."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":503,"time":"2026-11-13T01:20:31Z","service":"network-ssh:default","event":"state","method":"","command":"","exit_status":null,"message":"Stopping because service disabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":558,"time":"2026-11-13T01:20:31Z","service":"network-ssh:default","event":"method_start","method":"stop","command":"","exit_status":null,"message":"Executing stop method (:kill)."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":609,"time":"2026-11-13T01:20:48Z","service":"network-ssh:default","event":"state","method":"","command":"","exit_status":null,"message":"Enabled."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":638,"time":"2026-11-13T01:20:52Z","service":"network-ssh:default","event":"method_start","method":"start","command":"/lib/svc/method/sshd start","exit_status":null,"message":"Executing start method (\"/lib/svc/method/sshd start\")."}
+{"host":"memory","artifact":"smf-logs","source_path":"var/svc/log/network-ssh:default.log","source_offset":713,"time":"2026-11-13T01:20:53Z","service":"network-ssh:default","event":"method_exit","method":"start","command":"","exit_status":0,"message":"Method \"start\" exited with status 0."}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:13:42Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,network-ssh:default: Enabled.,var/svc/log/network-ssh:default.log,,0,,
+2026-11-13T01:13:50Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,network-ssh:default: Rereading configuration.,var/svc/log/network-ssh:default.log,,29,,
+2026-11-13T01:13:51Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,network-ssh:default start method: /lib/svc/method/sshd start,var/svc/log/network-ssh:default.log,,74,,
+2026-11-13T01:13:53Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,network-ssh:default start method exited with status 0,var/svc/log/network-ssh:default.log,,206,,
+2026-11-13T01:15:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,network-ssh:default: Stopping because service restarting.,var/svc/log/network-ssh:default.log,,263,,
+2026-11-13T01:15:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,"network-ssh:default stop method: ",var/svc/log/network-ssh:default.log,,320,,
+2026-11-13T01:15:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,network-ssh:default start method: /lib/svc/method/sshd start,var/svc/log/network-ssh:default.log,,371,,
+2026-11-13T01:15:29Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,network-ssh:default start method exited with status 0,var/svc/log/network-ssh:default.log,,446,,
+2026-11-13T01:20:31Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,network-ssh:default: Stopping because service disabled.,var/svc/log/network-ssh:default.log,,503,,
+2026-11-13T01:20:31Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,"network-ssh:default stop method: ",var/svc/log/network-ssh:default.log,,558,,
+2026-11-13T01:20:48Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_state,network-ssh:default: Enabled.,var/svc/log/network-ssh:default.log,,609,,
+2026-11-13T01:20:52Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,network-ssh:default start method: /lib/svc/method/sshd start,var/svc/log/network-ssh:default.log,,638,,
+2026-11-13T01:20:53Z,seconds,inferred_year_assumed_zone,memory,smf-logs,service_method,network-ssh:default start method exited with status 0,var/svc/log/network-ssh:default.log,,713,,

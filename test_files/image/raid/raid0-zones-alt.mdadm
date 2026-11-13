@@ -1,0 +1,110 @@
+/dev/md/raid0-zones-alt:
+           Version : 1.2
+     Creation Time : Thu Nov 12 16:49:51 2026
+        Raid Level : raid0
+        Array Size : 12288 (12.00 MiB 12.58 MB)
+      Raid Devices : 3
+     Total Devices : 3
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 16:49:51 2026
+             State : clean 
+    Active Devices : 3
+   Working Devices : 3
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : alternate
+        Chunk Size : 64K
+
+Consistency Policy : none
+
+              Name : fixture:z0
+              UUID : fd9aaabc:157652d8:374b418b:b599316d
+            Events : 0
+
+    Number   Major   Minor   RaidDevice State
+       0       7        0        0      active sync   /dev/loop0
+       1       7        1        1      active sync   /dev/loop1
+       2       7        2        2      active sync   /dev/loop2
+/dev/loop0:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x1000
+     Array UUID : fd9aaabc:157652d8:374b418b:b599316d
+           Name : fixture:z0
+  Creation Time : Thu Nov 12 16:49:51 2026
+     Raid Level : raid0
+   Raid Devices : 3
+
+ Avail Dev Size : 4096 sectors
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : clean
+    Device UUID : 2b7fa2eb:c76025c8:ff05c30a:16561b0f
+
+    Update Time : Thu Nov 12 16:49:51 2026
+  Bad Block Log : 512 entries available at offset 8 sectors
+       Checksum : 89143b93 - correct
+         Events : 0
+
+         Layout : alternate
+     Chunk Size : 64K
+
+   Device Role : Active device 0
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop1:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x1000
+     Array UUID : fd9aaabc:157652d8:374b418b:b599316d
+           Name : fixture:z0
+  Creation Time : Thu Nov 12 16:49:51 2026
+     Raid Level : raid0
+   Raid Devices : 3
+
+ Avail Dev Size : 8192 sectors
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : clean
+    Device UUID : 2fd6ebdc:ba34a57c:4d317b18:2e3d1cd3
+
+    Update Time : Thu Nov 12 16:49:51 2026
+  Bad Block Log : 512 entries available at offset 8 sectors
+       Checksum : 9688f2 - correct
+         Events : 0
+
+         Layout : alternate
+     Chunk Size : 64K
+
+   Device Role : Active device 1
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop2:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x1000
+     Array UUID : fd9aaabc:157652d8:374b418b:b599316d
+           Name : fixture:z0
+  Creation Time : Thu Nov 12 16:49:51 2026
+     Raid Level : raid0
+   Raid Devices : 3
+
+ Avail Dev Size : 12288 sectors (6.00 MiB 6.29 MB)
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : clean
+    Device UUID : 00ba8694:06dc3a7e:5e587f2c:2bf13a46
+
+    Update Time : Thu Nov 12 16:49:51 2026
+  Bad Block Log : 512 entries available at offset 8 sectors
+       Checksum : 40e9ff1d - correct
+         Events : 0
+
+         Layout : alternate
+     Chunk Size : 64K
+
+   Device Role : Active device 2
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)

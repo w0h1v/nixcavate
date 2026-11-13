@@ -1,0 +1,1 @@
+`loader.conf` and `ttys` of the FreeBSD 14.5 guest after the scripted run (one `nxmk_load` module line and one `nxmkcons` terminal entry were added by the run; the rest is stock). See `utx/README.md` for the guest.

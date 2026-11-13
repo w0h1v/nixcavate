@@ -1,8 +1,10 @@
-//! UAC `live_response/` command output: `ps`, `netstat`/`ss`, `lsof` and `lsmod`.
+//! UAC `live_response/` and CatScale command output: `ps`, `netstat`/`ss`, `lsof` and `lsmod`.
 //!
 //! UAC stores each command's output in a file named after the command line
 //! (`ps_auxwww.txt`, `netstat_-lpeanut.txt`, `ss_-tanp.txt`, `lsof_-nPl.txt`, `lsmod.txt`)
-//! next to `[root]/`. Layouts are read from each file's header line, because the same
+//! next to `[root]/`. CatScale names them `<host>-<date>-<time>-<command>.txt` in its section
+//! folders (`Process_and_Network/`, `System_Info/`), which the source puts next to `[root]/`
+//! too. Layouts are read from each file's header line, because the same
 //! command differs between procps, net-tools and iproute2 versions. References: ps(1),
 //! netstat(8), ss(8), lsof(8), lsmod(8).
 
@@ -15,7 +17,7 @@ use std::borrow::Cow;
 
 pub const PROCESSES: Artifact = Artifact::new(
     "live-processes",
-    "Process list captured by UAC (ps)",
+    "Process list captured by UAC or CatScale (ps)",
     Category::Live,
     ANY_OS,
     &[
@@ -23,13 +25,14 @@ pub const PROCESSES: Artifact = Artifact::new(
         "../live_response/process/ps_-ef.txt",
         "../live_response/process/ps_-eo_user_pid_ppid_pcpu_pmem_tty_stat_lstart_args.txt",
         "../live_response/process/ps_-eo_user_pid_ppid_pcpu_pmem_tty_stat_etime_args.txt",
+        "../Process_and_Network/*-processes-axwwSo.txt",
     ],
     parse_processes,
 );
 
 pub const NETWORK: Artifact = Artifact::new(
     "live-network",
-    "Sockets captured by UAC (netstat, ss)",
+    "Sockets captured by UAC or CatScale (netstat, ss)",
     Category::Live,
     LINUX,
     &[
@@ -47,6 +50,11 @@ pub const NETWORK: Artifact = Artifact::new(
         "../live_response/network/ss_-uap.txt",
         "../live_response/network/ss_-ulnp.txt",
         "../live_response/network/ss_-ulp.txt",
+        "../Process_and_Network/*-ss-anepo.txt",
+        "../Process_and_Network/*-netstat-antup.txt",
+        "../Process_and_Network/*-netstat-an.txt",
+        "../Process_and_Network/*-netstat-pvWanoee.txt",
+        "../Process_and_Network/*-netstat-pvTanoee.txt",
     ],
     parse_network,
 );
@@ -54,23 +62,24 @@ pub const NETWORK: Artifact = Artifact::new(
 // Not split: the header gives the column layout (TID/TASKCMD present or not).
 pub const OPEN_FILES: Artifact = Artifact::new(
     "live-open-files",
-    "Open files captured by UAC (lsof)",
+    "Open files captured by UAC or CatScale (lsof)",
     Category::Live,
     ANY_OS,
     &[
         "../live_response/process/lsof_-nPl.txt",
         "../live_response/network/lsof_-nPli.txt",
         "../live_response/network/lsof_-U.txt",
+        "../Process_and_Network/*-lsof-list-open-files.txt",
     ],
     parse_open_files,
 );
 
 pub const MODULES: Artifact = Artifact::new(
     "live-modules",
-    "Loaded kernel modules captured by UAC (lsmod)",
+    "Loaded kernel modules captured by UAC or CatScale (lsmod)",
     Category::Live,
     LINUX,
-    &["../live_response/system/lsmod.txt"],
+    &["../live_response/system/lsmod.txt", "../System_Info/*-lsmod.txt"],
     parse_modules,
 );
 
@@ -80,6 +89,20 @@ fn word<'a>(rest: &mut &'a str) -> Option<&'a str> {
     let end = text.find(char::is_whitespace).unwrap_or(text.len());
     *rest = &text[end..];
     (end > 0).then(|| &text[..end])
+}
+
+/// AIX's `ps` prints a start time older than a day as `Mar 10`, two words. Other layouts keep `default`.
+fn started_word_count(rest: &str, default: usize) -> usize {
+    let mut peek = rest;
+    let (first, second) = (word(&mut peek), word(&mut peek));
+    let month = first.is_some_and(|w| {
+        ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"].contains(&w)
+    });
+    if default == 1 && month && second.is_some_and(|w| w.len() <= 2 && w.bytes().all(|b| b.is_ascii_digit())) {
+        2
+    } else {
+        default
+    }
 }
 
 /// The next `count` words as one slice of the input, with the spacing between them as written.
@@ -193,8 +216,12 @@ fn parse_processes(input: &Input, sink: &mut Sink) -> Result<()> {
         };
         let mut pid = None;
         for column in &layout.columns {
-            let cell =
-                if *column == Column::Started { words(&mut rest, layout.started_words) } else { word(&mut rest) };
+            let cell = if *column == Column::Started {
+                let count = started_word_count(rest, layout.started_words);
+                words(&mut rest, count)
+            } else {
+                word(&mut rest)
+            };
             let Some(cell) = cell else {
                 sink.warn(format!("line {}: too few columns", line.number));
                 return Ok(());
@@ -230,9 +257,11 @@ fn parse_processes(input: &Input, sink: &mut Sink) -> Result<()> {
 // ---------------------------------------------------------------- sockets
 
 enum SocketLayout {
-    /// `has_user`: `netstat -e` adds User and Inode columns.
+    /// `has_user`: `netstat -e` adds User and Inode columns; `has_timer`: `netstat -o` adds
+    /// a Timer column after the program.
     Netstat {
         has_user: bool,
+        has_timer: bool,
     },
     Ss {
         has_netid: bool,
@@ -294,6 +323,24 @@ fn netstat_process(text: &str) -> (Option<u32>, Option<&str>) {
     }
 }
 
+/// `netstat -o` ends a row with a timer, `off (0.00/0/0)` or `keepalive (3.52/0/0)`. The program
+/// before it may contain spaces, so the timer is cut from the right.
+fn without_timer(rest: &str) -> &str {
+    let rest = rest.trim_end();
+    match rest.rfind(" (") {
+        Some(at) if rest.ends_with(')') => {
+            let before = rest[..at].trim_end();
+            let name_at = before.rfind(' ').map_or(0, |i| i + 1);
+            if matches!(&before[name_at..], "off" | "on" | "keepalive" | "timewait") {
+                before[..name_at].trim_end()
+            } else {
+                rest
+            }
+        }
+        _ => rest,
+    }
+}
+
 /// `ss_-tanp.txt` has no Netid column, so the option letters in the name say tcp or udp.
 fn protocol_from_name(path: &str) -> Option<&'static str> {
     let options = path.rsplit('/').next()?.strip_prefix("ss_-")?.split('.').next()?;
@@ -329,7 +376,8 @@ fn parse_network(input: &Input, sink: &mut Sink) -> Result<()> {
             layout = Some(if unix {
                 SocketLayout::Ignored
             } else {
-                SocketLayout::Netstat { has_user: trimmed.split_whitespace().any(|w| w == "User") }
+                let has = |column: &str| trimmed.split_whitespace().any(|w| w == column);
+                SocketLayout::Netstat { has_user: has("User"), has_timer: has("Timer") }
             });
             return Ok(());
         }
@@ -341,7 +389,7 @@ fn parse_network(input: &Input, sink: &mut Sink) -> Result<()> {
         let socket = match &layout {
             None => return Ok(()),
             Some(SocketLayout::Ignored) => return Ok(()),
-            Some(SocketLayout::Netstat { has_user }) => {
+            Some(SocketLayout::Netstat { has_user, has_timer }) => {
                 let protocol = word(&mut rest);
                 if !protocol.is_some_and(|p| p.starts_with("tcp") || p.starts_with("udp") || p.starts_with("raw")) {
                     return Ok(());
@@ -367,7 +415,7 @@ fn parse_network(input: &Input, sink: &mut Sink) -> Result<()> {
                     user = word(&mut rest);
                     let _inode = word(&mut rest);
                 }
-                let (pid, program) = netstat_process(rest);
+                let (pid, program) = netstat_process(if *has_timer { without_timer(rest) } else { rest });
                 let ((local_address, local_port), (remote_address, remote_port)) = (endpoint(local), endpoint(remote));
                 Socket { protocol, local_address, local_port, remote_address, remote_port, state, pid, program, user }
             }
@@ -418,6 +466,8 @@ struct OpenFile<'a> {
     /// Only for thread rows (`lsof -l` with task columns).
     tid: Option<u32>,
     task_command: Option<&'a str>,
+    /// Only with `lsof -R` (CatScale runs it that way).
+    ppid: Option<u32>,
     user: &'a str,
     fd: &'a str,
     file_type: Option<&'a str>,
@@ -435,6 +485,7 @@ fn parse_open_files(input: &Input, sink: &mut Sink) -> Result<()> {
     // Column in the header where the right-aligned TID ends; rows of threads have a
     // character there and rows of processes have blanks.
     let mut tid_end: Option<Option<usize>> = None;
+    let mut has_ppid = false;
     for_each_line(input, |line| {
         let text = lossy(line.bytes);
         if text.trim().is_empty() {
@@ -450,6 +501,7 @@ fn parse_open_files(input: &Input, sink: &mut Sink) -> Result<()> {
                 pid,
                 tid: None,
                 task_command: None,
+                ppid: None,
                 user: "",
                 fd,
                 file_type: None,
@@ -465,6 +517,7 @@ fn parse_open_files(input: &Input, sink: &mut Sink) -> Result<()> {
                 return Err(Error::format("not an lsof listing (no COMMAND header)"));
             }
             tid_end = Some(text.find("TID").map(|at| at + 3));
+            has_ppid = text.split_whitespace().any(|w| w == "PPID");
             return Ok(());
         };
         let has_tid = tid_end.is_some_and(|end| text.as_bytes().get(end - 1).is_some_and(|b| !b.is_ascii_whitespace()));
@@ -473,6 +526,7 @@ fn parse_open_files(input: &Input, sink: &mut Sink) -> Result<()> {
         let pid = word(&mut rest).and_then(|p| p.parse().ok());
         let (tid, task_command) =
             if has_tid { (word(&mut rest).and_then(|t| t.parse().ok()), word(&mut rest)) } else { (None, None) };
+        let ppid = if has_ppid { word(&mut rest).and_then(|p| p.parse().ok()) } else { None };
         let (Some(command), Some(pid), Some(user), Some(fd)) = (command, pid, word(&mut rest), word(&mut rest)) else {
             sink.warn(format!("line {}: too few columns", line.number));
             return Ok(());
@@ -503,6 +557,7 @@ fn parse_open_files(input: &Input, sink: &mut Sink) -> Result<()> {
                 pid,
                 tid,
                 task_command,
+                ppid,
                 user,
                 fd,
                 file_type,
@@ -691,6 +746,62 @@ mod tests {
         ));
     }
 
+    const CATSCALE: &str = "catscale/host-20261112-1838";
+
+    fn catscale(artifact: &Artifact, section: &str, name: &str) -> String {
+        let path = format!("../{section}/host-20261112-1838-{name}.txt");
+        snapshot(artifact, &path, &format!("{CATSCALE}-{name}.txt"))
+    }
+
+    #[test]
+    fn catscale_ps() {
+        insta::assert_snapshot!(catscale(&PROCESSES, "Process_and_Network", "processes-axwwSo"));
+    }
+
+    #[test]
+    fn catscale_ss_anepo() {
+        insta::assert_snapshot!(catscale(&NETWORK, "Process_and_Network", "ss-anepo"));
+    }
+
+    #[test]
+    fn catscale_netstat_antup() {
+        insta::assert_snapshot!(catscale(&NETWORK, "Process_and_Network", "netstat-antup"));
+    }
+
+    #[test]
+    fn catscale_netstat_pvwanoee_has_a_timer_after_the_program() {
+        let out = catscale(&NETWORK, "Process_and_Network", "netstat-pvWanoee");
+        assert!(out.contains("\"program\":\"nc\"") && !out.contains("off ("), "{out}");
+        insta::assert_snapshot!(out);
+    }
+
+    #[test]
+    fn catscale_netstat_an_has_no_program() {
+        insta::assert_snapshot!(catscale(&NETWORK, "Process_and_Network", "netstat-an"));
+    }
+
+    #[test]
+    fn catscale_lsof_has_a_ppid_column() {
+        let out = catscale(&OPEN_FILES, "Process_and_Network", "lsof-list-open-files");
+        assert!(out.contains("\"ppid\":468") && out.contains("\"user\":\"root\""), "{out}");
+        insta::assert_snapshot!(out);
+    }
+
+    #[test]
+    fn catscale_lsmod() {
+        insta::assert_snapshot!(catscale(&MODULES, "System_Info", "lsmod"));
+    }
+
+    #[test]
+    fn catscale_names_are_matched_beside_the_root() {
+        use nixcavate_source::glob::Pattern;
+        let matches = |a: &Artifact, path: &str| a.paths.iter().any(|p| Pattern::new(p).matches(path));
+        assert!(matches(&PROCESSES, "Process_and_Network/web01-20261112-1838-processes-axwwSo.txt"));
+        assert!(matches(&NETWORK, "Process_and_Network/web01-20261112-1838-ss-anepo.txt"));
+        assert!(matches(&MODULES, "System_Info/web01-20261112-1838-lsmod.txt"));
+        assert!(!matches(&MODULES, "System_Info/web01-20261112-1838-modinfo.txt"));
+    }
+
     #[test]
     fn lsmod() {
         insta::assert_snapshot!(snapshot(&MODULES, "../live_response/system/lsmod.txt", "live-modules/lsmod.txt"));
@@ -712,7 +823,7 @@ mod tests {
         let data = b"1\t/bin/busybox\t0\t/dev/null\n23\t/usr/sbin/sshd\t3\tsocket:[220614076]\n";
         let out = run(&OPEN_FILES, "../live_response/process/lsof_-nPl.txt", data, 0);
         assert!(!out.contains("failed") && !out.contains("warning"), "{out}");
-        let row = r#""command":"/usr/sbin/sshd","pid":23,"tid":null,"task_command":null,"user":"","fd":"3","file_type":null,"device":null,"size_off":null,"node":null,"path":"socket:[220614076]""#;
+        let row = r#""command":"/usr/sbin/sshd","pid":23,"tid":null,"task_command":null,"ppid":null,"user":"","fd":"3","file_type":null,"device":null,"size_off":null,"node":null,"path":"socket:[220614076]""#;
         assert!(out.contains(row), "{out}");
     }
 

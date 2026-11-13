@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/macos/communications.rs
+expression: "run(&MESSAGES, CHAT, &fixture(\"communications/chat.db\"), 0)"
+---
+{"host":"memory","artifact":"messages","source_path":"Users/alice/Library/Messages/chat.db","source_line":null,"user":"alice","time":"2023-03-08T20:30:00Z","read_time":null,"direction":"received","handle":"+15555550100","service":"SMS","chat":"+15555550100","has_attachments":false,"attachments":[],"text":null}
+{"host":"memory","artifact":"messages","source_path":"Users/alice/Library/Messages/chat.db","source_line":null,"user":"alice","time":"2023-03-08T20:26:40.000000000Z","read_time":"2023-03-08T20:27:40.000000000Z","direction":"received","handle":"+15555550100","service":"iMessage","chat":"+15555550100","has_attachments":false,"attachments":[],"text":"hello from example"}
+{"host":"memory","artifact":"messages","source_path":"Users/alice/Library/Messages/chat.db","source_line":null,"user":"alice","time":"2023-03-08T20:28:20.000000000Z","read_time":null,"direction":"sent","handle":"+15555550100","service":"iMessage","chat":"+15555550100","has_attachments":true,"attachments":["IMG_0001.heic (state 5)"],"text":"look at this"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-03-08T20:26:40.000000000Z,nanos,recorded,memory,messages,message,message received from +15555550100,Users/alice/Library/Messages/chat.db,,,,
+2023-03-08T20:28:20.000000000Z,nanos,recorded,memory,messages,message,message sent to +15555550100,Users/alice/Library/Messages/chat.db,,,,
+2023-03-08T20:30:00Z,seconds,recorded,memory,messages,message,message received from +15555550100,Users/alice/Library/Messages/chat.db,,,,

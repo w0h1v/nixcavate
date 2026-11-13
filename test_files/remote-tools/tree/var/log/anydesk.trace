@@ -1,0 +1,138 @@
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                         impl_selector - using neon
+ * * * * * * * * * * * * * * * * * *
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - * AnyDesk Linux Startup *
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - * Version 7.1.0 ((unknown) ac055bc6d9fdd6c8da59916821891f164dba8e31)
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - * Build 20250909111246
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - * Prefix ad
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - * Copyright (C) 2025 AnyDesk Software GmbH *
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - 
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - Distribution Info: Debian GNU/Linux 12 (bookworm)
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - Command Line params: '--service'
+   info 2026-11-13 01:28:09.381         ad   main   4991   4991                                  main - Found GLib Version: 2.74.
+  error 2026-11-13 01:28:09.382         ad   main   4991   4991         unix_base.dbus.logind_manager - Error instanciating Logind Manager: Could not connect: No such file or directory
+  error 2026-11-13 01:28:09.382         ad   main   4991   4991             unix_base.dbus.consolekit - Error instanciating ConsoleKit Manager: Could not connect: No such file or directory
+warning 2026-11-13 01:28:09.382         ad   main   4991   4991                 session_manager_dummy - Using session manager dummy. Wont be able to use loginscreen.
+   info 2026-11-13 01:28:09.382         ad   main   4991   4991                   fiber.ipc_namespace - Global: no
+   info 2026-11-13 01:28:09.382         ad   main   4991   4991                       app.common_path - user_data_dir = /root/.anydesk, logged_in_user_data_dir = /root/.anydesk, current_home = /root
+
+   info 2026-11-13 01:28:09.382         ad   main   4991   4991                       app.common_path - no user config found.
+   info 2026-11-13 01:28:09.382         ad   main   4991   4991                       app.common_path - initialized user = /root/.anydesk, system = /etc/anydesk
+   info 2026-11-13 01:28:09.385    service   main   4991   4991                   fiber.ipc_namespace - Global: yes
+   info 2026-11-13 01:28:09.385    service   main   4991   4991             app.named_process_starter - Spawning new process with: UID: 0, DPY: , ID: , SEAT: -235142640
+warning 2026-11-13 01:28:09.385    service   main   4993   4993             unix_base.x11.xauth_magic - XAUTHORITY is not set, trying the default location
+  error 2026-11-13 01:28:09.385    service   main   4993   4993             unix_base.x11.xauth_magic - Cannot find Xauthority file despite all attempts, backend will probably fail
+   info 2026-11-13 01:28:09.386    service   main   4991   4991            permission_profile_manager - Migrating V0 -> V1
+   info 2026-11-13 01:28:09.388    service   main   4991   4991                       fiber.scheduler - Spawning root fiber 1.
+   info 2026-11-13 01:28:09.388    service   main   4991   4991                       fiber.scheduler - Scheduler started.
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                      app.service - Opening the IPC namespace.
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1              fiber.ipc_namespace - Global: yes
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                      app.service - Logging into the IPC namespace.
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 2 (parent: 1).
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 3 'notifications' (parent: 1).
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 4 'notifyer' (parent: 1).
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 5 'license_adapter' (parent: 1).
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 6 'device_id' (parent: 1).
+   info 2026-11-13 01:28:09.388    service   main   4991   4991    1                      app.service - Starting to supervise the IPC namespace.
+   info 2026-11-13 01:28:09.389    service   main   4991   4991    1                      app.service - Starting the connector.
+   info 2026-11-13 01:28:09.389    service   main   4991   4995         unix_app.dbus.signal_listener - Connecting to System-DBus...
+  error 2026-11-13 01:28:09.389    service   main   4991   4995         unix_app.dbus.signal_listener - Error (org.freedesktop.DBus.Error.FileNotFound) while connecting to System-DBus: "Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory". Retrying to connect...
+   info 2026-11-13 01:28:09.389    service   main   4991   4991    1            anynet.connection_mgr - Generating a new certificate and key.
+   info 2026-11-13 01:28:10.700    service   main   4991   4991    1            anynet.connection_mgr - 2 CA certificate(s) loaded.
+   info 2026-11-13 01:28:10.700    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 7 'connection_mgr'.
+   info 2026-11-13 01:28:10.703    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 8 'main_relay_conn'.
+   info 2026-11-13 01:28:10.703    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 9 'tcp_acceptor'.
+   info 2026-11-13 01:28:10.703    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 10 'tcp_acceptor'.
+   info 2026-11-13 01:28:10.703    service   main   4991   4991    1                      app.service - Setting up the listen sockets.
+   info 2026-11-13 01:28:10.703    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 11.
+   info 2026-11-13 01:28:10.703    service   main   4991   4991    1                      app.service - Service startup completed.
+warning 2026-11-13 01:28:10.703    service   main   4991   4991    1   base.signal.global.shared_file - open (/etc/anydesk/.iid) failed (2): No such file or directory 
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1            app.discovery_manager - Updated Discovery settings: repeat interval (1000), repeat limit (10), buffer interval (5000), port range (3)
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1            app.discovery_manager - Starting Discovery.
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                   ad.wol_service - Starting WOL service.
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 12 'wol_service' (parent: 1).
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 13 'invitation_service' (parent: 1).
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 14 'screen_recording_service' (parent: 1).
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 15 'ancl' (parent: 1).
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 16 'quiver_anynet_service' (parent: 1).
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                      app.service - Waiting for messages.
+   info 2026-11-13 01:28:10.704    service   main   4991   4991    1                      app.service - Process start: 4993 (control:0).
+warning 2026-11-13 01:28:10.705    service   main   4991   4991                   fiber.ipc_namespace - Zombie process detected (4993). Fixing the state.
+   info 2026-11-13 01:28:11.392    service   main   4991   4991    1                      app.service - Process stop: 4993.
+   info 2026-11-13 01:28:11.393    service   main   4991   4991    6                        device_id - Device ID service started.
+   info 2026-11-13 01:28:11.401    service   main   4991   4991    7            anynet.connection_mgr - Starting connection manager fiber.
+   info 2026-11-13 01:28:11.401    service   main   4991   4991    8           anynet.main_relay_conn - Starting main relay connection.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991    8                  fiber.scheduler - Spawning child fiber 17 'relay_connector' (parent: 8 'main_relay_conn').
+   info 2026-11-13 01:28:11.407    service   main   4991   4991    9              anynet.tcp_acceptor - Listening on TCP port 7070 with IPv4.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   10              anynet.tcp_acceptor - Listening on TCP port 7070 with IPv6.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   11                anynet.any_socket - Listen fiber started.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   12                      anynet.conn - Request before connect. Queueing.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   17           anynet.relay_connector - Relay connector started.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   17           anynet.relay_connector - Start proxy search.
+warning 2026-11-13 01:28:11.407    service   main   4991   4991   17                base.proxy_finder - Invalid system proxy configuration.
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   17           anynet.relay_connector - Connecting to relay boot.net.anydesk.com (1/1)
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   17           anynet.relay_connector - Skipping connect method connect_proxy_443 (1/6) (no proxy found)
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   17           anynet.relay_connector - Skipping connect method connect_proxy_80 (2/6) (no proxy found)
+   info 2026-11-13 01:28:11.407    service   main   4991   4991   17           anynet.relay_connector - Skipping connect method socks_proxy_443 (3/6) (no proxy found)
+   info 2026-11-13 01:28:11.435    service   main   4991   4991   17           anynet.relay_connector - Using IPv4: 57.128.101.75
+   info 2026-11-13 01:28:11.578    service   main   4991   4991   17                  fiber.scheduler - Spawning root fiber 18.
+   info 2026-11-13 01:28:11.734    service   main   4991   4991   17           anynet.relay_connector - Cipher: TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD
+   info 2026-11-13 01:28:11.735    service   main   4991   4991   17                  fiber.scheduler - Spawning root fiber 19.
+   info 2026-11-13 01:28:11.907    service   main   4991   4991   17                        handshake - Using protocol version 3.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991                       fiber.scheduler - Fiber 17 'relay_connector' (parent: 8 'main_relay_conn') requested quit of fiber 19.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   19                      fiber.fiber - Received quit.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991                       fiber.scheduler - Fiber 19 terminated.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991                       fiber.scheduler - Fiber 17 'relay_connector' (parent: 8 'main_relay_conn') requested quit of fiber 18.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   18                      fiber.fiber - Received quit.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991                       fiber.scheduler - Fiber 18 terminated.
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   17           anynet.relay_connector - Connection terminated: anynet_invalid_zone
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   17           anynet.relay_connector - Received a new server list (3 servers)
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   17           anynet.relay_connector - Connecting to relay relay-1ec46041.net.anydesk.com (1/3)
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   17           anynet.relay_connector - Skipping connect method connect_proxy_443 (1/6) (no proxy found)
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   17           anynet.relay_connector - Skipping connect method connect_proxy_80 (2/6) (no proxy found)
+   info 2026-11-13 01:28:12.050    service   main   4991   4991   17           anynet.relay_connector - Skipping connect method socks_proxy_443 (3/6) (no proxy found)
+   info 2026-11-13 01:28:12.079    service   main   4991   4991   17           anynet.relay_connector - Using IPv4: 216.144.253.178
+   info 2026-11-13 01:28:12.090    service   main   4991   4991   17                  fiber.scheduler - Spawning root fiber 20.
+   info 2026-11-13 01:28:12.110    service   main   4991   4991   17           anynet.relay_connector - Cipher: TLS_AES_256_GCM_SHA384 TLSv1.3 Kx=any Au=any Enc=AESGCM(256) Mac=AEAD
+   info 2026-11-13 01:28:12.110    service   main   4991   4991   17                  fiber.scheduler - Spawning root fiber 21.
+   info 2026-11-13 01:28:12.119    service   main   4991   4991   17                        handshake - Using protocol version 3.
+   info 2026-11-13 01:28:12.290    service   main   4991   4991   17           anynet.relay_connector - Connection established.
+   info 2026-11-13 01:28:12.290    service   main   4991   4991   17           anynet.relay_connector - Relay connector stopped.
+   info 2026-11-13 01:28:12.290    service   main   4991   4991                       fiber.scheduler - Fiber 17 'relay_connector' (parent: 8 'main_relay_conn') terminated.
+   info 2026-11-13 01:28:12.383    service   main   4991   4991    8           anynet.main_relay_conn - Network ID: main
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    8                anynet.relay_conn - External address: 203.0.113.10:63080.
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    8           anynet.main_relay_conn - Main relay ID: 1ec46041
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    8           anynet.main_relay_conn - Detected 2 new networks.
+   info 2026-11-13 01:28:12.401    service   main   4991   4991   16                   anynet_service - Relay connection state changed: Connected.
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    1                   monitoring_svc - Connected: 1
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    1                     assembly_svc - set_relay_connected(1)
+warning 2026-11-13 01:28:12.401    service   main   4991   4991    1                      anytime_svc - set_relay_connected(1)
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    7            anynet.connection_mgr - Main relay connection established.
+   info 2026-11-13 01:28:12.401    service   main   4991   4991    7            anynet.connection_mgr - New user data. Client-ID: 1000000001.
+warning 2026-11-13 01:28:12.402    service   main   4991   4991    6                        device_id - Failed to load cached data.
+   info 2026-11-13 01:28:12.402    service   main   4991   4991    6                        device_id - Forcing update.
+   info 2026-11-13 01:28:12.405    service   main   4991   4991    6                        device_id - Requesting update.
+warning 2026-11-13 01:28:12.417    service   main   4991   4991    6                        device_id - Failed to load cached data.
+   info 2026-11-13 01:28:12.577    service   main   4991   4991    1                    app.discovery - Starting.
+   info 2026-11-13 01:28:12.577    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 22 'discovery'.
+   info 2026-11-13 01:28:12.577    service   main   4991   4991    1                  fiber.scheduler - Spawning root fiber 23.
+   info 2026-11-13 01:28:12.577    service   main   4991   4991    1                     assembly_svc - set_relay_connected(1)
+warning 2026-11-13 01:28:12.577    service   main   4991   4991    1                      anytime_svc - set_relay_connected(1)
+   info 2026-11-13 01:28:12.578    service   main   4991   4991   22                    app.discovery - Current Discovery revision: 0
+   info 2026-11-13 01:28:12.578    service   main   4991   4991   22                    app.discovery - Joined multicast group 239.255.102.18:50001.
+   info 2026-11-13 01:28:12.578    service   main   4991   4991   22                    app.discovery - Bound to port: 50001
+   info 2026-11-13 01:28:12.578    service   main   4991   4991   22                anynet.udp_socket - Multicast loop option set to 0
+   info 2026-11-13 01:28:12.582    service   main   4991   4991   22                    app.discovery - Discovery fiber started.
+   info 2026-11-13 01:28:34.426    service   main   4991   4991    1                      app.service - Process start: 5030 (global settings).
+   info 2026-11-13 01:28:34.426    service   main   4991   4991    1                      app.service - New IPC connection.
+   info 2026-11-13 01:28:34.426    service   main   4991   4991    1                  fiber.scheduler - Spawning child fiber 24 'ipc_connection' (parent: 1).
+   info 2026-11-13 01:28:34.426    service   main   4991   4991   24                      app.service - Creating an IPC accept socket.
+   info 2026-11-13 01:28:34.426    service   main   4991   4991   24                      app.service - Connected to 5030 (global settings).
+   info 2026-11-13 01:28:34.426    service   main   4991   4991   24                      app.service - Process login detected.
+   info 2026-11-13 01:28:34.426    service   main   4991   4991   24                  fiber.scheduler - Spawning root fiber 25 'account_adapter'.
+   info 2026-11-13 01:28:34.427    service   main   4991   4991   25                  account_adapter - Starting for session 0
+   info 2026-11-13 01:28:34.612    service   main   4991   4991    1                      app.service - License backend service status changed (0->1)
+  error 2026-11-13 01:28:35.760    service   main   4991   4991    8            base.desk_rt.inflater - 0: 
+   info 2026-11-13 01:28:36.431    service   main   4991   4991   24                      app.service - IPC socket closed.
+   info 2026-11-13 01:28:36.431    service   main   4991   4991   24                      app.service - Fiber exit (ipc).
+   info 2026-11-13 01:28:36.431    service   main   4991   4991                       fiber.scheduler - Fiber 24 'ipc_connection' (parent: 1) terminated.
+   info 2026-11-13 01:28:38.431    service   main   4991   4991    1                      app.service - Process stop: 5030.

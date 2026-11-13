@@ -2,16 +2,16 @@
 //! `pam_exec` line is a login backdoor. Format: pam.conf(5).
 
 use crate::logical_lines::{for_each_logical, Dialect};
-use crate::{Artifact, Category, Input, LINUX};
-use nixcavate_core::{Loc, Record, Result, Sink};
+use crate::{Artifact, Category, Input, ANY_OS};
+use nixcavate_core::{Error, Loc, Record, Result, Sink};
 use serde::Serialize;
 
 pub const ARTIFACT: Artifact = Artifact::new(
     "pam",
     "PAM configuration",
     Category::Persistence,
-    LINUX,
-    &["etc/pam.d/*", "etc/pam.conf", "usr/lib/pam.d/*", "usr/etc/pam.d/*"],
+    ANY_OS,
+    &["etc/pam.d/*", "etc/pam.conf", "usr/lib/pam.d/*", "usr/etc/pam.d/*", "private/etc/pam.d/*"],
     parse,
 );
 
@@ -62,6 +62,9 @@ fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
     // `pam.conf` carries a service column; files in `pam.d` are named after the service.
     let has_service_column = input.path == "etc/pam.conf";
     let file_service = input.path.rsplit('/').next().unwrap_or_default();
+    if !has_service_column && file_service == "README" {
+        return Err(Error::skipped("the README of a pam.d directory is not a service"));
+    }
     for_each_logical(
         input,
         Dialect::Pam,
@@ -102,6 +105,13 @@ mod tests {
     #[test]
     fn pam_d_file_takes_service_from_name() {
         insta::assert_snapshot!(run(&ARTIFACT, "etc/pam.d/sshd", &fixture("pam/sshd"), 0));
+    }
+
+    /// FreeBSD and NetBSD keep a `README` beside the service files.
+    #[test]
+    fn the_readme_in_pam_d_is_not_a_service() {
+        let out = run(&ARTIFACT, "etc/pam.d/README", b"This directory holds\nthe PAM policy files\n", 0);
+        assert!(out.contains("skipped") && !out.contains("warning"), "{out}");
     }
 
     #[test]

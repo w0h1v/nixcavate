@@ -1,7 +1,7 @@
 # Adding an artifact
 
 An artifact is one module that exports one `Artifact` value. Adding one touches that module,
-its fixtures, and one line in the OS registry (`linux/mod.rs`, `macos/mod.rs` or `common/mod.rs`).
+its fixtures, and one line in the OS registry (`linux/mod.rs`, `macos/mod.rs`, `bsd/mod.rs` or `common/mod.rs`).
 
 Read `crates/nixcavate-artifacts/src/linux/passwd.rs` (text) and `linux/utmp.rs` (binary)
 first. They are the reference parsers.

@@ -1,10 +1,13 @@
 //! `persistence-hunter`: runs the persistence parsers over the evidence, applies the checks in
 //! `hunt_checks` and a YAML allow/block profile, and writes one row per finding.
 
+mod joins;
+
 use crate::auto_parse::{parse_all, Options};
 use crate::hunt_checks::{executable_text, text, Severity, CHECKS};
 use crate::{Common, OutputType, EXIT_OK, EXIT_PARTIAL};
 use clap::Args;
+use joins::Joins;
 use nixcavate_core::manifest::Status;
 use nixcavate_core::row::csv_field;
 use nixcavate_source::glob::wildcard;
@@ -138,6 +141,9 @@ struct Finding {
     source_offset: Option<u64>,
     evidence: String,
     reason: String,
+    /// 0 for a finding about a unit that is enabled, 1 otherwise: breaks ties within a severity.
+    #[serde(skip)]
+    rank: u8,
 }
 
 /// The detail comes from the evidence and may carry terminal escape sequences: control
@@ -179,7 +185,9 @@ const COLUMNS: [&str; 14] = [
 ];
 
 /// Everything the checks and the profile say about one parsed record.
-fn evaluate(record: &Value, profile: &Profile) -> Vec<Finding> {
+fn evaluate(record: &Value, profile: &Profile, joins: &Joins) -> Vec<Finding> {
+    let joined = joins.annotate(record);
+    let record = joined.as_ref().unwrap_or(record);
     let artifact = text(record, "artifact");
     let hits: Vec<_> =
         CHECKS.iter().filter(|c| c.artifact == artifact).filter_map(|c| Some((c, (c.test)(record)?))).collect();
@@ -202,6 +210,7 @@ fn evaluate(record: &Value, profile: &Profile) -> Vec<Finding> {
         source_offset: record["source_offset"].as_u64(),
         evidence: evidence.clone(),
         reason: String::new(),
+        rank: u8::from(record["joined"]["enablement"] != "enabled"),
     };
     // A generic and a "suspicious" variant of one technique can both match a record: keep the stronger.
     let mut out: Vec<Finding> = hits
@@ -251,9 +260,10 @@ pub fn run(args: HuntArgs) -> Result<u8, String> {
     findings.retain(|f| f.severity >= args.min_severity && (args.show_allowed || f.status != State::Allowed));
     findings.sort_by(|a, b| {
         let key = |f: &Finding| (f.source_line, f.source_offset);
-        (&a.host, Reverse(a.severity), &a.check, &a.source_path, key(a)).cmp(&(
+        (&a.host, Reverse(a.severity), a.rank, &a.check, &a.source_path, key(a)).cmp(&(
             &b.host,
             Reverse(b.severity),
+            b.rank,
             &b.check,
             &b.source_path,
             key(b),
@@ -279,19 +289,34 @@ pub fn run(args: HuntArgs) -> Result<u8, String> {
     Ok(if failed.is_empty() { EXIT_OK } else { EXIT_PARTIAL })
 }
 
+/// The artifacts the first pass reads.
+const JOINED: [&str; 3] = ["systemd-enablement", "systemd-units", "passwd"];
+
 /// Reads the JSONL each parser task wrote and evaluates every record.
 fn read_findings(
     tasks: &[nixcavate_core::manifest::TaskEntry],
     scratch: &Path,
     profile: &Profile,
 ) -> Result<Vec<Finding>, String> {
+    // First pass: the facts one record needs from another (enablement links, timers, accounts).
+    let mut joins = Joins::default();
+    let joined: Vec<_> =
+        tasks.iter().filter(|t| JOINED.contains(&t.artifact.as_str())).flat_map(|t| &t.outputs).collect();
+    for output in joined {
+        let path = scratch.join(output);
+        let content = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
+        for line in content.lines().filter(|l| !l.is_empty()) {
+            let record: Value = serde_json::from_str(line).map_err(|e| format!("{}: {e}", path.display()))?;
+            joins.collect(&record);
+        }
+    }
     let mut findings = Vec::new();
     for output in tasks.iter().flat_map(|t| &t.outputs) {
         let path = scratch.join(output);
         let content = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
         for line in content.lines().filter(|l| !l.is_empty()) {
             let record: Value = serde_json::from_str(line).map_err(|e| format!("{}: {e}", path.display()))?;
-            findings.extend(evaluate(&record, profile));
+            findings.extend(evaluate(&record, profile, &joins));
         }
     }
     Ok(findings)

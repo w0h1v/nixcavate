@@ -1,0 +1,13 @@
+2026-11-12 22:32:57|command|root@9a54c6632b64|'zypper' '-n' 'in' '--no-recommends' 'tree' 'zip' 'jq'|
+2026-11-12 22:32:57|install|zip|3.0-2.22|aarch64|root@9a54c6632b64|repo-oss|c8e69e71a4249880f8e1931cb5d4e597f27f6bb3237295495e091f24e906ea6ca3e567e482dffbae2bb6d50a9c294fb9445b458f5f88823a7cc1e8ce4076d6e5|
+2026-11-12 22:32:58|install|libonig4|6.7.0-150000.3.6.1|aarch64||repo-sle-update|c48793b50fba2eba871a9e368a2ca00334a37f4a2c0eab0fc89b4b8af064b9ac|
+2026-11-12 22:32:58|install|tree|1.7.0-150000.3.2.1|aarch64|root@9a54c6632b64|repo-sle-update|b6850d59f588cd7bdf4ec0439d059e4e5ab2353c1cf39b1c7728341a7d7e0768|
+2026-11-12 22:32:58|install|libjq1|1.6-150000.3.12.1|aarch64||repo-sle-update|8734b368b383825d1fc3f938142bd50729be9936b874465b79abc66845bc23cd|
+2026-11-12 22:32:58|install|jq|1.6-150000.3.12.1|aarch64|root@9a54c6632b64|repo-sle-update|9d02152290d848fca81ac2a9987fa78af3b447b53cfb54ae9422f97acde251da|
+2026-11-12 22:32:58|patch  |openSUSE-SLE-15.6-2024-2403|1|noarch|repo-sle-update|moderate|recommended|not-needed|applied|
+2026-11-12 22:32:58|patch  |openSUSE-SLE-15.6-2024-2401|1|noarch|repo-sle-update|moderate|security|not-needed|applied|
+2026-11-12 22:32:58|patch  |openSUSE-SLE-15.6-2025-2384|1|noarch|repo-sle-update|moderate|security|not-needed|applied|
+2026-11-12 22:32:58|patch  |openSUSE-SLE-15.6-2025-2915|1|noarch|repo-sle-update|moderate|security|not-needed|applied|
+2026-11-12 22:32:58|patch  |openSUSE-SLE-15.6-2026-931|1|noarch|repo-sle-update|low|security|not-needed|applied|
+2026-11-12 22:32:58|command|root@9a54c6632b64|'zypper' '-n' 'rm' 'zip'|
+2026-11-12 22:32:58|remove |zip|3.0-2.22|aarch64|root@9a54c6632b64|

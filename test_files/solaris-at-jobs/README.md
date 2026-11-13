@@ -1,0 +1,1 @@
+The job `echo "/tmp/.NXMK_AT/agent --quiet" | at now + 3 days` left in `/var/spool/cron/atjobs` of illumos (OmniOS r151054, x86) in a throwaway KVM guest; example users only (with its `.au` audit file); `atq.txt` is `atq` for it.

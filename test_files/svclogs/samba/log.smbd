@@ -1,0 +1,5 @@
+[2026/11/13 01:22:31.374207,  0] ../../source3/smbd/server.c:1741(main)
+  smbd version 4.17.12-Debian started.
+  Copyright Andrew Tridgell and the Samba Team 1992-2022
+[2026/11/13 01:22:31.375468,  1] ../../source3/profile/profile.c:53(set_profile_level)
+  INFO: Profiling turned OFF from pid 5430

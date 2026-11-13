@@ -12,12 +12,27 @@ for target in $targets; do
     for dir in "test_files/$(echo "$target" | tr _ -)" "test_files/$target"; do
         [ -d "$dir" ] && find "$dir" -type f -size -256k -exec cp {} "fuzz/corpus/$target/" \;
     done
+    # Targets whose fixtures live in a folder named after the tool that made them.
+    case "$target" in
+        faillock | tallylog | faillog) extra=test_files/failed-logins ;;
+        sudo_log | sudo_io) extra=test_files/sudo ;;
+        *) extra= ;;
+    esac
+    [ -n "$extra" ] && find "$extra" -type f -size -256k -exec cp {} "fuzz/corpus/$target/" \;
     # Filesystem targets start from the real fixture images (those that are small enough).
     max_len=65536
     if [ -d "test_files/fs/$target" ]; then
         max_len=16777216
         for image in test_files/fs/"$target"/*.img.zst test_files/fs/"$target"/*.dmg.zst; do
             [ -f "$image" ] || continue
+            seed="fuzz/corpus/$target/$(basename "$image" .zst)"
+            zstd -dqf "$image" -o "$seed" && [ "$(wc -c < "$seed")" -le "$max_len" ] || rm -f "$seed"
+        done
+    fi
+    # The virtual disk target starts from the small virtual disk fixtures (stored zstd-compressed).
+    if [ "$target" = vdisk ]; then
+        max_len=1048576
+        for image in test_files/image/vdisk/*.zst; do
             seed="fuzz/corpus/$target/$(basename "$image" .zst)"
             zstd -dqf "$image" -o "$seed" && [ "$(wc -c < "$seed")" -le "$max_len" ] || rm -f "$seed"
         done

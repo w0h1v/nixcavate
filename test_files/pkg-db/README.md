@@ -1,0 +1,1 @@
+`/var/db/pkg/local.sqlite` of the FreeBSD 14.5 guest after `pkg install -y sudo doas tree jq zip`, `pkg delete -y zip`; then the rows of every package but `pkg`, `doas`, `tree`, `jq`, `sudo` were deleted with `sqlite3` (foreign keys on, `VACUUM`), leaving 5 packages with the real schema and annotations.

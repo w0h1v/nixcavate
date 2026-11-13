@@ -1,0 +1,6 @@
+# /etc/bashrc
+if [ -e /etc/sysconfig/bash-prompt-default ]; then
+  PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default
+else
+  PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'
+fi

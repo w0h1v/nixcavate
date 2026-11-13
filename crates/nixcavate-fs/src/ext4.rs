@@ -16,27 +16,37 @@
 //!   blocks, so every directory is read with a linear scan of all its blocks, one block at a
 //!   time. A directory block belongs to one directory, so a walk reads each physical block
 //!   once: a directory whose map names a block already read is listed up to that block.
+//! - The internal journal of a volume that needs recovery (imaged while mounted) is replayed in
+//!   memory, never written: see [`jbd2`]. An external journal device is not read; such a volume
+//!   is read as it is on disk, with a warning.
 //!
 //! Not supported:
 //! - Encrypted files and directories (reading one returns [`Error::Unsupported`]; the volume
 //!   still opens), `compression`, `dirdata` and external journal devices (the volume is refused).
 //! - Attribute values stored in their own inode (`ea_inode`) for inline data.
-//! - The journal: a volume that needs recovery is read as it is on disk, without replay.
 //! - Deleted-file recovery and extended attributes other than inline data.
 
 use std::cell::Cell;
 use std::collections::{HashMap, HashSet, VecDeque};
+use std::io;
 use std::sync::{Arc, Mutex, PoisonError};
 
 use crate::{le16, le32, shown, walk_tree, Entries, Error, Kind, Node, ReadAt, Result, Tree, Volume, MAX_PATH};
 
+mod jbd2;
+
+use jbd2::Overlay;
+
 const SUPERBLOCK_OFFSET: u64 = 1024;
 const MAGIC: u16 = 0xEF53;
 
+const COMPAT_HAS_JOURNAL: u32 = 0x4;
 const COMPAT_SPARSE_SUPER2: u32 = 0x200;
 
 const INCOMPAT_COMPRESSION: u32 = 0x1;
 const INCOMPAT_FILETYPE: u32 = 0x2;
+/// Set while the volume is mounted: the journal holds changes not yet written in place.
+const INCOMPAT_RECOVER: u32 = 0x4;
 const INCOMPAT_JOURNAL_DEV: u32 = 0x8;
 const INCOMPAT_META_BG: u32 = 0x10;
 const INCOMPAT_64BIT: u32 = 0x80;
@@ -83,6 +93,27 @@ pub struct Ext4<R> {
     /// Shared by concurrent reads; a table is read while the lock is held, so the cache never
     /// holds more than its byte budget plus the one table being added.
     tables: Mutex<TableCache>,
+    /// The journal's committed blocks, when the volume needed recovery; empty otherwise.
+    journal: Overlay,
+    /// What became of the journal, reported once per walk.
+    journal_note: Option<String>,
+}
+
+/// What the superblock and group descriptors say: everything [`Ext4`] holds but the image
+/// and the caches.
+struct Layout {
+    block_size: u64,
+    blocks_count: u64,
+    inode_size: usize,
+    inodes_per_group: u32,
+    inodes_count: u32,
+    incompat: u32,
+    huge_file: bool,
+    groups: Vec<Group>,
+    /// The journal inode, 0 when there is none; `has_journal` without one means an external
+    /// journal device.
+    journal_inode: u32,
+    has_journal: bool,
 }
 
 struct Group {
@@ -249,10 +280,12 @@ impl Blocks {
     }
 }
 
-impl<R: ReadAt> Ext4<R> {
-    pub fn open(image: R) -> Result<Ext4<R>> {
+impl Layout {
+    /// Reads the superblock and group descriptors through `read`: the image, or the image as
+    /// the journal replays it.
+    fn read(read: &dyn Fn(u64, &mut [u8]) -> io::Result<()>, image_size: u64) -> Result<Layout> {
         let mut sb = [0u8; 1024];
-        image.read_at(SUPERBLOCK_OFFSET, &mut sb)?;
+        read(SUPERBLOCK_OFFSET, &mut sb)?;
         if !superblock_ok(&sb) {
             return Err(Error::corrupt("no ext2/3/4 superblock"));
         }
@@ -297,7 +330,7 @@ impl<R: ReadAt> Ext4<R> {
                 "the inode count gives {group_count} block groups, the block count {by_blocks}"
             )));
         }
-        if group_count.saturating_mul(desc_size) > image.size() {
+        if group_count.saturating_mul(desc_size) > image_size {
             return Err(Error::corrupt(format!("{group_count} block groups do not fit in the image")));
         }
 
@@ -322,7 +355,7 @@ impl<R: ReadAt> Ext4<R> {
             };
             let offset = location.and_then(|l| l.checked_mul(block_size));
             let offset = offset.ok_or_else(|| Error::corrupt("group descriptor block out of range"))?;
-            image.read_at(offset, &mut buf)?;
+            read(offset, &mut buf)?;
             for d in buf.chunks_exact(desc_size as usize).take((group_count - b * per_block) as usize) {
                 let mut inode_table = u64::from(le32(d, 0x8));
                 let mut unused = u32::from(le16(d, 0x1C));
@@ -338,8 +371,7 @@ impl<R: ReadAt> Ext4<R> {
                 groups.push(Group { inode_table, cached: used.min(table_cap) });
             }
         }
-        Ok(Ext4 {
-            image,
+        Ok(Layout {
             block_size,
             blocks_count,
             inode_size,
@@ -348,18 +380,86 @@ impl<R: ReadAt> Ext4<R> {
             incompat,
             huge_file: ro_compat & RO_COMPAT_HUGE_FILE != 0,
             groups,
-            tables: Mutex::new(TableCache::default()),
+            journal_inode: le32(&sb, 0xE0),
+            has_journal: le32(&sb, 0x5C) & COMPAT_HAS_JOURNAL != 0,
         })
     }
+}
 
-    /// Reads `buf.len()` bytes starting `within` bytes into the `count` blocks at `block`.
+impl<R: ReadAt> Ext4<R> {
+    pub fn open(image: R) -> Result<Ext4<R>> {
+        let layout = Layout::read(&|offset, buf| image.read_at(offset, buf), image.size())?;
+        let (journal_inode, has_journal) = (layout.journal_inode, layout.has_journal);
+        let mut fs = Ext4 {
+            image,
+            block_size: 0,
+            blocks_count: 0,
+            inode_size: 0,
+            inodes_per_group: 0,
+            inodes_count: 0,
+            incompat: 0,
+            huge_file: false,
+            groups: Vec::new(),
+            tables: Mutex::new(TableCache::default()),
+            journal: Overlay::default(),
+            journal_note: None,
+        };
+        fs.set_layout(layout);
+        if fs.incompat & INCOMPAT_RECOVER != 0 {
+            fs.journal_note = match (has_journal, journal_inode) {
+                (false, _) => Some(jbd2::not_replayed("the volume has no journal")),
+                (true, 0) => Some(jbd2::not_replayed("the journal is on an external device")),
+                (true, ino) => fs.replay(ino),
+            };
+        }
+        Ok(fs)
+    }
+
+    fn set_layout(&mut self, layout: Layout) {
+        self.block_size = layout.block_size;
+        self.blocks_count = layout.blocks_count;
+        self.inode_size = layout.inode_size;
+        self.inodes_per_group = layout.inodes_per_group;
+        self.inodes_count = layout.inodes_count;
+        self.incompat = layout.incompat;
+        self.huge_file = layout.huge_file;
+        self.groups = layout.groups;
+        self.tables = Mutex::new(TableCache::default());
+    }
+
+    /// Replays journal inode `ino` in memory, then reads the superblock and descriptors again
+    /// through it, as the kernel does before it mounts. Returns the note for the walk.
+    fn replay(&mut self, ino: u32) -> Option<String> {
+        let (overlay, note) = jbd2::replay(self, ino);
+        if overlay.is_empty() {
+            return note;
+        }
+        let image = &self.image;
+        match Layout::read(&|offset, buf| overlay.read(image, offset, buf), image.size()) {
+            Ok(layout) => {
+                self.set_layout(layout);
+                self.journal = overlay;
+                note
+            }
+            Err(e) => {
+                Some(jbd2::not_replayed(&format!("the replayed superblock or group descriptors are damaged: {e}")))
+            }
+        }
+    }
+
+    /// Reads `buf.len()` bytes starting `within` bytes into the `count` blocks at `block`. Every
+    /// read of the volume after `open` comes here, so the journal's copies replace home blocks.
     fn read_blocks(&self, block: u64, count: u64, within: u64, buf: &mut [u8]) -> Result<()> {
         if block.checked_add(count).is_none_or(|end| end > self.blocks_count) {
             return Err(Error::corrupt(format!("block {block} is past the end of the volume")));
         }
         let offset = block.checked_mul(self.block_size).and_then(|o| o.checked_add(within));
         let offset = offset.ok_or_else(|| Error::corrupt("block address overflows"))?;
-        Ok(self.image.read_at(offset, buf)?)
+        if self.journal.is_empty() {
+            Ok(self.image.read_at(offset, buf)?)
+        } else {
+            Ok(self.journal.read(&self.image, offset, buf)?)
+        }
     }
 
     /// The cached start of a group's inode table (empty when it cannot be read).
@@ -739,6 +839,9 @@ impl<R: ReadAt> Volume for Ext4<R> {
         const ROOT: u32 = 2;
         if self.inode(ROOT)?.kind() != Kind::Directory {
             return Err(Error::corrupt("root inode is not a directory"));
+        }
+        if let Some(note) = &self.journal_note {
+            warn(note.clone());
         }
         let mut walk = Walk { fs: self, seen: HashSet::new(), block: Vec::new(), cache: Blocks::new() };
         walk_tree("ext4", &mut walk, u64::from(ROOT), visit, warn)

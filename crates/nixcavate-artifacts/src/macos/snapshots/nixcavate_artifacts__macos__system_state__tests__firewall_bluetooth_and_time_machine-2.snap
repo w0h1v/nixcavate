@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_state.rs
+expression: "check(&BLUETOOTH, \"Library/Preferences/com.apple.Bluetooth.plist\",\n\"com.apple.Bluetooth.plist\")"
+---
+{"host":"memory","artifact":"bluetooth-devices","source_path":"Library/Preferences/com.apple.Bluetooth.plist","source_line":null,"cache":"DeviceCache","address":"aa-bb-cc-dd-ee-ff","name":"Example Keyboard","manufacturer":"Example","last_seen":"2023-11-14T09:00:00Z"}
+{"host":"memory","artifact":"bluetooth-devices","source_path":"Library/Preferences/com.apple.Bluetooth.plist","source_line":null,"cache":"CoreBluetoothCache","address":"UUID-1","name":"Example Speaker","manufacturer":null,"last_seen":"2023-11-12T08:00:00Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-12T08:00:00Z,seconds,recorded,memory,bluetooth-devices,activity,Bluetooth device Example Speaker (UUID-1) last seen,Library/Preferences/com.apple.Bluetooth.plist,,,,
+2023-11-14T09:00:00Z,seconds,recorded,memory,bluetooth-devices,activity,Bluetooth device Example Keyboard (aa-bb-cc-dd-ee-ff) last seen,Library/Preferences/com.apple.Bluetooth.plist,,,,

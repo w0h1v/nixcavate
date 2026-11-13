@@ -1,0 +1,34 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/utmp.rs
+expression: out
+---
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":0,"time":"2026-11-13T02:10:25.266044Z","type":"login","user":"mallory","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":520,"time":"2026-11-13T02:10:25.287776Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":1040,"time":"2026-11-13T02:10:34.045778Z","type":"login","user":"mallory","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":1560,"time":"2026-11-13T02:10:34.065107Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":2080,"time":"2026-11-13T02:23:55.556788Z","type":"login","user":"alice","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":2600,"time":"2026-11-13T02:23:55.562638Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":3120,"time":"2026-11-13T02:23:57.136508Z","type":"login","user":"alice","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":3640,"time":"2026-11-13T02:23:57.142465Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":4160,"time":"2026-11-13T02:23:58.716522Z","type":"login","user":"alice","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":4680,"time":"2026-11-13T02:23:58.721813Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":5200,"time":"2026-11-13T02:24:00.286505Z","type":"login","user":"alice","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":5720,"time":"2026-11-13T02:24:00.292877Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":6240,"time":"2026-11-13T02:24:01.886590Z","type":"login","user":"alice","line":"pts/0","remote_host":"127.0.0.1"}
+{"host":"memory","artifact":"netbsd-utmpx","source_path":"var/log/wtmpx","source_offset":6760,"time":"2026-11-13T02:24:01.892442Z","type":"logout","user":"","line":"pts/0","remote_host":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:10:25.266044Z,micros,recorded,memory,netbsd-utmpx,login,mallory logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,0,,
+2026-11-13T02:10:25.287776Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,520,,
+2026-11-13T02:10:34.045778Z,micros,recorded,memory,netbsd-utmpx,login,mallory logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,1040,,
+2026-11-13T02:10:34.065107Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,1560,,
+2026-11-13T02:23:55.556788Z,micros,recorded,memory,netbsd-utmpx,login,alice logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,2080,,
+2026-11-13T02:23:55.562638Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,2600,,
+2026-11-13T02:23:57.136508Z,micros,recorded,memory,netbsd-utmpx,login,alice logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,3120,,
+2026-11-13T02:23:57.142465Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,3640,,
+2026-11-13T02:23:58.716522Z,micros,recorded,memory,netbsd-utmpx,login,alice logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,4160,,
+2026-11-13T02:23:58.721813Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,4680,,
+2026-11-13T02:24:00.286505Z,micros,recorded,memory,netbsd-utmpx,login,alice logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,5200,,
+2026-11-13T02:24:00.292877Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,5720,,
+2026-11-13T02:24:01.886590Z,micros,recorded,memory,netbsd-utmpx,login,alice logged in on pts/0 from 127.0.0.1,var/log/wtmpx,,6240,,
+2026-11-13T02:24:01.892442Z,micros,recorded,memory,netbsd-utmpx,logout,session ended on pts/0,var/log/wtmpx,,6760,,

@@ -1,0 +1,4 @@
+containers 2
+log_lines web 3
+log_lines job 8
+images 1

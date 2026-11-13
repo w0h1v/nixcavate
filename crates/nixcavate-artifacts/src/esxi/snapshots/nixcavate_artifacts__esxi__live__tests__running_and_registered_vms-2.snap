@@ -1,0 +1,7 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/live.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-live-vm-list","source_path":"commands/vim-cmd_vmsvc-getallvms.txt","source_line":2,"vmid":1,"name":"web01","file":"[datastore1] web01/web01.vmx","guest_os":"debian10_64Guest","hardware_version":"vmx-14","annotation":"Public web server"}
+{"host":"memory","artifact":"esxi-live-vm-list","source_path":"commands/vim-cmd_vmsvc-getallvms.txt","source_line":3,"vmid":2,"name":"db01","file":"[datastore1] db01/db01.vmx","guest_os":"rhel8_64Guest","hardware_version":"vmx-19","annotation":""}
+--- warning: line 4: not a VM row (a wrapped annotation or a message)

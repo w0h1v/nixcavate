@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_state.rs
+expression: out
+---
+{"host":"memory","artifact":"lockdown-pairings","source_path":"private/var/db/lockdown/00008030-001234567890802E.plist","source_line":null,"device_id":"00008030-001234567890802E","host_id":"11111111-2222-3333-4444-555555555555","system_buid":"66666666-7777-8888-9999-000000000000","wifi_mac_address":"02:00:00:00:00:09","modified":"2023-11-14T22:13:20Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,lockdown-pairings,activity,iOS device 00008030-001234567890802E pairing record written,private/var/db/lockdown/00008030-001234567890802E.plist,,,,

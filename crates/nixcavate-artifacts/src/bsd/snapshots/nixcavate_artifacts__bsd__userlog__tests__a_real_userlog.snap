@@ -1,0 +1,81 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/userlog.rs
+expression: "run(&ARTIFACT, \"var/log/userlog\", &fixture(\"userlog/userlog\"), 0)"
+---
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":0,"time":"2026-11-13T01:35:02Z","actor":"unknown","tool":"groupadd","message":"freebsd(1001)","subject":"freebsd","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":53,"time":"2026-11-13T01:35:02Z","actor":"unknown","tool":"useradd","message":"freebsd(1001):freebsd(1001):FreeBSD User:/home/freebsd:/bin/sh","subject":"freebsd","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":154,"time":"2026-11-13T01:35:02Z","actor":"unknown","tool":"useradd","message":"freebsd(1001) home /home/freebsd made","subject":"freebsd","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":230,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"groupadd","message":"nxwheelhelper(1002)","subject":"nxwheelhelper","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":286,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"groupdel","message":"nxwheelhelper(18446744073709551615) removed","subject":"nxwheelhelper","event":"group_deleted"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":366,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"groupadd","message":"alice(1002)","subject":"alice","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":414,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"useradd","message":"alice(1002):alice(1002):Alice Example:/home/alice:/bin/sh","subject":"alice","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":507,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"useradd","message":"alice(1002) home /home/alice made","subject":"alice","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":576,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"groupadd","message":"mallory(1003)","subject":"mallory","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":626,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"useradd","message":"mallory(1003):mallory(1003):Mallory Example:/home/mallory:/bin/csh","subject":"mallory","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":728,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"useradd","message":"mallory(1003) home /home/mallory made","subject":"mallory","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":801,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"groupadd","message":"bob(1004)","subject":"bob","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":847,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"useradd","message":"bob(1004):bob(1004):Bob Example:/home/bob:/bin/sh","subject":"bob","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":932,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"useradd","message":"bob(1004) home /home/bob made","subject":"bob","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":997,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"usermod","message":"alice(1002):alice(1002):Alice Example:/home/alice:/bin/sh","subject":"alice","event":"account_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1090,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"usermod","message":"mallory(1003):mallory(1003):Mallory Example:/home/mallory:/bin/csh","subject":"mallory","event":"account_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1192,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"usermod","message":"root(0):wheel(0):Charlie &:/root:/bin/sh","subject":"root","event":"account_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1268,"time":"2026-11-13T01:38:57Z","actor":"root","tool":"groupmod","message":"wheel(0)","subject":"wheel","event":"group_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1313,"time":"2026-11-13T01:39:28Z","actor":"root","tool":"groupadd","message":"carol(1005)","subject":"carol","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1361,"time":"2026-11-13T01:39:28Z","actor":"root","tool":"useradd","message":"carol(1005):carol(1005):Carol Example:/home/carol:/bin/sh","subject":"carol","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1454,"time":"2026-11-13T01:39:28Z","actor":"root","tool":"useradd","message":"carol(1005) home /home/carol made","subject":"carol","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1523,"time":"2026-11-13T01:39:28Z","actor":"root","tool":"usermod","message":"carol(1005):carol(1005):Carol Changed:/home/carol:/bin/sh","subject":"carol","event":"account_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1616,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"usermod","message":"carol(1005):carol(1005):Carol Changed:/home/carol:/bin/sh","subject":"carol","event":"account_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1709,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"groupadd","message":"nxgrp(1006)","subject":"nxgrp","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1757,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"groupmod","message":"nxgrp(1006)","subject":"nxgrp","event":"group_modified"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1805,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"userdel","message":"carol(1005) account removed","subject":"carol","event":"account_deleted"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1868,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"userdel","message":"carol(1005) home '/home/carol' removed","subject":"carol","event":"account_deleted"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":1942,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"groupdel","message":"nxgrp(18446744073709551615) removed","subject":"nxgrp","event":"group_deleted"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2014,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"groupadd","message":"dave(1005)","subject":"dave","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2061,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"useradd","message":"dave(1005):dave(1005):User &:Dave Example:/bin/sh","subject":"dave","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2146,"time":"2026-11-13T01:39:29Z","actor":"root","tool":"userdel","message":"dave(1005) account removed","subject":"dave","event":"account_deleted"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2208,"time":"2026-11-13T01:39:30Z","actor":"root","tool":"groupadd","message":"nxroot(1005)","subject":"nxroot","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2257,"time":"2026-11-13T01:39:30Z","actor":"root","tool":"useradd","message":"nxroot(0):nxroot(1005):NXMK extra uid 0:/home/nxroot:/bin/sh","subject":"nxroot","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2353,"time":"2026-11-13T01:39:30Z","actor":"root","tool":"useradd","message":"nxroot(0) home /home/nxroot made","subject":"nxroot","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2421,"time":"2026-11-13T01:39:30Z","actor":"root","tool":"groupadd","message":"nxempty(1006)","subject":"nxempty","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2471,"time":"2026-11-13T01:39:30Z","actor":"root","tool":"useradd","message":"nxempty(1005):nxempty(1006):NXMK empty password:/home/nxempty:/bin/sh","subject":"nxempty","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2576,"time":"2026-11-13T01:41:09Z","actor":"root","tool":"groupadd","message":"erin(1007)","subject":"erin","event":"group_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2623,"time":"2026-11-13T01:41:09Z","actor":"root","tool":"useradd","message":"erin(1006):erin(1007):Erin Example:/home/erin:/bin/sh","subject":"erin","event":"account_created"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2712,"time":"2026-11-13T01:41:09Z","actor":"root","tool":"useradd","message":"erin(1006) home /home/erin made","subject":"erin","event":""}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2779,"time":"2026-11-13T01:41:09Z","actor":"root","tool":"userdel","message":"erin(1006) account removed","subject":"erin","event":"account_deleted"}
+{"host":"memory","artifact":"userlog","source_path":"var/log/userlog","source_offset":2841,"time":"2026-11-13T01:41:09Z","actor":"root","tool":"userdel","message":"erin(1006) home '/home/erin' removed","subject":"erin","event":"account_deleted"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:35:02Z,seconds,assumed_zone,memory,userlog,group_created,groupadd freebsd by unknown,var/log/userlog,,0,,
+2026-11-13T01:35:02Z,seconds,assumed_zone,memory,userlog,account_created,useradd freebsd by unknown,var/log/userlog,,53,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,group_created,groupadd nxwheelhelper by root,var/log/userlog,,230,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,group_deleted,groupdel nxwheelhelper by root,var/log/userlog,,286,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,group_created,groupadd alice by root,var/log/userlog,,366,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,account_created,useradd alice by root,var/log/userlog,,414,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,group_created,groupadd mallory by root,var/log/userlog,,576,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,account_created,useradd mallory by root,var/log/userlog,,626,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,group_created,groupadd bob by root,var/log/userlog,,801,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,account_created,useradd bob by root,var/log/userlog,,847,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,account_modified,usermod alice by root,var/log/userlog,,997,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,account_modified,usermod mallory by root,var/log/userlog,,1090,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,account_modified,usermod root by root,var/log/userlog,,1192,,
+2026-11-13T01:38:57Z,seconds,assumed_zone,memory,userlog,group_modified,groupmod wheel by root,var/log/userlog,,1268,,
+2026-11-13T01:39:28Z,seconds,assumed_zone,memory,userlog,group_created,groupadd carol by root,var/log/userlog,,1313,,
+2026-11-13T01:39:28Z,seconds,assumed_zone,memory,userlog,account_created,useradd carol by root,var/log/userlog,,1361,,
+2026-11-13T01:39:28Z,seconds,assumed_zone,memory,userlog,account_modified,usermod carol by root,var/log/userlog,,1523,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,account_modified,usermod carol by root,var/log/userlog,,1616,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,group_created,groupadd nxgrp by root,var/log/userlog,,1709,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,group_modified,groupmod nxgrp by root,var/log/userlog,,1757,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,account_deleted,userdel carol by root,var/log/userlog,,1805,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,account_deleted,userdel carol by root,var/log/userlog,,1868,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,group_deleted,groupdel nxgrp by root,var/log/userlog,,1942,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,group_created,groupadd dave by root,var/log/userlog,,2014,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,account_created,useradd dave by root,var/log/userlog,,2061,,
+2026-11-13T01:39:29Z,seconds,assumed_zone,memory,userlog,account_deleted,userdel dave by root,var/log/userlog,,2146,,
+2026-11-13T01:39:30Z,seconds,assumed_zone,memory,userlog,group_created,groupadd nxroot by root,var/log/userlog,,2208,,
+2026-11-13T01:39:30Z,seconds,assumed_zone,memory,userlog,account_created,useradd nxroot by root,var/log/userlog,,2257,,
+2026-11-13T01:39:30Z,seconds,assumed_zone,memory,userlog,group_created,groupadd nxempty by root,var/log/userlog,,2421,,
+2026-11-13T01:39:30Z,seconds,assumed_zone,memory,userlog,account_created,useradd nxempty by root,var/log/userlog,,2471,,
+2026-11-13T01:41:09Z,seconds,assumed_zone,memory,userlog,group_created,groupadd erin by root,var/log/userlog,,2576,,
+2026-11-13T01:41:09Z,seconds,assumed_zone,memory,userlog,account_created,useradd erin by root,var/log/userlog,,2623,,
+2026-11-13T01:41:09Z,seconds,assumed_zone,memory,userlog,account_deleted,userdel erin by root,var/log/userlog,,2779,,
+2026-11-13T01:41:09Z,seconds,assumed_zone,memory,userlog,account_deleted,userdel erin by root,var/log/userlog,,2841,,

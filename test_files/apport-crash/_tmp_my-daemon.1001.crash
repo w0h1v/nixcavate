@@ -1,0 +1,93 @@
+ProblemType: Crash
+Architecture: arm64
+Date: Fri Nov 13 02:28:34 2026
+DistroRelease: Ubuntu 24.04
+ExecutablePath: /tmp/my-daemon
+ExecutableTimestamp: 1794536913
+Package: coreutils 9.4-3ubuntu6
+ProcAttrCurrent: Error: [Errno 22] Invalid argument
+ProcCmdline: /tmp/my-daemon 1000
+ProcCwd: /
+ProcEnviron: PATH=(custom, no user)
+ProcMaps:
+ aaaae1b20000-aaaae1b25000 r-xp 00000000 00:205 233353956                 /tmp/my-daemon
+ aaaae1b3f000-aaaae1b40000 r--p 0000f000 00:205 233353956                 /tmp/my-daemon
+ aaaae1b40000-aaaae1b41000 rw-p 00010000 00:205 233353956                 /tmp/my-daemon
+ aaab0ffd3000-aaab0fff4000 rw-p 00000000 00:00 0                          [heap]
+ ffff86b50000-ffff86cea000 r-xp 00000000 00:205 228811789                 /usr/lib/aarch64-linux-gnu/libc.so.6
+ ffff86cea000-ffff86cfd000 ---p 0019a000 00:205 228811789                 /usr/lib/aarch64-linux-gnu/libc.so.6
+ ffff86cfd000-ffff86d00000 r--p 0019d000 00:205 228811789                 /usr/lib/aarch64-linux-gnu/libc.so.6
+ ffff86d00000-ffff86d02000 rw-p 001a0000 00:205 228811789                 /usr/lib/aarch64-linux-gnu/libc.so.6
+ ffff86d02000-ffff86d0e000 rw-p 00000000 00:00 0 
+ ffff86d16000-ffff86d3d000 r-xp 00000000 00:205 228811769                 /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+ ffff86d4c000-ffff86d4e000 rw-p 00000000 00:00 0 
+ ffff86d4e000-ffff86d52000 r--p 00000000 00:00 0                          [vvar]
+ ffff86d52000-ffff86d54000 r-xp 00000000 00:00 0                          [vdso]
+ ffff86d54000-ffff86d56000 r--p 0002e000 00:205 228811769                 /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+ ffff86d56000-ffff86d58000 rw-p 00030000 00:205 228811769                 /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+ ffffc1b52000-ffffc1b73000 rw-p 00000000 00:00 0                          [stack]
+ProcStatus:
+ Name:	my-daemon
+ Umask:	0022
+ State:	S (sleeping)
+ Tgid:	2493
+ Ngid:	0
+ Pid:	2493
+ PPid:	6
+ TracerPid:	0
+ Uid:	1001	1001	1001	1001
+ Gid:	1001	1001	1001	1001
+ FDSize:	64
+ Groups:	 
+ NStgid:	2493
+ NSpid:	2493
+ NSpgid:	1
+ NSsid:	1
+ Kthread:	0
+ VmPeak:	    2280 kB
+ VmSize:	    2280 kB
+ VmLck:	       0 kB
+ VmPin:	       0 kB
+ VmHWM:	    1296 kB
+ VmRSS:	    1296 kB
+ RssAnon:	      92 kB
+ RssFile:	    1204 kB
+ RssShmem:	       0 kB
+ VmData:	     208 kB
+ VmStk:	     132 kB
+ VmExe:	      20 kB
+ VmLib:	    1804 kB
+ VmPTE:	      44 kB
+ VmSwap:	       0 kB
+ CoreDumping:	0
+ THP_enabled:	1
+ untag_mask:	0xffffffffffffff
+ Threads:	1
+ SigQ:	0/192759
+ SigPnd:	0000000000000000
+ ShdPnd:	0000000000000000
+ SigBlk:	0000000000000000
+ SigIgn:	0000000200000006
+ SigCgt:	0000000000000000
+ CapInh:	0000000000000000
+ CapPrm:	0000000000000000
+ CapEff:	0000000000000000
+ CapBnd:	000001ffffffffff
+ CapAmb:	0000000000000000
+ NoNewPrivs:	0
+ Seccomp:	0
+ Seccomp_filters:	0
+ Speculation_Store_Bypass:	vulnerable
+ SpeculationIndirectBranch:	unknown
+ Cpus_allowed:	fff
+ Cpus_allowed_list:	0-11
+ Mems_allowed:	1
+ Mems_allowed_list:	0
+ voluntary_ctxt_switches:	5
+ nonvoluntary_ctxt_switches:	0
+Signal: 11
+SignalName: SIGSEGV
+Uname: Linux 7.2.9 aarch64
+CoreDump: base64
+ H4sICAAAAAAC/0NvcmVEdW1wAA==
+ 7c8DAhAGAADAbNu2bdvmsm3btm1uWcu2bdu2e0h3P7gAAQMFDhI0WPAQIUOFDhM2XPgIESNFjhI1WvQYMWPFjhM3XvwECRMlTpI0WfIUKVOlTpM2XfoMGTNlzpI1W/YcOXPlzpM3X/4CBQsVLlK0WPESJUuVLlO2XPkKFStVrlK1WvUaNf+pVbtO3Xr1GzRs1LhJ02bNW7Rs1bpN23btO3Ts1LlL127de/Ts1btP3379BwwcNHjI0GHDR4wcNXrM2HHjJ0ycNHnK1GnTZ8ycNXvO3HnzFyxctHjJ0mXL//1vxcpVq9esXbd+w8ZN/2/esnXb9h07d+3es3ff/gMHDx0+cvTY8RMnT50+c/bc+QsXL12+cvXa9Rs3b92+c/fe/QcPHz1+8vTZ8xcvX71+8/bd+w8fP33+8vXb9x8/f/0O4O/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+/v7+//1/z/AIwMDpoAkAEA

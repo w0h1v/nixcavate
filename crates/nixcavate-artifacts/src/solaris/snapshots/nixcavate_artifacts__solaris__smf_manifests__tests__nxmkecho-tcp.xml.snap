@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/smf_manifests.rs
+expression: "run(&ARTIFACT, path, &fixture(&format!(\"smf-manifests/{name}\")),\n1_794_532_000)"
+---
+{"host":"memory","artifact":"smf-manifests","source_path":"var/svc/manifest/site/nxmkecho-tcp.xml","source_line":null,"service":"network/nxmkecho/tcp","bundle":"inetconv:nxmkecho","instances":["default (enabled)"],"start_exec":null,"stop_exec":null,"refresh_exec":null,"other_methods":["inetd_start: /tmp/.NXMK_INETD/agent","inetd_disable: :kill"],"method_user":"root","duration":null,"dependencies":[],"modified":"2026-11-13T01:06:40Z"}

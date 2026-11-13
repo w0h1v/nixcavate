@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/smf_repository.rs
+expression: out
+---
+{"host":"memory","artifact":"smf-repository","source_path":"etc/svc/repository.db","source_offset":2,"fmri":"svc:/site/nxmk-smf:default","service":"site/nxmk-smf","instance":"default","enabled":false,"enabled_temporary":null,"restarter":null,"manifest_files":["/var/svc/manifest/site/nxmk-smf.xml"],"start_exec":"/var/svc/method/nxmk-smf %m","stop_exec":":true","refresh_exec":null,"other_methods":[],"inetd":null,"method_user":null,"duration":"transient","dependencies":["fs (require_all): svc:/system/filesystem/local"],"snapshots":["last-import","running","initial"]}
+{"host":"memory","artifact":"smf-repository","source_path":"etc/svc/repository.db","source_offset":6,"fmri":"svc:/site/nxmk-smf-lib:default","service":"site/nxmk-smf-lib","instance":"default","enabled":true,"enabled_temporary":null,"restarter":null,"manifest_files":["/lib/svc/manifest/site/nxmk-smf-lib.xml"],"start_exec":"/tmp/.NXMK_SMFLIB/agent --quiet","stop_exec":":kill","refresh_exec":null,"other_methods":[],"inetd":null,"method_user":null,"duration":"child","dependencies":[],"snapshots":["last-import","running","initial"]}

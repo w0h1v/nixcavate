@@ -1,0 +1,55 @@
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                         impl_selector - using neon
+ * * * * * * * * * * * * * * * * * *
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - * AnyDesk Linux Startup *
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - * Version 7.1.0 ((unknown) ac055bc6d9fdd6c8da59916821891f164dba8e31)
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - * Build 20250909111246
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - * Prefix ad
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - * Copyright (C) 2025 AnyDesk Software GmbH *
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - 
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - Distribution Info: Debian GNU/Linux 12 (bookworm)
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - Command Line params: '--tray'
+   info 2026-11-13 01:28:09.395         ad   main   4993   4993                                  main - Found GLib Version: 2.74.
+  error 2026-11-13 01:28:09.395         ad   main   4993   4993         unix_base.dbus.logind_manager - Error instanciating Logind Manager: Could not connect: No such file or directory
+  error 2026-11-13 01:28:09.395         ad   main   4993   4993             unix_base.dbus.consolekit - Error instanciating ConsoleKit Manager: Could not connect: No such file or directory
+warning 2026-11-13 01:28:09.395         ad   main   4993   4993                 session_manager_dummy - Using session manager dummy. Wont be able to use loginscreen.
+   info 2026-11-13 01:28:09.396         ad   main   4993   4993                       app.common_path - user_data_dir = /root/.anydesk, logged_in_user_data_dir = /root/.anydesk, current_home = /root
+
+   info 2026-11-13 01:28:09.396         ad   main   4993   4993                       app.common_path - initialized user = /root/.anydesk, system = /etc/anydesk
+explode 2026-11-13 01:28:09.396       tray   main   4993   4993                   unix_base.x11_tools - Cannot open display
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                         impl_selector - using neon
+ * * * * * * * * * * * * * * * * * *
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - * AnyDesk Linux Startup *
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - * Version 7.1.0 ((unknown) ac055bc6d9fdd6c8da59916821891f164dba8e31)
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - * Build 20250909111246
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - * Prefix ad
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - * Copyright (C) 2025 AnyDesk Software GmbH *
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - 
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - Distribution Info: Debian GNU/Linux 12 (bookworm)
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - Command Line params: '--get-id'
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                                  main - Found GLib Version: 2.74.
+  error 2026-11-13 01:28:34.382         ad   main   5030   5030         unix_base.dbus.logind_manager - Error instanciating Logind Manager: Could not connect: No such file or directory
+  error 2026-11-13 01:28:34.382         ad   main   5030   5030             unix_base.dbus.consolekit - Error instanciating ConsoleKit Manager: Could not connect: No such file or directory
+warning 2026-11-13 01:28:34.382         ad   main   5030   5030                 session_manager_dummy - Using session manager dummy. Wont be able to use loginscreen.
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                       app.common_path - user_data_dir = /root/.anydesk, logged_in_user_data_dir = /root/.anydesk, current_home = /root
+
+   info 2026-11-13 01:28:34.382         ad   main   5030   5030                       app.common_path - initialized user = /root/.anydesk, system = /etc/anydesk
+   info 2026-11-13 01:28:34.424    cmdif_i   main   5030   5030                                   sif - Initializing license info.
+   info 2026-11-13 01:28:34.424    cmdif_i   main   5030   5030                                   sif - License info updated: 
+   info 2026-11-13 01:28:34.425    cmdif_i   main   5030   5030                       base.signal.hub - 1 threads.
+   info 2026-11-13 01:28:34.425    cmdif_i   main   5030   5030                                 epoll - Choosing no-split-epoll
+   info 2026-11-13 01:28:34.425    cmdif_i   ctrl   5030   5033                                 epoll - Choosing no-split-epoll
+   info 2026-11-13 01:28:34.425    cmdif_i   main   5030   5030                                 epoll - Choosing no-split-epoll
+   info 2026-11-13 01:28:34.425    cmdif_i   ctrl   5030   5033                        app.cmdline_if - Command line interface startup.
+   info 2026-11-13 01:28:34.425    cmdif_i   ctrl   5030   5033                   fiber.ipc_namespace - Global: yes
+warning 2026-11-13 01:28:34.425    cmdif_i   ctrl   5030   5033                       config_provider - Overwrite of existing config layer is not allowed. (1)
+warning 2026-11-13 01:28:34.425    cmdif_i   ctrl   5030   5033                       config_provider - Overwrite of existing config layer is not allowed. (2)
+  error 2026-11-13 01:28:34.426    cmdif_i   ctrl   5030   5033              base.signal.global.event - Cannot set the subsignal count to a smaller or equal value.
+warning 2026-11-13 01:28:34.426    cmdif_i   wrk0   5030   5034                                   sif - Dropping out of date license response.
+   info 2026-11-13 01:28:34.613    cmdif_i   wrk0   5030   5034                                   sif - Updating license info.
+   info 2026-11-13 01:28:34.613    cmdif_i   wrk0   5030   5034                                   sif - License info updated: free-1
+   info 2026-11-13 01:28:36.431    cmdif_i   ctrl   5030   5033                        app.cmdline_if - Command line interface shutdown.
+   info 2026-11-13 01:28:36.431    cmdif_i   ctrl   5030   5033                       base.signal.hub - Control quit.
+   info 2026-11-13 01:28:36.431    cmdif_i   main   5030   5030              base.prot.job_dispatcher - 0 undelivered packets.
+warning 2026-11-13 01:28:36.431    cmdif_i   ctrl   5030   5037                 static_stored_objects - No stored objects available.
+warning 2026-11-13 01:28:36.431    cmdif_i   ctrl   5030   5037                         ipc_apartment - Cannot remove object (0x3f3ad45ad2c14a07, 0x27fa377da2800e1f). Key not found.
+   info 2026-11-13 01:28:38.431    cmdif_i   main   5030   5030                                  main - Exiting normally.

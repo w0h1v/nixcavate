@@ -1,0 +1,18 @@
+Process:               OldTool [321]
+Path:                  /usr/local/bin/OldTool
+Identifier:            com.example.oldtool
+Version:               3.0 (30)
+Code Type:             X86-64 (Native)
+Parent Process:        launchd [1]
+Responsible:           Terminal [100]
+User ID:               501
+
+Date/Time:             2019-01-01 12:30:45.123 +0100
+OS Version:            Mac OS X 10.14.2 (18C54)
+
+Exception Type:        EXC_CRASH (SIGABRT)
+Exception Codes:       0x0000000000000000, 0x0000000000000000
+Crashed Thread:        0  Dispatch queue: com.apple.main-thread
+
+Thread 0 Crashed:: Dispatch queue: com.apple.main-thread
+0   libsystem_kernel.dylib        	0x00007fff6e0e0b66 __pthread_kill + 10

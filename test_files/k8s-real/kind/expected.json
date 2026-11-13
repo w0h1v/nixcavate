@@ -1,0 +1,553 @@
+{
+ "audit": {
+  "categories": {
+   "anonymous": 2,
+   "change": 34,
+   "exec": 8,
+   "secret_read": 3
+  },
+  "lines": 422
+ },
+ "containers": [
+  {
+   "attempt": 0,
+   "container": "tick",
+   "id": "0996970dfe008adaf1fa65d0b19b681facf36d00117188183cd1049c2dea5feb",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "ticker-29908885-kqwgz",
+   "uid": "fb09f9f9-60af-4587-939a-a47ce23baf5b"
+  },
+  {
+   "attempt": 0,
+   "container": "c",
+   "id": "04c28b8c772f21018f3448d9268361b3cf87696fc542dcbfb45cd38c2ae3c7e9",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "secret-user",
+   "uid": "0e435a6e-d1bb-4d18-a48a-af1a43401223"
+  },
+  {
+   "attempt": 0,
+   "container": "agent",
+   "id": "1f1c4626b66fac97ef689c3c08cd59c0ca94336a34a946ddf556411ecd39d016",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "agentd-4pdnd",
+   "uid": "dc120c50-4152-4b9a-8a48-88ded1a7fd8b"
+  },
+  {
+   "attempt": 0,
+   "container": "shell",
+   "id": "1314a5f4208ec98f15c3597fab30e96f2454e1f3daea5fe9d48e254a0ba1e332",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "priv-host",
+   "uid": "02fb7e83-8e87-44a9-b850-a23ca7c1800c"
+  },
+  {
+   "attempt": 0,
+   "container": "nginx",
+   "id": "921b622837ad90cb4d9149af57809ea55b6ea72112132d27bb41804fb106fe3e",
+   "image": "sha256:96868d9fa38f469a86d2f25787e43ee9ad330339d30be260aa9f5a338bb03751",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-d9rhg",
+   "uid": "df357dc3-b983-4ef8-ac0d-7e9a19058947"
+  },
+  {
+   "attempt": 0,
+   "container": "nginx",
+   "id": "100e5d02ac2faf088b527358b4943e97d2676a00914a7d421c3164a20145c36d",
+   "image": "sha256:96868d9fa38f469a86d2f25787e43ee9ad330339d30be260aa9f5a338bb03751",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-hsqrv",
+   "uid": "7592bc6d-3f9f-48af-a388-2ecfac61e406"
+  },
+  {
+   "attempt": 0,
+   "container": "execer",
+   "id": "8ee9cdab20ccab400b77b217ac5d84a02e733be03ab872d5bd98044b51d4f50b",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "default",
+   "pod": "execer",
+   "uid": "25cf8526-6d00-4e92-8592-f3989612c803"
+  },
+  {
+   "attempt": 0,
+   "container": "web",
+   "id": "8683627fb5627b3668884dfe86ab8096f4dcae409e88fa9650f08911f86f587a",
+   "image": "sha256:ad4f11f7c85f87c0a6d6c0fe492ad53f9cdcff6e8c88b881360c70eff701c67b",
+   "namespace": "kube-system",
+   "pod": "static-web-l8s-control-plane",
+   "uid": "0699b64cb0d3658c01b9c2daa217b7b1"
+  },
+  {
+   "attempt": 0,
+   "container": "local-path-provisioner",
+   "id": "46875af22b3f9f2100ee5c604f1ad2f7c632c43a82cb547d3eec4df7e7aa838a",
+   "image": "sha256:653e2348b2d4ab640e418f5eade4c0335d4f648b83ca46a69c96fb382ed26dd2",
+   "namespace": "local-path-storage",
+   "pod": "local-path-provisioner-7b8c8ddbd6-ncmhb",
+   "uid": "f97aa67e-82ad-4986-a681-931e1ff4e311"
+  },
+  {
+   "attempt": 0,
+   "container": "coredns",
+   "id": "68ca38b1e8a887febf71cffef6647ea4dae535aecbd1f51fc616c57a1034adc6",
+   "image": "sha256:138784d87c9c50f8e59412544da4cf4928d61ccbaf93b9f5898a3ba406871bfc",
+   "namespace": "kube-system",
+   "pod": "coredns-66bc5c9577-wm6sk",
+   "uid": "98acfdc1-8b0d-4580-a5e2-70da2e24d619"
+  },
+  {
+   "attempt": 0,
+   "container": "coredns",
+   "id": "96e24346b86ff49f7343e63821fd9e7a6a63298315a5a270dc17cdc8ada3c427",
+   "image": "sha256:138784d87c9c50f8e59412544da4cf4928d61ccbaf93b9f5898a3ba406871bfc",
+   "namespace": "kube-system",
+   "pod": "coredns-66bc5c9577-wnl75",
+   "uid": "4b6a6bc7-eefc-4e1b-8059-20a9c0c6115f"
+  },
+  {
+   "attempt": 0,
+   "container": "kindnet-cni",
+   "id": "a2a57d8c6d1e56fb296ba6e4815fa60f8ad81c4663efc0d6f00877efc6ef53f2",
+   "image": "sha256:b1a8c6f707935fd5f346ce5846d21ff8dd65e14c15406a14dbd16b9b897b9b4c",
+   "namespace": "kube-system",
+   "pod": "kindnet-mt57d",
+   "uid": "7e7f111d-e10a-4b6a-8d41-7503f49f17ae"
+  },
+  {
+   "attempt": 0,
+   "container": "kube-proxy",
+   "id": "1f7f5df73855dea29e902ae161f0208c208a6ab4dd66858dffa7d0984ab1f7af",
+   "image": "sha256:6fc32d66c141152245438e6512df788cb52d64a1617e33561950b0e7a4675abf",
+   "namespace": "kube-system",
+   "pod": "kube-proxy-7vtmp",
+   "uid": "715b1986-4eef-4716-b185-1d50ad9f4edc"
+  },
+  {
+   "attempt": 0,
+   "container": "etcd",
+   "id": "4b98b7a839d7a5eecb07fbe1f1d8cf1aef2088611216d3639a8602d2ee6a1a83",
+   "image": "sha256:a1894772a478e07c67a56e8bf32335fdbe1dd4ec96976a5987083164bd00bc0e",
+   "namespace": "kube-system",
+   "pod": "etcd-l8s-control-plane",
+   "uid": "654f4abc13a186504f361b4b0456e00a"
+  },
+  {
+   "attempt": 0,
+   "container": "kube-apiserver",
+   "id": "fb3371643e0df09e8b99fa60bcca8cad66ab96939f597bd9277428afcf4ec7c0",
+   "image": "sha256:d291939e994064911484215449d0ab96c535b02adc4fc5d0ad4e438cf71465be",
+   "namespace": "kube-system",
+   "pod": "kube-apiserver-l8s-control-plane",
+   "uid": "84d0098d55d876a7175d434be2fcea2c"
+  },
+  {
+   "attempt": 0,
+   "container": "kube-scheduler",
+   "id": "1cf3a76d16308692498f72bfd5d45dd4437beffe015d0ad11a10ef221e56fc56",
+   "image": "sha256:a25f5ef9c34c37c649f3b4f9631a169221ac2d6f41d9767c7588cd355f76f9ee",
+   "namespace": "kube-system",
+   "pod": "kube-scheduler-l8s-control-plane",
+   "uid": "9b2eaf20f9b629071f442e7922296608"
+  },
+  {
+   "attempt": 0,
+   "container": "kube-controller-manager",
+   "id": "e100b769cd7475ef48ffff7ede609d1442af0e592185ad72912e5486eb081bd8",
+   "image": "sha256:996be7e86d9b3a549d718de63713d9fea9db1f45ac44863a6770292d7b463570",
+   "namespace": "kube-system",
+   "pod": "kube-controller-manager-l8s-control-plane",
+   "uid": "cbfd2efb5979632eab04520e694d42dd"
+  }
+ ],
+ "kubectl_pods": [
+  "default/agentd-4pdnd/dc120c50-4152-4b9a-8a48-88ded1a7fd8b",
+  "default/badpull/1312ca58-6483-44b6-bd0a-d0b480f5c08c",
+  "default/execer/25cf8526-6d00-4e92-8592-f3989612c803",
+  "default/priv-host/02fb7e83-8e87-44a9-b850-a23ca7c1800c",
+  "default/secret-user/0e435a6e-d1bb-4d18-a48a-af1a43401223",
+  "default/ticker-29908885-kqwgz/fb09f9f9-60af-4587-939a-a47ce23baf5b",
+  "default/web-79ffc79c64-d9rhg/df357dc3-b983-4ef8-ac0d-7e9a19058947",
+  "default/web-79ffc79c64-hsqrv/7592bc6d-3f9f-48af-a388-2ecfac61e406",
+  "kube-system/coredns-66bc5c9577-wm6sk/98acfdc1-8b0d-4580-a5e2-70da2e24d619",
+  "kube-system/coredns-66bc5c9577-wnl75/4b6a6bc7-eefc-4e1b-8059-20a9c0c6115f",
+  "kube-system/etcd-l8s-control-plane/26373ca7-f429-473c-945d-dae757032fa6",
+  "kube-system/kindnet-mt57d/7e7f111d-e10a-4b6a-8d41-7503f49f17ae",
+  "kube-system/kube-apiserver-l8s-control-plane/70b81382-b8e1-4999-8182-53327a4b2cbc",
+  "kube-system/kube-controller-manager-l8s-control-plane/c059f7b1-5b29-465c-8d07-a09942dd9884",
+  "kube-system/kube-proxy-7vtmp/715b1986-4eef-4716-b185-1d50ad9f4edc",
+  "kube-system/kube-scheduler-l8s-control-plane/4efb711e-d1f5-4431-bc24-2cc44c33aba0",
+  "kube-system/static-web-l8s-control-plane/ebf95ef8-dcc1-4ae2-90ce-0f62b1a92a81",
+  "local-path-storage/local-path-provisioner-7b8c8ddbd6-ncmhb/f97aa67e-82ad-4986-a681-931e1ff4e311"
+ ],
+ "pod_facts": [
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "agentd-4pdnd",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "registry.invalid/nope:1"
+   ],
+   "name": "badpull",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "execer",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": true,
+   "hostPaths": [
+    "/"
+   ],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "priv-host",
+   "namespace": "default",
+   "privileged": true,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "secret-user",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "ticker-29908885-kqwgz",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "nginx:1.27-alpine"
+   ],
+   "name": "web-79ffc79c64-d9rhg",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "nginx:1.27-alpine"
+   ],
+   "name": "web-79ffc79c64-hsqrv",
+   "namespace": "default",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "registry.k8s.io/coredns/coredns:v1.12.1"
+   ],
+   "name": "coredns-66bc5c9577-wm6sk",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "registry.k8s.io/coredns/coredns:v1.12.1"
+   ],
+   "name": "coredns-66bc5c9577-wnl75",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/etc/kubernetes/pki/etcd",
+    "/var/lib/etcd"
+   ],
+   "images": [
+    "registry.k8s.io/etcd:3.6.4-0"
+   ],
+   "name": "etcd-l8s-control-plane",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": true
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/etc/cni/net.d",
+    "/lib/modules",
+    "/run/xtables.lock",
+    "/var/run/nri"
+   ],
+   "images": [
+    "docker.io/kindest/kindnetd:v20250512-df8de77b"
+   ],
+   "name": "kindnet-mt57d",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": false
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/etc/ca-certificates",
+    "/etc/kubernetes/audit-policy.yaml",
+    "/etc/kubernetes/pki",
+    "/etc/ssl/certs",
+    "/usr/local/share/ca-certificates",
+    "/usr/share/ca-certificates",
+    "/var/log/kubernetes/audit"
+   ],
+   "images": [
+    "registry.k8s.io/kube-apiserver:v1.34.0"
+   ],
+   "name": "kube-apiserver-l8s-control-plane",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": true
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/etc/ca-certificates",
+    "/etc/kubernetes/controller-manager.conf",
+    "/etc/kubernetes/pki",
+    "/etc/ssl/certs",
+    "/usr/libexec/kubernetes/kubelet-plugins/volume/exec",
+    "/usr/local/share/ca-certificates",
+    "/usr/share/ca-certificates"
+   ],
+   "images": [
+    "registry.k8s.io/kube-controller-manager:v1.34.0"
+   ],
+   "name": "kube-controller-manager-l8s-control-plane",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": true
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/lib/modules",
+    "/run/xtables.lock"
+   ],
+   "images": [
+    "registry.k8s.io/kube-proxy:v1.34.0"
+   ],
+   "name": "kube-proxy-7vtmp",
+   "namespace": "kube-system",
+   "privileged": true,
+   "static": false
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": false,
+   "hostPaths": [
+    "/etc/kubernetes/scheduler.conf"
+   ],
+   "images": [
+    "registry.k8s.io/kube-scheduler:v1.34.0"
+   ],
+   "name": "kube-scheduler-l8s-control-plane",
+   "namespace": "kube-system",
+   "privileged": false,
+   "static": true
+  },
+  {
+   "hostNetwork": true,
+   "hostPID": true,
+   "hostPaths": [
+    "/"
+   ],
+   "images": [
+    "busybox:1.37"
+   ],
+   "name": "static-web-l8s-control-plane",
+   "namespace": "kube-system",
+   "privileged": true,
+   "static": true
+  },
+  {
+   "hostNetwork": false,
+   "hostPID": false,
+   "hostPaths": [],
+   "images": [
+    "docker.io/kindest/local-path-provisioner:v20250214-acbabc1a"
+   ],
+   "name": "local-path-provisioner-7b8c8ddbd6-ncmhb",
+   "namespace": "local-path-storage",
+   "privileged": false,
+   "static": false
+  }
+ ],
+ "sandboxes": [
+  {
+   "id": "dc8f86ed9a09bb91fe3ee8b672441166174df678d485fa407bbbd743c0fe17ce",
+   "namespace": "default",
+   "pod": "ticker-29908885-kqwgz",
+   "uid": "fb09f9f9-60af-4587-939a-a47ce23baf5b"
+  },
+  {
+   "id": "06a4eee55cad259b96bb4f59eb6e96228d40e2209ee0dadf7422f72f68ccf11c",
+   "namespace": "default",
+   "pod": "doomed",
+   "uid": "408ae947-845e-4f3d-8d68-85c3c31117b6"
+  },
+  {
+   "id": "636f19d20bdcd20da940cff91204397206e7f4331347f1025b0a8c9bcdadf4ca",
+   "namespace": "default",
+   "pod": "secret-user",
+   "uid": "0e435a6e-d1bb-4d18-a48a-af1a43401223"
+  },
+  {
+   "id": "95131abca1c985c45544f01d1f4da9315052d75583aebc1cca84c8935901483e",
+   "namespace": "default",
+   "pod": "agentd-4pdnd",
+   "uid": "dc120c50-4152-4b9a-8a48-88ded1a7fd8b"
+  },
+  {
+   "id": "513bcb33640889f588d359a22b6fd0a5b7ace46d8238c4aa19bca7894aa577b1",
+   "namespace": "default",
+   "pod": "badpull",
+   "uid": "1312ca58-6483-44b6-bd0a-d0b480f5c08c"
+  },
+  {
+   "id": "0762e49fac0b8cbbc222a408a914a1d0c9a43974c56c4e62b3c8a90bd8e34aa6",
+   "namespace": "default",
+   "pod": "priv-host",
+   "uid": "02fb7e83-8e87-44a9-b850-a23ca7c1800c"
+  },
+  {
+   "id": "fce9dfcca5880508b298c19beef73152fba9cda78a09fabaf6f6113c50640345",
+   "namespace": "default",
+   "pod": "execer",
+   "uid": "25cf8526-6d00-4e92-8592-f3989612c803"
+  },
+  {
+   "id": "1b5cd5476f1c4628fb8409df73d77832ddf485ef0f3f08309950ab630249611c",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-hsqrv",
+   "uid": "7592bc6d-3f9f-48af-a388-2ecfac61e406"
+  },
+  {
+   "id": "22568cd5b93dc00d49c65fbb1962a7bf1a1d3bb91ca1766addc94d742a854640",
+   "namespace": "default",
+   "pod": "web-79ffc79c64-d9rhg",
+   "uid": "df357dc3-b983-4ef8-ac0d-7e9a19058947"
+  },
+  {
+   "id": "d3bed298dd713626c97b84a0f127b01cef446e95ead882cd65ae446f59f33af0",
+   "namespace": "kube-system",
+   "pod": "static-web-l8s-control-plane",
+   "uid": "0699b64cb0d3658c01b9c2daa217b7b1"
+  },
+  {
+   "id": "fbce96a04f168e09ee129e2de9c7392c981284b27210558871dce7652006028c",
+   "namespace": "local-path-storage",
+   "pod": "local-path-provisioner-7b8c8ddbd6-ncmhb",
+   "uid": "f97aa67e-82ad-4986-a681-931e1ff4e311"
+  },
+  {
+   "id": "befeb78e3dafdb302274517c003d59f60df41a30b8c8e794ce86490acd8383d7",
+   "namespace": "kube-system",
+   "pod": "coredns-66bc5c9577-wm6sk",
+   "uid": "98acfdc1-8b0d-4580-a5e2-70da2e24d619"
+  },
+  {
+   "id": "7d1d3d25d1f758972ed52dcc840602083fe087b9328110d1af23848942db66e3",
+   "namespace": "kube-system",
+   "pod": "coredns-66bc5c9577-wnl75",
+   "uid": "4b6a6bc7-eefc-4e1b-8059-20a9c0c6115f"
+  },
+  {
+   "id": "a5faa6b3baeea1b776bcd28aa52f8f836cae9508730b9089371c132ec7db1c9a",
+   "namespace": "kube-system",
+   "pod": "kube-proxy-7vtmp",
+   "uid": "715b1986-4eef-4716-b185-1d50ad9f4edc"
+  },
+  {
+   "id": "8bb0c4e716a0599f87f00511a738b1c6539071a83783fc36b4f2769f41895fb0",
+   "namespace": "kube-system",
+   "pod": "kindnet-mt57d",
+   "uid": "7e7f111d-e10a-4b6a-8d41-7503f49f17ae"
+  },
+  {
+   "id": "6e86e082ab64865bd79bf720114eec8bc7cb6b21590407d5acd3baaefda2e393",
+   "namespace": "kube-system",
+   "pod": "kube-apiserver-l8s-control-plane",
+   "uid": "84d0098d55d876a7175d434be2fcea2c"
+  },
+  {
+   "id": "3312c3f55279769f09ce28267c0dd2bf0a92f1a19206106a7cfae3b8a7cb4ab4",
+   "namespace": "kube-system",
+   "pod": "kube-controller-manager-l8s-control-plane",
+   "uid": "cbfd2efb5979632eab04520e694d42dd"
+  },
+  {
+   "id": "6a5f5f77c8afb6f6294567ad29dd201ff416af9b527d2866c8441024580453ac",
+   "namespace": "kube-system",
+   "pod": "kube-scheduler-l8s-control-plane",
+   "uid": "9b2eaf20f9b629071f442e7922296608"
+  },
+  {
+   "id": "f3468442117eced9d643013d51e76daaaf12a80fe1a1b7b286f4d8f444859054",
+   "namespace": "kube-system",
+   "pod": "etcd-l8s-control-plane",
+   "uid": "654f4abc13a186504f361b4b0456e00a"
+  }
+ ]
+}

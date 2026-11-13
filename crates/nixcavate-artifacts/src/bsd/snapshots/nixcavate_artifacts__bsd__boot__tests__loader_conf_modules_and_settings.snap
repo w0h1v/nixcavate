@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/boot.rs
+expression: out
+---
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":1,"variable":"autoboot_delay","value":"3","kind":"setting","module":"","enabled":null}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":2,"variable":"zfs_load","value":"YES","kind":"module_load","module":"zfs","enabled":true}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":3,"variable":"nxmk_load","value":"YES","kind":"module_load","module":"nxmk","enabled":true}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":4,"variable":"nxmk_name","value":"/boot/modules/nxmk.ko","kind":"module_file","module":"nxmk","enabled":null}
+{"host":"memory","artifact":"loader-conf","source_path":"boot/loader.conf","source_line":5,"variable":"foo_load","value":"NO","kind":"module_load","module":"foo","enabled":false}

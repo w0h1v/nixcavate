@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/aix/sulog.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-sulog","source_path":"var/adm/sulog","source_line":1,"time":"2024-03-10T01:02:00Z","success":true,"tty":"pts/1","users":"alice-root","from_user":"alice","to_user":"root"}
+{"host":"memory","artifact":"aix-sulog","source_path":"var/adm/sulog","source_line":2,"time":"2024-03-10T01:05:00Z","success":false,"tty":"pts/2","users":"bob-root","from_user":"bob","to_user":"root"}
+{"host":"memory","artifact":"aix-sulog","source_path":"var/adm/sulog","source_line":3,"time":"2023-12-31T23:59:00Z","success":true,"tty":"pts/1","users":"carol-db-admin","from_user":"carol-db","to_user":"admin"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-12-31T23:59:00Z,seconds,inferred_year_assumed_zone,memory,aix-sulog,su,carol-db switched to admin on pts/1,var/adm/sulog,3,,,
+2024-03-10T01:02:00Z,seconds,inferred_year_assumed_zone,memory,aix-sulog,su,alice switched to root on pts/1,var/adm/sulog,1,,,
+2024-03-10T01:05:00Z,seconds,inferred_year_assumed_zone,memory,aix-sulog,failed_su,bob failed to switch to root on pts/2,var/adm/sulog,2,,,

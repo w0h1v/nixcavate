@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/rc_scripts.rs
+expression: "run(&ARTIFACT, \"etc/rc2.d/S99nxmk\", &fixture(\"rc-scripts/S99nxmk\"),\n1_794_532_000)"
+---
+{"host":"memory","artifact":"rc-scripts","source_path":"etc/rc2.d/S99nxmk","source_line":null,"size":45,"mode":"100644","uid":0,"gid":0,"modified":"2026-11-13T01:06:40Z","interpreter":"/sbin/sh","lines":3,"commands":"/tmp/.NXMK_RC2/agent &"}

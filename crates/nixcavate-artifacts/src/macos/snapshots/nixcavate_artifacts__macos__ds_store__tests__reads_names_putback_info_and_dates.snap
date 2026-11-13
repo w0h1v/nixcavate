@@ -1,0 +1,15 @@
+---
+source: crates/nixcavate-artifacts/src/macos/ds_store.rs
+expression: "run(&ARTIFACT, PATH, &fixture(\"ds-store/Synthetic_DS_Store\"), 0)"
+---
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":".","id":"vSrn","value_type":"long","value":"1","time":null}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"deleted-plan.txt","id":"ptbL","value_type":"ustr","value":"Users/alice/Documents","time":null}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"deleted-plan.txt","id":"ptbN","value_type":"ustr","value":"deleted-plan.txt","time":null}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"notes.txt","id":"Iloc","value_type":"blob","value":"<blob 16 bytes>","time":null}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"notes.txt","id":"modD","value_type":"dutc","value":"247912516812800","time":"2023-11-14T22:13:20.000000Z"}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"notes.txt","id":"dilc","value_type":"bool","value":"true","time":null}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"notes.txt","id":"lsvp","value_type":"blob","value":"<blob 34 bytes>","time":null}
+{"host":"memory","artifact":"ds-store","source_path":"Users/alice/Documents/.DS_Store","source_line":null,"user":"alice","directory":"Users/alice/Documents","name":"secret.pdf","id":"cmmt","value_type":"ustr","value":"café comment","time":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20.000000Z,micros,recorded,memory,ds-store,activity,Finder recorded notes.txt in Users/alice/Documents as modified,Users/alice/Documents/.DS_Store,,,,

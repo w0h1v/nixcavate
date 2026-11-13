@@ -1,0 +1,22 @@
+/usr/sbin/mysqld, Version: 8.4.13 (MySQL Community Server - GPL). started with:
+Tcp port: 0  Unix socket: /var/run/mysqld/mysqld.sock
+Time                 Id Command    Argument
+2026-11-13T01:29:05.635653Z	    8 Connect	root@localhost on  using Socket
+2026-11-13T01:29:05.635749Z	    8 Query	select @@version_comment limit 1
+2026-11-13T01:29:05.635854Z	    8 Query	CREATE USER 'alice'@'%' IDENTIFIED BY <secret>
+2026-11-13T01:29:05.658368Z	    8 Query	GRANT ALL ON *.* TO alice@'%'
+2026-11-13T01:29:05.663593Z	    8 Query	CREATE DATABASE appdb
+2026-11-13T01:29:05.667982Z	    8 Query	SELECT DATABASE()
+2026-11-13T01:29:05.668063Z	    8 Init DB	appdb
+2026-11-13T01:29:05.668092Z	    8 Query	CREATE TABLE t(id int)
+2026-11-13T01:29:05.698700Z	    8 Query	INSERT INTO t VALUES (1)
+2026-11-13T01:29:05.705494Z	    8 Query	SELECT * FROM t
+2026-11-13T01:29:05.705713Z	    8 Query	SELECT sleep(0.2)
+2026-11-13T01:29:05.907183Z	    8 Quit	
+2026-11-13T01:29:05.973474Z	    9 Connect	alice@127.0.0.1 on  using SSL/TLS
+2026-11-13T01:29:05.973500Z	    9 Connect	Access denied for user 'alice'@'127.0.0.1' (using password: YES)
+2026-11-13T01:29:06.023898Z	   10 Connect	alice@127.0.0.1 on  using SSL/TLS
+2026-11-13T01:29:06.023994Z	   10 Query	select @@version_comment limit 1
+2026-11-13T01:29:06.024087Z	   10 Query	SELECT 1,
+  2
+2026-11-13T01:29:06.024493Z	   10 Quit	

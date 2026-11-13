@@ -20,6 +20,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
         "Users/*/.ssh/known_hosts*",
         "private/var/root/.ssh/known_hosts*",
         "var/root/.ssh/known_hosts*",
+        "export/home/*/.ssh/known_hosts*",
         "etc/ssh/ssh_known_hosts*",
         "private/etc/ssh/ssh_known_hosts*",
     ],

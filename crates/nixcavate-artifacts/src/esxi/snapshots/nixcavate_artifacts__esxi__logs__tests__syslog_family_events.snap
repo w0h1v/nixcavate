@@ -1,0 +1,24 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/logs.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":0,"time":"2025-01-10T01:17:06Z","time_basis":"recorded","level":"","program":"bootstop","pid":null,"message":"Host has booted","event":"boot","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":47,"time":"2025-01-10T02:00:00Z","time_basis":"recorded","level":"","program":"heartbeat","pid":null,"message":"up 0d0h43m56s, 0 VMs; [] []","event":"","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":107,"time":"2025-01-10T09:56:22Z","time_basis":"recorded","level":"","program":"bootstop","pid":null,"message":"Host is powering off","event":"shutdown","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":159,"time":"2025-01-10T01:16:46Z","time_basis":"recorded","level":"","program":"esxupdate","pid":null,"message":"root: INFO: Command = profile.update","event":"package_command","object":"profile.update"}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":228,"time":"2025-01-10T01:16:47Z","time_basis":"recorded","level":"","program":"esxupdate","pid":null,"message":"2101227: vmware.runcommand: INFO: runcommand called with: args = '['/sbin/bootOption', '-rp']'","event":"","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":355,"time":"2026-02-03T23:20:00.266Z","time_basis":"recorded","level":"info","program":"crond","pid":131666,"message":"USER root pid 132988 cmd /bin/hostd-probe.sh ++group=host/vim/vmvisor/hostd-probe/stats/sh","event":"cron_executed","object":"/bin/hostd-probe.sh ++group=host/vim/vmvisor/hostd-probe/stats/sh"}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":493,"time":"2026-02-03T23:20:02.294Z","time_basis":"recorded","level":"info","program":"sftp-server","pid":133012,"message":"session opened for local user root from [198.51.100.7]","event":"","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":602,"time":"2026-02-03T23:20:02.297Z","time_basis":"recorded","level":"info","program":"sftp-server","pid":133012,"message":"open \"/tmp/payload bin\" flags WRITE,CREATE mode 0755","event":"sftp_write","object":"/tmp/payload bin"}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":709,"time":"2026-02-03T23:20:03.000Z","time_basis":"recorded","level":"info","program":"sftp-server","pid":133012,"message":"open \"/etc/hosts\" flags READ mode 0","event":"","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":799,"time":"2026-02-03T23:20:04.000Z","time_basis":"recorded","level":"info","program":"sftp-server","pid":133012,"message":"remove name \"/tmp/old\"","event":"sftp_remove","object":"/tmp/old"}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":876,"time":"2026-02-03T23:20:05.000Z","time_basis":"recorded","level":"info","program":"sftp-server","pid":133012,"message":"statvfs \"/vmfs/volumes\"","event":"","object":""}
+{"host":"memory","artifact":"esxi-syslog","source_path":"var/run/log/syslog.log","source_offset":954,"time":"2026-02-03T23:30:00.000Z","time_basis":"recorded","level":"warning","program":"usbarbitrator","pid":132898,"message":"Exiting USB storage detach monitor","event":"","object":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-01-10T01:16:46Z,seconds,recorded,memory,esxi-syslog,package_command,esxupdate ran profile.update,var/run/log/syslog.log,,159,,
+2025-01-10T01:17:06Z,seconds,recorded,memory,esxi-syslog,boot,host booted,var/run/log/syslog.log,,0,,
+2025-01-10T09:56:22Z,seconds,recorded,memory,esxi-syslog,shutdown,host shutting down,var/run/log/syslog.log,,107,,
+2026-02-03T23:20:00.266Z,millis,recorded,memory,esxi-syslog,cron_executed,cron ran /bin/hostd-probe.sh ++group=host/vim/vmvisor/hostd-probe/stats/sh,var/run/log/syslog.log,,355,,
+2026-02-03T23:20:02.297Z,millis,recorded,memory,esxi-syslog,sftp_write,sftp opened /tmp/payload bin for writing,var/run/log/syslog.log,,602,,
+2026-02-03T23:20:04.000Z,millis,recorded,memory,esxi-syslog,sftp_remove,sftp removed /tmp/old,var/run/log/syslog.log,,799,,

@@ -1,0 +1,62 @@
+{"url":"https://vscode.download.prss.microsoft.com/dbazure/download/stable/69047191fc427f2f92828279aae1d90d8eeda7ab/vscode-server-linux-arm64.tar.gz","name":"1.146.0","version":"69047191fc427f2f92828279aae1d90d8eeda7ab","productVersion":"1.146.0","hash":"aed9c21d4ca59c1525dda959626f6e7acc954d10","timestamp":1794339449048,"sha256hash":"f25e7fdbb570a37f24f9bed027269b785a76b14545cdb46ccee107505d9aa0c6","supportsFastUpdate":true,"notes":"69047191fc427f2f92828279aae1d90d8eeda7ab"}
+commit 69047191fc427f2f92828279aae1d90d8eeda7ab
+LICENSE
+bin
+extensions
+node
+node_modules
+out
+package.json
+product.json
+69047191fc427f2f92828279aae1d90d8eeda7ab
+Extension 'ms-python.vscode-python-envs' v1.42.0 was successfully installed.
+Extension 'ms-python.python' v2026.10.0 was successfully installed.
+Extension 'ms-python.vscode-pylance' v2026.4.1 was successfully installed.
+*
+* Visual Studio Code Server
+*
+* By using the software, you agree to
+* the Visual Studio Code Server License Terms (https://aka.ms/vscode-server-license) and
+* the Microsoft Privacy Statement (https://privacy.microsoft.com/en-US/privacystatement).
+*
+Server bound to 127.0.0.1:8765 (IPv4)
+/home/alice/.vscode-server
+/home/alice/.vscode-server/bin
+/home/alice/.vscode-server/extensions
+/home/alice/.vscode-server/extensions/extensions.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/.vsixmanifest
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/packages.config
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/package.nls.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/package.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/icon.png
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/contributing.md
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/component-detection-pip-report.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/SUPPORT.md
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/SECURITY.md
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/readme.md
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/LICENSE.txt
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/.flake8
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/resources
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/resources/report_issue_user_data_template.md
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/resources/report_issue_template.md
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.zh-tw.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.zh-cn.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.tr.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.ru.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.qps-ploc.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.pt-br.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.pl.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.ko.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.ja.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.it.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.fr.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.es.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.de.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/l10n/bundle.l10n.cs.json
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/dist
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/dist/extension.js.map
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/dist/extension.js.LICENSE.txt
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/dist/extension.js
+/home/alice/.vscode-server/extensions/ms-python.debugpy-2026.6.0-linux-arm64/.config

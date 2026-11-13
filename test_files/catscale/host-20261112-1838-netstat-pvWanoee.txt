@@ -1,0 +1,6 @@
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       User       Inode      PID/Program name     Timer
+tcp        0      0 0.0.0.0:4444            0.0.0.0:*               LISTEN      0          234672643  473/nc               off (0.00/0/0)
+udp        0      0 0.0.0.0:5353            0.0.0.0:*                           0          234672645  479/nc               off (0.00/0/0)
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node   PID/Program name     Path

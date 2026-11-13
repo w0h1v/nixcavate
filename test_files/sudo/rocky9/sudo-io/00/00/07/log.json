@@ -1,0 +1,47 @@
+{
+    "timestamp": {
+        "seconds": 1794537472,
+        "nanoseconds": 661053111
+    },
+    "submituser": "alice",
+    "command": "/bin/sh",
+    "runuser": "bob",
+    "source": "/etc/sudoers.d/nx:2:54",
+    "submithost": "b42d910e912f",
+    "submitcwd": "/",
+    "runuid": 1001,
+    "columns": 80,
+    "lines": 24,
+    "runargv": [
+        "/bin/sh",
+        "-c",
+        "echo json-run; sleep 1"
+    ],
+    "runenv": [
+        "HOSTNAME=b42d910e912f",
+        "TERM=xterm",
+        "MAIL=/var/mail/bob",
+        "PATH=/sbin:/bin:/usr/sbin:/usr/bin",
+        "LOGNAME=bob",
+        "USER=bob",
+        "HOME=/home/bob",
+        "SHELL=/bin/bash",
+        "SUDO_COMMAND=/bin/sh -c echo json-run; sleep 1",
+        "SUDO_USER=alice",
+        "SUDO_UID=1000",
+        "SUDO_GID=1000",
+        "SUDO_HOME=/home/alice"
+    ],
+    "submitenv": [
+        "SHELL=/bin/sh",
+        "HOSTNAME=b42d910e912f",
+        "PWD=/",
+        "LOGNAME=alice",
+        "_=/usr/bin/sudo",
+        "HOME=/home/alice",
+        "TERM=xterm",
+        "USER=alice",
+        "SHLVL=1",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+    ]
+}

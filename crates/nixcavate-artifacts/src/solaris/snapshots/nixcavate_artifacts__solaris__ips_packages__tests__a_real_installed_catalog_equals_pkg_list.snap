@@ -1,0 +1,22 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/ips_packages.rs
+expression: out
+---
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"extra.omnios","name":"ooce/file/tree","version":"2.3.2,5.11-151054.0:20260402T170225Z","last_install":"2026-11-13T01:16:37.218446Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"extra.omnios","name":"ooce/util/jq","version":"1.8.2,5.11-151054.0:20260920T185353Z","last_install":"2026-11-13T01:16:37.206617Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"omnios","name":"SUNWcs","version":"0.5.11,5.11-151054.0:20250502T150005Z","last_install":"2025-05-03T09:29:06.342281Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"omnios","name":"package/svr4","version":"0.5.11,5.11-151054.0:20250502T150054Z","last_install":"2025-05-03T09:29:06.353061Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"omnios","name":"security/sudo","version":"1.9.17.1,5.11-151054.0:20250702T192532Z","last_install":"2025-05-03T09:30:25.503174Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"omnios","name":"shell/bash","version":"5.2.32,5.11-151054.0:20250502T153704Z","last_install":"2025-05-03T09:30:25.512367Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"omnios","name":"system/accounting/legacy","version":"0.5.11,5.11-151054.0:20250502T150102Z","last_install":"2025-05-03T09:29:06.342671Z"}
+{"host":"memory","artifact":"ips-packages","source_path":"var/pkg/state/installed/catalog.base.C","source_line":null,"publisher":"omnios","name":"system/header","version":"0.5.11,5.11-151054.0:20260427T194515Z","last_install":"2026-11-13T01:15:00.145209Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-05-03T09:29:06.342281Z,micros,recorded,memory,ips-packages,package_installed,"SUNWcs installed (0.5.11,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2025-05-03T09:29:06.342671Z,micros,recorded,memory,ips-packages,package_installed,"system/accounting/legacy installed (0.5.11,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2025-05-03T09:29:06.353061Z,micros,recorded,memory,ips-packages,package_installed,"package/svr4 installed (0.5.11,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2025-05-03T09:30:25.503174Z,micros,recorded,memory,ips-packages,package_installed,"security/sudo installed (1.9.17.1,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2025-05-03T09:30:25.512367Z,micros,recorded,memory,ips-packages,package_installed,"shell/bash installed (5.2.32,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2026-11-13T01:15:00.145209Z,micros,recorded,memory,ips-packages,package_installed,"system/header installed (0.5.11,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2026-11-13T01:16:37.206617Z,micros,recorded,memory,ips-packages,package_installed,"ooce/util/jq installed (1.8.2,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,
+2026-11-13T01:16:37.218446Z,micros,recorded,memory,ips-packages,package_installed,"ooce/file/tree installed (2.3.2,5.11-151054.0)",var/pkg/state/installed/catalog.base.C,,,,

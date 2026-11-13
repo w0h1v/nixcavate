@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/common/firefox.rs
+expression: out
+---
+{"host":"memory","artifact":"firefox-session","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/sessionstore-backups/recovery.jsonlz4","source_line":null,"user":"alice","profile":"abcd1234.default-esr","state":"open","window":0,"time":"2026-11-13T01:56:26.511Z","url":"http://127.0.0.1:8124/index.html","title":"Nx test page","history_entries":1,"history":["http://127.0.0.1:8124/index.html"],"pinned":false}
+{"host":"memory","artifact":"firefox-session","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/sessionstore-backups/recovery.jsonlz4","source_line":null,"user":"alice","profile":"abcd1234.default-esr","state":"open","window":0,"time":"2026-11-13T01:56:09.357Z","url":"https://www.mozilla.org/en-US/privacy/firefox/","title":"Firefox Privacy Notice — Mozilla","history_entries":1,"history":["https://www.mozilla.org/en-US/privacy/firefox/"],"pinned":false}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:56:09.357Z,millis,recorded,memory,firefox-session,tab_used,alice had open a tab on https://www.mozilla.org/en-US/privacy/firefox/,home/alice/.mozilla/firefox/abcd1234.default-esr/sessionstore-backups/recovery.jsonlz4,,,,
+2026-11-13T01:56:26.511Z,millis,recorded,memory,firefox-session,tab_used,alice had open a tab on http://127.0.0.1:8124/index.html,home/alice/.mozilla/firefox/abcd1234.default-esr/sessionstore-backups/recovery.jsonlz4,,,,

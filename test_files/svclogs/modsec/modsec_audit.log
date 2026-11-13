@@ -1,0 +1,287 @@
+--e76b3671-A--
+[13/Nov/2026:01:35:00.462186 +0000] avZpRLBj286m66BVHeZDiAAAAEA 127.0.0.1 57050 127.0.0.1 80
+--e76b3671-B--
+GET /ok.html HTTP/1.1
+Host: 127.0.0.1
+User-Agent: curl/7.88.1
+Accept: */*
+
+--e76b3671-F--
+HTTP/1.1 200 OK
+Last-Modified: Fri, 13 Nov 2026 01:34:58 GMT
+ETag: "3-6601e6fa0d87c"
+Accept-Ranges: bytes
+Content-Length: 3
+Content-Type: text/html
+
+--e76b3671-E--
+ok
+
+--e76b3671-H--
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/ok.html"] [unique_id "avZpRLBj286m66BVHeZDiAAAAEA"]
+Stopwatch: 1794533700459263 2968 (- - -)
+Stopwatch2: 1794533700459263 2968; combined=1911, p1=833, p2=842, p3=31, p4=133, p5=72, sr=183, sw=0, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--e76b3671-Z--
+
+--4d6b770f-A--
+[13/Nov/2026:01:35:00.471354 +0000] avZpRLBj286m66BVHeZDiQAAAEI 127.0.0.1 57066 127.0.0.1 80
+--4d6b770f-B--
+GET /?id=1%27%20OR%20%271%27=%271 HTTP/1.1
+Host: 127.0.0.1
+User-Agent: curl/7.88.1
+Accept: */*
+
+--4d6b770f-F--
+HTTP/1.1 403 Forbidden
+Content-Length: 314
+Content-Type: text/html; charset=iso-8859-1
+
+--4d6b770f-E--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>403 Forbidden</title>
+</head><body>
+<h1>Forbidden</h1>
+<p>You don't have permission to access this resource.</p>
+<hr>
+<address>Apache/2.4.71 (Debian) Server at 127.0.0.1 Port 80</address>
+</body></html>
+
+--4d6b770f-H--
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Message: Warning. detected SQLi using libinjection with fingerprint 's&sos' [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "66"] [id "942100"] [msg "SQL Injection Attack Detected via libinjection"] [data "Matched Data: s&sos found within ARGS:id: 1' OR '1'='1"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"]
+Message: Access denied with code 403 (phase 2). Operator GE matched 5 at TX:anomaly_score. [file "/usr/share/modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "94"] [id "949110"] [msg "Inbound Anomaly Score Exceeded (Total Score: 8)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-generic"]
+Message: Warning. Operator GE matched 5 at TX:inbound_anomaly_score. [file "/usr/share/modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf"] [line "92"] [id "980130"] [msg "Inbound Anomaly Score Exceeded (Total Inbound Score: 8 - SQLI=5,XSS=0,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0): individual paranoia level scores: 8, 0, 0, 0"] [ver "OWASP_CRS/3.3.4"] [tag "event-correlation"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/"] [unique_id "avZpRLBj286m66BVHeZDiQAAAEI"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. detected SQLi using libinjection with fingerprint 's&sos' [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "66"] [id "942100"] [msg "SQL Injection Attack Detected via libinjection"] [data "Matched Data: s&sos found within ARGS:id: 1' OR '1'='1"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"] [hostname "127.0.0.1"] [uri "/"] [unique_id "avZpRLBj286m66BVHeZDiQAAAEI"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Access denied with code 403 (phase 2). Operator GE matched 5 at TX:anomaly_score. [file "/usr/share/modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "94"] [id "949110"] [msg "Inbound Anomaly Score Exceeded (Total Score: 8)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-generic"] [hostname "127.0.0.1"] [uri "/"] [unique_id "avZpRLBj286m66BVHeZDiQAAAEI"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Operator GE matched 5 at TX:inbound_anomaly_score. [file "/usr/share/modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf"] [line "92"] [id "980130"] [msg "Inbound Anomaly Score Exceeded (Total Inbound Score: 8 - SQLI=5,XSS=0,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0): individual paranoia level scores: 8, 0, 0, 0"] [ver "OWASP_CRS/3.3.4"] [tag "event-correlation"] [hostname "127.0.0.1"] [uri "/"] [unique_id "avZpRLBj286m66BVHeZDiQAAAEI"]
+Action: Intercepted (phase 2)
+Stopwatch: 1794533700469697 1685 (- - -)
+Stopwatch2: 1794533700469697 1685; combined=1327, p1=411, p2=807, p3=0, p4=0, p5=109, sr=42, sw=0, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--4d6b770f-Z--
+
+--8d240422-A--
+[13/Nov/2026:01:35:00.479884 +0000] avZpRLBj286m66BVHeZDigAAAEQ 127.0.0.1 57080 127.0.0.1 80
+--8d240422-B--
+GET /?testparam=nxblock HTTP/1.1
+Host: 127.0.0.1
+User-Agent: curl/7.88.1
+Accept: */*
+
+--8d240422-F--
+HTTP/1.1 403 Forbidden
+Content-Length: 314
+Content-Type: text/html; charset=iso-8859-1
+
+--8d240422-E--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>403 Forbidden</title>
+</head><body>
+<h1>Forbidden</h1>
+<p>You don't have permission to access this resource.</p>
+<hr>
+<address>Apache/2.4.71 (Debian) Server at 127.0.0.1 Port 80</address>
+</body></html>
+
+--8d240422-H--
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Message: Access denied with code 403 (phase 2). String match "nxblock" at ARGS:testparam. [file "/etc/apache2/conf-enabled/nx-modsec.conf"] [line "3"] [id "900001"] [msg "Test rule hit"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/"] [unique_id "avZpRLBj286m66BVHeZDigAAAEQ"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Access denied with code 403 (phase 2). String match "nxblock" at ARGS:testparam. [file "/etc/apache2/conf-enabled/nx-modsec.conf"] [line "3"] [id "900001"] [msg "Test rule hit"] [hostname "127.0.0.1"] [uri "/"] [unique_id "avZpRLBj286m66BVHeZDigAAAEQ"]
+Action: Intercepted (phase 2)
+Stopwatch: 1794533700479229 668 (- - -)
+Stopwatch2: 1794533700479229 668; combined=524, p1=185, p2=309, p3=0, p4=0, p5=30, sr=22, sw=0, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--8d240422-Z--
+
+--701f6447-A--
+[13/Nov/2026:01:35:00.483855 +0000] avZpRLBj286m66BVHeZDiwAAAEY 127.0.0.1 57088 127.0.0.1 80
+--701f6447-B--
+GET /index.php?q=1%20UNION%20SELECT%20password%20FROM%20users HTTP/1.1
+Host: 127.0.0.1
+User-Agent: sqlmap/1.7
+Accept: */*
+
+--701f6447-F--
+HTTP/1.1 403 Forbidden
+Content-Length: 314
+Content-Type: text/html; charset=iso-8859-1
+
+--701f6447-E--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>403 Forbidden</title>
+</head><body>
+<h1>Forbidden</h1>
+<p>You don't have permission to access this resource.</p>
+<hr>
+<address>Apache/2.4.71 (Debian) Server at 127.0.0.1 Port 80</address>
+</body></html>
+
+--701f6447-H--
+Message: Warning. Matched phrase "sqlmap" at REQUEST_HEADERS:User-Agent. [file "/usr/share/modsecurity-crs/rules/REQUEST-913-SCANNER-DETECTION.conf"] [line "55"] [id "913100"] [msg "Found User-Agent associated with security scanner"] [data "Matched Data: sqlmap found within REQUEST_HEADERS:User-Agent: sqlmap/1.7"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-reputation-scanner"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/118/224/541/310"] [tag "PCI/6.5.10"]
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Message: Warning. detected SQLi using libinjection with fingerprint '1UEnk' [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "66"] [id "942100"] [msg "SQL Injection Attack Detected via libinjection"] [data "Matched Data: 1UEnk found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"]
+Message: Warning. Pattern match "(?i:(?:[\"'`](?:;?\\s*?(?:having|select|union)\\b\\s*?[^\\s]|\\s*?!\\s*?[\"'`\\w])|(?:c(?:onnection_id|urrent_user)|database)\\s*?\\([^\\)]*?|u(?:nion(?:[\\w(\\s]*?select| select @)|ser\\s*?\\([^\\)]*?)|s(?:chema\\s*?\\([^\\)]*?|elect.*?\\w?user\\()|in ..." at ARGS:q. [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "184"] [id "942190"] [msg "Detects MSSQL code execution and information gathering attempts"] [data "Matched Data: UNION SELECT found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"]
+Message: Warning. Pattern match "(?i)union.*?select.*?from" at ARGS:q. [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "297"] [id "942270"] [msg "Looking for basic sql injection. Common attack string for mysql, oracle and others"] [data "Matched Data: UNION SELECT password FROM found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"]
+Message: Warning. Pattern match "(?i:(?:^[\\W\\d]+\\s*?(?:(?:alter\\s*(?:a(?:(?:pplication\\s*rol|ggregat)e|s(?:ymmetric\\s*ke|sembl)y|u(?:thorization|dit)|vailability\\s*group)|c(?:r(?:yptographic\\s*provider|edential)|o(?:l(?:latio|um)|nversio)n|ertificate|luster)|s(?:e(?:rv(?:ice|e ..." at ARGS:q. [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "445"] [id "942360"] [msg "Detects concatenated basic SQL injection and SQLLFI attempts"] [data "Matched Data: 1 UNION SELECT found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"]
+Message: Access denied with code 403 (phase 2). Operator GE matched 5 at TX:anomaly_score. [file "/usr/share/modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "94"] [id "949110"] [msg "Inbound Anomaly Score Exceeded (Total Score: 28)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-generic"]
+Message: Warning. Operator GE matched 5 at TX:inbound_anomaly_score. [file "/usr/share/modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf"] [line "92"] [id "980130"] [msg "Inbound Anomaly Score Exceeded (Total Inbound Score: 28 - SQLI=20,XSS=0,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0): individual paranoia level scores: 28, 0, 0, 0"] [ver "OWASP_CRS/3.3.4"] [tag "event-correlation"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Matched phrase "sqlmap" at REQUEST_HEADERS:User-Agent. [file "/usr/share/modsecurity-crs/rules/REQUEST-913-SCANNER-DETECTION.conf"] [line "55"] [id "913100"] [msg "Found User-Agent associated with security scanner"] [data "Matched Data: sqlmap found within REQUEST_HEADERS:User-Agent: sqlmap/1.7"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-reputation-scanner"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/118/224/541/310"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. detected SQLi using libinjection with fingerprint '1UEnk' [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "66"] [id "942100"] [msg "SQL Injection Attack Detected via libinjection"] [data "Matched Data: 1UEnk found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "(?i:(?:[\\\\"'`](?:;?\\\\\\\\s*?(?:having|select|union)\\\\\\\\b\\\\\\\\s*?[^\\\\\\\\s]|\\\\\\\\s*?!\\\\\\\\s*?[\\\\"'`\\\\\\\\w])|(?:c(?:onnection_id|urrent_user)|database)\\\\\\\\s*?\\\\\\\\([^\\\\\\\\)]*?|u(?:nion(?:[\\\\\\\\w(\\\\\\\\s]*?select| select @)|ser\\\\\\\\s*?\\\\\\\\([^\\\\\\\\)]*?)|s(?:chema\\\\\\\\s*?\\\\\\\\([^\\\\\\\\)]*?|elect.*?\\\\\\\\w?user\\\\\\\\()|in ..." at ARGS:q. [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "184"] [id "942190"] [msg "Detects MSSQL code execution and information gathering attempts"] [data "Matched Data: UNION SELECT found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "(?i)union.*?select.*?from" at ARGS:q. [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "297"] [id "942270"] [msg "Looking for basic sql injection. Common attack string for mysql, oracle and others"] [data "Matched Data: UNION SELECT password FROM found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "(?i:(?:^[\\\\\\\\W\\\\\\\\d]+\\\\\\\\s*?(?:(?:alter\\\\\\\\s*(?:a(?:(?:pplication\\\\\\\\s*rol|ggregat)e|s(?:ymmetric\\\\\\\\s*ke|sembl)y|u(?:thorization|dit)|vailability\\\\\\\\s*group)|c(?:r(?:yptographic\\\\\\\\s*provider|edential)|o(?:l(?:latio|um)|nversio)n|ertificate|luster)|s(?:e(?:rv(?:ice|e ..." at ARGS:q. [file "/usr/share/modsecurity-crs/rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf"] [line "445"] [id "942360"] [msg "Detects concatenated basic SQL injection and SQLLFI attempts"] [data "Matched Data: 1 UNION SELECT found within ARGS:q: 1 UNION SELECT password FROM users"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-sqli"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/248/66"] [tag "PCI/6.5.2"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Access denied with code 403 (phase 2). Operator GE matched 5 at TX:anomaly_score. [file "/usr/share/modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "94"] [id "949110"] [msg "Inbound Anomaly Score Exceeded (Total Score: 28)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-generic"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Operator GE matched 5 at TX:inbound_anomaly_score. [file "/usr/share/modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf"] [line "92"] [id "980130"] [msg "Inbound Anomaly Score Exceeded (Total Inbound Score: 28 - SQLI=20,XSS=0,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0): individual paranoia level scores: 28, 0, 0, 0"] [ver "OWASP_CRS/3.3.4"] [tag "event-correlation"] [hostname "127.0.0.1"] [uri "/index.php"] [unique_id "avZpRLBj286m66BVHeZDiwAAAEY"]
+Action: Intercepted (phase 2)
+Stopwatch: 1794533700482995 873 (- - -)
+Stopwatch2: 1794533700482995 873; combined=801, p1=193, p2=385, p3=0, p4=0, p5=134, sr=31, sw=89, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--701f6447-Z--
+
+--a5636113-A--
+[13/Nov/2026:01:35:00.487681 +0000] avZpRLBj286m66BVHeZDjAAAAEg 127.0.0.1 57098 127.0.0.1 80
+--a5636113-B--
+GET /etc/passwd HTTP/1.1
+Host: 127.0.0.1
+User-Agent: curl/7.88.1
+Accept: */*
+
+--a5636113-F--
+HTTP/1.1 404 Not Found
+Content-Length: 311
+Content-Type: text/html; charset=iso-8859-1
+
+--a5636113-E--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+<hr>
+<address>Apache/2.4.71 (Debian) Server at 127.0.0.1 Port 80</address>
+</body></html>
+
+--a5636113-H--
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/etc/passwd"] [unique_id "avZpRLBj286m66BVHeZDjAAAAEg"]
+Stopwatch: 1794533700487095 599 (- - -)
+Stopwatch2: 1794533700487095 599; combined=480, p1=166, p2=175, p3=15, p4=95, p5=29, sr=31, sw=0, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--a5636113-Z--
+
+--b2e0806c-A--
+[13/Nov/2026:01:35:00.491697 +0000] avZpRLBj286m66BVHeZDjQAAAEo 127.0.0.1 57102 127.0.0.1 80
+--b2e0806c-B--
+POST /post HTTP/1.1
+Host: 127.0.0.1
+User-Agent: curl/7.88.1
+Accept: */*
+Content-Length: 27
+Content-Type: application/x-www-form-urlencoded
+
+--b2e0806c-C--
+x=<script>alert(1)</script>
+--b2e0806c-F--
+HTTP/1.1 403 Forbidden
+Content-Length: 314
+Content-Type: text/html; charset=iso-8859-1
+
+--b2e0806c-E--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>403 Forbidden</title>
+</head><body>
+<h1>Forbidden</h1>
+<p>You don't have permission to access this resource.</p>
+<hr>
+<address>Apache/2.4.71 (Debian) Server at 127.0.0.1 Port 80</address>
+</body></html>
+
+--b2e0806c-H--
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Message: Warning. detected XSS using libinjection. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "56"] [id "941100"] [msg "XSS Attack Detected via libinjection"] [data "Matched Data: XSS data found within ARGS:x: <script>alert(1)</script>"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-xss"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/242"]
+Message: Warning. Pattern match "(?i)<script[^>]*>[\\s\\S]*?" at ARGS:x. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "83"] [id "941110"] [msg "XSS Filter - Category 1: Script Tag Vector"] [data "Matched Data: <script> found within ARGS:x: <script>alert(1)</script>"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-xss"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/242"]
+Message: Warning. Pattern match "(?i:(?:<\\w[\\s\\S]*[\\s\\/]|['\"](?:[\\s\\S]*[\\s\\/])?)(?:on(?:d(?:e(?:vice(?:(?:orienta|mo)tion|proximity|found|light)|livery(?:success|error)|activate)|r(?:ag(?:e(?:n(?:ter|d)|xit)|(?:gestur|leav)e|start|drop|over)|op)|i(?:s(?:c(?:hargingtimechange ..." at ARGS:x. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "200"] [id "941160"] [msg "NoScript XSS InjectionChecker: HTML Injection"] [data "Matched Data: <script found within ARGS:x: <script>alert(1)</script>"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-xss"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/242"]
+Message: Access denied with code 403 (phase 2). Operator GE matched 5 at TX:anomaly_score. [file "/usr/share/modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "94"] [id "949110"] [msg "Inbound Anomaly Score Exceeded (Total Score: 18)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-generic"]
+Message: Warning. Operator GE matched 5 at TX:inbound_anomaly_score. [file "/usr/share/modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf"] [line "92"] [id "980130"] [msg "Inbound Anomaly Score Exceeded (Total Inbound Score: 18 - SQLI=0,XSS=15,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0): individual paranoia level scores: 18, 0, 0, 0"] [ver "OWASP_CRS/3.3.4"] [tag "event-correlation"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/post"] [unique_id "avZpRLBj286m66BVHeZDjQAAAEo"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. detected XSS using libinjection. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "56"] [id "941100"] [msg "XSS Attack Detected via libinjection"] [data "Matched Data: XSS data found within ARGS:x: <script>alert(1)</script>"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-xss"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/242"] [hostname "127.0.0.1"] [uri "/post"] [unique_id "avZpRLBj286m66BVHeZDjQAAAEo"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "(?i)<script[^>]*>[\\\\\\\\s\\\\\\\\S]*?" at ARGS:x. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "83"] [id "941110"] [msg "XSS Filter - Category 1: Script Tag Vector"] [data "Matched Data: <script> found within ARGS:x: <script>alert(1)</script>"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-xss"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/242"] [hostname "127.0.0.1"] [uri "/post"] [unique_id "avZpRLBj286m66BVHeZDjQAAAEo"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "(?i:(?:<\\\\\\\\w[\\\\\\\\s\\\\\\\\S]*[\\\\\\\\s\\\\\\\\/]|['\\\\"](?:[\\\\\\\\s\\\\\\\\S]*[\\\\\\\\s\\\\\\\\/])?)(?:on(?:d(?:e(?:vice(?:(?:orienta|mo)tion|proximity|found|light)|livery(?:success|error)|activate)|r(?:ag(?:e(?:n(?:ter|d)|xit)|(?:gestur|leav)e|start|drop|over)|op)|i(?:s(?:c(?:hargingtimechange ..." at ARGS:x. [file "/usr/share/modsecurity-crs/rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf"] [line "200"] [id "941160"] [msg "NoScript XSS InjectionChecker: HTML Injection"] [data "Matched Data: <script found within ARGS:x: <script>alert(1)</script>"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-xss"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/152/242"] [hostname "127.0.0.1"] [uri "/post"] [unique_id "avZpRLBj286m66BVHeZDjQAAAEo"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Access denied with code 403 (phase 2). Operator GE matched 5 at TX:anomaly_score. [file "/usr/share/modsecurity-crs/rules/REQUEST-949-BLOCKING-EVALUATION.conf"] [line "94"] [id "949110"] [msg "Inbound Anomaly Score Exceeded (Total Score: 18)"] [severity "CRITICAL"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-generic"] [hostname "127.0.0.1"] [uri "/post"] [unique_id "avZpRLBj286m66BVHeZDjQAAAEo"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Operator GE matched 5 at TX:inbound_anomaly_score. [file "/usr/share/modsecurity-crs/rules/RESPONSE-980-CORRELATION.conf"] [line "92"] [id "980130"] [msg "Inbound Anomaly Score Exceeded (Total Inbound Score: 18 - SQLI=0,XSS=15,RFI=0,LFI=0,RCE=0,PHPI=0,HTTP=0,SESS=0): individual paranoia level scores: 18, 0, 0, 0"] [ver "OWASP_CRS/3.3.4"] [tag "event-correlation"] [hostname "127.0.0.1"] [uri "/post"] [unique_id "avZpRLBj286m66BVHeZDjQAAAEo"]
+Action: Intercepted (phase 2)
+Stopwatch: 1794533700490943 770 (- - -)
+Stopwatch2: 1794533700490943 770; combined=631, p1=192, p2=389, p3=0, p4=0, p5=50, sr=37, sw=0, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--b2e0806c-Z--
+
+--834df367-A--
+[13/Nov/2026:01:35:00.495452 +0000] avZpRLBj286m66BVHeZDjgAAAE4 127.0.0.1 57118 127.0.0.1 80
+--834df367-B--
+GET /missing-page HTTP/1.1
+Host: 127.0.0.1
+User-Agent: curl/7.88.1
+Accept: */*
+
+--834df367-F--
+HTTP/1.1 404 Not Found
+Content-Length: 311
+Content-Type: text/html; charset=iso-8859-1
+
+--834df367-E--
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL was not found on this server.</p>
+<hr>
+<address>Apache/2.4.71 (Debian) Server at 127.0.0.1 Port 80</address>
+</body></html>
+
+--834df367-H--
+Message: Warning. Pattern match "^[\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"]
+Apache-Error: [file "apache2_util.c"] [line 275] [level 3] [client 127.0.0.1] ModSecurity: Warning. Pattern match "^[\\\\\\\\d.:]+$" at REQUEST_HEADERS:Host. [file "/usr/share/modsecurity-crs/rules/REQUEST-920-PROTOCOL-ENFORCEMENT.conf"] [line "736"] [id "920350"] [msg "Host header is a numeric IP address"] [data "127.0.0.1"] [severity "WARNING"] [ver "OWASP_CRS/3.3.4"] [tag "application-multi"] [tag "language-multi"] [tag "platform-multi"] [tag "attack-protocol"] [tag "paranoia-level/1"] [tag "OWASP_CRS"] [tag "capec/1000/210/272"] [tag "PCI/6.5.10"] [hostname "127.0.0.1"] [uri "/missing-page"] [unique_id "avZpRLBj286m66BVHeZDjgAAAE4"]
+Stopwatch: 1794533700494938 526 (- - -)
+Stopwatch2: 1794533700494938 526; combined=418, p1=161, p2=159, p3=11, p4=60, p5=27, sr=35, sw=0, l=0, gc=0
+Response-Body-Transformed: Dechunked
+Producer: ModSecurity for Apache/2.9.7 (http://www.modsecurity.org/); OWASP_CRS/3.3.4.
+Server: Apache/2.4.71 (Debian)
+Engine-Mode: "ENABLED"
+
+--834df367-Z--
+

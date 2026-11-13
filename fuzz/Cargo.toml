@@ -16,9 +16,39 @@ nixcavate-core = { path = "../crates/nixcavate-core" }
 nixcavate-source = { path = "../crates/nixcavate-source" }
 nixcavate-artifacts = { path = "../crates/nixcavate-artifacts" }
 nixcavate-fs = { path = "../crates/nixcavate-fs" }
+# Already in the lock file through nixcavate-source; decompresses the ext4_journal base images.
+zstd = "0.14"
 
 [profile.release]
 debug = 1
+
+[[bin]]
+name = "aix_sh_history"
+path = "fuzz_targets/aix_sh_history.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "aix_utmp"
+path = "fuzz_targets/aix_utmp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "apfs"
+path = "fuzz_targets/apfs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "apport_crash"
+path = "fuzz_targets/apport_crash.rs"
+test = false
+doc = false
+bench = false
 
 [[bin]]
 name = "apt_history"
@@ -63,6 +93,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "binary_cookies"
+path = "fuzz_targets/binary_cookies.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "biome"
 path = "fuzz_targets/biome.rs"
 test = false
@@ -77,8 +114,71 @@ doc = false
 bench = false
 
 [[bin]]
+name = "bsd_wtmp"
+path = "fuzz_targets/bsd_wtmp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "bsm_audit"
+path = "fuzz_targets/bsm_audit.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "btm"
 path = "fuzz_targets/btm.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "btrfs"
+path = "fuzz_targets/btrfs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "containerd_containers"
+path = "fuzz_targets/containerd_containers.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "containerd_images"
+path = "fuzz_targets/containerd_images.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "coredump"
+path = "fuzz_targets/coredump.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "crash_reports"
+path = "fuzz_targets/crash_reports.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "crle_config"
+path = "fuzz_targets/crle_config.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "cups_jobs"
+path = "fuzz_targets/cups_jobs.rs"
 test = false
 doc = false
 bench = false
@@ -98,6 +198,55 @@ doc = false
 bench = false
 
 [[bin]]
+name = "ds_store"
+path = "fuzz_targets/ds_store.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "dslocal_users"
+path = "fuzz_targets/dslocal_users.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ext4"
+path = "fuzz_targets/ext4.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "ext4_journal"
+path = "fuzz_targets/ext4_journal.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "faillock"
+path = "fuzz_targets/faillock.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "faillog"
+path = "fuzz_targets/faillog.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "firefox_session"
+path = "fuzz_targets/firefox_session.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "fsevents"
 path = "fuzz_targets/fsevents.rs"
 test = false
@@ -107,6 +256,20 @@ bench = false
 [[bin]]
 name = "install_log"
 path = "fuzz_targets/install_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "journald"
+path = "fuzz_targets/journald.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "k8s_manifests"
+path = "fuzz_targets/k8s_manifests.rs"
 test = false
 doc = false
 bench = false
@@ -126,6 +289,76 @@ doc = false
 bench = false
 
 [[bin]]
+name = "pacct"
+path = "fuzz_targets/pacct.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "powerlog"
+path = "fuzz_targets/powerlog.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "raid"
+path = "fuzz_targets/raid.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "rosetta_aot"
+path = "fuzz_targets/rosetta_aot.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "rpm_db"
+path = "fuzz_targets/rpm_db.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "safari_downloads"
+path = "fuzz_targets/safari_downloads.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "shared_file_lists"
+path = "fuzz_targets/shared_file_lists.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "smf_repository"
+path = "fuzz_targets/smf_repository.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "sudo_io"
+path = "fuzz_targets/sudo_io.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "sudo_log"
+path = "fuzz_targets/sudo_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "sudoers"
 path = "fuzz_targets/sudoers.rs"
 test = false
@@ -140,6 +373,13 @@ doc = false
 bench = false
 
 [[bin]]
+name = "sysstat"
+path = "fuzz_targets/sysstat.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
 name = "systemd_units"
 path = "fuzz_targets/systemd_units.rs"
 test = false
@@ -147,22 +387,15 @@ doc = false
 bench = false
 
 [[bin]]
-name = "viminfo"
-path = "fuzz_targets/viminfo.rs"
+name = "tallylog"
+path = "fuzz_targets/tallylog.rs"
 test = false
 doc = false
 bench = false
 
 [[bin]]
-name = "wtmp"
-path = "fuzz_targets/wtmp.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "zsh_history"
-path = "fuzz_targets/zsh_history.rs"
+name = "thumbnails"
+path = "fuzz_targets/thumbnails.rs"
 test = false
 doc = false
 bench = false
@@ -182,57 +415,8 @@ doc = false
 bench = false
 
 [[bin]]
-name = "ext4"
-path = "fuzz_targets/ext4.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "xfs"
-path = "fuzz_targets/xfs.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "apfs"
-path = "fuzz_targets/apfs.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "journald"
-path = "fuzz_targets/journald.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "web_access_log"
-path = "fuzz_targets/web_access_log.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "web_error_log"
-path = "fuzz_targets/web_error_log.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "dslocal_users"
-path = "fuzz_targets/dslocal_users.rs"
-test = false
-doc = false
-bench = false
-
-[[bin]]
-name = "wifi_networks"
-path = "fuzz_targets/wifi_networks.rs"
+name = "ufs"
+path = "fuzz_targets/ufs.rs"
 test = false
 doc = false
 bench = false
@@ -245,8 +429,92 @@ doc = false
 bench = false
 
 [[bin]]
-name = "safari_downloads"
-path = "fuzz_targets/safari_downloads.rs"
+name = "utx"
+path = "fuzz_targets/utx.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "utx_active"
+path = "fuzz_targets/utx_active.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "vdisk"
+path = "fuzz_targets/vdisk.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "viminfo"
+path = "fuzz_targets/viminfo.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "web_access_log"
+path = "fuzz_targets/web_access_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "web_cache"
+path = "fuzz_targets/web_cache.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "web_error_log"
+path = "fuzz_targets/web_error_log.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wifi_networks"
+path = "fuzz_targets/wifi_networks.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wtmp"
+path = "fuzz_targets/wtmp.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "wtmpx"
+path = "fuzz_targets/wtmpx.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "xfs"
+path = "fuzz_targets/xfs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "zfs"
+path = "fuzz_targets/zfs.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "zsh_history"
+path = "fuzz_targets/zsh_history.rs"
 test = false
 doc = false
 bench = false

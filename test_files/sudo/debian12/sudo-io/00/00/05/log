@@ -1,0 +1,3 @@
+1794537447:alice:bob::/dev/pts/1:24:80
+/tmp
+/bin/sh -c echo typed-on-a-tty; sleep 1; echo done

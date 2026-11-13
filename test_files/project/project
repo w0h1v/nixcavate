@@ -1,0 +1,6 @@
+system:0::::
+user.root:1::::
+noproject:2::::
+default:3::::
+group.staff:10::::
+user.alice:5001:NXMK_PROJECT example::alice::project.max-lwps=(privileged,100,deny)

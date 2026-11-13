@@ -1,0 +1,15 @@
+recent 2026-11-13T01:45:47Z file:///home/alice/Documents/report.txt text/plain nxapp
+recent 2026-11-13T01:45:48Z file:///home/alice/Documents/notes%20with%20space.txt text/plain nxapp
+recent 2026-11-13T01:45:49Z file:///home/alice/Documents/caf%C3%A9%20%C3%BCber.txt text/plain other
+recent 2026-11-13T01:45:51Z file:///home/alice/Documents/report.txt text/plain nxapp
+open 2026-11-13T01:45:53Z gedit /home/alice/Documents/report.txt
+open 2026-11-13T01:46:01Z eog /home/alice/Pictures/photo.png
+trash 2026-11-13T01:46:09Z /home/alice/tmp/to-trash.txt
+trash 2026-11-13T01:46:10Z /home/alice/tmp/also trash %20.txt
+trash 2026-11-13T01:46:11Z /home/alice/tmp/dir-to-trash
+trash 2026-11-13T01:46:12Z /home/alice/tmp/purged.txt
+purge from Trash/files 2026-11-13T01:46:13Z purged.txt
+thumbnail 2026-11-13T01:46:13Z file:///home/alice/Pictures/photo.png 1794534347 image/png f399387eab8c38bd47862f209ac83c66
+thumbnail 2026-11-13T01:46:13Z file:///home/alice/Pictures/secret%20plan.jpg 1794534347 image/jpeg 0c6ef32fbeab0b7ed53db38d46af8e09
+failed-thumbnail 2026-11-13T01:46:13Z /home/alice/Documents/report.txt
+delete original 2026-11-13T01:46:13Z /home/alice/Pictures/secret plan.jpg

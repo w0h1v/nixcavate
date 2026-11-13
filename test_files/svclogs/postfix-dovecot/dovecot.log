@@ -1,0 +1,7 @@
+Nov 13 01:15:10 master: Info: Dovecot v2.3.19.1 (9b53102964) starting up for imap, pop3 (core dumps disabled)
+Nov 13 01:15:12 imap-login: Info: Login: user=<alice>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=6692, secured, session=<Ke7yKB5gWJR/AAAB>
+Nov 13 01:15:12 imap(alice)<6692><Ke7yKB5gWJR/AAAB>: Info: Disconnected: Logged out in=12 out=489 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Nov 13 01:15:14 auth-worker(6691): Info: conn unix:auth-worker (pid=6690,uid=101): auth-worker<3>: pam(bob,127.0.0.1,<Y2LzKB5gXJR/AAAB>): pam_authenticate() failed: Authentication failure (Password mismatch?)
+Nov 13 01:15:16 imap-login: Info: Disconnected: Connection closed (auth failed, 1 attempts in 4 secs): user=<bob>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, secured, session=<Y2LzKB5gXJR/AAAB>
+Nov 13 01:15:20 pop3-login: Info: Login: user=<alice>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=6695, secured, session=<8JooKR5g6LR/AAAB>
+Nov 13 01:15:20 pop3(alice)<6695><8JooKR5g6LR/AAAB>: Info: Disconnected: Logged out top=0/0, retr=0/0, del=0/2, size=856

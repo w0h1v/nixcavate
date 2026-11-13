@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/utmpx.rs
+expression: "run(&UTMPX, \"var/adm/utmpx\", &fixture(\"utmpx/utmpx\"), 0)"
+---
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":0,"time":"2026-11-13T01:20:29.000000Z","type":"down_time","user":"","line":"system down","remote_host":"","pid":0,"id":"","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":372,"time":"2026-11-13T01:20:46.000000Z","type":"boot_time","user":"","line":"system boot","remote_host":"","pid":0,"id":"","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":744,"time":"2026-11-13T01:20:51.000000Z","type":"run_level","user":"","line":"run-level 3","remote_host":"","pid":0,"id":"","session":0,"exit_termination":51,"exit_status":83,"host_length":0}
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":1116,"time":"2026-11-13T01:20:51.000000Z","type":"login_process","user":"zsmon","line":"","remote_host":"","pid":379,"id":"PM10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":1488,"time":"2026-11-13T01:20:57.000000Z","type":"login_process","user":"LOGIN","line":"console","remote_host":"","pid":688,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":1860,"time":"2026-11-13T01:20:57.000000Z","type":"dead_process","user":"agent","line":"","remote_host":"","pid":723,"id":"nx","session":0,"exit_termination":0,"exit_status":127,"host_length":0}
+{"host":"memory","artifact":"utmpx","source_path":"var/adm/utmpx","source_offset":2232,"time":"2026-11-13T01:21:33.479379Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":762,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:20:29.000000Z,micros,recorded,memory,utmpx,shutdown,system shutdown,var/adm/utmpx,,0,,
+2026-11-13T01:20:46.000000Z,micros,recorded,memory,utmpx,boot,system boot,var/adm/utmpx,,372,,
+2026-11-13T01:20:51.000000Z,micros,recorded,memory,utmpx,run_level,"run-level 3 (3, was S)",var/adm/utmpx,,744,,
+2026-11-13T01:20:57.000000Z,micros,recorded,memory,utmpx,logout,"session ended on ",var/adm/utmpx,,1860,,
+2026-11-13T01:21:33.479379Z,micros,recorded,memory,utmpx,logout,session ended on pts/2,var/adm/utmpx,,2232,,

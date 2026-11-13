@@ -1,0 +1,5 @@
+2026-11-12T09:31:00.000001Z INFO ExtHandler ExtHandler [Microsoft.Azure.Extensions.CustomScript-2.1.10] Target handler state: enabled [incarnation_3]
+2026-11-12T09:31:00.000002Z INFO ExtHandler ExtHandler [Microsoft.Azure.Extensions.CustomScript-2.1.10] Executing command: bin/custom-script-shim enable
+2026-11-12T09:31:01.000003Z WARNING ExtHandler ExtHandler Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/azurelinuxagent/ga/exthandlers.py", line 1
+2026-11-12T09:31:02.000004Z INFO MonitorHandler ExtHandler Heartbeat

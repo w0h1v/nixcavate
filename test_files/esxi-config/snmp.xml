@@ -1,0 +1,1 @@
+<config><snmpSettings><communities>publicc0mmunity</communities><enable>true</enable><port>161</port></snmpSettings></config>

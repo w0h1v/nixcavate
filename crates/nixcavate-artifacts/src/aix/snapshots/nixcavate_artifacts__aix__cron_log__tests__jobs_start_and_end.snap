@@ -1,0 +1,15 @@
+---
+source: crates/nixcavate-artifacts/src/aix/cron_log.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-cron-log","source_path":"var/adm/cron/log","source_line":1,"kind":"daemon_started","time":"2021-03-10T08:57:34Z","user":null,"pid":6291650,"job_type":null,"command":null,"text":null}
+{"host":"memory","artifact":"aix-cron-log","source_path":"var/adm/cron/log","source_line":3,"kind":"start","time":"2021-03-10T09:00:00Z","user":"root","pid":8126588,"job_type":"c","command":"/usr/lib/ras/dumpcheck >/dev/null 2>&1","text":null}
+{"host":"memory","artifact":"aix-cron-log","source_path":"var/adm/cron/log","source_line":4,"kind":"end","time":"2021-03-10T09:00:01Z","user":"root","pid":8126588,"job_type":"c","command":null,"text":null}
+{"host":"memory","artifact":"aix-cron-log","source_path":"var/adm/cron/log","source_line":6,"kind":"start","time":"2021-03-10T09:05:00Z","user":"alice","pid":8126600,"job_type":"c","command":"/tmp/.x/miner -o pool","text":null}
+{"host":"memory","artifact":"aix-cron-log","source_path":"var/adm/cron/log","source_line":7,"kind":"message","time":null,"user":null,"pid":null,"job_type":null,"command":null,"text":"cron: can't read /var/spool/cron/crontabs/bob"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2021-03-10T08:57:34Z,seconds,assumed_zone,memory,aix-cron-log,log,cron daemon started,var/adm/cron/log,1,,,
+2021-03-10T09:00:00Z,seconds,assumed_zone,memory,aix-cron-log,executed,cron started c job of root: /usr/lib/ras/dumpcheck >/dev/null 2>&1,var/adm/cron/log,3,,,
+2021-03-10T09:05:00Z,seconds,assumed_zone,memory,aix-cron-log,executed,cron started c job of alice: /tmp/.x/miner -o pool,var/adm/cron/log,6,,,
+--- warning: line 8: not a cron log line

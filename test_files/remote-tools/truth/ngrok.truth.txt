@@ -1,0 +1,13 @@
+Authtoken saved to configuration file: /root/.config/ngrok/ngrok.yml
+version: "3"
+agent:
+    authtoken: PLANTED-NGROK-AUTHTOKEN-0001
+tunnels:
+  ssh:
+    proto: tcp
+    addr: 22
+  web:
+    proto: http
+    addr: 8080
+    domain: demo.example.ngrok.app
+Valid configuration file at /root/.config/ngrok/ngrok.yml

@@ -1,0 +1,70 @@
+/usr/sbin/mysqld, Version: 8.4.13 (MySQL Community Server - GPL). started with:
+Tcp port: 0  Unix socket: /var/run/mysqld/mysqld.sock
+Time                 Id Command    Argument
+# Time: 2026-11-13T01:29:05.658314Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.022478  Lock_time: 0.000004 Rows_sent: 0  Rows_examined: 0
+SET timestamp=1794533345;
+CREATE USER 'alice'@'%' IDENTIFIED BY <secret>;
+# Time: 2026-11-13T01:29:05.663560Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.005216  Lock_time: 0.000001 Rows_sent: 0  Rows_examined: 0
+SET timestamp=1794533345;
+GRANT ALL PRIVILEGES ON *.* TO 'alice'@'%';
+# Time: 2026-11-13T01:29:05.667938Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.004358  Lock_time: 0.000000 Rows_sent: 0  Rows_examined: 0
+SET timestamp=1794533345;
+CREATE DATABASE appdb;
+# Time: 2026-11-13T01:29:05.668017Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.000058  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1
+SET timestamp=1794533345;
+SELECT DATABASE();
+# Time: 2026-11-13T01:29:05.668073Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.000044  Lock_time: 0.000001 Rows_sent: 1  Rows_examined: 1
+use appdb;
+SET timestamp=1794533345;
+# administrator command: Init DB;
+# Time: 2026-11-13T01:29:05.698581Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.030503  Lock_time: 0.000011 Rows_sent: 0  Rows_examined: 0
+SET timestamp=1794533345;
+CREATE TABLE t(id int);
+# Time: 2026-11-13T01:29:05.705400Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.006761  Lock_time: 0.000007 Rows_sent: 0  Rows_examined: 0
+SET timestamp=1794533345;
+INSERT INTO t VALUES (1);
+# Time: 2026-11-13T01:29:05.705651Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.000196  Lock_time: 0.000001 Rows_sent: 1  Rows_examined: 1
+SET timestamp=1794533345;
+SELECT * FROM t;
+# Time: 2026-11-13T01:29:05.907098Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.201431  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1
+SET timestamp=1794533345;
+SELECT sleep(0.2);
+# Time: 2026-11-13T01:29:05.907194Z
+# User@Host: root[root] @ localhost []  Id:     8
+# Query_time: 0.000014  Lock_time: 0.000000 Rows_sent: 0  Rows_examined: 1
+SET timestamp=1794533345;
+# administrator command: Quit;
+# Time: 2026-11-13T01:29:06.024023Z
+# User@Host: alice[alice] @  [127.0.0.1]  Id:    10
+# Query_time: 0.000058  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1
+SET timestamp=1794533346;
+select @@version_comment limit 1;
+# Time: 2026-11-13T01:29:06.024483Z
+# User@Host: alice[alice] @  [127.0.0.1]  Id:    10
+# Query_time: 0.000401  Lock_time: 0.000000 Rows_sent: 1  Rows_examined: 1
+SET timestamp=1794533346;
+SELECT 1,
+  2;
+# Time: 2026-11-13T01:29:06.024495Z
+# User@Host: alice[alice] @  [127.0.0.1]  Id:    10
+# Query_time: 0.000002  Lock_time: 0.000000 Rows_sent: 0  Rows_examined: 1
+SET timestamp=1794533346;
+# administrator command: Quit;

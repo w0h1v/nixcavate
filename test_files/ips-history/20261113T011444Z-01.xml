@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?><history><client name="pkg" version="652bdb106"><args><arg><![CDATA[/usr/bin/pkg]]></arg><arg><![CDATA[install]]></arg><arg><![CDATA[system/header]]></arg></args></client><operation name="install" username="omnios" userid="100" result="Succeeded, None" start_time="20261113T011444Z" end_time="20261113T011504Z" be="omnios-r151054" be_uuid="a9982655-a109-4202-a4dc-6a7dc8e45eee" snapshot="2026-11-13-01:14:59"><start_state><![CDATA[Solver: [ Variables: 693 Clauses: 20254 Iterations: 1 State: Succeeded]
+Timings: [phase 1:  0.063, phase 2:  0.009, phase 3:  0.007, phase 4:  0.008, phase 5:  0.000, phase 6:  0.000, phase 7:  0.000, phase 8:  0.277, phase 9:  0.018, phase 10:  0.000, phase 11:  0.050, phase 12:  0.003, phase 13:  0.009, phase 14:  0.000, phase 15:  0.357, phase 16:  0.013]
+Maintained incorporations: pkg://omnios/library/security/oqs-provider@0.8.0,5.11-151054.0:20250502T150729Z
+	pkg://omnios/consolidation/osnet/osnet-incorporation@0.5.11,5.11-151054.0:20250502T145900Z
+
+Package version changes:
+None -> pkg://omnios/system/header@0.5.11,5.11-151054.0:20260427T194515Z
+]]></start_state><end_state><![CDATA[None -> pkg://omnios/system/header@0.5.11,5.11-151054.0:20260427T194515Z
+]]></end_state></operation></history>

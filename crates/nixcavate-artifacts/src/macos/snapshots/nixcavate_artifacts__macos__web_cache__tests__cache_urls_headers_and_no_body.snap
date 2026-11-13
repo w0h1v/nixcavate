@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/macos/web_cache.rs
+expression: out
+---
+{"host":"memory","artifact":"url-cache","source_path":"Users/alice/Library/Caches/com.example.app/Cache.db","source_line":null,"user":"alice","bundle_id":"com.example.app","url":"https://example.com/a.js","time":"2023-11-14T10:00:00Z","storage_policy":0,"partition":"","body_on_disk":false,"body_size":120,"http_method":"GET","status":200,"headers":{"content-type":"text/html","etag":"\"abc\"","server":"example","user-agent":"Example/1.0"}}
+{"host":"memory","artifact":"url-cache","source_path":"Users/alice/Library/Caches/com.example.app/Cache.db","source_line":null,"user":"alice","bundle_id":"com.example.app","url":"https://example.org/img.png","time":"2023-11-14T11:30:15Z","storage_policy":1,"partition":"part","body_on_disk":true,"body_size":null,"http_method":null,"status":null,"headers":{}}
+{"host":"memory","artifact":"url-cache","source_path":"Users/alice/Library/Caches/com.example.app/Cache.db","source_line":null,"user":"alice","bundle_id":"com.example.app","url":"https://example.net/","time":null,"storage_policy":0,"partition":"","body_on_disk":null,"body_size":null,"http_method":null,"status":null,"headers":{}}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T10:00:00Z,seconds,recorded,memory,url-cache,http_request,com.example.app fetched https://example.com/a.js,Users/alice/Library/Caches/com.example.app/Cache.db,,,,
+2023-11-14T11:30:15Z,seconds,recorded,memory,url-cache,http_request,com.example.app fetched https://example.org/img.png,Users/alice/Library/Caches/com.example.app/Cache.db,,,,
+--- warning: time_stamp not a time is not a valid time; left empty

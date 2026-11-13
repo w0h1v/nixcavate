@@ -1,0 +1,1 @@
+{"runtimeSettings":[{"handlerSettings":{"publicSettings":{"commandToExecute":"sh install.sh --token example","fileUris":["https://example.blob.core.windows.net/s/install.sh"]},"protectedSettings":"MIIBPLANTED-AZURE-PROTECTED-0027","protectedSettingsCertThumbprint":"0123456789ABCDEF0123456789ABCDEF01234567"}}]}

@@ -1,0 +1,13 @@
+Netid State  Recv-Q Send-Q Local Address:Port Peer Address:PortProcess                                                        
+nl    UNCONN 1152   0                  0:13               *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                  0:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 4352   0                  4:492              *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 1152   0                  4:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                  6:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                  9:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                 10:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                 12:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                 15:0                *     sk=0 cb=0 groups=0x00000000                                   
+nl    UNCONN 0      0                 16:0                *     sk=0 cb=0 groups=0x00000000                                   
+udp   UNCONN 0      0            0.0.0.0:5353      0.0.0.0:*    users:(("nc",pid=479,fd=3)) ino:234672645 sk:9020 cgroup:/ <->
+tcp   LISTEN 0      1            0.0.0.0:4444      0.0.0.0:*    users:(("nc",pid=473,fd=3)) ino:234672643 sk:705b cgroup:/ <->

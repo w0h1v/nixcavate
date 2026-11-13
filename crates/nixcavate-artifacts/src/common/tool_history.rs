@@ -48,6 +48,60 @@ pub const LESS: Artifact = Artifact::new(
     parse_less,
 );
 
+/// One artifact for the line-per-command histories of the other interactive tools. The file
+/// name says which tool wrote it (see [`tool_name`]).
+pub const TOOLS: Artifact = Artifact::new(
+    "tool-history",
+    "Interactive tool histories (node, psql, sqlite3, redis-cli, irb, php, gdb, mongo, PowerShell)",
+    Category::Execution,
+    ANY_OS,
+    &[
+        "home/*/.node_repl_history",
+        "root/.node_repl_history",
+        "Users/*/.node_repl_history",
+        "var/root/.node_repl_history",
+        "home/*/.psql_history",
+        "root/.psql_history",
+        "Users/*/.psql_history",
+        "var/root/.psql_history",
+        "home/*/.sqlite_history",
+        "root/.sqlite_history",
+        "Users/*/.sqlite_history",
+        "var/root/.sqlite_history",
+        "home/*/.rediscli_history",
+        "root/.rediscli_history",
+        "Users/*/.rediscli_history",
+        "var/root/.rediscli_history",
+        "home/*/.irb_history",
+        "root/.irb_history",
+        "Users/*/.irb_history",
+        "var/root/.irb_history",
+        "home/*/.local/share/irb/history",
+        "root/.local/share/irb/history",
+        "home/*/.php_history",
+        "root/.php_history",
+        "Users/*/.php_history",
+        "var/root/.php_history",
+        "home/*/.gdb_history",
+        "root/.gdb_history",
+        "Users/*/.gdb_history",
+        "var/root/.gdb_history",
+        "home/*/.dbshell",
+        "root/.dbshell",
+        "Users/*/.dbshell",
+        "var/root/.dbshell",
+        "home/*/.mongodb/mongosh/mongosh_repl_history",
+        "root/.mongodb/mongosh/mongosh_repl_history",
+        "Users/*/.mongodb/mongosh/mongosh_repl_history",
+        "var/root/.mongodb/mongosh/mongosh_repl_history",
+        "home/*/.local/share/powershell/PSReadLine/ConsoleHost_history.txt",
+        "root/.local/share/powershell/PSReadLine/ConsoleHost_history.txt",
+        "Users/*/.local/share/powershell/PSReadLine/ConsoleHost_history.txt",
+        "var/root/.local/share/powershell/PSReadLine/ConsoleHost_history.txt",
+    ],
+    parse_tool_history,
+);
+
 const LIBEDIT_HEADER: &[u8] = b"_HiStOrY_V2_";
 
 #[derive(Serialize)]
@@ -86,10 +140,9 @@ fn decode_octal(bytes: &[u8]) -> Cow<'_, [u8]> {
     Cow::Owned(out)
 }
 
-/// One command per line. Files in libedit's V2 form (macOS Python, some MySQL clients) start
-/// with a marker line and escape their text.
-fn parse_command_history(input: &Input, sink: &mut Sink) -> Result<()> {
-    let user = user_from_path(input.path);
+/// Calls `f` for every command of a one-command-per-line history. Files in libedit's V2 form
+/// (macOS Python, some MySQL clients) start with a marker line and escape their text.
+fn for_each_command(input: &Input, mut f: impl FnMut(u64, &str) -> Result<()>) -> Result<()> {
     let mut escaped = false;
     for_each_line(input, |line| {
         if line.number == 1 && line.bytes == LIBEDIT_HEADER {
@@ -100,8 +153,50 @@ fn parse_command_history(input: &Input, sink: &mut Sink) -> Result<()> {
             return Ok(());
         }
         let decoded = if escaped { decode_octal(line.bytes) } else { Cow::Borrowed(line.bytes) };
-        sink.emit(Loc::Line(line.number), &Command { user, command: &lossy(&decoded) })
+        f(line.number, &lossy(&decoded))
     })
+}
+
+fn parse_command_history(input: &Input, sink: &mut Sink) -> Result<()> {
+    let user = user_from_path(input.path);
+    for_each_command(input, |number, command| sink.emit(Loc::Line(number), &Command { user, command }))
+}
+
+#[derive(Serialize)]
+struct ToolCommand<'a> {
+    user: &'a str,
+    /// The program that wrote the file: `node`, `psql`, `sqlite3`, `redis-cli`, `irb`, `php`,
+    /// `gdb`, `mongo`, `mongosh` or `powershell`.
+    tool: &'static str,
+    command: &'a str,
+}
+
+impl Record for ToolCommand<'_> {}
+
+/// The tool behind a history file, from its name.
+fn tool_name(path: &str) -> &'static str {
+    match path.rsplit('/').next().unwrap_or("") {
+        ".node_repl_history" => "node",
+        ".psql_history" => "psql",
+        ".sqlite_history" => "sqlite3",
+        ".rediscli_history" => "redis-cli",
+        ".irb_history" | "history" => "irb",
+        ".php_history" => "php",
+        ".gdb_history" => "gdb",
+        ".dbshell" => "mongo",
+        "mongosh_repl_history" => "mongosh",
+        "ConsoleHost_history.txt" => "powershell",
+        _ => "",
+    }
+}
+
+/// One command per line, as written by readline or libedit. node and mongosh write the
+/// newest command first; PowerShell's PSReadLine continues a multi-line command with a trailing
+/// backtick, which is not joined here (each line is one record).
+fn parse_tool_history(input: &Input, sink: &mut Sink) -> Result<()> {
+    let user = user_from_path(input.path);
+    let tool = tool_name(input.path);
+    for_each_command(input, |number, command| sink.emit(Loc::Line(number), &ToolCommand { user, tool, command }))
 }
 
 #[derive(Serialize)]
@@ -162,6 +257,55 @@ mod tests {
         insta::assert_snapshot!(run(&MYSQL, "home/bob/.mysql_history", v2, 0));
     }
 
+    /// Files the real tools wrote (Debian 12: node's REPL, sqlite3, gdb and PHP, each typed on a pty).
+    /// node writes the newest command first; PHP's libedit escapes spaces as `\040`.
+    #[test]
+    fn real_tool_histories() {
+        let commands = |path: &str, name: &str| -> Vec<(String, String)> {
+            let out = run(&TOOLS, path, &fixture(&format!("tool-history/debian12/{name}")), 0);
+            out.lines()
+                .filter(|l| l.starts_with('{'))
+                .map(|l| {
+                    let v: serde_json::Value = serde_json::from_str(l).unwrap();
+                    (v["tool"].as_str().unwrap().to_string(), v["command"].as_str().unwrap().to_string())
+                })
+                .collect()
+        };
+        let pairs = |tool: &str, list: &[&str]| -> Vec<(String, String)> {
+            list.iter().map(|c| (tool.to_string(), c.to_string())).collect()
+        };
+        assert_eq!(
+            commands("home/alice/.node_repl_history", ".node_repl_history"),
+            pairs("node", &["console.log(\"hello world\")", "const x = 41 + 1"])
+        );
+        assert_eq!(
+            commands("home/alice/.sqlite_history", ".sqlite_history"),
+            pairs(
+                "sqlite3",
+                &[
+                    ".open /tmp/test.db",
+                    "create table t(a text);",
+                    "insert into t values('it works');",
+                    "select * from t;"
+                ]
+            )
+        );
+        assert_eq!(
+            commands("home/alice/.gdb_history", ".gdb_history"),
+            pairs("gdb", &["info registers", "show version"])
+        );
+        assert_eq!(commands("root/.php_history", ".php_history"), pairs("php", &["echo 1+1;", "echo \"hi there\";"]));
+        insta::assert_snapshot!(run(&TOOLS, "root/.php_history", &fixture("tool-history/debian12/.php_history"), 0));
+    }
+
+    #[test]
+    fn every_listed_file_names_its_tool() {
+        for path in TOOLS.paths {
+            assert!(!tool_name(path).is_empty(), "{path}");
+        }
+        assert_eq!(tool_name("home/a/.local/share/irb/history"), "irb");
+    }
+
     #[test]
     fn less_history() {
         let data = fixture("less-history/.lesshst");
@@ -171,7 +315,7 @@ mod tests {
     #[test]
     fn empty_and_garbage_do_not_panic() {
         let garbage: Vec<u8> = (0..=255u8).cycle().take(2000).collect();
-        for artifact in [&PYTHON, &MYSQL, &LESS] {
+        for artifact in [&PYTHON, &MYSQL, &LESS, &TOOLS] {
             assert_eq!(run(artifact, "root/.x", b"", 0), "");
             run(artifact, "root/.x", &garbage, 0);
             run(artifact, "root/.x", b"_HiStOrY_V2_\n\\", 0);

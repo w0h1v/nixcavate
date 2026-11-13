@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/default_files.rs
+expression: "run(&ARTIFACT, \"etc/default/login\", &fixture(\"default-files/login\"), 0)"
+---
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":39,"command":"login","name":"CONSOLE","value":"/dev/console"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":43,"command":"login","name":"PASSREQ","value":"YES"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":47,"command":"login","name":"ALTSHELL","value":"YES"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":54,"command":"login","name":"PATH","value":"/usr/bin:/usr/sbin:/sbin:/opt/ooce/bin:/usr/gnu/bin"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":58,"command":"login","name":"SUPATH","value":"/usr/sbin:/sbin:/opt/ooce/sbin:/usr/bin:/opt/ooce/bin"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":73,"command":"login","name":"SYSLOG","value":"YES"}
+{"host":"memory","artifact":"default-files","source_path":"etc/default/login","source_line":103,"command":"login","name":"PASSREQ","value":"NO"}

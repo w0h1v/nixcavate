@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/aix/security.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-security-user","source_path":"etc/security/user","source_line":1,"user":"default","admin":"false","login":"true","rlogin":"true","su":"true","sugroups":null,"account_locked":null,"expires":null,"ttys":null,"auth1":null,"registry":null,"system":null,"daemon":null,"attributes":{"admin":"false","login":"true","rlogin":"true","su":"true"}}
+{"host":"memory","artifact":"aix-security-user","source_path":"etc/security/user","source_line":7,"user":"root","admin":"true","login":null,"rlogin":"false","su":null,"sugroups":null,"account_locked":null,"expires":null,"ttys":null,"auth1":null,"registry":null,"system":"compat","daemon":null,"attributes":{"SYSTEM":"compat","admin":"true","loginretries":"0","rlogin":"false"}}
+{"host":"memory","artifact":"aix-security-user","source_path":"etc/security/user","source_line":13,"user":"mallory","admin":null,"login":null,"rlogin":null,"su":null,"sugroups":null,"account_locked":null,"expires":null,"ttys":null,"auth1":null,"registry":null,"system":null,"daemon":null,"attributes":{}}
+--- warning: 1 lines are neither a stanza header nor an attribute (the first is line 14)

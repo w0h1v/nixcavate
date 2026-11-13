@@ -1,0 +1,15 @@
+8|2|manifestfiles|framework|0|8
+9|2|general|framework|0|9
+10|2|fs|dependency|0|10
+11|2|start|method|0|11
+12|2|stop|method|0|12
+13|2|startd|framework|0|13
+14|2|tm_common_name|template|0|14
+16|4|general|framework|0|15
+23|6|manifestfiles|framework|0|22
+24|6|general|framework|0|23
+25|6|start|method|0|24
+26|6|stop|method|0|25
+27|6|startd|framework|0|26
+28|6|tm_common_name|template|0|27
+30|8|general|framework|0|28

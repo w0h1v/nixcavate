@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/project.rs
+expression: out
+---
+{"host":"memory","artifact":"project","source_path":"etc/project","source_line":1,"name":"system","id":0,"comment":"","users":[],"groups":[],"attributes":""}
+{"host":"memory","artifact":"project","source_path":"etc/project","source_line":2,"name":"user.root","id":1,"comment":"","users":[],"groups":[],"attributes":""}
+{"host":"memory","artifact":"project","source_path":"etc/project","source_line":3,"name":"noproject","id":2,"comment":"","users":[],"groups":[],"attributes":""}
+{"host":"memory","artifact":"project","source_path":"etc/project","source_line":4,"name":"default","id":3,"comment":"","users":[],"groups":[],"attributes":""}
+{"host":"memory","artifact":"project","source_path":"etc/project","source_line":5,"name":"group.staff","id":10,"comment":"","users":[],"groups":[],"attributes":""}
+{"host":"memory","artifact":"project","source_path":"etc/project","source_line":6,"name":"user.alice","id":5001,"comment":"NXMK_PROJECT example","users":[],"groups":["alice"],"attributes":":project.max-lwps=(privileged,100,deny)"}

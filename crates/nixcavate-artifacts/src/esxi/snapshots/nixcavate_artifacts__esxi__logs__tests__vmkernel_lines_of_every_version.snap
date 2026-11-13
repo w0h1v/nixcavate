@@ -1,0 +1,19 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/logs.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":0,"time":"2025-01-10T00:20:40.756Z","time_basis":"recorded","level":"","uptime":"","cpu":23,"world_id":2098417,"op_id":"","subsystem":"Elf","message":"Elf: 2101: module example_nmp_shim has license VMware"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":93,"time":"2025-01-10T00:20:40.757Z","time_basis":"recorded","level":"","uptime":"","cpu":23,"world_id":2098417,"op_id":"","subsystem":"Mod","message":"Mod: 4962: Initialization of example_nmp_shim succeeded with module ID 90."}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":207,"time":"2025-01-10T00:20:40.757Z","time_basis":"recorded","level":"","uptime":"","cpu":23,"world_id":2098417,"op_id":"","subsystem":"","message":"example_nmp_shim loaded successfully."}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":284,"time":"2025-01-10T00:21:02.100Z","time_basis":"recorded","level":"warning","uptime":"","cpu":7,"world_id":2097735,"op_id":"a1b2c3d4","subsystem":"ScsiScan","message":"ScsiScan: 1638: Failed to add path vmhba0:C0:T9:L0 : Not found"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":408,"time":"2025-01-10T00:21:03.200Z","time_basis":"recorded","level":"alert","uptime":"","cpu":7,"world_id":2097735,"op_id":"","subsystem":"","message":"Failed to verify signatures of the following vib(s): [example-vib]"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":520,"time":null,"time_basis":null,"level":"warning","uptime":"0:00:00:05.344","cpu":0,"world_id":2097152,"op_id":"","subsystem":"VTD","message":"VTD: 715: ACPI DMAR table not found"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":593,"time":"2026-02-03T10:00:00Z","time_basis":"recorded","level":"info","uptime":"","cpu":null,"world_id":null,"op_id":"","subsystem":"VMB","message":"VMB: 65: Reserved 4 MPNs starting @ 0x4c1"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":674,"time":"2026-02-03T10:00:01.123Z","time_basis":"recorded","level":"warning","uptime":"","cpu":0,"world_id":263421,"op_id":"a03fc439","subsystem":"Sched","message":"Sched: vm 265285: 6404: could not create container group"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":811,"time":"2026-02-03T10:00:02.123Z","time_basis":"recorded","level":"info","uptime":"","cpu":3,"world_id":2099999,"op_id":"","subsystem":"NMP","message":"NMP: nmp_ThrottleLogForDevice:3856: Cmd 0x2a to dev \"naa.0000\" failed"}
+{"host":"memory","artifact":"esxi-vmkernel","source_path":"var/run/log/vmkernel.log","source_offset":938,"time":null,"time_basis":null,"level":"","uptime":"","cpu":null,"world_id":null,"op_id":"","subsystem":"","message":"continuation without a header"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-01-10T00:21:02.100Z,millis,recorded,memory,esxi-vmkernel,log,ScsiScan: 1638: Failed to add path vmhba0:C0:T9:L0 : Not found,var/run/log/vmkernel.log,,284,,
+2025-01-10T00:21:03.200Z,millis,recorded,memory,esxi-vmkernel,log,Failed to verify signatures of the following vib(s): [example-vib],var/run/log/vmkernel.log,,408,,
+2026-02-03T10:00:01.123Z,millis,recorded,memory,esxi-vmkernel,log,Sched: vm 265285: 6404: could not create container group,var/run/log/vmkernel.log,,674,,

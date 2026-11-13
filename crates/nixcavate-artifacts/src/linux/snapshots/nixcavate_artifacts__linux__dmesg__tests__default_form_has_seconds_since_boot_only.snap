@@ -1,0 +1,29 @@
+---
+source: crates/nixcavate-artifacts/src/linux/dmesg.rs
+expression: out
+---
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":1,"time":null,"monotonic_seconds":1450665.381918,"facility":null,"level":null,"message":"BTRFS info (device loop2): first mount of filesystem e7605368-5d91-471a-be50-ba1155260732"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":2,"time":null,"monotonic_seconds":1450665.381946,"facility":null,"level":null,"message":"BTRFS info (device loop2): using crc32c checksum algorithm"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":3,"time":null,"monotonic_seconds":1450665.382724,"facility":null,"level":null,"message":"BTRFS info (device loop2): deleted orphan free space tree entries"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":4,"time":null,"monotonic_seconds":1450665.382774,"facility":null,"level":null,"message":"BTRFS info (device loop2): checking UUID tree"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":5,"time":null,"monotonic_seconds":1450665.382831,"facility":null,"level":null,"message":"BTRFS info (device loop2): enabling ssd optimizations"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":6,"time":null,"monotonic_seconds":1450665.382849,"facility":null,"level":null,"message":"BTRFS info (device loop2): turning on async discard"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":7,"time":null,"monotonic_seconds":1450665.382864,"facility":null,"level":null,"message":"BTRFS info (device loop2): enabling free space tree"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":8,"time":null,"monotonic_seconds":1450665.425271,"facility":null,"level":null,"message":"BTRFS info (device loop2): last unmount of filesystem e7605368-5d91-471a-be50-ba1155260732"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":9,"time":null,"monotonic_seconds":1450665.445284,"facility":null,"level":null,"message":"vethf1f5fa8: renamed from eth0"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":10,"time":null,"monotonic_seconds":1450665.445463,"facility":null,"level":null,"message":"docker0: port 6(vethcd5f3be) entered disabled state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":11,"time":null,"monotonic_seconds":1450665.476487,"facility":null,"level":null,"message":"docker0: port 6(vethcd5f3be) entered disabled state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":12,"time":null,"monotonic_seconds":1450665.477071,"facility":null,"level":null,"message":"vethcd5f3be (unregistering): left allmulticast mode"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":13,"time":null,"monotonic_seconds":1450665.477095,"facility":null,"level":null,"message":"vethcd5f3be (unregistering): left promiscuous mode"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":14,"time":null,"monotonic_seconds":1450665.477111,"facility":null,"level":null,"message":"docker0: port 6(vethcd5f3be) entered disabled state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":15,"time":null,"monotonic_seconds":1450672.200349,"facility":null,"level":null,"message":"docker0: port 6(veth38ef2d4) entered blocking state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":16,"time":null,"monotonic_seconds":1450672.20039,"facility":null,"level":null,"message":"docker0: port 6(veth38ef2d4) entered disabled state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":17,"time":null,"monotonic_seconds":1450672.200423,"facility":null,"level":null,"message":"veth38ef2d4: entered allmulticast mode"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":18,"time":null,"monotonic_seconds":1450672.200466,"facility":null,"level":null,"message":"veth38ef2d4: entered promiscuous mode"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":19,"time":null,"monotonic_seconds":1450672.208295,"facility":null,"level":null,"message":"eth0: renamed from vetha461565"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":20,"time":null,"monotonic_seconds":1450672.209909,"facility":null,"level":null,"message":"docker0: port 6(veth38ef2d4) entered blocking state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":21,"time":null,"monotonic_seconds":1450672.209934,"facility":null,"level":null,"message":"docker0: port 6(veth38ef2d4) entered forwarding state"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":22,"time":null,"monotonic_seconds":1450674.887393,"facility":null,"level":null,"message":"loop2: detected capacity change from 0 to 32768"}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":23,"time":null,"monotonic_seconds":1450674.889882,"facility":null,"level":null,"message":"EXT4-fs (loop2): mounted filesystem 3c5a2715-b971-4517-9900-b7ff6167ab0b r/w with ordered data mode. Quota mode: none."}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":24,"time":null,"monotonic_seconds":1450674.895583,"facility":null,"level":null,"message":"EXT4-fs (loop2): unmounting filesystem 3c5a2715-b971-4517-9900-b7ff6167ab0b."}
+{"host":"memory","artifact":"dmesg","source_path":"var/log/dmesg","source_line":25,"time":null,"monotonic_seconds":1450674.904681,"facility":null,"level":null,"message":"loop2: detected capacity change from 0 to 32768"}

@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/doas.rs
+expression: out
+---
+{"host":"memory","artifact":"doas-conf","source_path":"etc/doas.conf","source_line":2,"action":"permit","options":"nopass","nopass":true,"identity":"alice","target":"root","command":"","arguments":"","text":"permit nopass alice as root"}
+{"host":"memory","artifact":"doas-conf","source_path":"etc/doas.conf","source_line":3,"action":"permit","options":"persist keepenv","nopass":false,"identity":":wheel","target":"","command":"","arguments":"","text":"permit persist keepenv :wheel"}
+{"host":"memory","artifact":"doas-conf","source_path":"etc/doas.conf","source_line":4,"action":"permit","options":"setenv { PATH=/bin FOO }","nopass":false,"identity":"bob","target":"","command":"/usr/bin/id","arguments":"-u","text":"permit setenv { PATH=/bin FOO } bob cmd /usr/bin/id args -u"}
+{"host":"memory","artifact":"doas-conf","source_path":"etc/doas.conf","source_line":5,"action":"deny","options":"","nopass":false,"identity":"carol","target":"","command":"rm","arguments":"","text":"deny carol cmd rm"}

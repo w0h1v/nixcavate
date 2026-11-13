@@ -12,9 +12,12 @@ mod image;
 
 pub use glob::Pattern;
 pub use host::{discover, Host, Os};
+#[doc(hidden)]
+pub use image::fuzz_raid;
 pub use tz::Tz;
 
 use memmap2::Mmap;
+use std::collections::HashSet;
 use std::fs::File;
 use std::io::{self, Read};
 use std::ops::{Deref, Range};
@@ -155,11 +158,13 @@ impl Source {
             warnings = notes;
             (entries, None)
         } else {
-            // A CatScale collection's inner archives are read after the listing.
-            let keep = |path: &str| keep(path) || archive::catscale_archive(path).is_some();
+            // Archives inside the archive that hold evidence are read after the listing.
+            let keep = |path: &str| {
+                keep(path) || archive::catscale_archive(path).is_some() || archive::wrapped_uac(path).is_some()
+            };
             let listing = archive::open(path, &keep, scratch)?;
             warnings = listing.warnings;
-            (listing.entries, Some(listing.map))
+            (listing.entries, listing.map)
         };
         // Velociraptor percent-encodes path characters such as `:`.
         if entries.iter().any(|e| e.path == "uploads.json" || e.path == "collection_context.json") {
@@ -174,23 +179,28 @@ impl Source {
         source.scratch = scratch.to_path_buf();
         warnings.append(&mut source.warnings);
         source.warnings = warnings;
-        source.expand_catscale(keep);
+        // In a folder, an archive is a source of its own (the caller opens it).
+        source.expand_nested(keep, !path.is_dir());
         Ok(source)
     }
 
-    /// Adds the files inside a CatScale collection's inner archives as entries of one host
-    /// root, `<output folder>/<host>/[root]`. A path that several archives hold is kept once.
-    fn expand_catscale(&mut self, keep: &dyn Fn(&str) -> bool) {
-        let inner: Vec<usize> =
-            (0..self.entries.len()).filter(|&i| archive::catscale_archive(&self.entries[i].path).is_some()).collect();
-        // The archive of home directories does not name the host: the others do.
-        let host = inner.iter().find_map(|&i| archive::catscale_archive(&self.entries[i].path).map(|(_, host)| host));
-        let host = host.filter(|h| !h.is_empty()).unwrap_or("catscale").to_string();
+    /// Adds the files of the archives inside the evidence that are known to hold a host's files:
+    /// a CatScale collection's inner archives, as one host root `<output folder>/<host>/[root]`
+    /// (a path that several of them hold is kept once), and, with `wrapped`, a UAC collection
+    /// inside another archive.
+    fn expand_nested(&mut self, keep: &dyn Fn(&str) -> bool, wrapped: bool) {
+        // The CatScale archive of home directories does not name the host: the others do.
+        let mut hosts = self.entries.iter().filter_map(|e| archive::catscale_archive(&e.path)).map(|(_, host)| host);
+        let host = hosts.find(|h| !h.is_empty()).unwrap_or("catscale").to_string();
+        let root_of = |path: &str| match archive::catscale_archive(path) {
+            Some((folder, _)) => Some(format!("{folder}/{host}/[root]")),
+            None => archive::wrapped_uac(path).filter(|_| wrapped).map(str::to_string),
+        };
+        let inner: Vec<(usize, String)> =
+            self.entries.iter().enumerate().filter_map(|(i, e)| Some((i, root_of(&e.path)?))).collect();
         let mut added = Vec::new();
-        for (nth, &i) in inner.iter().enumerate() {
-            let entry = &self.entries[i];
-            let Some((folder, _)) = archive::catscale_archive(&entry.path) else { continue };
-            let root = format!("{folder}/{host}/[root]");
+        for (nth, (i, root)) in inner.iter().enumerate() {
+            let entry = &self.entries[*i];
             let scratch = self.scratch.join(format!("nested-{nth}"));
             let mut warnings = Vec::new();
             let listed = self.read(entry).and_then(|data| archive::nested_tar_gz(&data, keep, &scratch, &mut warnings));
@@ -204,7 +214,24 @@ impl Source {
             let path = entry.path.clone();
             self.warnings.extend(warnings.into_iter().map(|w| format!("{path}: {w}")));
         }
-        if !added.is_empty() {
+        // CatScale writes command output to `<folder>/<Section>/<file>.txt`. The host's root is
+        // `<folder>/<host>/[root]`, so the sections move next to it, where artifacts reach them
+        // with `../<Section>/...` as they reach UAC's `live_response/`.
+        let folders: HashSet<String> = inner
+            .iter()
+            .filter_map(|(i, _)| Some(archive::catscale_archive(&self.entries[*i].path)?.0.to_string()))
+            .collect();
+        for entry in &mut self.entries {
+            let moved = entry.path.rsplit_once('/').and_then(|(dir, file)| {
+                let (folder, section) = dir.rsplit_once('/')?;
+                (folders.contains(folder) && !section.contains('['))
+                    .then(|| format!("{folder}/{host}/{section}/{file}"))
+            });
+            if let Some(path) = moved {
+                entry.path = path;
+            }
+        }
+        if !added.is_empty() || !folders.is_empty() {
             self.entries.append(&mut added);
             // A stable sort keeps the first archive's copy of a path that several hold.
             self.entries.sort_by(|a, b| a.path.cmp(&b.path));

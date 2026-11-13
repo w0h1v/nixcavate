@@ -1,0 +1,4 @@
+sectorsize		4096
+nodesize		4096
+num_devices		1
+incompat_flags		0x145

@@ -1,0 +1,9 @@
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST / HTTP/1.1" 200 50264 CUPS-Get-PPD -
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /admin/ HTTP/1.1" 401 50334 CUPS-Add-Modify-Printer successful-ok
+localhost - root [13/Nov/2026:01:49:28 +0000] "POST /admin/ HTTP/1.1" 200 50334 CUPS-Add-Modify-Printer successful-ok
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /printers/nxprint HTTP/1.1" 200 364 Create-Job successful-ok
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /printers/nxprint HTTP/1.1" 200 289 Send-Document successful-ok
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /printers/nxprint HTTP/1.1" 200 369 Create-Job successful-ok
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /printers/nxprint HTTP/1.1" 200 289 Send-Document successful-ok
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /printers/nxprint HTTP/1.1" 200 358 Create-Job successful-ok
+localhost - - [13/Nov/2026:01:49:28 +0000] "POST /printers/nxprint HTTP/1.1" 200 5351 Send-Document successful-ok

@@ -1,0 +1,31 @@
+2026-11-13T01:18:47.841715Z INFO Daemon Daemon Azure Linux Agent Version:2.7.3.0
+2026-11-13T01:18:47.841806Z INFO Daemon Daemon OS: debian 12
+2026-11-13T01:18:47.841839Z INFO Daemon Daemon Python: 3.11.2
+2026-11-13T01:18:47.841940Z INFO Daemon Daemon Run daemon
+2026-11-13T01:18:47.841977Z INFO Daemon Daemon No RDMA handler exists for distro='Debian GNU/Linux' version='12'
+2026-11-13T01:18:47.841997Z INFO Daemon Daemon Using cloud-init for provisioning
+2026-11-13T01:18:47.842322Z INFO Daemon Daemon Unable to get cloud-init enabled status from systemctl: [Errno 2] No such file or directory: 'systemctl'
+2026-11-13T01:18:47.843702Z INFO Daemon Daemon Unable to get cloud-init enabled status from service: Command '['service', 'cloud-init', 'status']' returned non-zero exit status 1.
+2026-11-13T01:18:47.843758Z INFO Daemon Daemon cloud-init is enabled: False
+2026-11-13T01:18:47.843784Z INFO Daemon Daemon Activate resource disk
+2026-11-13T01:18:47.843806Z INFO Daemon Daemon Searching gen1 prefix 00000000-0001 or gen2 f8b3781a-1e82-4818-a1c3-63d806ec15bb
+2026-11-13T01:18:47.843832Z INFO Daemon Daemon Found device: None
+2026-11-13T01:18:47.843853Z ERROR Daemon Daemon Failed to mount resource disk [ResourceDiskError] unable to detect disk topology
+2026-11-13T01:18:47.843874Z ERROR Daemon Daemon Event: name=WALinuxAgent, op=ActivateResourceDisk, message=[ResourceDiskError] unable to detect disk topology, duration=0
+2026-11-13T01:18:47.844121Z INFO Daemon Daemon Clean protocol and wireserver endpoint
+2026-11-13T01:18:47.844157Z INFO Daemon Daemon Running CloudInit provisioning handler
+2026-11-13T01:18:47.844181Z INFO Daemon Daemon Waiting for cloud-init to copy ovf-env.xml to /var/lib/waagent/ovf-env.xml [1800 retries remaining, sleeping 1s between retries]
+2026-11-13T01:18:47.844557Z INFO Daemon Daemon Unable to get cloud-init enabled status from systemctl: [Errno 2] No such file or directory: 'systemctl'
+2026-11-13T01:18:47.845822Z INFO Daemon Daemon Unable to get cloud-init enabled status from service: Command '['service', 'cloud-init', 'status']' returned non-zero exit status 1.
+2026-11-13T01:18:47.845913Z INFO Daemon Daemon cloud-init is enabled: False
+2026-11-13T01:18:47.845939Z WARNING Daemon Daemon cloud-init does not appear to be enabled
+2026-11-13T01:19:07.887721Z INFO Daemon Daemon Waiting for cloud-init to copy ovf-env.xml to /var/lib/waagent/ovf-env.xml [1780 retries remaining, sleeping 1s between retries]
+2026-11-13T01:19:07.889628Z INFO Daemon Daemon Unable to get cloud-init enabled status from systemctl: [Errno 2] No such file or directory: 'systemctl'
+2026-11-13T01:19:07.894197Z INFO Daemon Daemon Unable to get cloud-init enabled status from service: Command '['service', 'cloud-init', 'status']' returned non-zero exit status 1.
+2026-11-13T01:19:07.894520Z INFO Daemon Daemon cloud-init is enabled: False
+2026-11-13T01:19:07.894580Z WARNING Daemon Daemon cloud-init does not appear to be enabled
+2026-11-13T01:19:27.925130Z INFO Daemon Daemon Waiting for cloud-init to copy ovf-env.xml to /var/lib/waagent/ovf-env.xml [1760 retries remaining, sleeping 1s between retries]
+2026-11-13T01:19:27.925891Z INFO Daemon Daemon Unable to get cloud-init enabled status from systemctl: [Errno 2] No such file or directory: 'systemctl'
+2026-11-13T01:19:27.928573Z INFO Daemon Daemon Unable to get cloud-init enabled status from service: Command '['service', 'cloud-init', 'status']' returned non-zero exit status 1.
+2026-11-13T01:19:27.928705Z INFO Daemon Daemon cloud-init is enabled: False
+2026-11-13T01:19:27.928753Z WARNING Daemon Daemon cloud-init does not appear to be enabled

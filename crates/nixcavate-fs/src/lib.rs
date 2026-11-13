@@ -13,8 +13,11 @@
 //! and is fuzzed on its own.
 
 pub mod apfs;
+pub mod btrfs;
 pub mod ext4;
+pub mod ufs;
 pub mod xfs;
+pub mod zfs;
 
 use std::borrow::Cow;
 use std::collections::HashSet;

@@ -1,0 +1,22 @@
+---
+source: crates/nixcavate-artifacts/src/linux/net_service_logs.rs
+expression: out
+---
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":0,"time":"2026-11-13T01:24:56.747Z","client_ip":"127.0.0.1","client_port":35571,"qname":"www.example.test","qclass":"IN","qtype":"A","flags":"+E(0)K","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":147,"time":"2026-11-13T01:24:56.762Z","client_ip":"127.0.0.1","client_port":33083,"qname":"www.example.test","qclass":"IN","qtype":"AAAA","flags":"+E(0)K","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":297,"time":"2026-11-13T01:24:56.777Z","client_ip":"127.0.0.1","client_port":52905,"qname":"example.test","qclass":"IN","qtype":"MX","flags":"+E(0)K","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":437,"time":"2026-11-13T01:24:56.793Z","client_ip":"127.0.0.1","client_port":34763,"qname":"example.test","qclass":"IN","qtype":"TXT","flags":"+E(0)TK","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":579,"time":"2026-11-13T01:24:56.811Z","client_ip":"127.0.0.1","client_port":38440,"qname":"nosuch.example.test","qclass":"IN","qtype":"A","flags":"+E(0)K","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":732,"time":"2026-11-13T01:24:56.816Z","client_ip":"127.0.0.1","client_port":57090,"qname":"10.2.0.192.in-addr.arpa","qclass":"IN","qtype":"PTR","flags":"+E(0)K","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":895,"time":"2026-11-13T01:24:56.832Z","client_ip":"127.0.0.1","client_port":38212,"qname":"www.example.test","qclass":"IN","qtype":"A","flags":"-E(0)","server_ip":"127.0.0.1","view":null}
+{"host":"memory","artifact":"named-query-log","source_path":"var/log/named/query.log","source_offset":1041,"time":"2026-11-13T01:24:56.849Z","client_ip":"127.0.0.1","client_port":37559,"qname":"example.test","qclass":"IN","qtype":"ANY","flags":"+E(0)TK","server_ip":"127.0.0.1","view":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:24:56.747Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked www.example.test IN A,var/log/named/query.log,,0,,
+2026-11-13T01:24:56.762Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked www.example.test IN AAAA,var/log/named/query.log,,147,,
+2026-11-13T01:24:56.777Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked example.test IN MX,var/log/named/query.log,,297,,
+2026-11-13T01:24:56.793Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked example.test IN TXT,var/log/named/query.log,,437,,
+2026-11-13T01:24:56.811Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked nosuch.example.test IN A,var/log/named/query.log,,579,,
+2026-11-13T01:24:56.816Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked 10.2.0.192.in-addr.arpa IN PTR,var/log/named/query.log,,732,,
+2026-11-13T01:24:56.832Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked www.example.test IN A,var/log/named/query.log,,895,,
+2026-11-13T01:24:56.849Z,millis,assumed_zone,memory,named-query-log,dns_query,127.0.0.1 asked example.test IN ANY,var/log/named/query.log,,1041,,

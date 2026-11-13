@@ -1,0 +1,10 @@
+<vib version="5.0">
+  <type>bootbank</type>
+  <name>example-net-driver</name>
+  <version>1.0.0-1OEM.670.0.0.8169922</version>
+  <vendor>Example</vendor>
+  <summary>Example network driver</summary>
+  <release-date>2019-03-11T00:00:00.000000+00:00</release-date>
+  <acceptance-level>certified</acceptance-level>
+  <file-list/>
+</vib>

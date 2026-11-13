@@ -49,3 +49,23 @@ cp /tmp/r/var/lib/rpm/Packages Packages-s390x
 `rpm --root /tmp/r -qa --qf '%{NAME}-%{VERSION}-%{RELEASE}.%{ARCH} %{INSTALLTIME}\n'` in the same
 container lists exactly the five packages in each snapshot (`gpg-pubkey` prints arch `(none)`,
 which the parser reports as empty).
+
+## ndb `Packages.db`
+
+`Packages.db` (46 KiB) is a fresh SUSE-style database built in a throwaway
+`opensuse/leap:15.6` container (aarch64, rpm 4.14.3 with the default ndb backend): five real
+packages were registered with `--justdb`, then `which` was erased, which leaves a free slot.
+It holds `gzip`, `hostname`, `tree` and `zip`:
+
+```sh
+docker run --rm --platform linux/arm64 -v "$PWD/out:/out" opensuse/leap:15.6 bash -c '
+  zypper -n download gzip hostname tree zip which
+  D="--dbpath /tmp/db --define _db_backend=ndb"
+  rpm --initdb $D
+  for r in $(find /var/cache/zypp/packages -name "*.rpm"); do
+    rpm $D -i --justdb --nodeps --nosignature --noscripts $r; done
+  rpm $D -e --justdb --nodeps --noscripts which
+  cp /tmp/db/Packages.db /out/'
+```
+
+`rpm -qa` on that directory lists the same four packages, with install times 2026-11-12T22:33:48Z.

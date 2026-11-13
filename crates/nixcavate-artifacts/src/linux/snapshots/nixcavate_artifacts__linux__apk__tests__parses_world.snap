@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/apk.rs
+expression: "run(&WORLD, \"etc/apk/world\", data, 0)"
+---
+{"host":"memory","artifact":"apk-world","source_path":"etc/apk/world","source_line":1,"entry":"alpine-base","package":"alpine-base","constraint":""}
+{"host":"memory","artifact":"apk-world","source_path":"etc/apk/world","source_line":2,"entry":"busybox>=1.37.0-r0","package":"busybox","constraint":">=1.37.0-r0"}
+{"host":"memory","artifact":"apk-world","source_path":"etc/apk/world","source_line":3,"entry":"openssh@edge","package":"openssh","constraint":""}
+{"host":"memory","artifact":"apk-world","source_path":"etc/apk/world","source_line":4,"entry":"!conflicting","package":"conflicting","constraint":""}
+{"host":"memory","artifact":"apk-world","source_path":"etc/apk/world","source_line":5,"entry":"curl=8.0","package":"curl","constraint":"=8.0"}

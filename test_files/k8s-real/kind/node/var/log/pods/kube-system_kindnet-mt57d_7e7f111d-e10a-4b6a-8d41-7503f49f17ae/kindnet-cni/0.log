@@ -1,0 +1,34 @@
+2026-11-13T01:23:54.920160304Z stderr F I1113 01:23:54.919366       1 main.go:390] probe TCP address l8s-control-plane:6443
+2026-11-13T01:23:54.920194887Z stderr F I1113 01:23:54.920174       1 main.go:109] connected to apiserver: https://l8s-control-plane:6443
+2026-11-13T01:23:54.920292346Z stderr F I1113 01:23:54.920265       1 main.go:139] hostIP = 192.168.164.2
+2026-11-13T01:23:54.920298388Z stderr F podIP = 192.168.164.2
+2026-11-13T01:23:54.920370013Z stderr F I1113 01:23:54.920352       1 main.go:148] setting mtu 1500 for CNI 
+2026-11-13T01:23:54.920388847Z stderr F I1113 01:23:54.920381       1 main.go:178] kindnetd IP family: "ipv4"
+2026-11-13T01:23:54.920401763Z stderr F I1113 01:23:54.920394       1 main.go:182] noMask IPv4 subnets: [10.244.0.0/16]
+2026-11-13T01:23:55.017273876Z stderr F time="2026-11-13T01:23:55Z" level=info msg="Created plugin 10-kube-network-policies (kindnetd, handles RunPodSandbox,RemovePodSandbox)"
+2026-11-13T01:23:55.017420876Z stderr F I1113 01:23:55.017396       1 controller.go:377] "Starting controller" name="kube-network-policies"
+2026-11-13T01:23:55.017450043Z stderr F I1113 01:23:55.017436       1 controller.go:381] "Waiting for informer caches to sync"
+2026-11-13T01:23:55.017484377Z stderr F I1113 01:23:55.017478       1 shared_informer.go:350] "Waiting for caches to sync" controller="kube-network-policies"
+2026-11-13T01:23:55.017923713Z stderr F time="2026-11-13T01:23:55Z" level=info msg="Registering plugin 10-kube-network-policies..."
+2026-11-13T01:23:55.113427901Z stderr F time="2026-11-13T01:23:55Z" level=info msg="Configuring plugin 10-kube-network-policies for runtime containerd/v2.1.3..."
+2026-11-13T01:23:55.113439984Z stderr F time="2026-11-13T01:23:55Z" level=info msg="Started plugin 10-kube-network-policies..."
+2026-11-13T01:23:55.11815451Z stderr F I1113 01:23:55.118081       1 shared_informer.go:357] "Caches are synced" controller="kube-network-policies"
+2026-11-13T01:23:55.118190302Z stderr F I1113 01:23:55.118182       1 metrics.go:72] Registering metrics
+2026-11-13T01:23:55.118237469Z stderr F I1113 01:23:55.118229       1 controller.go:711] "Syncing nftables rules"
+2026-11-13T01:23:55.118382344Z stderr F I1113 01:23:55.118316       1 nri.go:56] Synchronized state with the runtime (6 pods, 6 containers)...
+2026-11-13T01:24:05.024585694Z stderr F I1113 01:24:05.024435       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:24:05.024596694Z stderr F I1113 01:24:05.024473       1 main.go:301] handling current node
+2026-11-13T01:24:15.018388564Z stderr F I1113 01:24:15.017700       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:24:15.018454647Z stderr F I1113 01:24:15.018270       1 main.go:301] handling current node
+2026-11-13T01:24:25.024342875Z stderr F I1113 01:24:25.024171       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:24:25.024361Z stderr F I1113 01:24:25.024240       1 main.go:301] handling current node
+2026-11-13T01:24:35.028203966Z stderr F I1113 01:24:35.027483       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:24:35.028222758Z stderr F I1113 01:24:35.027525       1 main.go:301] handling current node
+2026-11-13T01:24:45.020192493Z stderr F I1113 01:24:45.020021       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:24:45.020222368Z stderr F I1113 01:24:45.020070       1 main.go:301] handling current node
+2026-11-13T01:24:55.018800555Z stderr F I1113 01:24:55.018671       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:24:55.01882068Z stderr F I1113 01:24:55.018720       1 main.go:301] handling current node
+2026-11-13T01:25:05.018817625Z stderr F I1113 01:25:05.018477       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:25:05.018901543Z stderr F I1113 01:25:05.018542       1 main.go:301] handling current node
+2026-11-13T01:25:15.027023199Z stderr F I1113 01:25:15.026516       1 main.go:297] Handling node with IPs: map[192.168.164.2:{}]
+2026-11-13T01:25:15.027110533Z stderr F I1113 01:25:15.026557       1 main.go:301] handling current node

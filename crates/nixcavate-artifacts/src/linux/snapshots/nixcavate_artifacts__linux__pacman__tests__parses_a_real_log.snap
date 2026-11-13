@@ -1,0 +1,32 @@
+---
+source: crates/nixcavate-artifacts/src/linux/pacman.rs
+expression: "run(&LOG, \"var/log/pacman.log\", &fixture(\"pacman-log/pacman.log\"), 0)"
+---
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":0,"time":"2026-11-12T22:31:36Z","time_basis":"recorded","source":"PACMAN","action":"","package":"","version":"","old_version":"","command":"pacman -Sy --noconfirm tree jq","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":77,"time":"2026-11-12T22:31:36Z","time_basis":"recorded","source":"PACMAN","action":"","package":"","version":"","old_version":"","command":"","message":"synchronizing package lists"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":141,"time":"2026-11-12T22:31:37Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"transaction started"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":195,"time":"2026-11-12T22:31:37Z","time_basis":"recorded","source":"ALPM","action":"installed","package":"tree","version":"2.3.2-1","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":254,"time":"2026-11-12T22:31:37Z","time_basis":"recorded","source":"ALPM","action":"installed","package":"oniguruma","version":"6.9.10-3","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":319,"time":"2026-11-12T22:31:37Z","time_basis":"recorded","source":"ALPM","action":"installed","package":"jq","version":"1.8.2-1","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":376,"time":"2026-11-12T22:31:38Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"transaction completed"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":432,"time":"2026-11-12T22:31:38Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"running '35-systemd-update.hook'..."}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":502,"time":"2026-11-12T22:31:38Z","time_basis":"recorded","source":"PACMAN","action":"","package":"","version":"","old_version":"","command":"pacman -S --noconfirm zip","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":574,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"transaction started"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":628,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"installed","package":"zip","version":"3.0-14","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":685,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"transaction completed"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":741,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"running '35-systemd-update.hook'..."}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":811,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"PACMAN","action":"","package":"","version":"","old_version":"","command":"pacman -R --noconfirm zip","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":883,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"transaction started"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":937,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"removed","package":"zip","version":"3.0-14","old_version":"","command":"","message":""}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":992,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"transaction completed"}
+{"host":"memory","artifact":"pacman-log","source_path":"var/log/pacman.log","source_offset":1048,"time":"2026-11-12T22:31:39Z","time_basis":"recorded","source":"ALPM","action":"","package":"","version":"","old_version":"","command":"","message":"running '35-systemd-update.hook'..."}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:31:36Z,seconds,recorded,memory,pacman-log,package_command,pacman -Sy --noconfirm tree jq,var/log/pacman.log,,0,,
+2026-11-12T22:31:37Z,seconds,recorded,memory,pacman-log,package_installed,installed tree 2.3.2-1,var/log/pacman.log,,195,,
+2026-11-12T22:31:37Z,seconds,recorded,memory,pacman-log,package_installed,installed oniguruma 6.9.10-3,var/log/pacman.log,,254,,
+2026-11-12T22:31:37Z,seconds,recorded,memory,pacman-log,package_installed,installed jq 1.8.2-1,var/log/pacman.log,,319,,
+2026-11-12T22:31:38Z,seconds,recorded,memory,pacman-log,package_command,pacman -S --noconfirm zip,var/log/pacman.log,,502,,
+2026-11-12T22:31:39Z,seconds,recorded,memory,pacman-log,package_installed,installed zip 3.0-14,var/log/pacman.log,,628,,
+2026-11-12T22:31:39Z,seconds,recorded,memory,pacman-log,package_command,pacman -R --noconfirm zip,var/log/pacman.log,,811,,
+2026-11-12T22:31:39Z,seconds,recorded,memory,pacman-log,package_removed,removed zip 3.0-14,var/log/pacman.log,,937,,

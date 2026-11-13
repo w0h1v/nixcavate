@@ -1,0 +1,8 @@
+ProblemType=Crash
+Date=Fri Nov 13 02:28:34 2026
+ExecutablePath=/tmp/my-daemon
+ProcCmdline=/tmp/my-daemon 1000
+Signal=11
+Package=coreutils 9.4-3ubuntu6
+Architecture=arm64
+Uid:	1001	1001	1001	1001

@@ -1,0 +1,6 @@
+Validating rules from  /etc/cloudflared/config.yml
+OK
+Using rules from /etc/cloudflared/config.yml
+Matched rule #1
+	hostname: ssh.example.com
+	service: ssh://localhost:22

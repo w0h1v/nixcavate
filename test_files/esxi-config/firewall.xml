@@ -1,0 +1,20 @@
+<ConfigRoot>
+  <service id='0100'>
+    <id>example-backdoor</id>
+    <rule id='0000'>
+      <direction>outbound</direction>
+      <protocol>tcp</protocol>
+      <port type='dst'>4444</port>
+    </rule>
+    <rule id='0001'>
+      <direction>inbound</direction>
+      <protocol>tcp</protocol>
+      <port type='dst'>
+        <begin>8000</begin>
+        <end>8010</end>
+      </port>
+    </rule>
+    <enabled>true</enabled>
+    <required>false</required>
+  </service>
+</ConfigRoot>

@@ -1,0 +1,8 @@
+rendezvous_server = 'rd.example.com:21116'
+nat_type = 1
+serial = 0
+
+[options]
+custom-rendezvous-server = 'rd.example.com'
+relay-server = 'rd.example.com'
+key = 'EXAMPLE-RUSTDESK-SERVER-PUBLIC-KEY'

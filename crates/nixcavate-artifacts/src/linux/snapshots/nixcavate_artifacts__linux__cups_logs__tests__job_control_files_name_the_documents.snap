@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/cups_logs.rs
+expression: "run(&JOBS, \"var/spool/cups/c00001\", &fixture(\"cups-jobs/c00001\"), 0)"
+---
+{"host":"memory","artifact":"cups-jobs","source_path":"var/spool/cups/c00001","source_offset":0,"job_id":1,"user":"alice","client_host":"localhost","title":"Q3 Financial Report","printer":"nxprint","copies":1,"job_uuid":"urn:uuid:63b44a39-17fe-31e1-5afd-3fa3c52df3ab","document_format":"text/plain","created":"2026-11-13T01:49:28Z","processing":"2026-11-13T01:49:28Z","completed":"2026-11-13T01:49:28Z","sheets_completed":1}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:49:28Z,seconds,recorded,memory,cups-jobs,print_job_submitted,"alice submitted ""Q3 Financial Report"" to nxprint from localhost",var/spool/cups/c00001,,0,,

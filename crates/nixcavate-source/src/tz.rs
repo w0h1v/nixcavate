@@ -215,6 +215,15 @@ impl Tz {
         Tz { trans: Vec::new(), after: Vec::new(), first: 0, rule: None, fallback: true }
     }
 
+    /// A zone from a POSIX TZ string such as `CST6CDT,M3.2.0,M11.1.0` (what AIX keeps in
+    /// `/etc/environment`). `None` when the string does not parse.
+    pub fn from_posix(spec: &str) -> Option<Tz> {
+        let rule = parse_posix(spec)?;
+        let mut tz = Tz { trans: Vec::new(), after: Vec::new(), first: rule.std, rule: Some(rule), fallback: false };
+        tz.materialize_rule();
+        Some(tz)
+    }
+
     /// Parses TZif (RFC 8536) version 1, 2, 3 or 4. Returns None for anything malformed. Never panics on any input.
     pub fn parse(tzif: &[u8]) -> Option<Tz> {
         if tzif.get(..4)? != b"TZif" || !matches!(*tzif.get(4)?, 0 | b'2' | b'3' | b'4') {

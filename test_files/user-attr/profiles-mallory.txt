@@ -1,0 +1,4 @@
+mallory:
+          Primary Administrator
+          Basic Solaris User
+          All

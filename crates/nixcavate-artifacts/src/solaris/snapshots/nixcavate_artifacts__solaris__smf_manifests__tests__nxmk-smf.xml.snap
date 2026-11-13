@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/smf_manifests.rs
+expression: "run(&ARTIFACT, path, &fixture(&format!(\"smf-manifests/{name}\")),\n1_794_532_000)"
+---
+{"host":"memory","artifact":"smf-manifests","source_path":"var/svc/manifest/site/nxmk-smf.xml","source_line":null,"service":"site/nxmk-smf","bundle":"nxmk-smf","instances":["default (disabled)"],"start_exec":"/var/svc/method/nxmk-smf %m","stop_exec":":true","refresh_exec":null,"other_methods":[],"method_user":null,"duration":"transient","dependencies":["fs (require_all): svc:/system/filesystem/local"],"modified":"2026-11-13T01:06:40Z"}

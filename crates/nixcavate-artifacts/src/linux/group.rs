@@ -1,12 +1,12 @@
 //! `/etc/group`: local groups and their members. Format: group(5).
 
 use crate::text::{for_each_line, lossy};
-use crate::{Artifact, Category, Input, LINUX};
+use crate::{Artifact, Category, Input, UNIX};
 use nixcavate_core::{Loc, Record, Result, Sink};
 use serde::Serialize;
 
 pub const ARTIFACT: Artifact =
-    Artifact::new("group", "Local groups and members", Category::Accounts, LINUX, &["etc/group", "etc/group-"], parse);
+    Artifact::new("group", "Local groups and members", Category::Accounts, UNIX, &["etc/group", "etc/group-"], parse);
 
 #[derive(Serialize)]
 struct Group<'a> {

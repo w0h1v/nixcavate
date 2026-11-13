@@ -1,0 +1,19 @@
+! *** cron started ***   pid = 805 Fri Nov 13 01:13:52 2026
+>  CMD: /usr/bin/true #nxcron-every-minute
+>  alice 1687 c Fri Nov 13 01:17:00 2026
+<  alice 1687 c Fri Nov 13 01:17:01 2026
+>  CMD: /usr/bin/true #nxcron-every-minute
+>  alice 1689 c Fri Nov 13 01:18:00 2026
+<  alice 1689 c Fri Nov 13 01:18:00 2026
+>  CMD: /usr/bin/true #nxcron-every-minute
+>  alice 1691 c Fri Nov 13 01:19:00 2026
+<  alice 1691 c Fri Nov 13 01:19:00 2026
+>  CMD: /tmp/.NXMK_CRON/agent --quiet
+>  root 1693 c Fri Nov 13 01:20:00 2026
+>  CMD: /usr/bin/true #nxcron-every-minute
+>  alice 1694 c Fri Nov 13 01:20:00 2026
+<  root 1693 c Fri Nov 13 01:20:00 2026 rc=127
+<  alice 1694 c Fri Nov 13 01:20:00 2026
+! SIGTERM Fri Nov 13 01:20:29 2026
+! ******* CRON ABORTED ******** Fri Nov 13 01:20:29 2026
+! *** cron started ***   pid = 400 Fri Nov 13 01:20:52 2026

@@ -3,7 +3,7 @@
 //! that does not fit keeps its full text and gets a warning.
 
 use crate::logical_lines::{for_each_logical, Dialect};
-use crate::{Artifact, Category, Input, LINUX};
+use crate::{Artifact, Category, Input, ANY_OS};
 use nixcavate_core::{Loc, Record, Result, Sink};
 use serde::Serialize;
 
@@ -11,8 +11,20 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "sudoers",
     "sudo rules, aliases and defaults",
     Category::Accounts,
-    LINUX,
-    &["etc/sudoers", "etc/sudoers.d/*"],
+    ANY_OS,
+    &[
+        "etc/sudoers",
+        "etc/sudoers.d/*",
+        "private/etc/sudoers",
+        "private/etc/sudoers.d/*",
+        "etc/opt/csw/sudoers",
+        "opt/csw/etc/sudoers",
+        // FreeBSD (ports) and NetBSD (pkgsrc) keep sudo's files under their package prefix.
+        "usr/local/etc/sudoers",
+        "usr/local/etc/sudoers.d/*",
+        "usr/pkg/etc/sudoers",
+        "usr/pkg/etc/sudoers.d/*",
+    ],
     parse,
 );
 

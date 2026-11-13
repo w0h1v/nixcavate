@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/ips_history.rs
+expression: out
+---
+{"host":"memory","artifact":"ips-history","source_path":"var/pkg/history/20261113T011434Z-01.xml","source_line":null,"operation":"refresh-publishers","start":"2026-11-13T01:14:34Z","end":"2026-11-13T01:14:40Z","result":"Succeeded, None","user":"omnios","uid":100,"command":"/usr/bin/pkg install system/accounting/legacy","boot_environment":"omnios-r151054","changes":[]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:14:40Z,seconds,recorded,memory,ips-history,package_command,refresh-publishers (/usr/bin/pkg install system/accounting/legacy),var/pkg/history/20261113T011434Z-01.xml,,,,

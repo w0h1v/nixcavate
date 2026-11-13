@@ -1,0 +1,6 @@
+Name                           Version                               Vendor   Acceptance Level  Install Date
+------------------------------------------------------------------------------------------------------------
+example-net-driver             1.0.0-1OEM.670.0.0.8169922            Example  VMwareCertified   2025-01-01
+esx-base                       6.7.0-3.143.19195723                  VMware   VMwareCertified   2025-01-01
+example-agent                  1.2.3-1                               example  CommunitySupported 2025-01-10
+bad-date-row                   1.0                                   example  PartnerSupported  not-a-date

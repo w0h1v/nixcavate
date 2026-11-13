@@ -1,0 +1,73 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/utmpx.rs
+expression: "run(&WTMPX, \"var/adm/wtmpx\", &fixture(\"wtmpx/wtmpx\"), 0)"
+---
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":0,"time":"2026-11-13T01:13:40.000000Z","type":"boot_time","user":"","line":"system boot","remote_host":"","pid":0,"id":"","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":372,"time":"2026-11-13T01:13:51.000000Z","type":"run_level","user":"","line":"run-level S","remote_host":"","pid":0,"id":"","session":0,"exit_termination":83,"exit_status":48,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":744,"time":"2026-11-13T01:13:51.000000Z","type":"run_level","user":"","line":"run-level S","remote_host":"","pid":0,"id":"","session":0,"exit_termination":83,"exit_status":48,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":1116,"time":"2026-11-13T01:13:51.000000Z","type":"run_level","user":"","line":"run-level S","remote_host":"","pid":0,"id":"","session":0,"exit_termination":83,"exit_status":48,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":1488,"time":"2026-11-13T01:13:51.000000Z","type":"run_level","user":"","line":"run-level 3","remote_host":"","pid":0,"id":"","session":0,"exit_termination":51,"exit_status":83,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":1860,"time":"2026-11-13T01:13:52.000000Z","type":"login_process","user":"zsmon","line":"","remote_host":"","pid":831,"id":"PM10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":2232,"time":"2026-11-13T01:14:16.000000Z","type":"init_process","user":".startd","line":"","remote_host":"","pid":1210,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":2604,"time":"2026-11-13T01:14:16.000000Z","type":"init_process","user":".startd","line":"","remote_host":"","pid":1210,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":2976,"time":"2026-11-13T01:14:16.000000Z","type":"login_process","user":"LOGIN","line":"console","remote_host":"","pid":1210,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":3348,"time":"2026-11-13T01:15:32.902772Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":1434,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":3720,"time":"2026-11-13T01:15:32.910103Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":1434,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":4092,"time":"2026-11-13T01:15:34.031229Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":1440,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":4464,"time":"2026-11-13T01:15:34.039324Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":1440,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":4836,"time":"2026-11-13T01:15:35.151389Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":1446,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":5208,"time":"2026-11-13T01:15:35.157882Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":1446,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":5580,"time":"2026-11-13T01:15:36.264131Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":1452,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":5952,"time":"2026-11-13T01:15:36.271268Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":1452,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":6324,"time":"2026-11-13T01:15:37.371224Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":1458,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":6696,"time":"2026-11-13T01:15:37.377001Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":1458,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":7068,"time":"2026-11-13T01:20:28.000000Z","type":"run_level","user":"","line":"run-level 6","remote_host":"","pid":0,"id":"","session":0,"exit_termination":54,"exit_status":51,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":7440,"time":"2026-11-13T01:20:29.000000Z","type":"dead_process","user":"LOGIN","line":"console","remote_host":"","pid":1210,"id":"co10","session":0,"exit_termination":9,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":7812,"time":"2026-11-13T01:20:29.000000Z","type":"dead_process","user":"zsmon","line":"","remote_host":"","pid":831,"id":"PM10","session":0,"exit_termination":0,"exit_status":1,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":8184,"time":"2026-11-13T01:20:29.000000Z","type":"down_time","user":"","line":"system down","remote_host":"","pid":0,"id":"","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":8556,"time":"2026-11-13T01:20:46.000000Z","type":"boot_time","user":"","line":"system boot","remote_host":"","pid":0,"id":"","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":8928,"time":"2026-11-13T01:20:51.000000Z","type":"run_level","user":"","line":"run-level S","remote_host":"","pid":0,"id":"","session":0,"exit_termination":83,"exit_status":48,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":9300,"time":"2026-11-13T01:20:51.000000Z","type":"run_level","user":"","line":"run-level S","remote_host":"","pid":0,"id":"","session":0,"exit_termination":83,"exit_status":48,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":9672,"time":"2026-11-13T01:20:51.000000Z","type":"run_level","user":"","line":"run-level S","remote_host":"","pid":0,"id":"","session":0,"exit_termination":83,"exit_status":48,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":10044,"time":"2026-11-13T01:20:51.000000Z","type":"run_level","user":"","line":"run-level 3","remote_host":"","pid":0,"id":"","session":0,"exit_termination":51,"exit_status":83,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":10416,"time":"2026-11-13T01:20:51.000000Z","type":"login_process","user":"zsmon","line":"","remote_host":"","pid":379,"id":"PM10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":10788,"time":"2026-11-13T01:20:57.000000Z","type":"init_process","user":".startd","line":"","remote_host":"","pid":688,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":11160,"time":"2026-11-13T01:20:57.000000Z","type":"init_process","user":".startd","line":"","remote_host":"","pid":688,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":11532,"time":"2026-11-13T01:20:57.000000Z","type":"login_process","user":"LOGIN","line":"console","remote_host":"","pid":688,"id":"co10","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":11904,"time":"2026-11-13T01:20:57.000000Z","type":"init_process","user":"agent","line":"","remote_host":"","pid":723,"id":"nx","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":12276,"time":"2026-11-13T01:20:57.000000Z","type":"dead_process","user":"agent","line":"","remote_host":"","pid":723,"id":"nx","session":0,"exit_termination":0,"exit_status":127,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":12648,"time":"2026-11-13T01:21:33.334457Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":755,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":13020,"time":"2026-11-13T01:21:33.343048Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":755,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":13392,"time":"2026-11-13T01:21:33.471295Z","type":"user_process","user":"alice","line":"pts/2","remote_host":"127.0.0.1","pid":762,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":9}
+{"host":"memory","artifact":"wtmpx","source_path":"var/adm/wtmpx","source_offset":13764,"time":"2026-11-13T01:21:33.479379Z","type":"dead_process","user":"alice","line":"pts/2","remote_host":"","pid":762,"id":"ts/2","session":0,"exit_termination":0,"exit_status":0,"host_length":0}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:13:40.000000Z,micros,recorded,memory,wtmpx,boot,system boot,var/adm/wtmpx,,0,,
+2026-11-13T01:13:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level S (S, was 0)",var/adm/wtmpx,,372,,
+2026-11-13T01:13:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level S (S, was 0)",var/adm/wtmpx,,744,,
+2026-11-13T01:13:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level S (S, was 0)",var/adm/wtmpx,,1116,,
+2026-11-13T01:13:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level 3 (3, was S)",var/adm/wtmpx,,1488,,
+2026-11-13T01:15:32.902772Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,3348,,
+2026-11-13T01:15:32.910103Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,3720,,
+2026-11-13T01:15:34.031229Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,4092,,
+2026-11-13T01:15:34.039324Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,4464,,
+2026-11-13T01:15:35.151389Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,4836,,
+2026-11-13T01:15:35.157882Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,5208,,
+2026-11-13T01:15:36.264131Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,5580,,
+2026-11-13T01:15:36.271268Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,5952,,
+2026-11-13T01:15:37.371224Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,6324,,
+2026-11-13T01:15:37.377001Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,6696,,
+2026-11-13T01:20:28.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level 6 (6, was 3)",var/adm/wtmpx,,7068,,
+2026-11-13T01:20:29.000000Z,micros,recorded,memory,wtmpx,logout,session ended on console,var/adm/wtmpx,,7440,,
+2026-11-13T01:20:29.000000Z,micros,recorded,memory,wtmpx,logout,"session ended on ",var/adm/wtmpx,,7812,,
+2026-11-13T01:20:29.000000Z,micros,recorded,memory,wtmpx,shutdown,system shutdown,var/adm/wtmpx,,8184,,
+2026-11-13T01:20:46.000000Z,micros,recorded,memory,wtmpx,boot,system boot,var/adm/wtmpx,,8556,,
+2026-11-13T01:20:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level S (S, was 0)",var/adm/wtmpx,,8928,,
+2026-11-13T01:20:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level S (S, was 0)",var/adm/wtmpx,,9300,,
+2026-11-13T01:20:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level S (S, was 0)",var/adm/wtmpx,,9672,,
+2026-11-13T01:20:51.000000Z,micros,recorded,memory,wtmpx,run_level,"run-level 3 (3, was S)",var/adm/wtmpx,,10044,,
+2026-11-13T01:20:57.000000Z,micros,recorded,memory,wtmpx,logout,"session ended on ",var/adm/wtmpx,,12276,,
+2026-11-13T01:21:33.334457Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,12648,,
+2026-11-13T01:21:33.343048Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,13020,,
+2026-11-13T01:21:33.471295Z,micros,recorded,memory,wtmpx,login,alice logged in on pts/2 from 127.0.0.1,var/adm/wtmpx,,13392,,
+2026-11-13T01:21:33.479379Z,micros,recorded,memory,wtmpx,logout,session ended on pts/2,var/adm/wtmpx,,13764,,

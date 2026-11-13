@@ -1,0 +1,155 @@
+/dev/md/raid5-090:
+           Version : 0.90
+     Creation Time : Thu Nov 12 16:50:13 2026
+        Raid Level : raid5
+        Array Size : 11904 (11.63 MiB 12.19 MB)
+     Used Dev Size : 3968
+      Raid Devices : 4
+     Total Devices : 4
+   Preferred Minor : 127
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 16:50:14 2026
+             State : active 
+    Active Devices : 4
+   Working Devices : 4
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : left-symmetric
+        Chunk Size : 128K
+
+Consistency Policy : resync
+
+              UUID : 47786ac1:959f42fe:c1f3cf51:f659bcf0
+            Events : 0.19
+
+    Number   Major   Minor   RaidDevice State
+       0       7        0        0      active sync   /dev/loop0
+       1       7        1        1      active sync   /dev/loop1
+       2       7        2        2      active sync   /dev/loop2
+       3       7        3        3      active sync   /dev/loop3
+/dev/loop0:
+          Magic : a92b4efc
+        Version : 0.90.00
+           UUID : 47786ac1:959f42fe:c1f3cf51:f659bcf0
+  Creation Time : Thu Nov 12 16:50:13 2026
+     Raid Level : raid5
+  Used Dev Size : 3968
+     Array Size : 11904 (11.63 MiB 12.19 MB)
+   Raid Devices : 4
+  Total Devices : 4
+Preferred Minor : 127
+
+    Update Time : Thu Nov 12 16:50:14 2026
+          State : active
+ Active Devices : 4
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 0
+       Checksum : 147f1f21 - correct
+         Events : 19
+
+         Layout : left-symmetric
+     Chunk Size : 128K
+
+      Number   Major   Minor   RaidDevice State
+this     0       7        0        0      active sync   /dev/loop0
+
+   0     0       7        0        0      active sync   /dev/loop0
+   1     1       7        1        1      active sync   /dev/loop1
+   2     2       7        2        2      active sync   /dev/loop2
+   3     3       7        3        3      active sync   /dev/loop3
+/dev/loop1:
+          Magic : a92b4efc
+        Version : 0.90.00
+           UUID : 47786ac1:959f42fe:c1f3cf51:f659bcf0
+  Creation Time : Thu Nov 12 16:50:13 2026
+     Raid Level : raid5
+  Used Dev Size : 3968
+     Array Size : 11904 (11.63 MiB 12.19 MB)
+   Raid Devices : 4
+  Total Devices : 4
+Preferred Minor : 127
+
+    Update Time : Thu Nov 12 16:50:14 2026
+          State : active
+ Active Devices : 4
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 0
+       Checksum : 147f1f24 - correct
+         Events : 19
+
+         Layout : left-symmetric
+     Chunk Size : 128K
+
+      Number   Major   Minor   RaidDevice State
+this     1       7        1        1      active sync   /dev/loop1
+
+   0     0       7        0        0      active sync   /dev/loop0
+   1     1       7        1        1      active sync   /dev/loop1
+   2     2       7        2        2      active sync   /dev/loop2
+   3     3       7        3        3      active sync   /dev/loop3
+/dev/loop2:
+          Magic : a92b4efc
+        Version : 0.90.00
+           UUID : 47786ac1:959f42fe:c1f3cf51:f659bcf0
+  Creation Time : Thu Nov 12 16:50:13 2026
+     Raid Level : raid5
+  Used Dev Size : 3968
+     Array Size : 11904 (11.63 MiB 12.19 MB)
+   Raid Devices : 4
+  Total Devices : 4
+Preferred Minor : 127
+
+    Update Time : Thu Nov 12 16:50:14 2026
+          State : active
+ Active Devices : 4
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 0
+       Checksum : 147f1f27 - correct
+         Events : 19
+
+         Layout : left-symmetric
+     Chunk Size : 128K
+
+      Number   Major   Minor   RaidDevice State
+this     2       7        2        2      active sync   /dev/loop2
+
+   0     0       7        0        0      active sync   /dev/loop0
+   1     1       7        1        1      active sync   /dev/loop1
+   2     2       7        2        2      active sync   /dev/loop2
+   3     3       7        3        3      active sync   /dev/loop3
+/dev/loop3:
+          Magic : a92b4efc
+        Version : 0.90.00
+           UUID : 47786ac1:959f42fe:c1f3cf51:f659bcf0
+  Creation Time : Thu Nov 12 16:50:13 2026
+     Raid Level : raid5
+  Used Dev Size : 3968
+     Array Size : 11904 (11.63 MiB 12.19 MB)
+   Raid Devices : 4
+  Total Devices : 4
+Preferred Minor : 127
+
+    Update Time : Thu Nov 12 16:50:14 2026
+          State : active
+ Active Devices : 4
+Working Devices : 4
+ Failed Devices : 0
+  Spare Devices : 0
+       Checksum : 147f1f2a - correct
+         Events : 19
+
+         Layout : left-symmetric
+     Chunk Size : 128K
+
+      Number   Major   Minor   RaidDevice State
+this     3       7        3        3      active sync   /dev/loop3
+
+   0     0       7        0        0      active sync   /dev/loop0
+   1     1       7        1        1      active sync   /dev/loop1
+   2     2       7        2        2      active sync   /dev/loop2
+   3     3       7        3        3      active sync   /dev/loop3

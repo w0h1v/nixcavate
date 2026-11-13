@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/aix/persistence.rs
+expression: "run(&TRUST, \"etc/hosts.equiv\", b\"peer1\\npeer2 +\\n\", 0)"
+---
+{"host":"memory","artifact":"aix-rhosts","source_path":"etc/hosts.equiv","source_line":1,"file":"hosts.equiv","owner":"","peer":"peer1","user":null,"denied":false,"wildcard":false}
+{"host":"memory","artifact":"aix-rhosts","source_path":"etc/hosts.equiv","source_line":2,"file":"hosts.equiv","owner":"","peer":"peer2","user":"+","denied":false,"wildcard":true}

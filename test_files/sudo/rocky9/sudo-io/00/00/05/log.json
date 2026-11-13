@@ -1,0 +1,49 @@
+{
+    "timestamp": {
+        "seconds": 1794537471,
+        "nanoseconds": 628107900
+    },
+    "submituser": "alice",
+    "command": "/bin/sh",
+    "runuser": "bob",
+    "source": "/etc/sudoers.d/nx:3:54",
+    "ttyname": "/dev/pts/1",
+    "submithost": "b42d910e912f",
+    "submitcwd": "/tmp",
+    "runuid": 1001,
+    "columns": 80,
+    "lines": 24,
+    "runargv": [
+        "/bin/sh",
+        "-c",
+        "echo typed-on-a-tty; sleep 1; echo done"
+    ],
+    "runenv": [
+        "HOSTNAME=b42d910e912f",
+        "TERM=xterm",
+        "LC_CTYPE=C.UTF-8",
+        "MAIL=/var/mail/bob",
+        "PATH=/sbin:/bin:/usr/sbin:/usr/bin",
+        "LOGNAME=bob",
+        "USER=bob",
+        "HOME=/home/bob",
+        "SHELL=/bin/bash",
+        "SUDO_COMMAND=/bin/sh -c echo typed-on-a-tty; sleep 1; echo done",
+        "SUDO_USER=alice",
+        "SUDO_UID=1000",
+        "SUDO_GID=1000",
+        "SUDO_HOME=/home/alice",
+        "SUDO_TTY=/dev/pts/1"
+    ],
+    "submitenv": [
+        "HOSTNAME=b42d910e912f",
+        "PWD=/tmp",
+        "HOME=/tmp",
+        "TERM=xterm",
+        "SHLVL=1",
+        "LC_CTYPE=C.UTF-8",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "OLDPWD=/",
+        "_=/usr/bin/sudo"
+    ]
+}

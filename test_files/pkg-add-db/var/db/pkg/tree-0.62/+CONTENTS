@@ -1,0 +1,22 @@
+@name tree-0.62
+@url https://cdn.openbsd.org/pub/OpenBSD/7.8/packages/amd64/tree-0.62.tgz
+@version 14
+@signer openbsd-78-pkg
+@digital-signature signify2:2025-10-10T23:16:43Z:external
+@option manual-installation
+@comment pkgpath=sysutils/tree ftp=yes
+@arch amd64
++DESC
+@sha e0swQCqvwrFOGrCJsG3zrf5ulcEWw7WyWE++3g//9XY=
+@size 287
+@conflict openmotif-demos-*
+@wantlib c.102.0
+@cwd /usr/local
+@bin bin/tree
+@sha l8hh1CAyQybmm8h/e8tDwmnkxrA74rkMLjtyGfHCjl0=
+@size 10880
+@ts 1760056908
+@man man/man1/tree.1
+@sha HtnfrCIdYJ03tY9+hQqu6xVO5in14ORQZidzq0Bpayo=
+@size 2294
+@ts 1760056908

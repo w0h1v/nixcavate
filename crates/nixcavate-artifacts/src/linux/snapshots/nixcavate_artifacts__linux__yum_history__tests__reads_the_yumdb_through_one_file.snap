@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/linux/yum_history.rs
+expression: "run_on_host(&YUMDB, &refs, \"var/lib/yum/uuid\", 0)"
+---
+{"host":"memory","artifact":"yumdb","source_path":"var/lib/yum/uuid","source_line":null,"time":null,"package":"nano","version":"2.3.1","release":"10.el7","architecture":"x86_64","reason":"user","from_repo":"base","installed_by":null,"changed_by":null,"command_line":"-y install tree zip nano","releasever":"7","origin_url":"https://vault.centos.org/centos/7.9.2009/os/x86_64/Packages/nano-2.3.1-10.el7.x86_64.rpm","checksum":"b4a8577b1e26738e571f0796bf4c1ddb726382dd","other_attributes":2}
+{"host":"memory","artifact":"yumdb","source_path":"var/lib/yum/uuid","source_line":null,"time":null,"package":"tree","version":"1.6.0","release":"10.el7","architecture":"x86_64","reason":"user","from_repo":"base","installed_by":null,"changed_by":null,"command_line":"-y install tree zip nano","releasever":"7","origin_url":"https://vault.centos.org/centos/7.9.2009/os/x86_64/Packages/tree-1.6.0-10.el7.x86_64.rpm","checksum":"a09f99f73ee3fe352489e734c63c32fa41b1be56","other_attributes":2}

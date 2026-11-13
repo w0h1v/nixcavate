@@ -1,0 +1,8 @@
+Proto  Recv Q  Send Q  Local Address                      Foreign Address      State        World ID  CC Algo  World Name
+-------------------------------------------------------------------------------------------------------------------------
+tcp         0       0  127.0.0.1:8309                     127.0.0.1:38500      TIME_WAIT           0           
+tcp         0       0  192.0.2.10:443                     203.0.113.20:43258   ESTABLISHED   2098913  newreno  rhttpproxy-IO
+tcp         0       0  192.0.2.10:22                      198.51.100.7:55000   ESTABLISHED   2099001  newreno  sshd
+tcp         0       0  [::1]:8307                         [::1]:11593          ESTABLISHED   2098904  newreno  hostd-IO
+udp         0       0  [::]:427                           [::]:0                             2099198           
+udp         0       0  0.0.0.0:427                        0.0.0.0:0                          2099198           

@@ -11,7 +11,7 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "Static host name mappings",
     Category::Network,
     ANY_OS,
-    &["etc/hosts", "private/etc/hosts"],
+    &["etc/hosts", "private/etc/hosts", "etc/inet/hosts"],
     parse,
 );
 

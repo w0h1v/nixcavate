@@ -1,0 +1,53 @@
+Nov 13 01:14:15 3b6eb8626d05 postfix/postfix-script[6645]: starting the Postfix mail system
+Nov 13 01:14:15 3b6eb8626d05 postfix/master[6647]: daemon started -- version 3.7.11, configuration /etc/postfix
+Nov 13 01:14:18 3b6eb8626d05 dovecot: master: Dovecot v2.3.19.1 (9b53102964) starting up for imap, pop3 (core dumps disabled)
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: connect from unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: 8A82ADD7757A: client=unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/cleanup[6663]: 8A82ADD7757A: message-id=<20261113011421.8A82ADD7757A@3b6eb8626d05>
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: disconnect from unknown[127.0.0.1] ehlo=1 mail=1 rcpt=1 data=1 quit=1 commands=5
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: connect from unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/qmgr[6649]: 8A82ADD7757A: from=<bob@example.test>, size=329, nrcpt=1 (queue active)
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: 8E55ADD7757B: client=unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/cleanup[6663]: 8E55ADD7757B: message-id=<20261113011421.8E55ADD7757B@3b6eb8626d05>
+Nov 13 01:14:21 3b6eb8626d05 postfix/qmgr[6649]: 8E55ADD7757B: from=<carol@example.test>, size=301, nrcpt=2 (queue active)
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: disconnect from unknown[127.0.0.1] ehlo=1 mail=1 rcpt=2 data=1 quit=1 commands=6
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: connect from unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: NOQUEUE: reject: RCPT from unknown[127.0.0.1]: 550 5.1.1 <ghost@mail.example.test>: Recipient address rejected: User unknown in local recipient table; from=<nobody@example.test> to=<ghost@mail.example.test> proto=ESMTP helo=<[192.168.215.12]>
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: disconnect from unknown[127.0.0.1] ehlo=1 mail=1 rcpt=0/1 rset=1 quit=1 commands=4/5
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: connect from unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: NOQUEUE: reject: RCPT from unknown[127.0.0.1]: 554 5.7.1 <x@elsewhere.invalid>: Relay access denied; from=<mallory@example.test> to=<x@elsewhere.invalid> proto=ESMTP helo=<[192.168.215.12]>
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: disconnect from unknown[127.0.0.1] ehlo=1 mail=1 rcpt=0/1 rset=1 quit=1 commands=4/5
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: connect from unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/local[6664]: 8A82ADD7757A: to=<alice@mail.example.test>, relay=local, delay=0.02, delays=0.02/0/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Nov 13 01:14:21 3b6eb8626d05 postfix/qmgr[6649]: 8A82ADD7757A: removed
+Nov 13 01:14:21 3b6eb8626d05 postfix/local[6664]: 8E55ADD7757B: to=<alice@mail.example.test>, relay=local, delay=0.01, delays=0/0/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Nov 13 01:14:21 3b6eb8626d05 postfix/local[6665]: 8E55ADD7757B: to=<bob@mail.example.test>, relay=local, delay=0.01, delays=0/0/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Nov 13 01:14:21 3b6eb8626d05 postfix/qmgr[6649]: 8E55ADD7757B: removed
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: 94E35DD77583: client=unknown[127.0.0.1], sasl_method=PLAIN, sasl_username=alice
+Nov 13 01:14:21 3b6eb8626d05 postfix/cleanup[6663]: 94E35DD77583: message-id=<20261113011421.94E35DD77583@3b6eb8626d05>
+Nov 13 01:14:21 3b6eb8626d05 postfix/qmgr[6649]: 94E35DD77583: from=<alice@mail.example.test>, size=335, nrcpt=1 (queue active)
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: disconnect from unknown[127.0.0.1] ehlo=1 auth=1 mail=1 rcpt=1 data=1 quit=1 commands=6
+Nov 13 01:14:21 3b6eb8626d05 postfix/smtpd[6658]: connect from unknown[127.0.0.1]
+Nov 13 01:14:21 3b6eb8626d05 postfix/local[6664]: 94E35DD77583: to=<bob@mail.example.test>, relay=local, delay=0, delays=0/0/0/0, dsn=2.0.0, status=sent (delivered to mailbox)
+Nov 13 01:14:21 3b6eb8626d05 postfix/qmgr[6649]: 94E35DD77583: removed
+Nov 13 01:14:23 3b6eb8626d05 dovecot: auth-worker(6666): conn unix:auth-worker (pid=6660,uid=101): auth-worker<2>: pam(alice,127.0.0.1): pam_authenticate() failed: Authentication failure (Password mismatch?)
+Nov 13 01:14:25 3b6eb8626d05 postfix/smtpd[6658]: warning: unknown[127.0.0.1]: SASL PLAIN authentication failed: (reason unavailable), sasl_username=alice
+Nov 13 01:14:30 3b6eb8626d05 dovecot: auth-worker(6666): conn unix:auth-worker (pid=6660,uid=101): auth-worker<3>: pam(alice,127.0.0.1): pam_authenticate() failed: Authentication failure (Password mismatch?)
+Nov 13 01:14:32 3b6eb8626d05 postfix/smtpd[6658]: warning: unknown[127.0.0.1]: SASL LOGIN authentication failed: (reason unavailable), sasl_username=alice
+Nov 13 01:14:32 3b6eb8626d05 postfix/smtpd[6667]: connect from unknown[127.0.0.1]
+Nov 13 01:14:37 3b6eb8626d05 dovecot: auth-worker(6666): conn unix:auth-worker (pid=6660,uid=101): auth-worker<4>: pam(nosuchuser,127.0.0.1): pam_authenticate() failed: Authentication failure (Password mismatch?)
+Nov 13 01:14:39 3b6eb8626d05 postfix/smtpd[6667]: warning: unknown[127.0.0.1]: SASL PLAIN authentication failed: (reason unavailable), sasl_username=nosuchuser
+Nov 13 01:14:48 3b6eb8626d05 dovecot: auth-worker(6666): conn unix:auth-worker (pid=6660,uid=101): auth-worker<5>: pam(nosuchuser,127.0.0.1): pam_authenticate() failed: Authentication failure (Password mismatch?)
+Nov 13 01:14:50 3b6eb8626d05 postfix/smtpd[6667]: warning: unknown[127.0.0.1]: SASL LOGIN authentication failed: (reason unavailable), sasl_username=nosuchuser
+Nov 13 01:14:53 3b6eb8626d05 dovecot: imap-login: Login: user=<alice>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=6669, secured, session=<7/bLJx5gdoV/AAAB>
+Nov 13 01:14:53 3b6eb8626d05 dovecot: imap(alice)<6669><7/bLJx5gdoV/AAAB>: Disconnected: Logged out in=32 out=823 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Nov 13 01:14:53 3b6eb8626d05 dovecot: imap-login: Login: user=<bob>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=6671, secured, session=<xHLMJx5ggIV/AAAB>
+Nov 13 01:14:53 3b6eb8626d05 dovecot: imap(bob)<6671><xHLMJx5ggIV/AAAB>: Disconnected: Logged out in=12 out=489 deleted=0 expunged=0 trashed=0 hdr_count=0 hdr_bytes=0 body_count=0 body_bytes=0
+Nov 13 01:14:54 3b6eb8626d05 dovecot: auth-worker(6666): conn unix:auth-worker (pid=6660,uid=101): auth-worker<10>: pam(alice,127.0.0.1,<R9fMJx5ghoV/AAAB>): pam_authenticate() failed: Authentication failure (Password mismatch?)
+Nov 13 01:14:56 3b6eb8626d05 dovecot: imap-login: Disconnected: Connection closed (auth failed, 1 attempts in 3 secs): user=<alice>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, secured, session=<R9fMJx5ghoV/AAAB>
+Nov 13 01:15:00 3b6eb8626d05 dovecot: pop3-login: Login: user=<bob>, method=PLAIN, rip=127.0.0.1, lip=127.0.0.1, mpid=6674, secured, session=<hiT7Jx5gqrh/AAAB>
+Nov 13 01:15:00 3b6eb8626d05 dovecot: pop3(bob)<6674><hiT7Jx5gqrh/AAAB>: Disconnected: Logged out top=0/0, retr=0/0, del=0/2, size=861
+Nov 13 01:15:05 3b6eb8626d05 postfix/smtpd[6658]: lost connection after AUTH from unknown[127.0.0.1]
+Nov 13 01:15:05 3b6eb8626d05 postfix/smtpd[6658]: disconnect from unknown[127.0.0.1] ehlo=1 auth=0/2 commands=1/3
+Nov 13 01:15:05 3b6eb8626d05 postfix/smtpd[6667]: lost connection after AUTH from unknown[127.0.0.1]
+Nov 13 01:15:05 3b6eb8626d05 postfix/smtpd[6667]: disconnect from unknown[127.0.0.1] ehlo=1 auth=0/2 commands=1/3

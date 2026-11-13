@@ -125,7 +125,7 @@ records it parsed, and names the flag in its error.
 | `precision` | `nanos`, `micros`, `millis`, `seconds` or `day` |
 | `basis` | `recorded`, `assumed_zone`, `inferred_year` or `inferred_year_assumed_zone` |
 | `host`, `artifact` | Where the event comes from |
-| `event` | What the time means: `login`, `executed`, `package_installed`, `m.c.` (file times) |
+| `event` | What the time means: `login`, `failed_login`, `executed`, `crashed`, `package_installed`, `shutdown`, `account_changed`, `service_method`, `m.c.` (file times) |
 | `message` | One line for a human |
 | `source_path`, `source_line`, `source_offset` | Where to find the source record |
 | `rule`, `level` | Sigma rule title and level, for imported detections; otherwise empty |

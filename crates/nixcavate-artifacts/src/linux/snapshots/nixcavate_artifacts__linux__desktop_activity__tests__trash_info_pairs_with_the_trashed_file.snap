@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/desktop_activity.rs
+expression: purged
+---
+{"host":"memory","artifact":"trash","source_path":"home/alice/.local/share/Trash/info/purged.txt.trashinfo","source_line":1,"user":"alice","trash_dir":"home/alice/.local/share/Trash","stored_as":"purged.txt","original_path":"/home/alice/tmp/purged.txt","deleted":"2026-11-13T01:46:12Z","trashed_file_found":false,"size":null,"file_mtime":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:46:12Z,seconds,assumed_zone,memory,trash,file_trashed,alice moved /home/alice/tmp/purged.txt to the trash (the trashed file is gone),home/alice/.local/share/Trash/info/purged.txt.trashinfo,1,,,

@@ -1,0 +1,41 @@
+2026-11-13 01:35:02 [unknown:groupadd] freebsd(1001)
+2026-11-13 01:35:02 [unknown:useradd] freebsd(1001):freebsd(1001):FreeBSD User:/home/freebsd:/bin/sh
+2026-11-13 01:35:02 [unknown:useradd] freebsd(1001) home /home/freebsd made
+2026-11-13 01:38:57 [root:groupadd] nxwheelhelper(1002)
+2026-11-13 01:38:57 [root:groupdel] nxwheelhelper(18446744073709551615) removed
+2026-11-13 01:38:57 [root:groupadd] alice(1002)
+2026-11-13 01:38:57 [root:useradd] alice(1002):alice(1002):Alice Example:/home/alice:/bin/sh
+2026-11-13 01:38:57 [root:useradd] alice(1002) home /home/alice made
+2026-11-13 01:38:57 [root:groupadd] mallory(1003)
+2026-11-13 01:38:57 [root:useradd] mallory(1003):mallory(1003):Mallory Example:/home/mallory:/bin/csh
+2026-11-13 01:38:57 [root:useradd] mallory(1003) home /home/mallory made
+2026-11-13 01:38:57 [root:groupadd] bob(1004)
+2026-11-13 01:38:57 [root:useradd] bob(1004):bob(1004):Bob Example:/home/bob:/bin/sh
+2026-11-13 01:38:57 [root:useradd] bob(1004) home /home/bob made
+2026-11-13 01:38:57 [root:usermod] alice(1002):alice(1002):Alice Example:/home/alice:/bin/sh
+2026-11-13 01:38:57 [root:usermod] mallory(1003):mallory(1003):Mallory Example:/home/mallory:/bin/csh
+2026-11-13 01:38:57 [root:usermod] root(0):wheel(0):Charlie &:/root:/bin/sh
+2026-11-13 01:38:57 [root:groupmod] wheel(0)
+2026-11-13 01:39:28 [root:groupadd] carol(1005)
+2026-11-13 01:39:28 [root:useradd] carol(1005):carol(1005):Carol Example:/home/carol:/bin/sh
+2026-11-13 01:39:28 [root:useradd] carol(1005) home /home/carol made
+2026-11-13 01:39:28 [root:usermod] carol(1005):carol(1005):Carol Changed:/home/carol:/bin/sh
+2026-11-13 01:39:29 [root:usermod] carol(1005):carol(1005):Carol Changed:/home/carol:/bin/sh
+2026-11-13 01:39:29 [root:groupadd] nxgrp(1006)
+2026-11-13 01:39:29 [root:groupmod] nxgrp(1006)
+2026-11-13 01:39:29 [root:userdel] carol(1005) account removed
+2026-11-13 01:39:29 [root:userdel] carol(1005) home '/home/carol' removed
+2026-11-13 01:39:29 [root:groupdel] nxgrp(18446744073709551615) removed
+2026-11-13 01:39:29 [root:groupadd] dave(1005)
+2026-11-13 01:39:29 [root:useradd] dave(1005):dave(1005):User &:Dave Example:/bin/sh
+2026-11-13 01:39:29 [root:userdel] dave(1005) account removed
+2026-11-13 01:39:30 [root:groupadd] nxroot(1005)
+2026-11-13 01:39:30 [root:useradd] nxroot(0):nxroot(1005):NXMK extra uid 0:/home/nxroot:/bin/sh
+2026-11-13 01:39:30 [root:useradd] nxroot(0) home /home/nxroot made
+2026-11-13 01:39:30 [root:groupadd] nxempty(1006)
+2026-11-13 01:39:30 [root:useradd] nxempty(1005):nxempty(1006):NXMK empty password:/home/nxempty:/bin/sh
+2026-11-13 01:41:09 [root:groupadd] erin(1007)
+2026-11-13 01:41:09 [root:useradd] erin(1006):erin(1007):Erin Example:/home/erin:/bin/sh
+2026-11-13 01:41:09 [root:useradd] erin(1006) home /home/erin made
+2026-11-13 01:41:09 [root:userdel] erin(1006) account removed
+2026-11-13 01:41:09 [root:userdel] erin(1006) home '/home/erin' removed

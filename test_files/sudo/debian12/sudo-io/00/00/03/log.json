@@ -1,0 +1,33 @@
+{
+    "timestamp": {
+        "seconds": 1794537445,
+        "nanoseconds": 72719605
+    },
+    "submituser": "alice",
+    "command": "/bin/ls",
+    "runuser": "bob",
+    "ttyname": "/dev/console",
+    "submithost": "828831590e80",
+    "submitcwd": "/",
+    "runuid": 1001,
+    "columns": 80,
+    "lines": 24,
+    "runargv": [
+        "/bin/ls",
+        "/home"
+    ],
+    "runenv": [
+        "HOSTNAME=828831590e80",
+        "TERM=xterm",
+        "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+        "MAIL=/var/mail/bob",
+        "LOGNAME=bob",
+        "USER=bob",
+        "HOME=/home/bob",
+        "SHELL=/bin/sh",
+        "SUDO_COMMAND=/bin/ls /home",
+        "SUDO_USER=alice",
+        "SUDO_UID=1000",
+        "SUDO_GID=1000"
+    ]
+}

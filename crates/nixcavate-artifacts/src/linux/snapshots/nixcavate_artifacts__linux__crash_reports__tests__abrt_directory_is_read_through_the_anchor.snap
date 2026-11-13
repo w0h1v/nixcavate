@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/linux/crash_reports.rs
+expression: out
+---
+{"host":"memory","artifact":"abrt-problem","source_path":"var/spool/abrt/ccpp-2023-11-14-22:13:20-4242/time","source_line":null,"problem_dir":"ccpp-2023-11-14-22:13:20-4242","problem_type":"CCpp","time":"2023-11-14T22:13:20Z","last_occurrence":"2023-11-14T22:28:20Z","count":3,"uid":1000,"user":"alice","pid":null,"executable":"/usr/bin/crashy","command_line":"","reason":"crashy killed by SIGSEGV","package":"","hostname":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,abrt-problem,crashed,/usr/bin/crashy: crashy killed by SIGSEGV,var/spool/abrt/ccpp-2023-11-14-22:13:20-4242/time,,,,
+2023-11-14T22:28:20Z,seconds,recorded,memory,abrt-problem,crashed,/usr/bin/crashy: crashy killed by SIGSEGV (latest occurrence),var/spool/abrt/ccpp-2023-11-14-22:13:20-4242/time,,,,

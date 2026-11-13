@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/pkg_db.rs
+expression: out
+---
+{"host":"memory","artifact":"pkg-db","source_path":"var/db/pkg/local.sqlite","source_line":null,"time":"2026-11-13T01:38:41Z","time_source":"recorded","package":"pkg","version":"2.8.4","origin":"ports-mgmt/pkg","architecture":"FreeBSD:14:amd64","install_reason":"explicit","size_bytes":47738789,"maintainer":"pkg@FreeBSD.org","build_time":null,"prefix":"/usr/local","repository":"","comment":"Package manager","locked":false,"package_path":"var/db/pkg/local.sqlite"}
+{"host":"memory","artifact":"pkg-db","source_path":"var/db/pkg/local.sqlite","source_line":null,"time":"2026-11-13T01:38:53Z","time_source":"recorded","package":"doas","version":"6.4","origin":"security/doas","architecture":"FreeBSD:14:amd64","install_reason":"explicit","size_bytes":47290,"maintainer":"jsmith@resonatingmedia.com","build_time":null,"prefix":"/usr/local","repository":"FreeBSD","comment":"Simple sudo alternative to run commands as another user","locked":false,"package_path":"var/db/pkg/local.sqlite"}
+{"host":"memory","artifact":"pkg-db","source_path":"var/db/pkg/local.sqlite","source_line":null,"time":"2026-11-13T01:38:53Z","time_source":"recorded","package":"jq","version":"1.8.2","origin":"textproc/jq","architecture":"FreeBSD:14:amd64","install_reason":"explicit","size_bytes":1307952,"maintainer":"yuri@FreeBSD.org","build_time":null,"prefix":"/usr/local","repository":"FreeBSD","comment":"Lightweight and flexible command-line JSON processor","locked":false,"package_path":"var/db/pkg/local.sqlite"}
+{"host":"memory","artifact":"pkg-db","source_path":"var/db/pkg/local.sqlite","source_line":null,"time":"2026-11-13T01:38:53Z","time_source":"recorded","package":"sudo","version":"1.9.17p2_2","origin":"security/sudo","architecture":"FreeBSD:14:amd64","install_reason":"explicit","size_bytes":8300631,"maintainer":"garga@FreeBSD.org","build_time":null,"prefix":"/usr/local","repository":"FreeBSD","comment":"Allow others to run commands as root","locked":false,"package_path":"var/db/pkg/local.sqlite"}
+{"host":"memory","artifact":"pkg-db","source_path":"var/db/pkg/local.sqlite","source_line":null,"time":"2026-11-13T01:38:53Z","time_source":"recorded","package":"tree","version":"2.3.2","origin":"sysutils/tree","architecture":"FreeBSD:14:amd64","install_reason":"explicit","size_bytes":146950,"maintainer":"gb@unistra.fr","build_time":null,"prefix":"/usr/local","repository":"FreeBSD","comment":"Display a tree-view of directories with optional color or HTML output","locked":false,"package_path":"var/db/pkg/local.sqlite"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:38:41Z,seconds,recorded,memory,pkg-db,package_installed,installed pkg 2.8.4,var/db/pkg/local.sqlite,,,,
+2026-11-13T01:38:53Z,seconds,recorded,memory,pkg-db,package_installed,installed doas 6.4,var/db/pkg/local.sqlite,,,,
+2026-11-13T01:38:53Z,seconds,recorded,memory,pkg-db,package_installed,installed jq 1.8.2,var/db/pkg/local.sqlite,,,,
+2026-11-13T01:38:53Z,seconds,recorded,memory,pkg-db,package_installed,installed sudo 1.9.17p2_2,var/db/pkg/local.sqlite,,,,
+2026-11-13T01:38:53Z,seconds,recorded,memory,pkg-db,package_installed,installed tree 2.3.2,var/db/pkg/local.sqlite,,,,

@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/live.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-live-vm-processes","source_path":"commands/localcli_vm-process-list.txt","source_line":1,"display_name":"web01","world_id":2099654,"process_id":0,"vmx_cartel_id":2099653,"uuid":"56 4d 97 0f 96 60 f1 9b-6f e0 32 2b 1b 34 59 ef","config_file":"/vmfs/volumes/3a4fd8ce-fc4375c4-effb-5cf3fce846f8/web01/web01.vmx"}
+{"host":"memory","artifact":"esxi-live-vm-processes","source_path":"commands/localcli_vm-process-list.txt","source_line":9,"display_name":"db01","world_id":2099801,"process_id":null,"vmx_cartel_id":null,"uuid":"","config_file":""}

@@ -1,0 +1,10 @@
+2026-11-13 01:18:23.5271 ERROR [NewEC2IdentityWithConfig @ ec2_identity.go.337] [EC2Identity] Failed to get instance info from IMDS. Err: failed to get identity instance id. Error: operation error ec2imds: GetMetadata, failed to get API token, operation error ec2imds: getToken, request canceled, context deadline exceeded
+2026-11-13 01:18:23.5272 ERROR [Errorf @ errors.go.26] Agent failed to assume any identity
+2026-11-13 01:18:23.5272 ERROR [NewAgentIdentity @ identity_selector.go.112] failed to find identity, retrying: failed to find agent identity
+2026-11-13 01:18:34.0305 ERROR [NewEC2IdentityWithConfig @ ec2_identity.go.337] [EC2Identity] Failed to get instance info from IMDS. Err: failed to get identity instance id. Error: operation error ec2imds: GetMetadata, failed to get API token, operation error ec2imds: getToken, request canceled, context deadline exceeded
+2026-11-13 01:18:34.0306 ERROR [Errorf @ errors.go.26] Agent failed to assume any identity
+2026-11-13 01:18:34.0306 ERROR [NewAgentIdentity @ identity_selector.go.112] failed to find identity, retrying: failed to find agent identity
+2026-11-13 01:18:44.5353 ERROR [NewEC2IdentityWithConfig @ ec2_identity.go.337] [EC2Identity] Failed to get instance info from IMDS. Err: failed to get identity instance id. Error: operation error ec2imds: GetMetadata, failed to get API token, operation error ec2imds: getToken, request canceled, context deadline exceeded
+2026-11-13 01:18:44.5353 ERROR [Errorf @ errors.go.26] Agent failed to assume any identity
+2026-11-13 01:18:44.5354 ERROR [Init @ bootstrap.go.77] failed to get identity: failed to find agent identity
+2026-11-13 01:18:44.5354 ERROR [run @ agent.go.177] Error occurred when starting amazon-ssm-agent: failed to get identity: failed to find agent identity

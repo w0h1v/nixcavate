@@ -1,0 +1,13 @@
+2026-11-13 01:18:34.357 [info] 
+
+
+
+
+2026-11-13 01:18:34.361 [info] [AgentHostChannel] Registered lazy IPC channel 'agentHostProxy' (upstream: /tmp/vscode-ipc-1175c8b0-eac6-4f95-87b9-9da2c0762bad.sock)
+2026-11-13 01:18:34.362 [info] Extension host agent started.
+2026-11-13 01:18:34.380 [info] Started initializing default profile extensions in extensions installation folder. file:///home/alice/.vscode-server/extensions
+2026-11-13 01:18:34.423 [info] Completed initializing default profile extensions in extensions installation folder. file:///home/alice/.vscode-server/extensions
+2026-11-13 01:18:51.605 [info] Extensions added from another source ms-python.debugpy file:///home/alice/.vscode-server/extensions/extensions.json
+2026-11-13 01:18:51.605 [info] Extensions added from another source ms-python.vscode-python-envs file:///home/alice/.vscode-server/extensions/extensions.json
+2026-11-13 01:18:53.007 [info] Extensions added from another source ms-python.python file:///home/alice/.vscode-server/extensions/extensions.json
+2026-11-13 01:18:54.949 [info] Extensions added from another source ms-python.vscode-pylance file:///home/alice/.vscode-server/extensions/extensions.json

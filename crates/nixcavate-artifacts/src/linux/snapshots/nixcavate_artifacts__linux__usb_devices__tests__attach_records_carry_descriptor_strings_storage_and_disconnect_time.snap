@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/usb_devices.rs
+expression: out
+---
+{"host":"memory","artifact":"usb-devices","source_path":"var/log/kern.log","source_offset":811,"time":"2026-11-11T22:10:00Z","uptime_secs":null,"device":"2-3","device_number":7,"speed":"high-speed","controller":"xhci_hcd","vendor_id":"0781","product_id":"5567","bcd_device":"1.00","manufacturer":"SanDisk","product":"Cruzer Blade","serial_number":"4C530001234567890123","mass_storage":true,"disconnected":"2026-11-11T22:20:30Z"}
+{"host":"memory","artifact":"usb-devices","source_path":"var/log/kern.log","source_offset":345,"time":"2026-11-11T21:49:02Z","uptime_secs":null,"device":"1-1","device_number":2,"speed":"full-speed","controller":"uhci_hcd","vendor_id":"0627","product_id":"0001","bcd_device":"0.00","manufacturer":"QEMU","product":"QEMU USB Tablet","serial_number":"42","mass_storage":false,"disconnected":"2026-11-11T22:30:00Z"}
+{"host":"memory","artifact":"usb-devices","source_path":"var/log/kern.log","source_offset":0,"time":"2026-11-11T21:48:11Z","uptime_secs":null,"device":"usb1","device_number":null,"speed":null,"controller":null,"vendor_id":"1d6b","product_id":"0002","bcd_device":"3.10","manufacturer":"Linux 3.10.0 ehci_hcd","product":null,"serial_number":"0000:00:04.7","mass_storage":false,"disconnected":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-11T21:48:11Z,seconds,inferred_year_assumed_zone,memory,usb-devices,usb_attached,"usb: usb1 ""Linux 3.10.0 ehci_hcd"" """" (1d6b:0002)",var/log/kern.log,,0,,
+2026-11-11T21:49:02Z,seconds,inferred_year_assumed_zone,memory,usb-devices,usb_attached,"usb: 1-1 ""QEMU"" ""QEMU USB Tablet"" (0627:0001)",var/log/kern.log,,345,,
+2026-11-11T22:10:00Z,seconds,inferred_year_assumed_zone,memory,usb-devices,usb_attached,"usb: 2-3 ""SanDisk"" ""Cruzer Blade"" (0781:5567) mass storage",var/log/kern.log,,811,,
+2026-11-11T22:20:30Z,seconds,inferred_year_assumed_zone,memory,usb-devices,usb_detached,"usb: 2-3 ""SanDisk"" ""Cruzer Blade"" (0781:5567) mass storage",var/log/kern.log,,811,,
+2026-11-11T22:30:00Z,seconds,inferred_year_assumed_zone,memory,usb-devices,usb_detached,"usb: 1-1 ""QEMU"" ""QEMU USB Tablet"" (0627:0001)",var/log/kern.log,,345,,

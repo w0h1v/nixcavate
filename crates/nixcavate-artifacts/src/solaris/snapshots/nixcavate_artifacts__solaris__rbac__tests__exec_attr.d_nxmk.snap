@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/rbac.rs
+expression: "run(&RBAC, path, &fixture(&format!(\"rbac-profiles/{name}\")), 0)"
+---
+{"host":"memory","artifact":"rbac-profiles","source_path":"etc/security/exec_attr.d/nxmk","source_line":1,"table":"exec_attr","name":"NXMK_Profile","description":"","policy":"suser","exec_type":"cmd","command":"/tmp/.NXMK_EXECATTR/agent","profiles":[],"authorizations":[],"runs_as_root":true,"attributes":"uid=0;gid=0"}

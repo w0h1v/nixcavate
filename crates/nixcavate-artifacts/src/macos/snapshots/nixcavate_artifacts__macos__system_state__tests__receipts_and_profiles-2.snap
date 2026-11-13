@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/macos/system_state.rs
+expression: p
+---
+{"host":"memory","artifact":"config-profiles","source_path":"private/var/db/ConfigurationProfiles/Store/ConfigProfiles.binary","source_line":null,"level":"computer","identifier":"com.example.profile","name":"Example Wi-Fi and CA","organization":"Example Org","uuid":"AAAAAAAA-0000-0000-0000-000000000001","install_time":"2023-11-01T09:00:00Z","payload_types":["com.apple.security.root","com.apple.wifi.managed"]}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-01T09:00:00Z,seconds,recorded,memory,config-profiles,software_installed,configuration profile Example Wi-Fi and CA (Example Org) installed,private/var/db/ConfigurationProfiles/Store/ConfigProfiles.binary,,,,

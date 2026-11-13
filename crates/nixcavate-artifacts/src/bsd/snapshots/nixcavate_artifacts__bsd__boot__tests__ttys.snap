@@ -1,0 +1,22 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/boot.rs
+expression: "run(&TTYS, \"etc/ttys\", &fixture(\"boot/ttys\"), 0)"
+---
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":29,"tty":"console","command":"none","terminal_type":"unknown","status":"off","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":31,"tty":"ttyv0","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":33,"tty":"ttyv1","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":34,"tty":"ttyv2","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":35,"tty":"ttyv3","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":36,"tty":"ttyv4","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":37,"tty":"ttyv5","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":38,"tty":"ttyv6","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":39,"tty":"ttyv7","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifexists","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":40,"tty":"ttyv8","command":"/usr/local/bin/xdm -nodaemon","terminal_type":"xterm","status":"off","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":43,"tty":"ttyu0","command":"/usr/libexec/getty 3wire","terminal_type":"vt100","status":"onifconsole","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":44,"tty":"ttyu1","command":"/usr/libexec/getty 3wire","terminal_type":"vt100","status":"onifconsole","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":45,"tty":"ttyu2","command":"/usr/libexec/getty 3wire","terminal_type":"vt100","status":"onifconsole","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":46,"tty":"ttyu3","command":"/usr/libexec/getty 3wire","terminal_type":"vt100","status":"onifconsole","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":48,"tty":"dcons","command":"/usr/libexec/getty std.115200","terminal_type":"vt100","status":"off","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":50,"tty":"xc0","command":"/usr/libexec/getty Pc","terminal_type":"xterm","status":"onifconsole","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":52,"tty":"rcons","command":"/usr/libexec/getty std.115200","terminal_type":"vt100","status":"onifconsole","secure":true}
+{"host":"memory","artifact":"ttys","source_path":"etc/ttys","source_line":53,"tty":"nxmkcons","command":"/usr/local/bin/nxmk-console -d NXMK_ttys","terminal_type":"vt100","status":"off","secure":true}

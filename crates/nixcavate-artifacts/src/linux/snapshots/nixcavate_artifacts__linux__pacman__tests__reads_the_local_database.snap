@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/linux/pacman.rs
+expression: "run_on_host(&DB, &refs, \"var/lib/pacman/local/ALPM_DB_VERSION\", 0)"
+---
+{"host":"memory","artifact":"pacman-db","source_path":"var/lib/pacman/local/ALPM_DB_VERSION","source_line":null,"time":"2026-11-12T22:31:37Z","package":"jq","version":"1.8.2-1","architecture":"x86_64","install_reason":"explicit","build_time":"2026-06-20T17:10:39Z","size_bytes":492406,"packager":"Felix Yan <felixonmars@archlinux.org>","url":"https://jqlang.github.io/jq/","license":"MIT","description":"Command-line JSON processor","validation":"pgp","package_path":"var/lib/pacman/local/jq-1.8.2-1/desc"}
+{"host":"memory","artifact":"pacman-db","source_path":"var/lib/pacman/local/ALPM_DB_VERSION","source_line":null,"time":"2026-11-12T22:31:37Z","package":"oniguruma","version":"6.9.10-3","architecture":"x86_64","install_reason":"dependency","build_time":"2026-10-10T16:58:17Z","size_bytes":915574,"packager":"Massimiliano Torromeo <mtorromeo@archlinux.org>","url":"https://github.com/kkos/oniguruma","license":"BSD-2-Clause","description":"A regular expressions library","validation":"pgp","package_path":"var/lib/pacman/local/oniguruma-6.9.10-3/desc"}
+{"host":"memory","artifact":"pacman-db","source_path":"var/lib/pacman/local/ALPM_DB_VERSION","source_line":null,"time":"2026-11-12T22:31:37Z","package":"tree","version":"2.3.2-1","architecture":"x86_64","install_reason":"explicit","build_time":"2026-03-29T14:23:02Z","size_bytes":96252,"packager":"Jelle van der Waa <jelle@archlinux.org>","url":"https://gitlab.com/OldManProgrammer/unix-tree","license":"GPL-2.0-or-later","description":"A directory listing program displaying a depth indented list of files","validation":"pgp","package_path":"var/lib/pacman/local/tree-2.3.2-1/desc"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:31:37Z,seconds,recorded,memory,pacman-db,package_installed,installed jq 1.8.2-1,var/lib/pacman/local/ALPM_DB_VERSION,,,,
+2026-11-12T22:31:37Z,seconds,recorded,memory,pacman-db,package_installed,installed oniguruma 6.9.10-3,var/lib/pacman/local/ALPM_DB_VERSION,,,,
+2026-11-12T22:31:37Z,seconds,recorded,memory,pacman-db,package_installed,installed tree 2.3.2-1,var/lib/pacman/local/ALPM_DB_VERSION,,,,

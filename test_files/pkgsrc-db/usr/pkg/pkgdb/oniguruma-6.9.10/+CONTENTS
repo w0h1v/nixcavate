@@ -1,0 +1,40 @@
+@cwd /usr/pkg
+@name oniguruma-6.9.10
+@blddep digest-20220214
+@blddep libtool-base-2.4.7nb1
+@blddep mktools-20250213
+@blddep cwrappers-20220403
+@comment $NetBSD: PLIST,v 1.4 2020/06/10 13:57:20 hauke Exp $
+bin/onig-config
+@comment MD5:efba788302fe90218f7b5990d83f6781
+include/oniggnu.h
+@comment MD5:aa5bcd9fe9e5e92b068951d31ee5094f
+include/onigposix.h
+@comment MD5:0c0201d751bd1c9f941135df0a31dc0a
+include/oniguruma.h
+@comment MD5:ebf5df107f6991cc685fe6325697b3e4
+lib/libonig.la
+@comment MD5:e2d9081f0e83b1bcfcada13fa18df510
+lib/libonig.a
+@comment MD5:2feb18a0d1268ce9f5911f3c654e4bde
+lib/libonig.so
+@comment Symlink:libonig.so.5.5.0
+lib/libonig.so.5
+@comment Symlink:libonig.so.5.5.0
+lib/libonig.so.5.5.0
+@comment MD5:6eff30365262ac6c6edbb92d9d92b994
+lib/pkgconfig/oniguruma.pc
+@comment MD5:640579d9d24ea81f7f532f6df34bb0f1
+@cwd /usr/pkg
+@ignore
++COMMENT
+@ignore
++DESC
+@ignore
++BUILD_VERSION
+@ignore
++BUILD_INFO
+@ignore
++SIZE_PKG
+@ignore
++SIZE_ALL

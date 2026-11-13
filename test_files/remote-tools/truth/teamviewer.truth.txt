@@ -1,0 +1,31 @@
+
+[1m TeamViewer                          [0m 15.83.3  (DEB) 
+
+[1m TeamViewer ID:                      [0m  100000001
+ 100000001 
+
+[1m teamviewerd status                  [0m teamviewerd start/running 
+
+lrwxrwxrwx 1 root root  15 Oct 16 09:24 /opt/teamviewer/config -> /etc/teamviewer
+lrwxrwxrwx 1 root root  21 Oct 16 09:24 /opt/teamviewer/logfiles -> /var/log/teamviewer15
+
+/var/log/teamviewer15/:
+total 28
+drwxr-xr-x 1 root root   220 Nov 13 01:27 .
+drwxr-xr-x 1 root root    86 Nov 13 01:26 ..
+-rw-r--r-- 1 root root   190 Nov 13 01:27 TVNetwork.log
+-rw-r--r-- 1 root root 15326 Nov 13 01:27 TeamViewer15_Logfile.log
+-rw-r--r-- 1 root root     0 Nov 13 01:27 TeamViewer_service_.lock
+drwxr-xr-x 1 root root    22 Nov 13 01:27 crashpad
+-rw-r--r-- 1 root root   251 Nov 13 01:27 install_teamviewerd.log
+-rw-r--r-- 1 root root    62 Nov 13 01:27 startup_daemon.log
+README
+apt
+btmp
+dpkg.log
+faillog
+journal
+lastlog
+private
+teamviewer15
+wtmp

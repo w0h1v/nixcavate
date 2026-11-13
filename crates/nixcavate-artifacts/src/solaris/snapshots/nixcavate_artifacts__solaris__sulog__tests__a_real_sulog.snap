@@ -1,0 +1,38 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/sulog.rs
+expression: out
+---
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":1,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":2,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":3,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":4,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":5,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":6,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":7,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":8,"time":"2026-11-13T01:16:00Z","success":true,"tty":"pts/1","from_user":"alice","to_user":"root"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":9,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":10,"time":"2026-11-13T01:16:00Z","success":false,"tty":"pts/1","from_user":"alice","to_user":"root"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":11,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":12,"time":"2026-11-13T01:16:00Z","success":true,"tty":"pts/1","from_user":"alice","to_user":"svcrole"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":13,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":14,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"omnios"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":15,"time":"2026-11-13T01:16:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+{"host":"memory","artifact":"sulog","source_path":"var/adm/sulog","source_line":16,"time":"2026-11-13T01:20:00Z","success":true,"tty":"???","from_user":"root","to_user":"alice"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,1,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,2,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,3,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,4,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,5,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,6,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,7,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,alice su to root on pts/1,var/adm/sulog,8,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,9,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,failed su to root by alice on pts/1,var/adm/sulog,10,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,11,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,alice su to svcrole on pts/1,var/adm/sulog,12,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,13,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to omnios on ???,var/adm/sulog,14,,,
+2026-11-13T01:16:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,15,,,
+2026-11-13T01:20:00Z,seconds,inferred_year_assumed_zone,memory,sulog,su,root su to alice on ???,var/adm/sulog,16,,,

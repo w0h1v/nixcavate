@@ -1,0 +1,5 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/kernel_drv.rs
+expression: out
+---
+{"host":"memory","artifact":"kernel-drv","source_path":"kernel/drv/nxmk_drv.conf","source_line":null,"driver":"nxmk_drv","nodes":["name=\"nxmk_drv\" parent=\"pseudo\" instance=0"],"properties":[],"module_in_kernel_tree":null}

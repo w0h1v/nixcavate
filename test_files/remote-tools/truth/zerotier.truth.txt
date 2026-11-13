@@ -1,0 +1,32 @@
+/usr/sbin/zerotier-one
+Starting Control Plane...
+Starting V6 Control Plane...
+200 join OK
+200 join OK
+200 info fe8341c703 1.16.2 ONLINE
+200 listnetworks <nwid> <name> <mac> <status> <type> <dev> <ZT assigned ips>
+200 listnetworks 0123456789abcdef  ee:33:28:c8:a0:46 REQUESTING_CONFIGURATION PRIVATE ztm2vo5ktg -
+200 listnetworks 8056c2e21c000001  02:fe:83:5d:25:c1 NOT_FOUND PRIVATE ztmjfmfyq5 -
+/var/lib/zerotier-one:
+total 44
+-rw------- 1 zerotier-one zerotier-one  24 Nov 13 01:41 authtoken.secret
+drwx------ 1 zerotier-one zerotier-one  24 Nov 13 01:41 controller.d
+-rw-rw-rw- 1 zerotier-one zerotier-one 141 Nov 13 01:41 identity.public
+-rw------- 1 zerotier-one zerotier-one 270 Nov 13 01:41 identity.secret
+-rw-rw-rw- 1 zerotier-one zerotier-one   0 Nov 13 01:41 metrics.prom
+-rw------- 1 zerotier-one zerotier-one  24 Nov 13 01:41 metricstoken.secret
+drwxr-xr-x 1 zerotier-one zerotier-one 192 Nov 13 01:41 networks.d
+-rw-rw-rw- 1 zerotier-one zerotier-one 570 Nov 13 01:41 planet
+lrwxrwxrwx 1 zerotier-one zerotier-one  22 May 26 08:00 zerotier-cli -> /usr/sbin/zerotier-one
+lrwxrwxrwx 1 zerotier-one zerotier-one  22 May 26 08:00 zerotier-idtool -> /usr/sbin/zerotier-one
+lrwxrwxrwx 1 zerotier-one zerotier-one  22 May 26 08:00 zerotier-one -> /usr/sbin/zerotier-one
+-rw-rw-rw- 1 zerotier-one zerotier-one   5 Nov 13 01:41 zerotier-one.pid
+-rw-rw-rw- 1 zerotier-one zerotier-one   4 Nov 13 01:41 zerotier-one.port
+-rw-r--r-- 1 zerotier-one zerotier-one 276 May 26 08:00 zerotier-one.te
+
+/var/lib/zerotier-one/networks.d:
+total 16
+-rw-rw-rw- 1 zerotier-one zerotier-one  1 Nov 13 01:41 0123456789abcdef.conf
+-rw-rw-rw- 1 zerotier-one zerotier-one 55 Nov 13 01:41 0123456789abcdef.local.conf
+-rw-rw-rw- 1 zerotier-one zerotier-one  1 Nov 13 01:41 8056c2e21c000001.conf
+-rw-rw-rw- 1 zerotier-one zerotier-one 55 Nov 13 01:41 8056c2e21c000001.local.conf

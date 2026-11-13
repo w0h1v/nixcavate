@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/user_prefs.rs
+expression: "run(&SPOTLIGHT_SHORTCUTS, path,\n&fixture(\"user-prefs/com.apple.spotlight.Shortcuts\"), 0)"
+---
+{"host":"memory","artifact":"spotlight-shortcuts","source_path":"Users/alice/Library/Application Support/com.apple.spotlight.Shortcuts","source_line":null,"user":"alice","kind":"shortcut","order":null,"name":"Passwords","path":"x-apple.systempreferences:","bundle_id":null,"value":"pass","time":"2023-11-15T11:00:00Z"}
+{"host":"memory","artifact":"spotlight-shortcuts","source_path":"Users/alice/Library/Application Support/com.apple.spotlight.Shortcuts","source_line":null,"user":"alice","kind":"shortcut","order":null,"name":"Terminal","path":"file:///System/Applications/Utilities/Terminal.app","bundle_id":null,"value":"terminal","time":"2023-11-14T10:00:00Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T10:00:00Z,seconds,recorded,memory,spotlight-shortcuts,activity,shortcut terminal,Users/alice/Library/Application Support/com.apple.spotlight.Shortcuts,,,,
+2023-11-15T11:00:00Z,seconds,recorded,memory,spotlight-shortcuts,activity,shortcut pass,Users/alice/Library/Application Support/com.apple.spotlight.Shortcuts,,,,

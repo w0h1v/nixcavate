@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/rpm_db.rs
+expression: "run(&ARTIFACT, \"usr/lib/sysimage/rpm/Packages.db\",\n&fixture(\"rpm-db/Packages.db\"), 0)"
+---
+{"host":"memory","artifact":"rpm-db","source_path":"usr/lib/sysimage/rpm/Packages.db","source_offset":4096,"time":"2026-11-12T22:33:48Z","package":"gzip","epoch":null,"version":"1.10","release":"150200.10.1","architecture":"aarch64","build_time":"2022-05-05T15:08:48Z","size_bytes":370708,"vendor":"SUSE LLC <https://www.suse.com/>","packager":"https://www.suse.com/","license":"GPL-3.0-or-later","summary":"GNU Zip Compression Utilities","source_rpm":"gzip-1.10-150200.10.1.src.rpm"}
+{"host":"memory","artifact":"rpm-db","source_path":"usr/lib/sysimage/rpm/Packages.db","source_offset":17008,"time":"2026-11-12T22:33:48Z","package":"hostname","epoch":null,"version":"3.16","release":"2.22","architecture":"aarch64","build_time":"2018-05-26T03:01:24Z","size_bytes":84419,"vendor":"SUSE LLC <https://www.suse.com/>","packager":"https://www.suse.com/","license":"GPL-2.0+","summary":"Utility to Set/Show the Host Name or Domain Name","source_rpm":"hostname-3.16-2.22.src.rpm"}
+{"host":"memory","artifact":"rpm-db","source_path":"usr/lib/sysimage/rpm/Packages.db","source_offset":29264,"time":"2026-11-12T22:33:48Z","package":"zip","epoch":null,"version":"3.0","release":"2.22","architecture":"aarch64","build_time":"2018-05-26T02:51:40Z","size_bytes":984908,"vendor":"SUSE LLC <https://www.suse.com/>","packager":"https://www.suse.com/","license":"BSD-3-Clause","summary":"File compression program","source_rpm":"zip-3.0-2.22.src.rpm"}
+{"host":"memory","artifact":"rpm-db","source_path":"usr/lib/sysimage/rpm/Packages.db","source_offset":37456,"time":"2026-11-12T22:33:48Z","package":"tree","epoch":null,"version":"1.7.0","release":"150000.3.2.1","architecture":"aarch64","build_time":"2024-07-09T08:34:42Z","size_bytes":173580,"vendor":"SUSE LLC <https://www.suse.com/>","packager":"https://www.suse.com/","license":"GPL-2.0+","summary":"File listing as a tree","source_rpm":"tree-1.7.0-150000.3.2.1.src.rpm"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:33:48Z,seconds,recorded,memory,rpm-db,package_installed,installed gzip-1.10-150200.10.1.aarch64,usr/lib/sysimage/rpm/Packages.db,,4096,,
+2026-11-12T22:33:48Z,seconds,recorded,memory,rpm-db,package_installed,installed hostname-3.16-2.22.aarch64,usr/lib/sysimage/rpm/Packages.db,,17008,,
+2026-11-12T22:33:48Z,seconds,recorded,memory,rpm-db,package_installed,installed zip-3.0-2.22.aarch64,usr/lib/sysimage/rpm/Packages.db,,29264,,
+2026-11-12T22:33:48Z,seconds,recorded,memory,rpm-db,package_installed,installed tree-1.7.0-150000.3.2.1.aarch64,usr/lib/sysimage/rpm/Packages.db,,37456,,

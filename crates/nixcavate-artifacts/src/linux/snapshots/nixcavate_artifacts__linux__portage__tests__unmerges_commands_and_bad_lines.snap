@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/linux/portage.rs
+expression: "run(&LOG, \"var/log/emerge.log\", log.as_bytes(), 0)"
+---
+{"host":"memory","artifact":"emerge-log","source_path":"var/log/emerge.log","source_offset":0,"time":"2024-03-10T01:02:03Z","action":"merge_started","package":"dev-libs/foo-1.2","position":"1 of 2","command":"","message":""}
+{"host":"memory","artifact":"emerge-log","source_path":"var/log/emerge.log","source_offset":55,"time":"2024-03-10T01:02:10Z","action":"installed","package":"dev-libs/foo-1.2","position":"1 of 2","command":"","message":""}
+{"host":"memory","artifact":"emerge-log","source_path":"var/log/emerge.log","source_offset":120,"time":"2024-03-10T01:02:11Z","action":"removed","package":"dev-libs/foo-1.1","position":"","command":"","message":""}
+{"host":"memory","artifact":"emerge-log","source_path":"var/log/emerge.log","source_offset":171,"time":"2024-03-10T01:02:20Z","action":"command","package":"","position":"","command":"--ask --unmerge bar","message":""}
+{"host":"memory","artifact":"emerge-log","source_path":"var/log/emerge.log","source_offset":215,"time":"2024-03-10T01:02:21Z","action":"","package":"","position":"","command":"","message":"=== Unmerging... (dev-libs/bar-3)"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:10Z,seconds,recorded,memory,emerge-log,package_installed,installed dev-libs/foo-1.2,var/log/emerge.log,,55,,
+2024-03-10T01:02:11Z,seconds,recorded,memory,emerge-log,package_removed,removed dev-libs/foo-1.1,var/log/emerge.log,,120,,
+2024-03-10T01:02:20Z,seconds,recorded,memory,emerge-log,package_command,emerge --ask --unmerge bar,var/log/emerge.log,,171,,
+--- warning: offset 262: not an emerge.log line
+--- warning: offset 267: not an emerge.log line

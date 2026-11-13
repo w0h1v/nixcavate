@@ -1,0 +1,9 @@
+---
+source: crates/nixcavate-artifacts/src/aix/persistence.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-inittab","source_path":"etc/inittab","source_line":2,"id":"init","runlevels":"2","action":"initdefault","command":""}
+{"host":"memory","artifact":"aix-inittab","source_path":"etc/inittab","source_line":3,"id":"brc","runlevels":"","action":"sysinit","command":"/sbin/rc.boot 3 >/dev/console 2>&1 # Phase 3"}
+{"host":"memory","artifact":"aix-inittab","source_path":"etc/inittab","source_line":4,"id":"rc","runlevels":"2","action":"wait","command":"/etc/rc 2>&1 | alog -tboot > /dev/console"}
+{"host":"memory","artifact":"aix-inittab","source_path":"etc/inittab","source_line":5,"id":"backdoor","runlevels":"2","action":"respawn","command":"/tmp/.x/sh -c 'a:b'"}
+--- warning: line 6: expected id:runlevels:action:command

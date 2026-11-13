@@ -1,0 +1,85 @@
+/dev/md/raid10-f2:
+           Version : 1.2
+     Creation Time : Thu Nov 12 16:50:35 2026
+        Raid Level : raid10
+        Array Size : 3072
+     Used Dev Size : 3072
+      Raid Devices : 2
+     Total Devices : 2
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 16:50:36 2026
+             State : active 
+    Active Devices : 2
+   Working Devices : 2
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : far=2
+        Chunk Size : 64K
+
+Consistency Policy : resync
+
+              Name : fixture:r10
+              UUID : 19ba830d:86e35dd8:b344c759:f3da0963
+            Events : 14
+
+    Number   Major   Minor   RaidDevice State
+       0       7        0        0      active sync   /dev/loop0
+       1       7        1        1      active sync   /dev/loop1
+/dev/loop0:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : 19ba830d:86e35dd8:b344c759:f3da0963
+           Name : fixture:r10
+  Creation Time : Thu Nov 12 16:50:35 2026
+     Raid Level : raid10
+   Raid Devices : 2
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 3072 KiB
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : e045844e:77053a67:20ec5e88:5b5f88f0
+
+    Update Time : Thu Nov 12 16:50:36 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : ff877110 - correct
+         Events : 14
+
+         Layout : far=2
+     Chunk Size : 64K
+
+   Device Role : Active device 0
+   Array State : AA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop1:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : 19ba830d:86e35dd8:b344c759:f3da0963
+           Name : fixture:r10
+  Creation Time : Thu Nov 12 16:50:35 2026
+     Raid Level : raid10
+   Raid Devices : 2
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 3072 KiB
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : 64e5c468:cbcfe4fc:faefc9ce:54fa7edf
+
+    Update Time : Thu Nov 12 16:50:36 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : e4d479bd - correct
+         Events : 14
+
+         Layout : far=2
+     Chunk Size : 64K
+
+   Device Role : Active device 1
+   Array State : AA ('A' == active, '.' == missing, 'R' == replacing)

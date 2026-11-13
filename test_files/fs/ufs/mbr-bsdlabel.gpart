@@ -1,0 +1,11 @@
+=>     1  131071    md1  MBR  (64M)
+       1   98304  md1s1  freebsd  (48M)
+   98305   16384  md1s2  freebsd  (8.0M)
+  114689   16383         - free -  (8.0M)
+
+=>    0  98304   md1s1  BSD  (48M)
+      0  32768  md1s1a  freebsd-ufs  (16M)
+  32768  16384  md1s1b  freebsd-swap  (8.0M)
+  49152  32768  md1s1d  freebsd-ufs  (16M)
+  81920  16384          - free -  (8.0M)
+

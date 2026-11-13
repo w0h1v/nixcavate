@@ -1,0 +1,15 @@
+2026-11-13T01:27:17.079452519Z stdout F maxprocs: Leaving GOMAXPROCS=12: CPU quota undefined
+2026-11-13T01:27:17.079463686Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.override
+2026-11-13T01:27:17.079467061Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.server
+2026-11-13T01:27:17.182029871Z stdout F .:53
+2026-11-13T01:27:17.182090205Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.override
+2026-11-13T01:27:17.182094289Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.server
+2026-11-13T01:27:17.182097622Z stdout F [INFO] plugin/reload: Running configuration SHA512 = b941b080e5322f6519009bb49349462c7ddb6317425b0f6a83e5451175b720703949e3f3b454a24e77f3ffe57fd5e9c6130e528a5a1dd00d9000e4afd6c1108d
+2026-11-13T01:27:17.182101289Z stdout F CoreDNS-1.12.3
+2026-11-13T01:27:17.182104539Z stdout F linux/arm64, go1.24.5, 463fd1c
+2026-11-13T01:27:40.61521874Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.override
+2026-11-13T01:27:40.615343783Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.server
+2026-11-13T01:28:04.049521666Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.override
+2026-11-13T01:28:04.049539458Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.server
+2026-11-13T01:28:27.478148365Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.override
+2026-11-13T01:28:27.478176324Z stdout F [WARNING] No files matching import glob pattern: /etc/coredns/custom/*.server

@@ -1,0 +1,3 @@
+[2026-11-13 01:23:31.254989 +00:00] DEBUG [src/ipc/auth.rs:197] Failed to resolve active user uid on linux: active uid is empty
+[2026-11-13 01:23:31.255287 +00:00] WARN [libs/hbb_common/src/config.rs:775] ID is invalid, generating new one
+[2026-11-13 01:23:31.255336 +00:00] INFO [libs/hbb_common/src/config.rs:1203] Generated id 513311988

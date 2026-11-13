@@ -1,0 +1,8 @@
+{"log":"job failed\n","stream":"stderr","time":"2026-11-12T23:42:58.362466072Z"}
+{"log":"job line 1\n","stream":"stdout","time":"2026-11-12T23:42:58.362501239Z"}
+{"log":"job line 2\n","stream":"stdout","time":"2026-11-12T23:42:58.362508239Z"}
+{"log":"job line 3\n","stream":"stdout","time":"2026-11-12T23:42:58.362509697Z"}
+{"log":"job line 4\n","stream":"stdout","time":"2026-11-12T23:42:58.362510781Z"}
+{"log":"job line 5\n","stream":"stdout","time":"2026-11-12T23:42:58.362511822Z"}
+{"log":"job line 6\n","stream":"stdout","time":"2026-11-12T23:42:58.362512822Z"}
+{"log":"job line 7\n","stream":"stdout","time":"2026-11-12T23:42:58.362513822Z"}

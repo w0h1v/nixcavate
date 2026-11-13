@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/aix/audit_stream.rs
+expression: out
+---
+{"host":"memory","artifact":"aix-audit-stream","source_path":"audit/stream.out","source_line":3,"event":"USER_SU","login":"root","status":"OK","time":"2021-03-10T09:00:00Z","command":"su"}
+{"host":"memory","artifact":"aix-audit-stream","source_path":"audit/stream.out","source_line":5,"event":"FILE_Mode","login":"alice","status":"FAIL","time":"2021-03-10T09:01:00Z","command":"chmod"}
+{"host":"memory","artifact":"aix-audit-stream","source_path":"audit/stream.out","source_line":6,"event":"CRON_Start","login":"root","status":"OK","time":"2021-03-10T09:02:00Z","command":"cron"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2021-03-10T09:00:00Z,seconds,assumed_zone,memory,aix-audit-stream,audit_event,USER_SU by root (OK): su,audit/stream.out,3,,,
+2021-03-10T09:01:00Z,seconds,assumed_zone,memory,aix-audit-stream,audit_event,FILE_Mode by alice (FAIL): chmod,audit/stream.out,5,,,
+2021-03-10T09:02:00Z,seconds,assumed_zone,memory,aix-audit-stream,audit_event,CRON_Start by root (OK): cron,audit/stream.out,6,,,
+--- warning: 1 unindented lines did not fit the event row layout and were not read

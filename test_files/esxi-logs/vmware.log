@@ -1,0 +1,8 @@
+2025-01-10T01:18:32.354Z| vmx| I125: Log for VMware ESX pid=2100403 version=6.7.0 build=build-19195723 option=Release
+2025-01-10T01:18:32.360Z| vmx| I125: Vix: [mainDispatch.c:4239]: VMAutomation_ReportPowerOpFinished: statevar=0, newAppState=1870, success=1 additionalError=0
+2025-01-10T01:18:32.417Z| vmx| W115: PowerOn
+2025-01-10T01:18:34.331Z| vmx| I125: Tools: sending 'OS_PowerOn' (state = 3) state change request
+2025-01-10T01:18:40.000Z| vcpu-0| W115: GuestRpc: application toolbox, changing channel 65535 -> 0
+2025-01-10T05:31:37.075Z| vmx| I125: VMX exit (0).
+2025-01-10T05:31:37.076Z| vmx| W115: VMX has left the building: 0.
+a line without a header

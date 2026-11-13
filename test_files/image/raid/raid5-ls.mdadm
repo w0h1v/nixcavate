@@ -1,0 +1,114 @@
+/dev/md/raid5-ls:
+           Version : 1.2
+     Creation Time : Thu Nov 12 16:49:55 2026
+        Raid Level : raid5
+        Array Size : 6144 (6.00 MiB 6.29 MB)
+     Used Dev Size : 3072
+      Raid Devices : 3
+     Total Devices : 3
+       Persistence : Superblock is persistent
+
+       Update Time : Thu Nov 12 16:49:55 2026
+             State : active 
+    Active Devices : 3
+   Working Devices : 3
+    Failed Devices : 0
+     Spare Devices : 0
+
+            Layout : left-symmetric
+        Chunk Size : 64K
+
+Consistency Policy : resync
+
+              Name : fixture:r5
+              UUID : e80d90d3:cdcf9200:47bbf73e:303b86dc
+            Events : 18
+
+    Number   Major   Minor   RaidDevice State
+       0       7        0        0      active sync   /dev/loop0
+       1       7        1        1      active sync   /dev/loop1
+       2       7        2        2      active sync   /dev/loop2
+/dev/loop0:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : e80d90d3:cdcf9200:47bbf73e:303b86dc
+           Name : fixture:r5
+  Creation Time : Thu Nov 12 16:49:55 2026
+     Raid Level : raid5
+   Raid Devices : 3
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 6144 KiB (6.00 MiB 6.29 MB)
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : 56c75b05:e6a36512:d55f995e:9472f2a9
+
+    Update Time : Thu Nov 12 16:49:55 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : 3dec307d - correct
+         Events : 18
+
+         Layout : left-symmetric
+     Chunk Size : 64K
+
+   Device Role : Active device 0
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop1:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : e80d90d3:cdcf9200:47bbf73e:303b86dc
+           Name : fixture:r5
+  Creation Time : Thu Nov 12 16:49:55 2026
+     Raid Level : raid5
+   Raid Devices : 3
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 6144 KiB (6.00 MiB 6.29 MB)
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : 4df14af8:45c3d1d8:e6b236ce:1c3bc113
+
+    Update Time : Thu Nov 12 16:49:55 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : d0b3956e - correct
+         Events : 18
+
+         Layout : left-symmetric
+     Chunk Size : 64K
+
+   Device Role : Active device 1
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)
+/dev/loop2:
+          Magic : a92b4efc
+        Version : 1.2
+    Feature Map : 0x0
+     Array UUID : e80d90d3:cdcf9200:47bbf73e:303b86dc
+           Name : fixture:r5
+  Creation Time : Thu Nov 12 16:49:55 2026
+     Raid Level : raid5
+   Raid Devices : 3
+
+ Avail Dev Size : 6144 sectors
+     Array Size : 6144 KiB (6.00 MiB 6.29 MB)
+    Data Offset : 2048 sectors
+   Super Offset : 8 sectors
+   Unused Space : before=1968 sectors, after=0 sectors
+          State : active
+    Device UUID : e4e8cdd4:3020f84d:48931010:d8b85765
+
+    Update Time : Thu Nov 12 16:49:55 2026
+  Bad Block Log : 512 entries available at offset 16 sectors
+       Checksum : b5cd480e - correct
+         Events : 18
+
+         Layout : left-symmetric
+     Chunk Size : 64K
+
+   Device Role : Active device 2
+   Array State : AAA ('A' == active, '.' == missing, 'R' == replacing)

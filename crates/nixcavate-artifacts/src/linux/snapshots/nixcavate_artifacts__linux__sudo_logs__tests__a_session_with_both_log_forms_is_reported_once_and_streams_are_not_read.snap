@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/linux/sudo_logs.rs
+expression: out
+---
+{"host":"memory","artifact":"sudo-io","source_path":"var/log/sudo-io/00/00/02/log.json","source_line":null,"session":"00/00/02","time":"2026-11-13T02:37:24.064357131Z","user":"alice","run_user":"bob","run_group":"","tty":"/dev/console","cwd":"/","command":"/bin/sh -c echo out-one; echo err-one >&2; sleep 1; echo out-two","submit_host":"828831590e80","lines":24,"columns":80,"duration_seconds":1.002152,"stdin_bytes":0,"stdout_bytes":16,"stderr_bytes":8,"tty_in_bytes":0,"tty_out_bytes":0,"log_format":"json"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T02:37:24.064357131Z,nanos,recorded,memory,sudo-io,executed,alice ran /bin/sh -c echo out-one; echo err-one >&2; sleep 1; echo out-two as bob through sudo (I/O logged for 1.0 s),var/log/sudo-io/00/00/02/log.json,,,,

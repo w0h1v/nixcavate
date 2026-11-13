@@ -10,6 +10,7 @@
 //! bookkeeping record, not a header, and is skipped.
 
 use super::bdb_hash::{self, HashDb};
+use super::rpm_ndb::{self, NdbDb};
 use crate::sqlite::{open, sql_error};
 use crate::text::lossy;
 use crate::{Artifact, Category, Input, LINUX};
@@ -22,7 +23,14 @@ pub const ARTIFACT: Artifact = Artifact::new(
     "Installed RPM packages",
     Category::Software,
     LINUX,
-    &["var/lib/rpm/rpmdb.sqlite", "usr/lib/sysimage/rpm/rpmdb.sqlite", "var/lib/rpm/Packages"],
+    &[
+        "var/lib/rpm/rpmdb.sqlite",
+        "usr/lib/sysimage/rpm/rpmdb.sqlite",
+        "var/lib/rpm/Packages",
+        "usr/lib/sysimage/rpm/Packages",
+        "var/lib/rpm/Packages.db",
+        "usr/lib/sysimage/rpm/Packages.db",
+    ],
     parse,
 )
 .companions(&["var/lib/rpm/rpmdb.sqlite-wal", "usr/lib/sysimage/rpm/rpmdb.sqlite-wal"]);
@@ -150,9 +158,15 @@ fn package(blob: &[u8]) -> Option<Package<'_>> {
     })
 }
 
-fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
+pub(crate) fn parse(input: &Input, sink: &mut Sink) -> Result<()> {
+    if rpm_ndb::is_ndb(input.data) {
+        return parse_ndb(input.data, sink);
+    }
     if bdb_hash::is_bdb(input.data) {
         return parse_bdb(input.data, sink);
+    }
+    if input.path.ends_with("/Packages.db") && !input.data.starts_with(b"SQLite format 3\0") {
+        return Err(Error::skipped("not an ndb or SQLite database"));
     }
     if input.path.ends_with("/Packages") && !input.data.starts_with(b"SQLite format 3\0") {
         return Err(Error::skipped("not a Berkeley DB or SQLite database"));
@@ -182,6 +196,22 @@ fn parse_bdb(data: &[u8], sink: &mut Sink) -> Result<()> {
                 sink.warn(format!("package {name} (page at offset {}): {why}", entry.page_offset));
                 Ok(())
             }
+        }
+    })
+}
+
+fn parse_ndb(data: &[u8], sink: &mut Sink) -> Result<()> {
+    NdbDb::open(data)?.for_each(|blob| match blob.header {
+        Ok(header) => match package(header) {
+            Some(record) => sink.emit(Loc::Offset(blob.offset), &record),
+            None => {
+                sink.warn(format!("package {}: unreadable header", blob.package_index));
+                Ok(())
+            }
+        },
+        Err(why) => {
+            sink.warn(format!("package {} (slot data at offset {}): {why}", blob.package_index, blob.offset));
+            Ok(())
         }
     })
 }
@@ -282,6 +312,31 @@ mod tests {
     #[test]
     fn parses_big_endian_berkeley_db_packages() {
         insta::assert_snapshot!(run(&ARTIFACT, "var/lib/rpm/Packages", &fixture("rpm-db/Packages-s390x"), 0));
+    }
+
+    #[test]
+    fn parses_ndb_packages() {
+        insta::assert_snapshot!(run(&ARTIFACT, "usr/lib/sysimage/rpm/Packages.db", &fixture("rpm-db/Packages.db"), 0));
+    }
+
+    #[test]
+    fn skips_other_packages_db_files() {
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages.db", b"not a database", 0);
+        assert!(text.contains("skipped: not an ndb or SQLite database"), "{text}");
+        let mut future = fixture("rpm-db/Packages.db");
+        future[4] = 1;
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages.db", &future, 0);
+        assert!(text.contains("skipped: ndb database version 1 is not supported"), "{text}");
+    }
+
+    #[test]
+    fn a_damaged_ndb_blob_is_a_warning_not_a_failure() {
+        let mut file = fixture("rpm-db/Packages.db");
+        // Flip a byte in the middle of the second package's blob.
+        file[1063 * 16 + 400] ^= 0xff;
+        let text = run(&ARTIFACT, "var/lib/rpm/Packages.db", &file, 0);
+        assert_eq!(text.matches("\"package\":").count(), 3, "{text}");
+        assert!(text.contains("package 2 (slot data at offset 17008): blob checksum does not match"), "{text}");
     }
 
     #[test]

@@ -1,0 +1,160 @@
+{
+    "accept": {
+        "uuid": "31952a55e7-2040-48b8-7635-4bf95164e9",
+        "server_time": {
+            "seconds": 1794537472,
+            "nanoseconds": 661213237,
+            "iso8601": "20261113023752Z",
+            "localtime": "Nov 13 02:37:52"
+        },
+        "submit_time": {
+            "seconds": 1794537472,
+            "nanoseconds": 661199196,
+            "iso8601": "20261113023752Z",
+            "localtime": "Nov 13 02:37:52"
+        },
+        "iolog_path": "/var/log/sudo-io/00/00/07",
+        "submituser": "alice",
+        "command": "/bin/sh",
+        "runuser": "bob",
+        "runcwd": "/",
+        "source": "/etc/sudoers.d/nx:2:54",
+        "submithost": "b42d910e912f",
+        "submitcwd": "/",
+        "runuid": 1001,
+        "columns": 80,
+        "lines": 24,
+        "runargv": [
+            "/bin/sh",
+            "-c",
+            "echo json-run; sleep 1"
+        ],
+        "runenv": [
+            "HOSTNAME=b42d910e912f",
+            "TERM=xterm",
+            "MAIL=/var/mail/bob",
+            "PATH=/sbin:/bin:/usr/sbin:/usr/bin",
+            "LOGNAME=bob",
+            "USER=bob",
+            "HOME=/home/bob",
+            "SHELL=/bin/bash",
+            "SUDO_COMMAND=/bin/sh -c echo json-run; sleep 1",
+            "SUDO_USER=alice",
+            "SUDO_UID=1000",
+            "SUDO_GID=1000",
+            "SUDO_HOME=/home/alice"
+        ],
+        "submitenv": [
+            "SHELL=/bin/sh",
+            "HOSTNAME=b42d910e912f",
+            "PWD=/",
+            "LOGNAME=alice",
+            "_=/usr/bin/sudo",
+            "HOME=/home/alice",
+            "TERM=xterm",
+            "USER=alice",
+            "SHLVL=1",
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ]
+    },
+    "accept": {
+        "uuid": "4f3c8d3807-bab3-498e-eed8-569bee5205",
+        "server_time": {
+            "seconds": 1794537473,
+            "nanoseconds": 696648056,
+            "iso8601": "20261113023753Z",
+            "localtime": "Nov 13 02:37:53"
+        },
+        "submit_time": {
+            "seconds": 1794537473,
+            "nanoseconds": 696640389,
+            "iso8601": "20261113023753Z",
+            "localtime": "Nov 13 02:37:53"
+        },
+        "iolog_path": "/var/log/sudo-io/00/00/08",
+        "submituser": "alice",
+        "command": "/bin/sh",
+        "runuser": "bob",
+        "runcwd": "/",
+        "source": "/etc/sudoers.d/nx:2:54",
+        "ttyname": "/dev/pts/1",
+        "submithost": "b42d910e912f",
+        "submitcwd": "/",
+        "runuid": 1001,
+        "columns": 80,
+        "lines": 24,
+        "runargv": [
+            "/bin/sh",
+            "-c",
+            "echo json-on-a-tty"
+        ],
+        "runenv": [
+            "HOSTNAME=b42d910e912f",
+            "TERM=xterm",
+            "LC_CTYPE=C.UTF-8",
+            "MAIL=/var/mail/bob",
+            "PATH=/sbin:/bin:/usr/sbin:/usr/bin",
+            "LOGNAME=bob",
+            "USER=bob",
+            "HOME=/home/bob",
+            "SHELL=/bin/bash",
+            "SUDO_COMMAND=/bin/sh -c echo json-on-a-tty",
+            "SUDO_USER=alice",
+            "SUDO_UID=1000",
+            "SUDO_GID=1000",
+            "SUDO_HOME=/home/alice",
+            "SUDO_TTY=/dev/pts/1"
+        ],
+        "submitenv": [
+            "HOSTNAME=b42d910e912f",
+            "PWD=/",
+            "HOME=/tmp",
+            "TERM=xterm",
+            "SHLVL=1",
+            "LC_CTYPE=C.UTF-8",
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "_=/usr/bin/sudo"
+        ]
+    },
+    "reject": {
+        "uuid": "8b9fb7a3ec-ec0e-4195-f869-0f19afe568",
+        "reason": "1 incorrect password attempt",
+        "server_time": {
+            "seconds": 1794537475,
+            "nanoseconds": 214597319,
+            "iso8601": "20261113023755Z",
+            "localtime": "Nov 13 02:37:55"
+        },
+        "submit_time": {
+            "seconds": 1794537475,
+            "nanoseconds": 214583944,
+            "iso8601": "20261113023755Z",
+            "localtime": "Nov 13 02:37:55"
+        },
+        "submituser": "alice",
+        "command": "/bin/true",
+        "runuser": "bob",
+        "runcwd": "/",
+        "source": "/etc/sudoers.d/nx:3:26",
+        "submithost": "b42d910e912f",
+        "submitcwd": "/",
+        "runuid": 1001,
+        "columns": 80,
+        "lines": 24,
+        "runargv": [
+            "/bin/true"
+        ],
+        "submitenv": [
+            "SHELL=/bin/sh",
+            "HOSTNAME=b42d910e912f",
+            "PWD=/",
+            "LOGNAME=alice",
+            "_=/usr/bin/sudo",
+            "HOME=/home/alice",
+            "TERM=xterm",
+            "USER=alice",
+            "SHLVL=1",
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ]
+    }
+}

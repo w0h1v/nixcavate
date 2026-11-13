@@ -1,0 +1,82 @@
+---
+source: crates/nixcavate-artifacts/src/linux/pkg_logs.rs
+expression: "check(&DNF_DEBUG, \"var/log/dnf.log\", \"applogs/dnf/dnf.log\")"
+---
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":1,"time":"2026-11-12T22:58:36Z","level":"INFO","source":null,"pid":null,"message":"--- logging initialized ---"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":2,"time":"2026-11-12T22:58:36Z","level":"DDEBUG","source":null,"pid":null,"message":"timer: config: 2 ms"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":3,"time":"2026-11-12T22:58:36Z","level":"DEBUG","source":null,"pid":null,"message":"DNF version: 4.14.0"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":4,"time":"2026-11-12T22:58:36Z","level":"DDEBUG","source":null,"pid":null,"message":"Command: dnf -y -q install nano"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":5,"time":"2026-11-12T22:58:36Z","level":"DDEBUG","source":null,"pid":null,"message":"Installroot: /"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":6,"time":"2026-11-12T22:58:36Z","level":"DDEBUG","source":null,"pid":null,"message":"Releasever: 9"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":7,"time":"2026-11-12T22:58:36Z","level":"DEBUG","source":null,"pid":null,"message":"cachedir: /var/cache/dnf"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":8,"time":"2026-11-12T22:58:36Z","level":"DDEBUG","source":null,"pid":null,"message":"Base command: install"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":9,"time":"2026-11-12T22:58:36Z","level":"DDEBUG","source":null,"pid":null,"message":"Extra commands: ['-y', '-q', 'install', 'nano']"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":10,"time":"2026-11-12T22:58:36Z","level":"DEBUG","source":null,"pid":null,"message":"User-Agent: constructed: 'libdnf (Rocky Linux 9.3; generic; Linux.aarch64)'"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":11,"time":"2026-11-12T22:58:36Z","level":"DEBUG","source":null,"pid":null,"message":"repo: downloading from remote: baseos"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":12,"time":"2026-11-12T22:58:36Z","level":"DEBUG","source":null,"pid":null,"message":"countme: no event for baseos: budget to spend: 1"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":13,"time":"2026-11-12T22:58:42Z","level":"DEBUG","source":null,"pid":null,"message":"baseos: using metadata from Tue Nov 10 06:08:32 2026."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":14,"time":"2026-11-12T22:58:42Z","level":"DEBUG","source":null,"pid":null,"message":"repo: downloading from remote: appstream"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":15,"time":"2026-11-12T22:58:42Z","level":"DEBUG","source":null,"pid":null,"message":"countme: no event for appstream: budget to spend: 1"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":16,"time":"2026-11-12T22:58:49Z","level":"DEBUG","source":null,"pid":null,"message":"appstream: using metadata from Tue Nov 10 06:08:31 2026."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":17,"time":"2026-11-12T22:58:49Z","level":"DEBUG","source":null,"pid":null,"message":"repo: downloading from remote: extras"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":18,"time":"2026-11-12T22:58:49Z","level":"DEBUG","source":null,"pid":null,"message":"countme: event triggered for extras: bucket 1"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":19,"time":"2026-11-12T22:58:50Z","level":"DEBUG","source":null,"pid":null,"message":"extras: using metadata from Mon Oct  5 05:58:10 2026."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":20,"time":"2026-11-12T22:58:51Z","level":"DDEBUG","source":null,"pid":null,"message":"timer: sack setup: 14436 ms"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":21,"time":"2026-11-12T22:58:51Z","level":"DEBUG","source":null,"pid":null,"message":"--> Starting dependency resolution"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":22,"time":"2026-11-12T22:58:51Z","level":"DEBUG","source":null,"pid":null,"message":"---> Package nano.aarch64 5.6.1-7.el9 will be installed"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":23,"time":"2026-11-12T22:58:51Z","level":"DEBUG","source":null,"pid":null,"message":"--> Finished dependency resolution"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":24,"time":"2026-11-12T22:58:51Z","level":"DDEBUG","source":null,"pid":null,"message":"timer: depsolve: 221 ms"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":25,"time":"2026-11-12T22:58:51Z","level":"INFO","source":null,"pid":null,"message":"Dependencies resolved."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":26,"time":"2026-11-12T22:58:51Z","level":"INFO","source":null,"pid":null,"message":"================================================================================"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":27,"time":null,"level":null,"source":null,"pid":null,"message":" Package        Architecture      Version                Repository        Size"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":28,"time":null,"level":null,"source":null,"pid":null,"message":"================================================================================"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":29,"time":null,"level":null,"source":null,"pid":null,"message":"Installing:"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":30,"time":null,"level":null,"source":null,"pid":null,"message":" nano           aarch64           5.6.1-7.el9            baseos           687 k"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":32,"time":null,"level":null,"source":null,"pid":null,"message":"Transaction Summary"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":33,"time":null,"level":null,"source":null,"pid":null,"message":"================================================================================"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":34,"time":null,"level":null,"source":null,"pid":null,"message":"Install  1 Package"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":36,"time":"2026-11-12T22:58:51Z","level":"INFO","source":null,"pid":null,"message":"Total download size: 687 k"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":37,"time":"2026-11-12T22:58:51Z","level":"INFO","source":null,"pid":null,"message":"Installed size: 2.7 M"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":38,"time":"2026-11-12T22:58:51Z","level":"INFO","source":null,"pid":null,"message":"Downloading Packages:"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":39,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"--------------------------------------------------------------------------------"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":40,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Total                                           783 kB/s | 687 kB     00:00"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":41,"time":"2026-11-12T22:58:52Z","level":"DEBUG","source":null,"pid":null,"message":"Using rpmkeys executable at /usr/bin/rpmkeys to verify signatures"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":42,"time":"2026-11-12T22:58:52Z","level":"CRITICAL","source":null,"pid":null,"message":"Importing GPG key 0x350D275D:"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":43,"time":null,"level":null,"source":null,"pid":null,"message":" Userid     : \"Rocky Enterprise Software Foundation - Release key 2022 <releng@rockylinux.org>\""}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":44,"time":null,"level":null,"source":null,"pid":null,"message":" Fingerprint: 21CB 256A E16F C54C 6E65 2949 702D 426D 350D 275D"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":45,"time":null,"level":null,"source":null,"pid":null,"message":" From       : /etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-9"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":46,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Key imported successfully"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":47,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Running transaction check"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":48,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Transaction check succeeded."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":49,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Running transaction test"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":50,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Transaction test succeeded."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":51,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"timer: transaction test: 74 ms"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":52,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Running transaction"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":53,"time":"2026-11-12T22:58:52Z","level":"DEBUG","source":null,"pid":null,"message":"RPMDB altered outside of DNF."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":54,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"RPM transaction start."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":55,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"RPM transaction over."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":56,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"timer: verify transaction: 42 ms"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":57,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"timer: transaction: 592 ms"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":58,"time":"2026-11-12T22:58:52Z","level":"DEBUG","source":null,"pid":null,"message":"Installed: nano-5.6.1-7.el9.aarch64"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":59,"time":"2026-11-12T22:58:52Z","level":"INFO","source":null,"pid":null,"message":"Complete!"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":60,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"Cleaning up."}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":61,"time":"2026-11-12T22:58:52Z","level":"DDEBUG","source":null,"pid":null,"message":"/var/cache/dnf/baseos-48c60d2c66d6f6e7/packages/nano-5.6.1-7.el9.aarch64.rpm removed"}
+{"host":"memory","artifact":"dnf-debug-log","source_path":"var/log/dnf.log","source_line":62,"time":"2026-11-12T22:58:53Z","level":"DDEBUG","source":null,"pid":null,"message":"Plugins were unloaded."}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:58:36Z,seconds,recorded,memory,dnf-debug-log,dnf,--- logging initialized ---,var/log/dnf.log,1,,,
+2026-11-12T22:58:51Z,seconds,recorded,memory,dnf-debug-log,dnf,Dependencies resolved.,var/log/dnf.log,25,,,
+2026-11-12T22:58:51Z,seconds,recorded,memory,dnf-debug-log,dnf,================================================================================,var/log/dnf.log,26,,,
+2026-11-12T22:58:51Z,seconds,recorded,memory,dnf-debug-log,dnf,Total download size: 687 k,var/log/dnf.log,36,,,
+2026-11-12T22:58:51Z,seconds,recorded,memory,dnf-debug-log,dnf,Installed size: 2.7 M,var/log/dnf.log,37,,,
+2026-11-12T22:58:51Z,seconds,recorded,memory,dnf-debug-log,dnf,Downloading Packages:,var/log/dnf.log,38,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,--------------------------------------------------------------------------------,var/log/dnf.log,39,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Total                                           783 kB/s | 687 kB     00:00,var/log/dnf.log,40,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Importing GPG key 0x350D275D:,var/log/dnf.log,42,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Key imported successfully,var/log/dnf.log,46,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Running transaction check,var/log/dnf.log,47,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Transaction check succeeded.,var/log/dnf.log,48,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Running transaction test,var/log/dnf.log,49,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Transaction test succeeded.,var/log/dnf.log,50,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Running transaction,var/log/dnf.log,52,,,
+2026-11-12T22:58:52Z,seconds,recorded,memory,dnf-debug-log,dnf,Complete!,var/log/dnf.log,59,,,

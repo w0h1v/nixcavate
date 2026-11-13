@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/macos/communications.rs
+expression: "run(&CALLS, CALL, &fixture(\"communications/CallHistory.storedata\"), 0)"
+---
+{"host":"memory","artifact":"call-history","source_path":"Users/alice/Library/Application Support/CallHistoryDB/CallHistory.storedata","source_line":null,"user":"alice","time":"2023-03-08T20:26:40Z","direction":"outgoing","answered":true,"address":"+15555550100","name":"Example","duration_secs":62.5,"call_type":"phone"}
+{"host":"memory","artifact":"call-history","source_path":"Users/alice/Library/Application Support/CallHistoryDB/CallHistory.storedata","source_line":null,"user":"alice","time":"2023-03-08T20:43:20Z","direction":"incoming","answered":false,"address":"friend@example.com","name":null,"duration_secs":0.0,"call_type":"facetime_audio"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-03-08T20:26:40Z,seconds,recorded,memory,call-history,call,outgoing phone call with +15555550100,Users/alice/Library/Application Support/CallHistoryDB/CallHistory.storedata,,,,
+2023-03-08T20:43:20Z,seconds,recorded,memory,call-history,call,incoming facetime_audio call with friend@example.com,Users/alice/Library/Application Support/CallHistoryDB/CallHistory.storedata,,,,

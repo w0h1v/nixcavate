@@ -1,0 +1,8 @@
+---
+source: crates/nixcavate-artifacts/src/solaris/svr4.rs
+expression: out
+---
+{"host":"memory","artifact":"svr4-pkginfo","source_path":"var/sadm/pkg/NXexample/pkginfo","source_line":null,"package":"NXexample","name":"Example SVR4 package","version":"1.0","arch":"i386","category":"application","vendor":"Example","basedir":"/","installed":"2026-11-13T01:16:00Z","patches":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:16:00Z,seconds,assumed_zone,memory,svr4-pkginfo,package_installed,NXexample installed (Example SVR4 package 1.0),var/sadm/pkg/NXexample/pkginfo,,,,

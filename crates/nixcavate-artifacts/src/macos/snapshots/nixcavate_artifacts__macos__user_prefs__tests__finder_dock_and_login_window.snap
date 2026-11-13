@@ -1,0 +1,11 @@
+---
+source: crates/nixcavate-artifacts/src/macos/user_prefs.rs
+expression: "run(&FINDER, finder, &fixture(\"user-prefs/com.apple.finder.plist\"), 0)"
+---
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"recent_folder","order":0,"name":"Documents","path":"/Users/alice/Documents","bundle_id":null,"value":null,"time":null}
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"recent_folder","order":1,"name":"Downloads","path":null,"bundle_id":null,"value":null,"time":null}
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"go_to_folder","order":0,"name":null,"path":"/tmp/payload","bundle_id":null,"value":null,"time":null}
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"go_to_folder","order":1,"name":null,"path":"~/Library/LaunchAgents","bundle_id":null,"value":null,"time":null}
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"desktop_volume","order":null,"name":"EVIL-USB","path":null,"bundle_id":null,"value":"EVIL-USB_0x9abc","time":null}
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"desktop_volume","order":null,"name":"Macintosh HD","path":null,"bundle_id":null,"value":"Macintosh HD_0x1234","time":null}
+{"host":"memory","artifact":"finder-prefs","source_path":"Users/alice/Library/Preferences/com.apple.finder.plist","source_line":null,"user":"alice","kind":"connect_to_server","order":null,"name":null,"path":"smb://files.example.com/share","bundle_id":null,"value":null,"time":null}

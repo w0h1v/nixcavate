@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/common/firefox.rs
+expression: out
+---
+{"host":"memory","artifact":"firefox-cookies","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/cookies.sqlite","source_line":null,"user":"alice","profile":"abcd1234.default-esr","domain":"127.0.0.1","name":"sid","path":"/","created":"2026-11-13T01:56:09.405343Z","last_access":"2026-11-13T01:56:09.545735Z","expires":"2026-11-14T01:56:09.545Z","secure":false,"http_only":true,"same_site":256,"origin_attributes":null,"has_value":true}
+{"host":"memory","artifact":"firefox-cookies","source_path":"home/alice/.mozilla/firefox/abcd1234.default-esr/cookies.sqlite","source_line":null,"user":"alice","profile":"abcd1234.default-esr","domain":"127.0.0.1","name":"pref","path":"/","created":"2026-11-13T01:56:09.405345Z","last_access":"2026-11-13T01:56:09.545735Z","expires":"2026-11-13T02:56:09.545Z","secure":false,"http_only":false,"same_site":256,"origin_attributes":null,"has_value":true}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:56:09.405343Z,micros,recorded,memory,firefox-cookies,cookie_created,alice cookie sid set for 127.0.0.1,home/alice/.mozilla/firefox/abcd1234.default-esr/cookies.sqlite,,,,
+2026-11-13T01:56:09.405345Z,micros,recorded,memory,firefox-cookies,cookie_created,alice cookie pref set for 127.0.0.1,home/alice/.mozilla/firefox/abcd1234.default-esr/cookies.sqlite,,,,

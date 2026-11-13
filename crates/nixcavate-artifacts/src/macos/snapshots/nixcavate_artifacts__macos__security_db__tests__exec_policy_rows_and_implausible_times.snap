@@ -1,0 +1,12 @@
+---
+source: crates/nixcavate-artifacts/src/macos/security_db.rs
+expression: "run(&EXEC_POLICY, EXEC, &fixture(\"security-db/ExecPolicy\"), 0)"
+---
+{"host":"memory","artifact":"exec-policy","source_path":"private/var/db/SystemPolicyConfiguration/ExecPolicy","source_line":null,"table":"policy_scan_cache","bundle_id":"com.example.app","signing_id":"com.example.app","team_id":"EXAMPLE123","cdhash":"0102030405060708090a0b0c0d0e0f1011121314","volume_uuid":"AAAAAAAA-0000-0000-0000-000000000000","object_id":12345,"policy_match":1,"flags":0,"mod_time":"2023-11-14T22:13:20Z","time":"2023-11-14T22:15:00Z"}
+{"host":"memory","artifact":"exec-policy","source_path":"private/var/db/SystemPolicyConfiguration/ExecPolicy","source_line":null,"table":"executable_measurements_v2","bundle_id":null,"signing_id":"a.out","team_id":null,"cdhash":"ff","volume_uuid":"AAAAAAAA-0000-0000-0000-000000000000","object_id":999,"policy_match":0,"flags":0,"mod_time":"2023-11-14T22:16:40Z","time":"2023-11-14T22:18:20Z"}
+{"host":"memory","artifact":"exec-policy","source_path":"private/var/db/SystemPolicyConfiguration/ExecPolicy","source_line":null,"table":"executable_measurements_v2","bundle_id":null,"signing_id":"odd","team_id":null,"cdhash":null,"volume_uuid":"AAAAAAAA-0000-0000-0000-000000000000","object_id":1000,"policy_match":0,"flags":0,"mod_time":null,"time":null}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:15:00Z,seconds,recorded,memory,exec-policy,executed,Gatekeeper assessed com.example.app,private/var/db/SystemPolicyConfiguration/ExecPolicy,,,,
+2023-11-14T22:18:20Z,seconds,recorded,memory,exec-policy,executed,Gatekeeper assessed a.out,private/var/db/SystemPolicyConfiguration/ExecPolicy,,,,
+--- warning: executable_measurements_v2: 2 time values are not plausible Unix seconds; left empty

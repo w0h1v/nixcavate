@@ -1,0 +1,6 @@
+Nov 13 01:13:56 omnios in.routed[981]: [ID 749644 daemon.notice] vioif0 has a bad address 0.0.0.0
+Nov 13 01:13:56 omnios in.routed[981]: [ID 464608 daemon.error] route 0.0.0.0/8 --> 0.0.0.0 nexthop is not directly connected
+Nov 13 01:13:59 omnios /sbin/dhcpagent[1030]: [ID 778557 daemon.warning] configure_v4_lease: no IP broadcast specified for vioif0, making best guess
+Nov 13 01:16:51 host1 svc.startd[9]: [ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance (see 'svcs -xv' for details)
+Nov 13 01:20:49 host1 /sbin/dhcpagent[130]: [ID 778557 daemon.warning] configure_v4_lease: no IP broadcast specified for vioif0, making best guess
+Nov 13 01:20:50 host1 svc.startd[9]: [ID 748625 daemon.error] site/nxmk-smf-lib:default failed: transitioned to maintenance (see 'svcs -xv' for details)

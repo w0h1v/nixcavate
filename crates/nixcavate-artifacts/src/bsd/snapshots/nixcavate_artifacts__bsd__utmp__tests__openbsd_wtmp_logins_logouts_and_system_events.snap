@@ -1,0 +1,18 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/utmp.rs
+expression: out
+---
+{"host":"memory","artifact":"bsd-utmp","source_path":"var/log/wtmp","source_offset":0,"time":"2023-11-14T22:13:20Z","type":"boot","user":"reboot","line":"~","remote_host":""}
+{"host":"memory","artifact":"bsd-utmp","source_path":"var/log/wtmp","source_offset":304,"time":"2023-11-14T22:15:00Z","type":"login","user":"alice","line":"ttyp0","remote_host":"198.51.100.7"}
+{"host":"memory","artifact":"bsd-utmp","source_path":"var/log/wtmp","source_offset":608,"time":"2023-11-14T22:16:40Z","type":"logout","user":"","line":"ttyp0","remote_host":""}
+{"host":"memory","artifact":"bsd-utmp","source_path":"var/log/wtmp","source_offset":912,"time":"2023-11-14T22:18:20Z","type":"old_time","user":"|","line":"|","remote_host":""}
+{"host":"memory","artifact":"bsd-utmp","source_path":"var/log/wtmp","source_offset":1216,"time":"2023-11-14T22:18:30Z","type":"new_time","user":"{","line":"{","remote_host":""}
+{"host":"memory","artifact":"bsd-utmp","source_path":"var/log/wtmp","source_offset":1520,"time":"2023-11-14T22:20:00Z","type":"shutdown","user":"shutdown","line":"~","remote_host":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2023-11-14T22:13:20Z,seconds,recorded,memory,bsd-utmp,boot,system boot,var/log/wtmp,,0,,
+2023-11-14T22:15:00Z,seconds,recorded,memory,bsd-utmp,login,alice logged in on ttyp0 from 198.51.100.7,var/log/wtmp,,304,,
+2023-11-14T22:16:40Z,seconds,recorded,memory,bsd-utmp,logout,session ended on ttyp0,var/log/wtmp,,608,,
+2023-11-14T22:18:20Z,seconds,recorded,memory,bsd-utmp,time_change,system clock changed (old_time),var/log/wtmp,,912,,
+2023-11-14T22:18:30Z,seconds,recorded,memory,bsd-utmp,time_change,system clock changed (new_time),var/log/wtmp,,1216,,
+2023-11-14T22:20:00Z,seconds,recorded,memory,bsd-utmp,shutdown,system shutdown,var/log/wtmp,,1520,,

@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/macos/netusage.rs
+expression: "run(&NETWORK_INTERFACES, path, &fixture(\"netusage/NetworkInterfaces.plist\"),\n0)"
+---
+{"host":"memory","artifact":"network-interfaces","source_path":"Library/Preferences/SystemConfiguration/NetworkInterfaces.plist","source_line":null,"bsd_name":"en0","mac_address":"02:00:00:00:00:01","interface_type":"IEEE80211","user_defined_name":"Wi-Fi","built_in":true,"primary":true}
+{"host":"memory","artifact":"network-interfaces","source_path":"Library/Preferences/SystemConfiguration/NetworkInterfaces.plist","source_line":null,"bsd_name":"en5","mac_address":"02:00:00:00:00:02","interface_type":"Ethernet","user_defined_name":"USB 10/100/1000 LAN","built_in":null,"primary":false}

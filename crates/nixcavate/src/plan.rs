@@ -54,15 +54,15 @@ pub fn plan<'a>(hosts: &'a [Host<'a>], selected: &dyn Fn(&Artifact) -> bool) -> 
             let mut matches = BTreeMap::new();
             for pattern in artifact.paths {
                 let pattern = Pattern::new(pattern);
-                // Links are skipped: their targets are matched as files in their own right.
-                matches.extend(host.find(&pattern).filter(|e| e.link.is_none()).map(|e| (e.path.as_str(), e)));
+                matches.extend(host.find(&pattern).filter(|e| wanted(artifact, e)).map(|e| (e.path.as_str(), e)));
             }
             let mut names = HashSet::new();
             for entry in matches.into_values() {
                 let rel = host.rel(entry);
                 for chunk in split(host, artifact, entry) {
                     let offset = chunk.as_ref().map_or(0, |(_, range): &(_, Range<usize>)| range.start);
-                    let bytes = chunk.as_ref().map_or(entry.size, |(_, range)| range.len() as u64);
+                    let whole = entry.link.as_ref().map_or(entry.size, |target| target.len() as u64);
+                    let bytes = chunk.as_ref().map_or(whole, |(_, range)| range.len() as u64);
                     let name = unique_name(&rel, offset, &mut names);
                     tasks.push(Task { host_index, host, artifact, entry, rel: rel.clone(), name, chunk, bytes });
                 }
@@ -76,6 +76,16 @@ pub fn plan<'a>(hosts: &'a [Host<'a>], selected: &dyn Fn(&Artifact) -> bool) -> 
         })
     });
     tasks
+}
+
+/// Links are skipped: their targets are matched as files in their own right. A `presence`
+/// artifact is the exception: it reads the links and the empty files, and nothing else.
+fn wanted(artifact: &Artifact, entry: &Entry) -> bool {
+    if artifact.presence {
+        entry.link.is_some() || entry.size == 0
+    } else {
+        entry.link.is_none()
+    }
 }
 
 /// One `None` for a file parsed whole, or its chunks when it is large, plain and line-based.

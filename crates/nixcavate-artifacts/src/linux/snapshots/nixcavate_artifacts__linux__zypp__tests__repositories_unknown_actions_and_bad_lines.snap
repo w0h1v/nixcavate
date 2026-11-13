@@ -1,0 +1,16 @@
+---
+source: crates/nixcavate-artifacts/src/linux/zypp.rs
+expression: "run(&HISTORY, \"var/log/zypp/history\", log.as_bytes(), 0)"
+---
+{"host":"memory","artifact":"zypp-history","source_path":"var/log/zypp/history","source_offset":45,"time":"2024-03-10T01:02:03Z","action":"radd","package":"evil","version":"","architecture":"","user":"","repository":"","checksum":"","command":"https://example.invalid/repo","detail":""}
+{"host":"memory","artifact":"zypp-history","source_path":"var/log/zypp/history","source_offset":105,"time":"2024-03-10T01:02:04Z","action":"rremove","package":"evil","version":"","architecture":"","user":"","repository":"","checksum":"","command":"","detail":""}
+{"host":"memory","artifact":"zypp-history","source_path":"var/log/zypp/history","source_offset":139,"time":"2024-03-10T01:02:05Z","action":"rename","package":"","version":"","architecture":"","user":"","repository":"","checksum":"","command":"","detail":"a|b|c"}
+{"host":"memory","artifact":"zypp-history","source_path":"var/log/zypp/history","source_offset":173,"time":"2024-03-10T01:02:06Z","action":"install","package":"short","version":"","architecture":"","user":"","repository":"","checksum":"","command":"","detail":""}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2024-03-10T01:02:03Z,seconds,assumed_zone,memory,zypp-history,repository_added,evil https://example.invalid/repo,var/log/zypp/history,,45,,
+2024-03-10T01:02:04Z,seconds,assumed_zone,memory,zypp-history,repository_removed,evil,var/log/zypp/history,,105,,
+2024-03-10T01:02:06Z,seconds,assumed_zone,memory,zypp-history,package_installed,"installed short ",var/log/zypp/history,,173,,
+--- warning: offset 207: not a zypp history line
+--- warning: offset 246: not a zypp history line
+--- warning: offset 266: not a zypp history line

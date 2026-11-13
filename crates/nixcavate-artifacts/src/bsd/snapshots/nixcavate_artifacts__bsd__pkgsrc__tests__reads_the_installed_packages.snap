@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/bsd/pkgsrc.rs
+expression: out
+---
+{"host":"memory","artifact":"pkgsrc-db","source_path":"usr/pkg/pkgdb/pkgdb.byfile.db","source_line":null,"time":null,"time_source":"file mtime","package":"oniguruma","version":"6.9.10","origin":"textproc/oniguruma","architecture":"x86_64","install_reason":"dependency","size_bytes":1604024,"maintainer":"pkgsrc-users@NetBSD.org","build_time":"2025-07-02T19:54:05Z","prefix":"/usr/pkg","repository":"","comment":"Regular expressions library","locked":null,"package_path":"usr/pkg/pkgdb/oniguruma-6.9.10/+CONTENTS"}
+{"host":"memory","artifact":"pkgsrc-db","source_path":"usr/pkg/pkgdb/pkgdb.byfile.db","source_line":null,"time":null,"time_source":"file mtime","package":"tree","version":"1.8.0","origin":"sysutils/tree","architecture":"x86_64","install_reason":"explicit","size_bytes":94269,"maintainer":"pkgsrc-users@NetBSD.org","build_time":"2026-04-28T08:05:49Z","prefix":"/usr/pkg","repository":"","comment":"Print a text or HTML tree diagram of a directory structure","locked":null,"package_path":"usr/pkg/pkgdb/tree-1.8.0/+CONTENTS"}

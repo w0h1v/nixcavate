@@ -1,0 +1,19 @@
+---
+source: crates/nixcavate-artifacts/src/linux/cloud_init.rs
+expression: "run(&LOG, \"var/log/cloud-init.log\", &head, 0)"
+---
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":1,"time":"2026-11-12T22:57:21.116Z","level":"DEBUG","source":"log_util.py","pid":null,"message":"Cloud-init v. 26.2-0ubuntu1~24.04.2 running 'init-local' at Thu, 12 Nov 2026 22:57:21 +0000. Up 1452101.51 seconds."}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":2,"time":"2026-11-12T22:57:21.116Z","level":"INFO","source":"main.py","pid":null,"message":"PID [1] started cloud-init 'init-local'."}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":3,"time":"2026-11-12T22:57:21.116Z","level":"DEBUG","source":"main.py","pid":null,"message":"No kernel command line url found."}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":4,"time":"2026-11-12T22:57:21.116Z","level":"DEBUG","source":"main.py","pid":null,"message":"Closing stdin"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":5,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"util.py","pid":null,"message":"Writing to /var/log/cloud-init.log - ab: [640] 0 bytes"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":6,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"util.py","pid":null,"message":"Changing the ownership of /var/log/cloud-init.log to 0:4"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":7,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"util.py","pid":null,"message":"Writing to /var/lib/cloud/data/python-version - wb: [644] 4 bytes"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":8,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"util.py","pid":null,"message":"Attempting to remove /var/lib/cloud/instance/boot-finished"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":9,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"handlers.py","pid":null,"message":"start: init-local/check-cache: attempting to read from cache [check]"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":10,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"util.py","pid":null,"message":"Reading from /var/lib/cloud/instance/obj.pkl (quiet=False)"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":11,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"stages.py","pid":null,"message":"no cache found"}
+{"host":"memory","artifact":"cloud-init-log","source_path":"var/log/cloud-init.log","source_line":12,"time":"2026-11-12T22:57:21.117Z","level":"DEBUG","source":"handlers.py","pid":null,"message":"finish: init-local/check-cache: SUCCESS: no cache found (duration: 0.000s)"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:57:21.116Z,millis,assumed_zone,memory,cloud-init-log,cloud_init,main.py: PID [1] started cloud-init 'init-local'.,var/log/cloud-init.log,2,,,

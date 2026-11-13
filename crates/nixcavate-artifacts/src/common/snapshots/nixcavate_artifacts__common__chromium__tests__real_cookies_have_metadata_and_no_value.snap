@@ -1,0 +1,10 @@
+---
+source: crates/nixcavate-artifacts/src/common/chromium.rs
+expression: out
+---
+{"host":"memory","artifact":"chromium-cookies","source_path":"home/alice/.config/chromium/Default/Cookies","source_line":null,"user":"alice","browser":"chromium","profile":"Default","domain":"127.0.0.1","name":"sid","path":"/","created":"2026-11-13T01:53:43.741090Z","last_access":"2026-11-13T01:53:43.751559Z","expires":"2026-11-14T01:53:43.751559Z","secure":false,"http_only":true,"same_site":-1,"source_scheme":1,"has_value":true}
+{"host":"memory","artifact":"chromium-cookies","source_path":"home/alice/.config/chromium/Default/Cookies","source_line":null,"user":"alice","browser":"chromium","profile":"Default","domain":"127.0.0.1","name":"pref","path":"/","created":"2026-11-13T01:53:43.741156Z","last_access":"2026-11-13T01:53:43.751622Z","expires":"2026-11-13T02:53:43.751622Z","secure":false,"http_only":false,"same_site":-1,"source_scheme":1,"has_value":true}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:53:43.741090Z,micros,recorded,memory,chromium-cookies,cookie_created,alice cookie sid set for 127.0.0.1,home/alice/.config/chromium/Default/Cookies,,,,
+2026-11-13T01:53:43.741156Z,micros,recorded,memory,chromium-cookies,cookie_created,alice cookie pref set for 127.0.0.1,home/alice/.config/chromium/Default/Cookies,,,,

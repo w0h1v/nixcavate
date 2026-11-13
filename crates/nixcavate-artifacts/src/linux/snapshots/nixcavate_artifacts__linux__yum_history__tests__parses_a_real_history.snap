@@ -1,0 +1,14 @@
+---
+source: crates/nixcavate-artifacts/src/linux/yum_history.rs
+expression: "run(&HISTORY, \"var/lib/yum/history/history-2020-11-13.sqlite\",\n&fixture(\"yum-history/history-2020-11-13.sqlite\"), 0)"
+---
+{"host":"memory","artifact":"yum-history","source_path":"var/lib/yum/history/history-2020-11-13.sqlite","source_line":null,"time":"2026-11-12T22:35:26Z","end_time":"2026-11-12T22:35:27Z","transaction_id":3,"login_uid":null,"login_user":"","return_code":0,"command":"-y install tree zip nano","action":"install","completed":true,"package":"tree","epoch":"0","version":"1.6.0","release":"10.el7","architecture":"x86_64"}
+{"host":"memory","artifact":"yum-history","source_path":"var/lib/yum/history/history-2020-11-13.sqlite","source_line":null,"time":"2026-11-12T22:35:26Z","end_time":"2026-11-12T22:35:27Z","transaction_id":3,"login_uid":null,"login_user":"","return_code":0,"command":"-y install tree zip nano","action":"install","completed":true,"package":"nano","epoch":"0","version":"2.3.1","release":"10.el7","architecture":"x86_64"}
+{"host":"memory","artifact":"yum-history","source_path":"var/lib/yum/history/history-2020-11-13.sqlite","source_line":null,"time":"2026-11-12T22:35:26Z","end_time":"2026-11-12T22:35:27Z","transaction_id":3,"login_uid":null,"login_user":"","return_code":0,"command":"-y install tree zip nano","action":"install","completed":true,"package":"zip","epoch":"0","version":"3.0","release":"11.el7","architecture":"x86_64"}
+{"host":"memory","artifact":"yum-history","source_path":"var/lib/yum/history/history-2020-11-13.sqlite","source_line":null,"time":"2026-11-12T22:35:27Z","end_time":"2026-11-12T22:35:27Z","transaction_id":4,"login_uid":null,"login_user":"","return_code":0,"command":"-y remove zip","action":"erase","completed":true,"package":"zip","epoch":"0","version":"3.0","release":"11.el7","architecture":"x86_64"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-12T22:35:26Z,seconds,recorded,memory,yum-history,package_installed,install tree-1.6.0-10.el7.x86_64 (-y install tree zip nano),var/lib/yum/history/history-2020-11-13.sqlite,,,,
+2026-11-12T22:35:26Z,seconds,recorded,memory,yum-history,package_installed,install nano-2.3.1-10.el7.x86_64 (-y install tree zip nano),var/lib/yum/history/history-2020-11-13.sqlite,,,,
+2026-11-12T22:35:26Z,seconds,recorded,memory,yum-history,package_installed,install zip-3.0-11.el7.x86_64 (-y install tree zip nano),var/lib/yum/history/history-2020-11-13.sqlite,,,,
+2026-11-12T22:35:27Z,seconds,recorded,memory,yum-history,package_removed,erase zip-3.0-11.el7.x86_64 (-y remove zip),var/lib/yum/history/history-2020-11-13.sqlite,,,,

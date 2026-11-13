@@ -5,7 +5,8 @@ use memmap2::Mmap;
 use nixcavate_core::time::secs_from_civil;
 use std::collections::HashMap;
 use std::fs;
-use std::io::{self, Cursor, Read};
+use std::fs::File;
+use std::io::{self, BufRead, BufReader, Cursor, Read};
 use std::path::Path;
 use std::sync::Arc;
 
@@ -26,14 +27,16 @@ const XZ_MEMORY: u64 = 256 << 20;
 
 pub(crate) struct Listing {
     pub entries: Vec<Entry>,
-    pub map: Arc<Mmap>,
+    /// The archive, for entries stored as ranges of it. A compressed tar is streamed from the
+    /// file instead, so none of its (large) mapped pages stay resident for the whole run.
+    pub map: Option<Arc<Mmap>>,
     pub warnings: Vec<String>,
 }
 
-pub(crate) fn xz_decoder(data: &[u8]) -> io::Result<xz2::read::XzDecoder<&[u8]>> {
+pub(crate) fn xz_decoder<R: BufRead>(data: R) -> io::Result<xz2::bufread::XzDecoder<R>> {
     let stream =
         xz2::stream::Stream::new_stream_decoder(XZ_MEMORY, xz2::stream::CONCATENATED).map_err(io::Error::other)?;
-    Ok(xz2::read::XzDecoder::new_stream(data, stream))
+    Ok(xz2::bufread::XzDecoder::new_stream(data, stream))
 }
 
 /// CatScale keeps the files it collects as tar.gz archives inside its output folder
@@ -57,6 +60,13 @@ pub(crate) fn catscale_archive(path: &str) -> Option<(&str, &str)> {
     Some((&path[..at + FOLDER.len() - 1], host))
 }
 
+/// A UAC collection inside another archive (`uac-<host>-<os>-<time>.tar.gz`, wrapped for
+/// transfer): the folder its entries are listed under, which is its name without `.tar.gz`.
+pub(crate) fn wrapped_uac(path: &str) -> Option<&str> {
+    let stem = path.strip_suffix(".tar.gz")?;
+    stem.rsplit('/').next().filter(|name| name.starts_with("uac-")).map(|_| stem)
+}
+
 /// Lists a tar.gz held in memory, as [`open`] lists one on disk.
 pub(crate) fn nested_tar_gz(
     data: &[u8],
@@ -67,37 +77,86 @@ pub(crate) fn nested_tar_gz(
     tar_entries(flate2::read::MultiGzDecoder::new(data), None, keep, scratch, data.len() as u64, warnings)
 }
 
-/// The decompressed stream of `data` when it starts like gzip, zstd, xz or bzip2.
-fn decompressor(data: &[u8]) -> io::Result<Option<Box<dyn Read + '_>>> {
-    Ok(Some(if data.starts_with(&[0x1f, 0x8b]) {
-        Box::new(flate2::read::MultiGzDecoder::new(data))
-    } else if data.starts_with(&[0x28, 0xb5, 0x2f, 0xfd]) {
-        Box::new(zstd::stream::read::Decoder::new(data)?)
-    } else if data.starts_with(&[0xfd, b'7', b'z', b'X', b'Z', 0]) {
-        Box::new(xz_decoder(data)?)
-    } else if data.starts_with(b"BZh") && data.get(4..10) == Some(&[0x31, 0x41, 0x59, 0x26, 0x53, 0x59]) {
-        Box::new(bzip2::read::MultiBzDecoder::new(data))
-    } else {
-        return Ok(None);
-    }))
+/// Compressed streams a tar archive may be wrapped in.
+#[derive(Clone, Copy)]
+enum Compression {
+    Gzip,
+    Zstd,
+    Xz,
+    Bzip2,
 }
 
+/// What `data` starts like, judging by its first bytes.
+fn compression(data: &[u8]) -> Option<Compression> {
+    if data.starts_with(&[0x1f, 0x8b]) {
+        Some(Compression::Gzip)
+    } else if data.starts_with(&[0x28, 0xb5, 0x2f, 0xfd]) {
+        Some(Compression::Zstd)
+    } else if data.starts_with(&[0xfd, b'7', b'z', b'X', b'Z', 0]) {
+        Some(Compression::Xz)
+    } else if data.starts_with(b"BZh") && data.get(4..10) == Some(&[0x31, 0x41, 0x59, 0x26, 0x53, 0x59]) {
+        Some(Compression::Bzip2)
+    } else {
+        None
+    }
+}
+
+/// The decompressed stream of `reader`.
+fn decompress<'a, R: BufRead + 'a>(kind: Compression, reader: R) -> io::Result<Box<dyn Read + 'a>> {
+    Ok(match kind {
+        Compression::Gzip => Box::new(flate2::bufread::MultiGzDecoder::new(reader)),
+        Compression::Zstd => Box::new(zstd::stream::read::Decoder::with_buffer(reader)?),
+        Compression::Xz => Box::new(xz_decoder(reader)?),
+        Compression::Bzip2 => Box::new(bzip2::bufread::MultiBzDecoder::new(reader)),
+    })
+}
+
+/// The decompressed stream of the file at `path`, read through a buffer rather than a mapping.
+fn decompressed_file(kind: Compression, path: &Path) -> io::Result<Box<dyn Read>> {
+    decompress(kind, BufReader::with_capacity(1 << 20, File::open(path)?))
+}
+
+/// A compressed tar at least this large is streamed from the file instead of read through a
+/// mapping. The mapped input stays resident for the whole run (reclaimable, but counted in the
+/// process's resident size: 2.9 GB for a 2.9 GB collection), while a buffered read costs
+/// about 10% more of the listing time on a cached file; below this size the mapping is cheaper.
+const STREAM_FROM: u64 = 2 << 30;
+
 pub(crate) fn open(path: &Path, keep: &dyn Fn(&str) -> bool, scratch: &Path) -> io::Result<Listing> {
+    open_streaming_from(path, keep, scratch, STREAM_FROM)
+}
+
+fn open_streaming_from(
+    path: &Path,
+    keep: &dyn Fn(&str) -> bool,
+    scratch: &Path,
+    stream_from: u64,
+) -> io::Result<Listing> {
     if fs::metadata(path)?.len() == 0 {
         return Err(io::Error::other("empty file"));
     }
     let map = Arc::new(map(path)?);
     let data: &[u8] = &map;
     let mut warnings = Vec::new();
+    let mut keep_map = true;
     let entries = if data.starts_with(b"PK\x03\x04") || data.starts_with(b"PK\x05\x06") {
         zip_entries(data)?
-    } else if let Some(stream) = decompressor(data)? {
+    } else if let Some(kind) = compression(data) {
+        // The archive is read once, front to back, and nothing in a compressed tar is later
+        // served as a range of the mapping, so a large one is streamed from the file and the
+        // mapping is not kept.
+        let stream = if data.len() as u64 >= stream_from {
+            keep_map = false;
+            decompressed_file(kind, path)?
+        } else {
+            decompress(kind, data)?
+        };
         // A compressed disk image or log is a common thing to pass by mistake. It fails as a
         // tar, or, when it starts with zeros, reads as an empty one.
         let listed = tar_entries(stream, None, keep, scratch, data.len() as u64, &mut warnings);
         if !matches!(&listed, Ok(entries) if !entries.is_empty()) {
             let mut head = Vec::new();
-            let read = decompressor(data).ok().flatten().map(|s| s.take(512).read_to_end(&mut head));
+            let read = decompress(kind, data).ok().map(|s| s.take(512).read_to_end(&mut head));
             if matches!(read, Some(Ok(_))) && head.get(257..262) != Some(b"ustar") {
                 return Err(io::Error::other(
                     "a compressed file that is not a tar archive (decompress a compressed disk image first)",
@@ -110,7 +169,7 @@ pub(crate) fn open(path: &Path, keep: &dyn Fn(&str) -> bool, scratch: &Path) -> 
     } else {
         return Err(io::Error::other("not a directory, disk image, tar or zip archive"));
     };
-    Ok(Listing { entries, map, warnings })
+    Ok(Listing { entries, map: keep_map.then_some(map), warnings })
 }
 
 /// Lists a tar stream. `mapped_len` is set for a plain tar, whose entries are then served as
@@ -276,4 +335,47 @@ fn zip_entries(data: &[u8]) -> io::Result<Vec<Entry>> {
         entries.push(entry);
     }
     Ok(entries)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn tar_gz() -> Vec<u8> {
+        let mut builder = tar::Builder::new(Vec::new());
+        for (name, body) in
+            [("[root]/etc/passwd", &b"root:x:0:0::/root:/bin/sh\n"[..]), ("[root]/big", &[7u8; 3 << 20])]
+        {
+            let mut header = tar::Header::new_gnu();
+            header.set_size(body.len() as u64);
+            header.set_mode(0o644);
+            header.set_cksum();
+            builder.append_data(&mut header, name, body).unwrap();
+        }
+        let tar = builder.into_inner().unwrap();
+        let mut gz = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
+        io::Write::write_all(&mut gz, &tar).unwrap();
+        gz.finish().unwrap()
+    }
+
+    #[test]
+    fn streamed_and_mapped_listings_agree() {
+        let dir = std::env::temp_dir().join(format!("nixcavate-archive-test-{}", std::process::id()));
+        fs::create_dir_all(&dir).unwrap();
+        let file = dir.join("c.tar.gz");
+        fs::write(&file, tar_gz()).unwrap();
+        let keep = |_: &str| true;
+        let listed = |stream_from: u64| {
+            open_streaming_from(&file, &keep, &dir.join(format!("scratch{stream_from}")), stream_from).unwrap()
+        };
+        let (mapped, streamed) = (listed(u64::MAX), listed(0));
+        assert!(mapped.map.is_some() && streamed.map.is_none());
+        let shape = |l: &Listing| l.entries.iter().map(|e| (e.path.clone(), e.size)).collect::<Vec<_>>();
+        assert_eq!(shape(&mapped), shape(&streamed));
+        assert_eq!(shape(&streamed), [("[root]/etc/passwd".to_string(), 26), ("[root]/big".to_string(), 3 << 20)]);
+        // Small entries stay in memory, large ones are spooled; both kinds are readable.
+        assert!(matches!(streamed.entries[0].store, Store::Memory(_)));
+        assert!(matches!(&streamed.entries[1].store, Store::File(p) if fs::read(p).unwrap().len() == 3 << 20));
+        fs::remove_dir_all(&dir).unwrap();
+    }
 }

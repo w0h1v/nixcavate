@@ -1,0 +1,14 @@
+alice:
+When                Type  Source                                           Valid
+2026-11-13 02:13:34 RHOST 203.0.113.9                                          V
+2026-11-13 02:13:36 RHOST 203.0.113.9                                          V
+2026-11-13 02:13:38 TTY   pts/3                                                V
+bob:
+When                Type  Source                                           Valid
+2026-11-13 02:13:41 RHOST 198.51.100.77                                        V
+2026-11-13 02:13:43 RHOST 198.51.100.77                                        V
+2026-11-13 02:13:45 RHOST 198.51.100.77                                        V
+carol:
+When                Type  Source                                           Valid
+2026-11-13 02:13:58 RHOST 192.0.2.5                                            V
+2026-11-13 02:13:53 TTY   ssh                                                  I

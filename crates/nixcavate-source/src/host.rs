@@ -10,6 +10,14 @@ use std::path::Path;
 pub enum Os {
     Linux,
     Macos,
+    /// VMware ESXi.
+    Esxi,
+    FreeBsd,
+    OpenBsd,
+    NetBsd,
+    /// Oracle Solaris and the illumos distributions.
+    Solaris,
+    Aix,
     /// No known layout was found; every artifact is tried.
     Unknown,
 }
@@ -19,6 +27,12 @@ impl Os {
         match self {
             Os::Linux => "linux",
             Os::Macos => "macos",
+            Os::Esxi => "esxi",
+            Os::FreeBsd => "freebsd",
+            Os::OpenBsd => "openbsd",
+            Os::NetBsd => "netbsd",
+            Os::Solaris => "solaris",
+            Os::Aix => "aix",
             Os::Unknown => "unknown",
         }
     }
@@ -39,13 +53,16 @@ pub struct Host<'s> {
 }
 
 /// A path is a host root when one of these lies directly below it.
-const ROOT_MARKERS: [&str; 6] = [
+const ROOT_MARKERS: [&str; 8] = [
     "etc/passwd",
     "etc/os-release",
     "etc/hostname",
     "System/Library/CoreServices/SystemVersion.plist",
     "var/log/",
     "private/var/db/",
+    // ESXi keeps its live logs in a ramdisk, and a vm-support bundle may hold only those.
+    "var/run/log/",
+    "etc/vmware/esx.conf",
 ];
 
 /// UAC writes these beside the `[root]` directory of a collection.
@@ -64,6 +81,23 @@ pub const DISCOVERY_PATHS: &[&str] = &[
     "private/etc/localtime",
     "Library/Preferences/SystemConfiguration/preferences.plist",
     "System/Library/CoreServices/SystemVersion.plist",
+    // FreeBSD, OpenBSD and NetBSD name and version themselves here.
+    "etc/rc.conf",
+    "etc/rc.conf.local",
+    "etc/rc.conf.d/hostname",
+    "etc/myname",
+    "etc/release",
+    "etc/motd",
+    "var/db/freebsd-update/tag",
+    "var/run/dmesg.boot",
+    "../live_response/system/uname_-a.txt",
+    "etc/nodename",
+    "etc/release",
+    "etc/default/init",
+    "etc/TIMEZONE",
+    "usr/share/lib/zoneinfo/**",
+    "etc/vmware/esx.conf",
+    "etc/hosts",
 ];
 
 /// Finds the hosts in a source. A source with no recognizable layout yields one host of
@@ -130,16 +164,13 @@ impl<'s> Host<'s> {
             source,
             range: source.range_under(root),
         };
-        let has = |dir: &str| !source.range_under(&host.join(dir)).is_empty();
-        host.os = if has("System/Library") || has("private/var") || has("private/etc") || has("Library/Preferences") {
-            Os::Macos
-        } else if has("etc") || has("var/log") {
-            Os::Linux
-        } else {
-            Os::Unknown
-        };
+        host.os = host.detect_os(source);
         (host.name, host.os_version) = match host.os {
             Os::Macos => host.macos_identity(),
+            Os::FreeBsd | Os::OpenBsd | Os::NetBsd => host.bsd_identity(),
+            Os::Solaris => host.solaris_identity(),
+            Os::Esxi => host.esxi_identity(),
+            Os::Aix => host.aix_identity(),
             _ => host.linux_identity(),
         };
         if host.name.is_empty() {
@@ -161,6 +192,100 @@ impl<'s> Host<'s> {
         }
     }
 
+    /// The operating system, from the layout below the root. Every system here has `etc/` and
+    /// `var/log/`, so each is recognised by files only it has, the most specific first, and
+    /// Linux is what remains. A UAC collection also names the system in its folder or file
+    /// name (`uac-<host>-<os>-<time>`): that decides when the layout does not.
+    fn detect_os(&self, source: &Source) -> Os {
+        let has = |dir: &str| !source.range_under(&self.join(dir)).is_empty();
+        let file = |path: &str| self.entry(path).is_some();
+        if has("System/Library") || has("private/var") || has("private/etc") || has("Library/Preferences") {
+            return Os::Macos;
+        }
+        if !(has("etc") || has("var/log") || has("var/adm") || has("var/run/log")) {
+            return Os::Unknown;
+        }
+        let esxi_files = ["etc/vmware/esx.conf", "var/log/vmkernel.log", "var/run/log/vmkernel.log"];
+        let esxi_daemons = ["etc/vmware/hostd/vmInventory.xml", "var/run/log/hostd.log", "var/log/hostd.log"];
+        // Big logs may be present only as `vm-support` pieces; the host agent's folder is ESXi's.
+        // VMware Workstation on Linux also has `etc/vmware/hostd`; ESXi has no `os-release`.
+        // A link whose target was not collected still says the system has the file.
+        let listed = |path: &str| self.lookup(path).is_some();
+        let folder = self.root.rsplit('/').find(|s| !s.is_empty() && !s.starts_with('['));
+        let file_name = source.path.file_name().map(|n| n.to_string_lossy().into_owned());
+        let named = folder.and_then(uac_os).or_else(|| file_name.as_deref().and_then(uac_os));
+        let linux_release = listed("etc/os-release") || file("usr/lib/os-release") || named == Some(Os::Linux);
+        if esxi_files.iter().chain(&esxi_daemons).any(|path| file(path)) || has("etc/vmware/hostd") && !linux_release {
+            Os::Esxi
+        } else if has("etc/security")
+            && (has("etc/objrepos")
+                || has("var/adm/ras")
+                || has("usr/lpp")
+                // Stanza files only AIX has, for a copy of just `/etc/security` and `/var/adm`.
+                || file("etc/security/user")
+                || file("etc/security/lastlog")
+                || file("etc/security/failedlogin"))
+        {
+            Os::Aix
+        } else if has("etc/svc") || has("var/svc") || has("lib/svc") {
+            Os::Solaris
+        } else if !linux_release
+            && (file("etc/release") && has("etc/rc.d") && !file("etc/freebsd-update.conf")
+                || has("etc/pkg_install.conf.d"))
+        {
+            // Before FreeBSD: NetBSD has `etc/defaults` and `etc/rc.d` as well, and FreeBSD has no `etc/release`.
+            // Not with an `os-release`: Mageia has `etc/release` and `etc/rc.d` too.
+            Os::NetBsd
+        } else if file("etc/freebsd-update.conf")
+            || file("bin/freebsd-version")
+            || has("etc/defaults") && has("etc/rc.d")
+        {
+            Os::FreeBsd
+        } else if file("etc/installurl") || has("etc/examples") || file("var/log/authlog") && file("etc/pf.conf") {
+            Os::OpenBsd
+        } else {
+            named.unwrap_or(Os::Linux)
+        }
+    }
+
+    /// The name from `esx.conf` (`/adv/Misc/HostName`), else the first non-loopback name in
+    /// `etc/hosts`; the version from the banner line every VMware daemon log starts with
+    /// (`Section for VMware ESX, pid=1, version=6.7.0, build=19195723`).
+    fn esxi_identity(&self) -> (String, String) {
+        let quoted = |text: &str, key: &str| {
+            let rest = text.lines().find_map(|l| l.strip_prefix(key))?.trim_start().strip_prefix('=')?;
+            let name = rest.trim().trim_matches('"').trim();
+            (!name.is_empty()).then(|| name.to_string())
+        };
+        let from_conf = self.read_text("etc/vmware/esx.conf").and_then(|conf| quoted(&conf, "/adv/Misc/HostName"));
+        let from_hosts = || {
+            let hosts = self.read_text("etc/hosts")?;
+            hosts.lines().find_map(|line| {
+                let mut words = line.split('#').next()?.split_whitespace();
+                let address = words.next()?;
+                let loopback = address.starts_with("127.") || address == "::1";
+                (!loopback).then(|| words.next().map(str::to_string)).flatten()
+            })
+        };
+        let name = from_conf.or_else(from_hosts).unwrap_or_default();
+        let version = ["var/run/log/hostd.log", "var/log/hostd.log", "var/run/log/vpxa.log", "var/log/vpxa.log"]
+            .iter()
+            .find_map(|rel| {
+                let data = self.read(rel)?;
+                let head = String::from_utf8_lossy(&data[..data.len().min(4096)]).into_owned();
+                let banner = head.lines().next()?;
+                let after = banner.split("version=").nth(1)?;
+                let version = after.split([',', ' ']).next()?;
+                let build = banner.split("build=").nth(1).and_then(|b| b.split([',', ' ']).next());
+                Some(match build {
+                    Some(build) => format!("VMware ESXi {version} (build {build})"),
+                    None => format!("VMware ESXi {version}"),
+                })
+            })
+            .unwrap_or_default();
+        (name, version)
+    }
+
     fn linux_identity(&self) -> (String, String) {
         let name = self.read_text("etc/hostname").unwrap_or_default();
         let name = name.lines().next().unwrap_or_default().trim().to_string();
@@ -178,7 +303,8 @@ impl<'s> Host<'s> {
         let first_line = |rel: &str| {
             let text = self.read_text(rel)?;
             let line = text.lines().next()?.trim();
-            (!line.is_empty()).then(|| line.to_string())
+            // A file of `KEY=value` settings (`etc/cloud-release`) is not a version line.
+            (!line.is_empty() && !line.contains('=')).then(|| line.to_string())
         };
         // `system-release` and `redhat-release` are often links that were not collected; the
         // file they point at is named after the distribution (`rocky-release`, `gentoo-release`).
@@ -199,6 +325,120 @@ impl<'s> Host<'s> {
             })
             .or_else(|| first_line("etc/debian_version").map(|v| format!("Debian {v}")))
             .or_else(|| first_line("etc/alpine-release").map(|v| format!("Alpine Linux {v}")))
+    }
+
+    /// Host name and release of FreeBSD, OpenBSD and NetBSD. The name is `hostname=` in
+    /// `rc.conf`, `rc.conf.local` or `rc.conf.d/hostname` (FreeBSD, NetBSD) or the first line of `etc/myname` (OpenBSD, NetBSD). The
+    /// release is the `uname -a` a UAC collection saved, else what the system wrote to a file
+    /// at install or boot: `etc/release` (NetBSD), the `freebsd-update` tag, the first line of
+    /// `etc/motd` or `dmesg.boot` (OpenBSD, which the rc scripts write from `uname`).
+    fn bsd_identity(&self) -> (String, String) {
+        let rc_hostname = ["etc/rc.conf.d/hostname", "etc/rc.conf.local", "etc/rc.conf"].iter().find_map(|path| {
+            let text = self.read_text(path)?;
+            text.lines().find_map(|line| {
+                let value = line.trim().strip_prefix("hostname=")?;
+                let value = value.trim().trim_matches(['"', '\'']).trim();
+                (!value.is_empty()).then(|| value.to_string())
+            })
+        });
+        let first_line = |rel: &str| {
+            let text = self.read_text(rel)?;
+            let line = text.lines().next()?.trim();
+            (!line.is_empty()).then(|| line.to_string())
+        };
+        let name = rc_hostname.or_else(|| first_line("etc/myname")).unwrap_or_default();
+        // `FreeBSD host 14.5-RELEASE-p2 FreeBSD 14.5-RELEASE-p2 GENERIC amd64`: system and release.
+        let uname = self.read_text("../live_response/system/uname_-a.txt").and_then(|text| {
+            let mut words = text.split_whitespace();
+            let (system, _host, release) = (words.next()?, words.next()?, words.next()?);
+            Some(format!("{system} {release}"))
+        });
+        let version = uname
+            .or_else(|| {
+                // `freebsd-update|amd64|14.5-RELEASE-p2|`
+                let tag = first_line("var/db/freebsd-update/tag")?;
+                let release = tag.split('|').nth(2)?;
+                Some(format!("FreeBSD {release}"))
+            })
+            .or_else(|| first_line("etc/release"))
+            .or_else(|| first_line("etc/motd").filter(|l| l.starts_with("OpenBSD") || l.starts_with("NetBSD")))
+            .or_else(|| {
+                first_line("var/run/dmesg.boot").filter(|l| l.starts_with("OpenBSD") || l.starts_with("NetBSD"))
+            })
+            // `OpenBSD 7.8 (GENERIC.MP) #54: Sun Oct 12 12:58:11 MDT 2025`: keep what precedes the build date.
+            .map(|line| line.split_once(": ").map_or(line.clone(), |(release, _)| release.to_string()));
+        (name, version.unwrap_or_default())
+    }
+
+    /// Solaris and illumos keep the host name in `etc/nodename` (Oracle Solaris 11 also keeps it in
+    /// the SMF repository, which is not read here) and the release in `etc/release`; illumos
+    /// distributions add `etc/os-release`.
+    fn solaris_identity(&self) -> (String, String) {
+        let first_line = |rel: &str| {
+            let text = self.read_text(rel)?;
+            let line = text.lines().map(str::trim).find(|l| !l.is_empty())?.to_string();
+            Some(line)
+        };
+        let name = first_line("etc/nodename").unwrap_or_default();
+        let pretty = self.read_text("etc/os-release").and_then(|text| {
+            text.lines().find_map(|l| l.strip_prefix("PRETTY_NAME=")).map(|v| v.trim().trim_matches('"').to_string())
+        });
+        (name, pretty.or_else(|| first_line("etc/release")).unwrap_or_default())
+    }
+
+    /// The `TZ` of a Solaris system: `etc/default/init` (`etc/TIMEZONE` links to it) holds `TZ=name`.
+    fn solaris_tz(&self) -> Option<String> {
+        let text = self.read_text("etc/default/init").or_else(|| self.read_text("etc/TIMEZONE"))?;
+        let value = text.lines().find_map(|l| l.trim().strip_prefix("TZ="))?;
+        let name = value.trim().trim_matches(['"', '\'']).to_string();
+        is_zone_name(&name).then_some(name)
+    }
+
+    /// AIX keeps its host name in the ODM, which is not read, so the name comes from command
+    /// output a collector saved (`hostname`, `uname -n`, `uname -a`, `lsattr -El inet0`) and the
+    /// version from `oslevel -s`, `-r` or plain. Anything missing falls back to the collection's name.
+    fn aix_identity(&self) -> (String, String) {
+        let first_word = |rel: &str, skip: usize| {
+            let text = self.read_text(rel)?;
+            let word = text.lines().next()?.split_whitespace().nth(skip)?.to_string();
+            (!word.is_empty()).then_some(word)
+        };
+        let name = first_word("../live_response/system/hostname.txt", 0)
+            .or_else(|| first_word("../live_response/system/uname_-n.txt", 0))
+            .or_else(|| {
+                let text = self.read_text("../live_response/system/uname_-a.txt")?;
+                let mut words = text.lines().next()?.split_whitespace();
+                (words.next()? == "AIX").then(|| words.next().map(str::to_string)).flatten()
+            })
+            .or_else(|| {
+                let text = self.read_text("../live_response/network/lsattr_-El_inet0.txt")?;
+                text.lines().find_map(|l| l.strip_prefix("hostname")?.split_whitespace().next().map(str::to_string))
+            })
+            .unwrap_or_default();
+        let version = first_word("../live_response/system/oslevel_-s.txt", 0)
+            .or_else(|| first_word("../live_response/system/oslevel_-r.txt", 0))
+            .or_else(|| first_word("../live_response/system/oslevel.txt", 0))
+            .map(|level| format!("AIX {level}"))
+            .unwrap_or_default();
+        (name, version)
+    }
+
+    /// The zone AIX names in `TZ=` in `/etc/environment`: an Olson name (looked up in `zoneinfo`)
+    /// or a POSIX string such as `CST6CDT`.
+    fn aix_zone(&self, zoneinfo: Option<&Path>) -> Option<(Tz, String)> {
+        let text = self.read_text("etc/environment")?;
+        let spec = text
+            .lines()
+            .map(str::trim)
+            .filter(|l| !l.starts_with(['#', '*']))
+            .find_map(|l| l.strip_prefix("TZ=").map(|v| v.trim().trim_matches(['"', '\'']).to_string()))?;
+        if let (true, Some(dir)) = (is_zone_name(&spec), zoneinfo) {
+            if let Some(tz) = std::fs::read(dir.join(&spec)).ok().and_then(|bytes| Tz::parse(&bytes)) {
+                return Some((tz, format!("{spec} (TZ in etc/environment; zone data from {})", dir.display())));
+            }
+        }
+        let tz = Tz::from_posix(&spec)?;
+        Some((tz, format!("{spec} (POSIX TZ in etc/environment)")))
     }
 
     fn macos_identity(&self) -> (String, String) {
@@ -229,15 +469,30 @@ impl<'s> Host<'s> {
             .as_deref()
             .and_then(|target| target.split_once("zoneinfo/").map(|(_, name)| name.to_string()))
             .or_else(|| self.read_text("etc/timezone").map(|t| t.trim().to_string()))
+            .or_else(|| if self.os == Os::Solaris { self.solaris_tz() } else { None })
             .filter(|name| is_zone_name(name));
         let label = named.clone().unwrap_or_else(|| "unnamed zone".into());
 
         if let Some(tz) = localtime.iter().find_map(|p| Tz::parse(&self.read(p)?)) {
             return (tz, format!("{label} (zone data from the evidence)"));
         }
+        // Solaris has no `etc/localtime`: its zone data is under `usr/share/lib/zoneinfo`.
+        if let Some(name) = named.as_deref().filter(|_| self.os == Os::Solaris) {
+            if let Some(tz) = self.read(&format!("usr/share/lib/zoneinfo/{name}")).and_then(|data| Tz::parse(&data)) {
+                return (tz, format!("{name} (TZ in the evidence; zone data from the evidence)"));
+            }
+            if matches!(name, "UTC" | "GMT" | "Etc/UTC" | "Etc/GMT") {
+                return (Tz::utc(), format!("{name} (TZ in the evidence)"));
+            }
+        }
         if let (Some(name), Some(dir)) = (&named, zoneinfo) {
             if let Some(tz) = std::fs::read(dir.join(name)).ok().and_then(|bytes| Tz::parse(&bytes)) {
                 return (tz, format!("{name} (named in the evidence; zone data from {})", dir.display()));
+            }
+        }
+        if self.os == Os::Aix {
+            if let Some(found) = self.aix_zone(zoneinfo) {
+                return found;
             }
         }
         match named {
@@ -334,6 +589,22 @@ fn without_extension(name: &str) -> &str {
     let cut = EXTENSIONS.iter().find(|e| lower.ends_with(*e)).map_or(0, |e| e.len());
     // Lowercasing ASCII keeps byte lengths, so the cut lands on the same boundary.
     name.get(..name.len() - cut).filter(|stem| !stem.is_empty()).unwrap_or(name)
+}
+
+/// The operating system a UAC collection name states: `uac-<host>-<os>-<timestamp>`. Only the
+/// systems whose layout alone may not decide are answered.
+fn uac_os(label: &str) -> Option<Os> {
+    let rest = label.strip_prefix("uac-")?;
+    let named = [
+        ("-linux-", Os::Linux),
+        ("-esxi-", Os::Esxi),
+        ("-freebsd-", Os::FreeBsd),
+        ("-openbsd-", Os::OpenBsd),
+        ("-netbsd-", Os::NetBsd),
+        ("-solaris-", Os::Solaris),
+        ("-aix-", Os::Aix),
+    ];
+    named.iter().filter_map(|(name, os)| Some((rest.rfind(name)?, *os))).max_by_key(|(at, _)| *at).map(|(_, os)| os)
 }
 
 /// The host in a UAC collection name: `uac-<host>-<os>-<timestamp>[.tar.gz]`.
@@ -478,6 +749,10 @@ mod tests {
             version(&[("r/etc/rocky-release", b"Rocky Linux release 9.3 (Blue Onyx)\n")]),
             "Rocky Linux release 9.3 (Blue Onyx)"
         );
+        // A `-release` file of settings (`etc/cloud-release`) is not a version line.
+        let cloud: [(&str, &[u8]); 2] =
+            [("r/etc/cloud-release", b"ID=genericcloud\n"), ("r/etc/debian_version", b"12.9\n")];
+        assert_eq!(version(&cloud), "Debian 12.9");
         let both: [(&str, &[u8]); 2] =
             [("r/etc/os-release", b"PRETTY_NAME=First\n"), ("r/etc/debian_version", b"13\n")];
         assert_eq!(version(&both), "First");
@@ -498,6 +773,120 @@ mod tests {
             source.path = std::path::PathBuf::from(format!("/cases/{file}"));
             assert_eq!(discover(&source, None)[0].name, name, "{file}");
         }
+    }
+
+    #[test]
+    fn each_operating_system_is_told_from_its_own_files() {
+        let os = |files: &[&str]| {
+            let all: Vec<(&str, &[u8])> = files.iter().map(|f| (*f, &b"x\n"[..])).collect();
+            discover(&Source::from_memory(&all), None)[0].os
+        };
+        assert_eq!(os(&["r/etc/passwd", "r/var/log/syslog"]), Os::Linux);
+        assert_eq!(os(&["r/etc/passwd", "r/etc/vmware/esx.conf", "r/var/log/hostd.log"]), Os::Esxi);
+        assert_eq!(os(&["r/var/run/log/hostd.log", "r/etc/hosts"]), Os::Esxi);
+        assert_eq!(
+            os(&["r/etc/hosts", "r/etc/vmware/hostd/hostsvc.xml", "r/var/run/log/hostd.log.FRAG-00000"]),
+            Os::Esxi
+        );
+        // VMware Workstation on Linux has an etc/vmware too.
+        assert_eq!(os(&["r/etc/passwd", "r/etc/vmware/config", "r/var/log/syslog"]), Os::Linux);
+        assert_eq!(os(&["r/etc/os-release", "r/etc/vmware/hostd/config.xml", "r/var/log/syslog"]), Os::Linux);
+        assert_eq!(os(&["r/etc/passwd", "r/etc/security/user", "r/etc/objrepos/CuAt", "r/var/adm/wtmp"]), Os::Aix);
+        assert_eq!(os(&["r/etc/passwd", "r/etc/security/lastlog", "r/var/adm/sulog"]), Os::Aix);
+        assert_eq!(
+            os(&["r/etc/passwd", "r/etc/release", "r/etc/svc/repository.db", "r/var/adm/messages"]),
+            Os::Solaris
+        );
+        assert_eq!(
+            os(&["r/etc/passwd", "r/etc/defaults/rc.conf", "r/etc/rc.d/sshd", "r/var/log/auth.log"]),
+            Os::FreeBsd
+        );
+        assert_eq!(os(&["r/etc/passwd", "r/etc/installurl", "r/var/log/authlog"]), Os::OpenBsd);
+        assert_eq!(os(&["r/etc/passwd", "r/etc/release", "r/etc/rc.d/sshd", "r/var/log/authlog"]), Os::NetBsd);
+        // Mageia and other Linux systems have `etc/release` and `etc/rc.d` as well.
+        assert_eq!(os(&["r/etc/passwd", "r/etc/release", "r/etc/rc.d/init.d/x", "r/etc/os-release"]), Os::Linux);
+        // NetBSD has `etc/defaults` and `etc/rc.d` like FreeBSD, and `etc/release` which FreeBSD lacks.
+        assert_eq!(
+            os(&["r/etc/passwd", "r/etc/release", "r/etc/defaults/rc.conf", "r/etc/rc.d/sshd", "r/var/log/authlog"]),
+            Os::NetBsd
+        );
+        assert_eq!(os(&["r/Library/Preferences/x.plist", "r/private/var/log/system.log"]), Os::Macos);
+        assert_eq!(os(&["r/var/log/x.log"]), Os::Linux);
+        // A UAC collection names the system when its files do not decide.
+        assert_eq!(os(&["uac-box-freebsd-20240310010203/[root]/etc/passwd"]), Os::FreeBsd);
+        assert_eq!(os(&["uac-box-linux-20240310010203/[root]/etc/passwd"]), Os::Linux);
+        assert_eq!(os(&["uac-freebsd-box-linux-20240310010203/[root]/etc/passwd"]), Os::Linux);
+        // Mageia collected without the file its `etc/os-release` link points to.
+        let mageia = "uac-box-linux-20240310010203/[root]/etc";
+        let files = [format!("{mageia}/passwd"), format!("{mageia}/release"), format!("{mageia}/rc.d/init.d/x")];
+        assert_eq!(os(&files.each_ref().map(String::as_str)), Os::Linux);
+    }
+
+    #[test]
+    fn an_aix_host_is_named_and_dated_from_collected_command_output() {
+        let tree: [(&str, &[u8]); 8] = [
+            ("uac-fallback-aix-20240310010203/[root]/etc/passwd", b"root:!:0:0::/:/usr/bin/ksh\n"),
+            ("uac-fallback-aix-20240310010203/[root]/etc/security/user", b"root:\n"),
+            ("uac-fallback-aix-20240310010203/[root]/etc/objrepos/CuAt", b"x"),
+            ("uac-fallback-aix-20240310010203/[root]/etc/environment", b"# c\nPATH=/usr/bin\nTZ=CST6CDT\n"),
+            ("uac-fallback-aix-20240310010203/live_response/system/uname_-a.txt", b"AIX aixbox 2 7 00F9C5A04C00\n"),
+            ("uac-fallback-aix-20240310010203/live_response/system/oslevel_-s.txt", b"7200-05-04-2220\n"),
+            ("uac-fallback-aix-20240310010203/live_response/system/oslevel.txt", b"7.2.0.0\n"),
+            ("uac-fallback-aix-20240310010203/uac.log", b""),
+        ];
+        let source = Source::from_memory(&tree);
+        let hosts = discover(&source, None);
+        let host = &hosts[0];
+        assert_eq!((host.os, host.name.as_str(), host.os_version.as_str()), (Os::Aix, "aixbox", "AIX 7200-05-04-2220"));
+        assert!(host.tz_description.contains("POSIX TZ"), "{}", host.tz_description);
+        // 2024-03-10T12:00:00 in CST6CDT is UTC-6 before the March change and UTC-5 after it (DST began that morning).
+        assert_eq!(host.tz.offset_at(1_710_000_000), -6 * 3600);
+        assert_eq!(host.tz.offset_at(1_720_000_000), -5 * 3600);
+
+        // Without any collected output the collection's own name is the host name.
+        let bare: [(&str, &[u8]); 3] = [
+            ("uac-fallback-aix-20240310010203/[root]/etc/passwd", b"root:!:0:0::/:/usr/bin/ksh\n"),
+            ("uac-fallback-aix-20240310010203/[root]/etc/security/user", b"root:\n"),
+            ("uac-fallback-aix-20240310010203/[root]/etc/objrepos/CuAt", b"x"),
+        ];
+        let source = Source::from_memory(&bare);
+        let hosts = discover(&source, None);
+        let host = &hosts[0];
+        assert_eq!((host.os, host.name.as_str()), (Os::Aix, "fallback"));
+    }
+
+    /// Solaris and illumos: the name is in `etc/nodename`, the release in `etc/os-release` (illumos distributions) or
+    /// `etc/release`, and the zone in `etc/default/init` (`etc/TIMEZONE` links to it).
+    #[test]
+    fn solaris_identity_and_zone() {
+        let host_of = |files: &[(&str, &[u8])]| {
+            let all: Vec<(&str, &[u8])> = files.to_vec();
+            let source = Source::from_memory(&all);
+            let host = discover(&source, None).remove(0);
+            (host.os, host.name.clone(), host.os_version.clone(), host.tz_description.clone())
+        };
+        let (os, name, version, zone) = host_of(&[
+            ("r/etc/svc/repository.db", b"x"),
+            ("r/etc/nodename", b"nx-example\n"),
+            ("r/etc/release", b"  OmniOS v11 r151054\n  Copyright\n"),
+            ("r/etc/os-release", b"NAME=\"OmniOS\"\nPRETTY_NAME=\"OmniOS Community Edition v11 r151054\"\n"),
+            ("r/etc/default/init", b"#\nTZ=UTC\nCMASK=022\n"),
+        ]);
+        assert_eq!(
+            (os, name.as_str(), version.as_str()),
+            (Os::Solaris, "nx-example", "OmniOS Community Edition v11 r151054")
+        );
+        assert_eq!(zone, "UTC (TZ in the evidence)");
+        // Oracle Solaris has `etc/release` only; a named zone with no data stays UTC and says so.
+        let (os, _, version, zone) = host_of(&[
+            ("r/var/svc/log/x.log", b"x"),
+            ("r/etc/passwd", b"x"),
+            ("r/etc/nodename", b"box\n"),
+            ("r/etc/release", b"                    Oracle Solaris 11.4 SPARC\n  Copyright (c) 1983\n"),
+            ("r/etc/default/init", b"TZ=\"Europe/Berlin\"\n"),
+        ]);
+        assert_eq!((os, version.as_str()), (Os::Solaris, "Oracle Solaris 11.4 SPARC"));
+        assert!(zone.starts_with("UTC (assumed; no zone data found for Europe/Berlin)"), "{zone}");
     }
 
     #[test]

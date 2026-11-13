@@ -1,0 +1,13 @@
+---
+source: crates/nixcavate-artifacts/src/linux/desktop_activity.rs
+expression: "format!(\"{photo}{gone}{failed}\")"
+---
+{"host":"memory","artifact":"thumbnails","source_path":"home/alice/.cache/thumbnails/normal/f399387eab8c38bd47862f209ac83c66.png","source_offset":0,"user":"alice","size_class":"normal","failed":false,"uri":"file:///home/alice/Pictures/photo.png","path":"/home/alice/Pictures/photo.png","original_mtime":"2026-11-13T01:45:47Z","original_size":null,"mime_type":null,"software":"GNOME::ThumbnailFactory","width":128,"height":96,"thumbnail_mtime":"2026-11-13T01:45:53Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:45:53Z,seconds,recorded,memory,thumbnails,thumbnail_created,thumbnail of /home/alice/Pictures/photo.png (0 bytes),home/alice/.cache/thumbnails/normal/f399387eab8c38bd47862f209ac83c66.png,,0,,
+{"host":"memory","artifact":"thumbnails","source_path":"home/alice/.cache/thumbnails/normal/0c6ef32fbeab0b7ed53db38d46af8e09.png","source_offset":0,"user":"alice","size_class":"normal","failed":false,"uri":"file:///home/alice/Pictures/secret%20plan.jpg","path":"/home/alice/Pictures/secret plan.jpg","original_mtime":"2026-11-13T01:45:47Z","original_size":null,"mime_type":null,"software":"GNOME::ThumbnailFactory","width":128,"height":96,"thumbnail_mtime":"2026-11-13T01:45:53Z"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:45:53Z,seconds,recorded,memory,thumbnails,thumbnail_created,thumbnail of /home/alice/Pictures/secret plan.jpg (0 bytes),home/alice/.cache/thumbnails/normal/0c6ef32fbeab0b7ed53db38d46af8e09.png,,0,,
+{"host":"memory","artifact":"thumbnails","source_path":"home/alice/.cache/thumbnails/fail/gnome-thumbnail-factory/e235c1e3c768bb77932064353ec16f1a.png","source_offset":0,"user":"alice","size_class":"fail","failed":true,"uri":"file:///home/alice/Documents/report.txt","path":"/home/alice/Documents/report.txt","original_mtime":"2026-11-13T01:45:47Z","original_size":null,"mime_type":null,"software":"GNOME::ThumbnailFactory","width":1,"height":1,"thumbnail_mtime":null}

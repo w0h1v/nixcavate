@@ -1,0 +1,19 @@
+[sudo] password for alice: err-one
+out-one
+out-two
+alice
+bob
+argument-1 argument-2 argument-3 argument-4 argument-5 argument-6 argument-7 argument-8 argument-9 argument-10 argument-11 argument-12 argument-13 argument-14 argument-15 argument-16 argument-17 argument-18 argument-19 argument-20
+[sudo] password for alice: Sorry, try again.
+[sudo] password for alice: 
+sudo: no password was provided
+sudo: 1 incorrect password attempt
+typed-on-a-tty
+done
+sudo: a password is required
+json-run
+json-on-a-tty
+[sudo] password for alice: Sorry, try again.
+[sudo] password for alice: 
+sudo: no password was provided
+sudo: 1 incorrect password attempt

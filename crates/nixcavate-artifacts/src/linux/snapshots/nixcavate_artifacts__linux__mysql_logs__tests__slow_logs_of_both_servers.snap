@@ -1,0 +1,28 @@
+---
+source: crates/nixcavate-artifacts/src/linux/mysql_logs.rs
+expression: out
+---
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":5,"time":"2026-11-13T01:28:53Z","user":"root","client_host":"localhost []","thread_id":3,"database":null,"query_seconds":0.002168,"lock_seconds":0.000059,"rows_sent":0,"rows_examined":0,"statement":"CREATE USER alice@localhost IDENTIFIED BY '<redacted>';"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":11,"time":"2026-11-13T01:28:53Z","user":"root","client_host":"localhost []","thread_id":3,"database":null,"query_seconds":0.001431,"lock_seconds":0.000021,"rows_sent":0,"rows_examined":0,"statement":"GRANT ALL ON *.* TO alice@localhost;"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":17,"time":"2026-11-13T01:28:53Z","user":"root","client_host":"localhost []","thread_id":3,"database":null,"query_seconds":0.000075,"lock_seconds":0.0,"rows_sent":0,"rows_examined":0,"statement":"CREATE DATABASE appdb;"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":23,"time":"2026-11-13T01:28:53Z","user":"alice","client_host":"localhost []","thread_id":4,"database":"appdb","query_seconds":0.014253,"lock_seconds":0.000044,"rows_sent":0,"rows_examined":0,"statement":"CREATE TABLE t(id int, v text);"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":30,"time":"2026-11-13T01:28:53Z","user":"alice","client_host":"localhost []","thread_id":4,"database":"appdb","query_seconds":0.001627,"lock_seconds":0.000177,"rows_sent":0,"rows_examined":0,"statement":"INSERT INTO t VALUES (1,'a'),(2,'b');"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":36,"time":"2026-11-13T01:28:53Z","user":"alice","client_host":"localhost []","thread_id":4,"database":"appdb","query_seconds":0.000083,"lock_seconds":0.000019,"rows_sent":1,"rows_examined":2,"statement":"SELECT * FROM t WHERE id=1;"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":44,"time":"2026-11-13T01:28:53Z","user":"alice","client_host":"localhost []","thread_id":4,"database":"appdb","query_seconds":0.200756,"lock_seconds":0.0,"rows_sent":1,"rows_examined":0,"statement":"SELECT sleep(0.2);"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":50,"time":"2026-11-13T01:28:53Z","user":"alice","client_host":"localhost []","thread_id":7,"database":null,"query_seconds":0.000046,"lock_seconds":0.0,"rows_sent":1,"rows_examined":0,"statement":"SELECT 1,\n  2\nFROM dual;"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":58,"time":"2026-11-13T01:28:53Z","user":"alice","client_host":"localhost []","thread_id":7,"database":null,"query_seconds":0.016518,"lock_seconds":0.015172,"rows_sent":0,"rows_examined":0,"statement":"DROP DATABASE appdb;"}
+{"host":"memory","artifact":"mysql-slow-log","source_path":"var/log/mysql/mysql-slow.log","source_line":64,"time":"2026-11-13T01:28:53Z","user":"root","client_host":"localhost []","thread_id":8,"database":null,"query_seconds":0.000067,"lock_seconds":0.0,"rows_sent":0,"rows_examined":0,"statement":"SHUTDOWN;"}
+--- timeline ---
+timestamp,precision,basis,host,artifact,event,message,source_path,source_line,source_offset,rule,level
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,root@localhost []: 0.002s CREATE USER alice@localhost IDENTIFIED BY '<redacted>';,var/log/mysql/mysql-slow.log,5,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,root@localhost []: 0.001s GRANT ALL ON *.* TO alice@localhost;,var/log/mysql/mysql-slow.log,11,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,root@localhost []: 0.000s CREATE DATABASE appdb;,var/log/mysql/mysql-slow.log,17,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,"alice@localhost []: 0.014s CREATE TABLE t(id int, v text);",var/log/mysql/mysql-slow.log,23,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,"alice@localhost []: 0.002s INSERT INTO t VALUES (1,'a'),(2,'b');",var/log/mysql/mysql-slow.log,30,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,alice@localhost []: 0.000s SELECT * FROM t WHERE id=1;,var/log/mysql/mysql-slow.log,36,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,alice@localhost []: 0.201s SELECT sleep(0.2);,var/log/mysql/mysql-slow.log,44,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,"alice@localhost []: 0.000s SELECT 1,
+  2
+FROM dual;",var/log/mysql/mysql-slow.log,50,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,alice@localhost []: 0.017s DROP DATABASE appdb;,var/log/mysql/mysql-slow.log,58,,,
+2026-11-13T01:28:53Z,seconds,recorded,memory,mysql-slow-log,db_slow_query,root@localhost []: 0.000s SHUTDOWN;,var/log/mysql/mysql-slow.log,64,,,

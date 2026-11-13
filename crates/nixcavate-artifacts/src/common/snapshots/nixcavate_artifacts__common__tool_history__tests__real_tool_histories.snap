@@ -1,0 +1,6 @@
+---
+source: crates/nixcavate-artifacts/src/common/tool_history.rs
+expression: "run(&TOOLS, \"root/.php_history\",\n&fixture(\"tool-history/debian12/.php_history\"), 0)"
+---
+{"host":"memory","artifact":"tool-history","source_path":"root/.php_history","source_line":2,"user":"root","tool":"php","command":"echo 1+1;"}
+{"host":"memory","artifact":"tool-history","source_path":"root/.php_history","source_line":3,"user":"root","tool":"php","command":"echo \"hi there\";"}

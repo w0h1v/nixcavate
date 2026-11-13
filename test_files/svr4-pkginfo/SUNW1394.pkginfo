@@ -1,0 +1,11 @@
+ARCH=i386
+BASEDIR=/
+CATEGORY=system
+DESC=IEEE1394 Framework and OpenHCI Driver
+HOTLINE=Please contact your local service provider
+NAME=Sun IEEE1394 Framework
+PKG=SUNW1394
+PKGINST=SUNW1394
+VENDOR=Illumos
+VERSION=11.11,REV=2009.11.11
+INSTDATE=May 03 2025 09:29
