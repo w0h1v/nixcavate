@@ -4,10 +4,10 @@
 [![license: MIT](https://img.shields.io/badge/license-MIT-0f766e.svg)](LICENSE)
 
 A fast, single-binary forensic artifact parser for Linux and macOS collections, which also reads
-FreeBSD, OpenBSD, NetBSD, Solaris/illumos, VMware ESXi and IBM AIX hosts.
+FreeBSD, OpenBSD, NetBSD and Solaris/illumos hosts. VMware ESXi and IBM AIX support is experimental.
 Overview and benchmarks: <https://w0h1v.github.io/nixcavate/>
 
-nixcavate turns a collected host (a UAC, Velociraptor or Aftermath collection, a mounted
+nixcavate turns a collected host (a UAC, Velociraptor, CatScale, CyLR or fastir collection, a mounted
 volume, or a disk image) into per-artifact CSV, JSON or JSONL, a task manifest and a super
 timeline. It needs no runtime, no root and no network.
 
@@ -101,13 +101,15 @@ succeeded or was skipped, 1 means some task failed, 2 means the run could not st
 | Remote access | AnyDesk, TeamViewer, RustDesk, MeshAgent, VS Code server and tunnels, ngrok, cloudflared, Tailscale, ZeroTier, frp, WireGuard and OpenVPN: configuration, logs and connection lists | |
 | Filesystem and live data | UAC body file and live response (processes, sockets, open files, modules); file timeline from disk images | file timeline from APFS images |
 
-VMware ESXi hosts (a `vm-support` bundle, a UAC collection made with its `esxi` profile, or copies of
+**VMware ESXi (experimental).** Checked with public samples and built examples only, never against a
+real compromised host; VMFS volumes are not read. ESXi hosts (a `vm-support` bundle, a UAC collection made with its `esxi` profile, or copies of
 `/var/log` and `/etc/vmware`) are recognised as a separate system: shell commands (`shell.log`),
 `hostd` logins and VM power operations, VOB events, VMkernel warnings, `sshd` logins, per-VM logs, VIBs,
 `esx.conf`, registered VMs, permissions, firewall rule sets, `rc.local.d` and the saved `esxcli` command output;
 `persistence-hunter` judges `local.sh`, community VIBs, extra administrators and the SSH switch.
 
-IBM AIX hosts (a UAC collection, or copies of `/etc` and `/var/adm`) get their own artifacts: the
+**IBM AIX (experimental).** Written from documentation; no AIX system was available to check it. AIX
+hosts (a UAC collection, or copies of `/etc` and `/var/adm`) get their own artifacts: the
 big-endian `wtmp`, `utmp` and `failedlogin` records, `lastlog`, `sulog`, the cron log, the
 `etc/security` stanza files, `inittab`, `rc` scripts, `inetd.conf`, `.rhosts`, `.sh_history`,
 SMIT logs, and the output of `errpt`, `lslpp`, `netstat`, `lssrc` and `genkex`. No AIX system was
