@@ -221,3 +221,5 @@ First version.
 - `pam` skips `pam.d/README`; `cron` skips Solaris's `etc/cron.d/.proto`; `ips-packages` ignores the
   catalog's own `_` keys.
 - The BSD console login failure is `auth_failure` (as PAM's), not `login_failed`.
+- A daylight-saving rule evaluated for a time at either end of the representable range no longer
+  overflows (found by the `tzif` fuzz target; a release build wrapped silently, a debug build panicked).

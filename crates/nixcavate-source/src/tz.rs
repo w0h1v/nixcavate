@@ -64,7 +64,9 @@ impl Spec {
             b'J' => jan1 + self.m - 1 + i64::from(is_leap(year) && self.m >= 60),
             _ => jan1 + self.m,
         };
-        days * 86400 + self.time
+        // A year at either end of the range has days that do not fit in seconds: the nearest
+        // representable second stands for them.
+        days.saturating_mul(86400).saturating_add(self.time)
     }
 }
 
@@ -72,8 +74,8 @@ impl Rule {
     fn offset_at(&self, t: i64) -> i32 {
         let Some((dst, start, end)) = &self.dst else { return self.std };
         let year = year_of_days(t.saturating_add(i64::from(self.std)).div_euclid(86400));
-        let s = start.local_secs(year) - i64::from(self.std);
-        let e = end.local_secs(year) - i64::from(*dst);
+        let s = start.local_secs(year).saturating_sub(i64::from(self.std));
+        let e = end.local_secs(year).saturating_sub(i64::from(*dst));
         let in_dst = if s < e { t >= s && t < e } else { t >= s || t < e };
         if in_dst {
             *dst
@@ -494,6 +496,25 @@ mod tests {
 
     /// The precomputed table must agree with the rule itself, here on the analyst machine's
     /// own zone database when it has one.
+    /// Found by the fuzzer: a time at the end of the range puts the rule's year so far out that
+    /// its seconds do not fit. The offset must still be one of the rule's two.
+    #[test]
+    fn a_rule_at_the_ends_of_time_does_not_overflow() {
+        let tz = Tz::from_posix("EST5EDT,M3.2.0,M11.1.0").unwrap();
+        for t in [i64::MIN, i64::MIN + 1, -1, 0, i64::MAX - 1, i64::MAX] {
+            assert!(matches!(tz.offset_at(t), -18000 | -14400), "{t}");
+            let _ = tz.to_utc(t);
+        }
+        // The last second is on a 4 December and the first on a 27 January: rules dated past
+        // them in those years are out of range.
+        for spec in ["AAA0BBB,J1/0,J365/24", "AAA0BBB,M1.1.0,M12.5.0", "AAA-14BBB-13,0/0,364/167"] {
+            let tz = Tz::from_posix(spec).unwrap();
+            for t in [i64::MIN, i64::MIN + 86400, i64::MAX - 86400, i64::MAX] {
+                let _ = (tz.offset_at(t), tz.to_utc(t));
+            }
+        }
+    }
+
     #[test]
     fn materialized_rule_matches_real_zones() {
         for (zone, winter, summer) in
