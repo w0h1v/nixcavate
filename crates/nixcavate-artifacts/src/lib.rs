@@ -63,6 +63,12 @@ pub struct Input<'a> {
     pub data: &'a [u8],
     /// Where `data` starts in the file. Non-zero only for chunks of a split file.
     pub offset: u64,
+    /// The size of the whole file, which is more than `data` for a chunk or a sparse file.
+    pub size: u64,
+    /// For a [`Artifact::sparse`] parser given a large, mostly unallocated file from a disk
+    /// image: the file's written pieces, each with its offset in the file, in order. Every other
+    /// byte of the file is zero, and `data` is then empty. Empty for every other input.
+    pub pieces: &'a [(u64, &'a [u8])],
     /// The file's modification time in seconds since the epoch; 0 when unknown.
     pub mtime: i64,
     /// Unix permission bits and owner, as collected. 0 when the source does not record them.
@@ -104,6 +110,10 @@ pub struct Artifact {
     /// target is the input data, shown and never followed), empty files are not skipped, and
     /// regular files with content are left out.
     pub presence: bool,
+    /// True when the parser can read a file from its written pieces alone ([`Input::pieces`]):
+    /// a large file in a disk image that is mostly holes (such as `lastlog`, indexed by UID) is
+    /// then handed over as its pieces instead of being refused.
+    pub sparse: bool,
     pub parse: ParseFn,
 }
 
@@ -126,6 +136,7 @@ impl Artifact {
             cost: 1.0,
             split_lines: false,
             presence: false,
+            sparse: false,
             parse,
         }
     }
@@ -147,6 +158,11 @@ impl Artifact {
 
     pub const fn presence(mut self) -> Self {
         self.presence = true;
+        self
+    }
+
+    pub const fn sparse(mut self) -> Self {
+        self.sparse = true;
         self
     }
 }

@@ -44,7 +44,19 @@ pub fn with_host<T>(files: &[(&str, &[u8])], path: &str, mtime: i64, f: impl FnO
     let hosts = discover(&source, None);
     let host = hosts.first().expect("discover always yields a host");
     let data = host.read(path).unwrap_or_else(|| panic!("{path} is not among the test files"));
-    f(&Input { host, path, data: &data, offset: 0, mtime, mode: 0o100644, uid: 0, gid: 0, scratch: &scratch() })
+    f(&Input {
+        host,
+        path,
+        data: &data,
+        offset: 0,
+        size: data.len() as u64,
+        pieces: &[],
+        mtime,
+        mode: 0o100644,
+        uid: 0,
+        gid: 0,
+        scratch: &scratch(),
+    })
 }
 
 /// Runs the artifact's parser and returns its JSONL records, then its timeline as CSV, then
@@ -55,25 +67,29 @@ pub fn run(artifact: &Artifact, path: &str, data: &[u8], mtime: i64) -> String {
 
 /// Like [`run`], with more files on the host.
 pub fn run_on_host(artifact: &Artifact, files: &[(&str, &[u8])], path: &str, mtime: i64) -> String {
-    with_host(files, path, mtime, |input| {
-        let mut sink = Sink::memory(&input.host.name, artifact.id, path, Format::Jsonl);
-        let result = (artifact.parse)(input, &mut sink);
-        let summary = sink.finish().expect("an in-memory sink cannot fail");
-        let mut out = String::from_utf8(summary.memory).expect("records are UTF-8");
-        if !summary.memory_run.is_empty() {
-            out.push_str("--- timeline ---\n");
-            let mut timeline = Vec::new();
-            merge(&[&summary.memory_run], Format::Csv, 1, &mut timeline).expect("the run was just written");
-            out.push_str(&String::from_utf8(timeline).expect("the timeline is UTF-8"));
-        }
-        for warning in summary.warnings {
-            out.push_str(&format!("--- warning: {warning}\n"));
-        }
-        match result {
-            Ok(()) => {}
-            Err(Error::Skipped(why)) => out.push_str(&format!("--- skipped: {why}\n")),
-            Err(e) => out.push_str(&format!("--- failed: {e}\n")),
-        }
-        out
-    })
+    with_host(files, path, mtime, |input| render(artifact, input))
+}
+
+/// Runs the artifact's parser on a prepared input and renders what it produced, as [`run`]
+/// does. For inputs the helpers above cannot build (such as the pieces of a sparse file).
+pub fn render(artifact: &Artifact, input: &Input) -> String {
+    let mut sink = Sink::memory(&input.host.name, artifact.id, input.path, Format::Jsonl);
+    let result = (artifact.parse)(input, &mut sink);
+    let summary = sink.finish().expect("an in-memory sink cannot fail");
+    let mut out = String::from_utf8(summary.memory).expect("records are UTF-8");
+    if !summary.memory_run.is_empty() {
+        out.push_str("--- timeline ---\n");
+        let mut timeline = Vec::new();
+        merge(&[&summary.memory_run], Format::Csv, 1, &mut timeline).expect("the run was just written");
+        out.push_str(&String::from_utf8(timeline).expect("the timeline is UTF-8"));
+    }
+    for warning in summary.warnings {
+        out.push_str(&format!("--- warning: {warning}\n"));
+    }
+    match result {
+        Ok(()) => {}
+        Err(Error::Skipped(why)) => out.push_str(&format!("--- skipped: {why}\n")),
+        Err(e) => out.push_str(&format!("--- failed: {e}\n")),
+    }
+    out
 }

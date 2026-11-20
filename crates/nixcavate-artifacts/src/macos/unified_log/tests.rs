@@ -624,6 +624,8 @@ fn corpus_archive_parses() {
                 path: &rel,
                 data: &data,
                 offset: 0,
+                size: data.len() as u64,
+                pieces: &[],
                 mtime: 0,
                 mode: 0,
                 uid: 0,

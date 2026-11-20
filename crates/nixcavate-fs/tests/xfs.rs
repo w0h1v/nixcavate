@@ -189,6 +189,32 @@ fn unwritten_extents_hide_old_data() {
 }
 
 #[test]
+fn data_ranges_leave_out_holes_and_unwritten_extents() {
+    let image = unzstd("v5.img.zst");
+    let fs = Xfs::open(Bytes(&image)).unwrap();
+    let (nodes, _) = walk(&fs);
+    // unwritten.bin: 1 MiB preallocated, then 4 KiB written at 256 KiB.
+    let node = &nodes["unwritten.bin"];
+    let ranges = fs.data_ranges(node.inode).unwrap().unwrap();
+    assert_eq!(ranges.iter().map(|r| (r.start, r.end)).collect::<Vec<_>>(), [(262144, 266240)]);
+    // Every byte outside the ranges reads as zero, for every regular file of the image.
+    for node in nodes.values().filter(|n| n.kind == Kind::File) {
+        let ranges = fs.data_ranges(node.inode).unwrap().expect("an XFS file always has a data map");
+        assert!(ranges.windows(2).all(|w| w[0].end < w[1].start), "{}: ranges not merged and sorted", node.path);
+        assert!(ranges.last().is_none_or(|r| r.end <= node.size), "{}: range past the size", node.path);
+        let content = read_all(&fs, node.inode, node.size, 1 << 30).unwrap();
+        let mut at = 0usize;
+        for r in &ranges {
+            assert!(content[at..r.start as usize].iter().all(|&b| b == 0), "{}: data outside the ranges", node.path);
+            at = r.end as usize;
+        }
+        assert!(content[at..].iter().all(|&b| b == 0), "{}: data after the last range", node.path);
+    }
+    // A directory has no data ranges to offer.
+    assert_eq!(fs.data_ranges(nodes.values().find(|n| n.kind == Kind::Directory).unwrap().inode).unwrap(), None);
+}
+
+#[test]
 fn rejects_non_xfs() {
     let zeros = vec![0u8; 1 << 16];
     assert!(!probe(&Bytes(&zeros)));
@@ -253,6 +279,7 @@ fn exercise(image: &dyn ReadAt) {
         let mut buf = vec![0u8; 1 << 16];
         for &(inode, _) in nodes.iter().take(64) {
             let _ = fs.read(inode, 0, &mut buf);
+            let _ = fs.data_ranges(inode);
         }
         for &(inode, size) in nodes.iter().filter(|n| n.1 < 1 << 22).take(8) {
             let _ = read_all(&fs, inode, size, 1 << 22);

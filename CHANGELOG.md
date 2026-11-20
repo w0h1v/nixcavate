@@ -22,6 +22,9 @@ First version.
   (Alpine, SUSE). The `syslog` artifact still outputs every line of that file.
 - New artifacts: `wtmpdb` and `lastlog2` (the SQLite login records of Debian 13 and openSUSE
   Tumbleweed), `dnf5-log` (Fedora).
+- `lastlog` in a disk image (ext2/3/4, XFS) is read from its written blocks when it is too
+  sparse to read whole, instead of failing. Domain accounts (SSSD, winbind) have UIDs near 1.5
+  billion, which make the file hundreds of gigabytes long with only a few blocks written.
 - `lastlog` and `utmp`: the aarch64 record layout is recognized from the file length, so a
   file with one record is read correctly.
 - `live-open-files` reads BusyBox `lsof` output (Alpine).
