@@ -590,7 +590,11 @@ VMDK matched `qemu-img dd` on 20 random 1 MiB ranges, and a 32 GiB fixed VHD par
 - **Disk images are bounded.** A volume is listed up to 20 million files, paths up to 4096
   bytes and 256 levels deep; anything beyond is skipped with a warning. A file larger than
   2 GiB, or a sparse file over 64 MiB with less than 1/16 of it allocated, is listed but not
-  read.
+  read, except by `lastlog`: it reads such a file (on ext2/3/4 and XFS) from its written
+  blocks alone, as the records sit at `uid * record size` and the holes are users that never
+  logged in. A domain-joined host (SSSD, winbind) has UIDs near 1.5 billion and a `lastlog`
+  of hundreds of gigabytes with a few blocks written; the written data is still bounded by
+  2 GiB.
 
 ## Performance targets not met
 

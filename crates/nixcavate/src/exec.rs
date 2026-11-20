@@ -90,8 +90,20 @@ fn parse(task: &Task, settings: &Settings) -> (Status, Option<String>, Summary) 
         return (Status::Skipped, Some("empty file".into()), Summary::default());
     }
     let whole;
+    // A large, mostly unallocated file in an image goes to a parser that can take it as its
+    // written pieces; every other file is read whole.
+    let owned_pieces = match (&task.chunk, task.artifact.sparse && task.entry.link.is_none()) {
+        (None, true) => match task.host.open_pieces(task.entry) {
+            Ok(pieces) => pieces,
+            Err(e) => return (Status::Failed, Some(format!("cannot read input: {e}")), Summary::default()),
+        },
+        _ => None,
+    };
+    let pieces: Vec<(u64, &[u8])> =
+        owned_pieces.iter().flatten().map(|(offset, bytes)| (*offset, bytes.as_slice())).collect();
     let data: &[u8] = match &task.chunk {
         Some((data, range)) => &data[range.clone()],
+        None if owned_pieces.is_some() => &[],
         // A link has no bytes of its own: the input is its target, which is never opened.
         None if task.entry.link.is_some() => task.entry.link.as_deref().unwrap_or_default().as_bytes(),
         None => match task.host.open(task.entry) {
@@ -107,6 +119,8 @@ fn parse(task: &Task, settings: &Settings) -> (Status, Option<String>, Summary) 
         path: &task.rel,
         data,
         offset: task.offset(),
+        size: task.entry.link.as_ref().map_or(task.entry.size, |target| target.len() as u64),
+        pieces: &pieces,
         mtime: task.entry.mtime,
         mode: task.entry.mode,
         uid: task.entry.uid,

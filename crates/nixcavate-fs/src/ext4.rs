@@ -29,6 +29,7 @@
 use std::cell::Cell;
 use std::collections::{HashMap, HashSet, VecDeque};
 use std::io;
+use std::ops::Range;
 use std::sync::{Arc, Mutex, PoisonError};
 
 use crate::{le16, le32, shown, walk_tree, Entries, Error, Kind, Node, ReadAt, Result, Tree, Volume, MAX_PATH};
@@ -854,5 +855,39 @@ impl<R: ReadAt> Volume for Ext4<R> {
             return Err(Error::unsupported(format!("inode {ino} is not a file, directory or symlink")));
         }
         self.read_inode(ino, &parsed, offset, buf)
+    }
+
+    fn data_ranges(&self, inode: u64) -> Result<Option<Vec<Range<u64>>>> {
+        // Runs walked before giving up on a map that never ends: far more than a real file has.
+        const MAX_RUNS: usize = 1 << 20;
+        let ino = u32::try_from(inode).map_err(|_| Error::corrupt(format!("inode {inode} out of range")))?;
+        let parsed = self.inode(ino)?;
+        if parsed.kind() != Kind::File || parsed.flags & FL_ENCRYPT != 0 {
+            return Ok(None);
+        }
+        if parsed.flags & FL_INLINE_DATA != 0 {
+            return Ok(Some(if parsed.size == 0 { Vec::new() } else { vec![Range { start: 0, end: parsed.size }] }));
+        }
+        let (bs, size) = (self.block_size, parsed.size);
+        let mut out: Vec<Range<u64>> = Vec::new();
+        let mut cache = Blocks::new();
+        let mut lblk = 0u64;
+        for _ in 0..MAX_RUNS {
+            let start = lblk.saturating_mul(bs);
+            if start >= size {
+                return Ok(Some(out));
+            }
+            let run = self.map(&parsed, lblk, &mut cache)?;
+            let len = run.len.max(1);
+            if run.phys.is_some() {
+                let end = start.saturating_add(len.saturating_mul(bs)).min(size);
+                match out.last_mut() {
+                    Some(last) if last.end >= start => last.end = end,
+                    _ => out.push(start..end),
+                }
+            }
+            lblk = lblk.saturating_add(len);
+        }
+        Err(Error::corrupt(format!("inode {ino}: block map has more than {MAX_RUNS} runs")))
     }
 }

@@ -26,6 +26,7 @@
 //! affect reading.
 
 use std::collections::HashSet;
+use std::ops::Range;
 
 use crate::{be16, be32, be64, shown, walk_tree, Entries, Error, Kind, Node, ReadAt, Result, Tree, Volume};
 
@@ -666,4 +667,39 @@ impl<R: ReadAt> Volume for Xfs<R> {
         }
         Ok(n)
     }
+
+    fn data_ranges(&self, inode: u64) -> Result<Option<Vec<Range<u64>>>> {
+        let mut raw = Vec::new();
+        let core = self.read_inode(inode, &mut raw)?;
+        if core.kind() != Kind::File || core.flags & DIFLAG_REALTIME != 0 {
+            return Ok(None);
+        }
+        match core.format {
+            FMT_LOCAL => Ok(Some(if core.size == 0 { Vec::new() } else { vec![Range { start: 0, end: core.size }] })),
+            FMT_EXTENTS | FMT_BTREE => {
+                let (mut extents, mut scratch) = (Vec::new(), Vec::new());
+                self.extents(&core, &raw, &mut extents, &mut scratch)?;
+                Ok(Some(written_ranges(&extents, self.g.block_size, core.size)))
+            }
+            _ => Ok(None),
+        }
+    }
+}
+
+/// The byte ranges of a file that `extents` map to written blocks, merged where they touch
+/// and cut at `size`. Unwritten extents read as zeros, so they are left out like holes.
+fn written_ranges(extents: &[Extent], block_size: u64, size: u64) -> Vec<Range<u64>> {
+    let mut out: Vec<Range<u64>> = Vec::new();
+    for e in extents.iter().filter(|e| !e.unwritten) {
+        let Some(start) = e.off.checked_mul(block_size) else { break };
+        let end = e.len.checked_mul(block_size).and_then(|n| start.checked_add(n)).unwrap_or(u64::MAX).min(size);
+        if start >= end {
+            continue;
+        }
+        match out.last_mut() {
+            Some(last) if last.end >= start => last.end = last.end.max(end),
+            _ => out.push(start..end),
+        }
+    }
+    out
 }

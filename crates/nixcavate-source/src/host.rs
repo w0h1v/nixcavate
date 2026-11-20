@@ -568,6 +568,11 @@ impl<'s> Host<'s> {
         self.source.read(entry)
     }
 
+    /// The written pieces of a large sparse file; see [`Source::read_pieces`].
+    pub fn open_pieces(&self, entry: &Entry) -> io::Result<Option<crate::Pieces>> {
+        self.source.read_pieces(entry)
+    }
+
     /// Reads a file by root-relative path, following in-root symlinks.
     pub fn read(&self, rel: &str) -> Option<Data> {
         self.source.read(self.entry(rel)?).ok()

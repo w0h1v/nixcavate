@@ -173,6 +173,39 @@ fn time_after_2038() {
 }
 
 #[test]
+fn data_ranges_leave_out_holes_and_unwritten_extents() {
+    for name in ["ext2", "ext3", "ext4", "ext4-inline"] {
+        let data = image(name);
+        let volume = Ext4::open(Bytes(&data)).unwrap();
+        let (nodes, _) = walk(&volume);
+        for node in nodes.iter().filter(|n| n.kind == Kind::File) {
+            let ranges = volume.data_ranges(node.inode).unwrap().expect("an ext file always has a data map");
+            assert!(ranges.windows(2).all(|w| w[0].end < w[1].start), "{name} {}: not merged and sorted", node.path);
+            assert!(ranges.last().is_none_or(|r| r.end <= node.size), "{name} {}: range past the size", node.path);
+            let content = read_all(&volume, node.inode, node.size, 1 << 30).unwrap();
+            let mut at = 0usize;
+            for r in &ranges {
+                assert!(content[at..r.start as usize].iter().all(|&b| b == 0), "{name} {}: data in a hole", node.path);
+                at = r.end as usize;
+            }
+            assert!(content[at..].iter().all(|&b| b == 0), "{name} {}: data after the last range", node.path);
+        }
+        let by_name = |p: &str| nodes.iter().find(|n| n.path == p);
+        // `sparse`: data at 0, 1 MiB and 100 MiB only.
+        let sparse = by_name("sparse").expect("sparse");
+        let ranges = volume.data_ranges(sparse.inode).unwrap().unwrap();
+        assert_eq!(ranges.len(), 3, "{name}: {ranges:?}");
+        assert!(ranges.iter().map(|r| r.end - r.start).sum::<u64>() < 64 << 10, "{name}: {ranges:?}");
+        // `prealloc` (ext4 only): 64 KiB unwritten with 7 bytes written at 8 KiB.
+        if let Some(prealloc) = by_name("prealloc") {
+            let ranges = volume.data_ranges(prealloc.inode).unwrap().unwrap();
+            assert_eq!(ranges.len(), 1, "{name}: {ranges:?}");
+            assert!(ranges[0].start <= 8192 && ranges[0].end >= 8199 && ranges[0].end - ranges[0].start < 65536);
+        }
+    }
+}
+
+#[test]
 fn not_ext4() {
     let zeros = vec![0u8; 64 << 10];
     assert!(!ext4::probe(&Bytes(&zeros)));
@@ -220,6 +253,7 @@ fn exercise(data: &[u8], limit: Duration, what: &str) {
         for node in &nodes {
             let _ = volume.read(node.inode, 0, &mut buf);
             let _ = volume.read(node.inode, node.size.saturating_sub(100), &mut buf);
+            let _ = volume.data_ranges(node.inode);
         }
         for ino in [0, 1, 2, 11, 12, u64::from(u32::MAX), u64::MAX] {
             let _ = volume.read(ino, 0, &mut buf);

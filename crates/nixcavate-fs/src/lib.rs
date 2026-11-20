@@ -23,6 +23,7 @@ use std::borrow::Cow;
 use std::collections::HashSet;
 use std::fmt;
 use std::io;
+use std::ops::Range;
 use std::sync::Arc;
 
 /// Random access to the bytes of an image or partition.
@@ -236,6 +237,14 @@ pub trait Volume: Sync {
     /// Reads file content at `offset` into `buf` and returns the number of bytes read
     /// (less than `buf.len()` only at the end of the file). Sparse regions read as zeros.
     fn read(&self, inode: u64, offset: u64, buf: &mut [u8]) -> Result<usize>;
+
+    /// The byte ranges of regular file `inode` that hold written data, in file order, merged
+    /// where they touch and cut at the file's size. Holes and unwritten (preallocated) extents
+    /// are left out: they read as zeros. `None` when the filesystem cannot say, and then every
+    /// byte must be taken as data. Lets a large sparse file be read by its pieces.
+    fn data_ranges(&self, _inode: u64) -> Result<Option<Vec<Range<u64>>>> {
+        Ok(None)
+    }
 }
 
 /// Longest path, and longest symlink target, a walk reports: Linux's `PATH_MAX`.

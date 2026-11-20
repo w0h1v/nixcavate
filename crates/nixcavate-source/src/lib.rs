@@ -83,6 +83,9 @@ enum Store {
     Dropped,
 }
 
+/// The written pieces of a sparse file, each with its offset in the file.
+pub type Pieces = Vec<(u64, Vec<u8>)>;
+
 /// The bytes of one entry.
 pub enum Data {
     Mapped(Mmap),
@@ -303,6 +306,19 @@ impl Source {
         let first = start + self.entries[start..].iter().take_while(|e| !below(e) && e.path.starts_with(dir)).count();
         let len = self.entries[first..].iter().take_while(|e| below(e)).count();
         first..first + len
+    }
+
+    /// The written pieces of a large, mostly unallocated file in a disk image, each with its
+    /// offset in the file, for the parsers that can work from them (see `Artifact::sparse`).
+    /// `None` when [`Source::read`] would read the entry whole, or nothing says where its data is.
+    pub fn read_pieces(&self, entry: &Entry) -> io::Result<Option<Pieces>> {
+        match &entry.store {
+            Store::Volume { volume, inode, allocated } => {
+                let image = self.image.as_ref().ok_or_else(|| io::Error::other("disk image is not open"))?;
+                image.read_pieces(*volume, *inode, entry.size, *allocated)
+            }
+            _ => Ok(None),
+        }
     }
 
     /// Reads an entry. Links are not followed here; see [`Host::entry`].

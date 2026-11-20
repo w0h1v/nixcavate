@@ -94,6 +94,43 @@ impl Image {
         }
         read_all(&**volume, inode, size, READ_LIMIT).map_err(io::Error::other)
     }
+
+    /// The written pieces of a file that [`Image::read`] refuses as mostly unallocated, each
+    /// with its offset in the file; every other byte of the file reads as zero. `None` when the
+    /// file is worth reading whole, or when its filesystem cannot list where its data is.
+    pub(crate) fn read_pieces(
+        &self,
+        volume: usize,
+        inode: u64,
+        size: u64,
+        allocated: u64,
+    ) -> io::Result<Option<crate::Pieces>> {
+        let volume = self.volumes.get(volume).ok_or_else(|| io::Error::other("unknown volume"))?;
+        if worth_reading(size, allocated) {
+            return Ok(None);
+        }
+        let Some(ranges) = volume.data_ranges(inode).map_err(io::Error::other)? else { return Ok(None) };
+        let data: u64 = ranges.iter().map(|r| r.end - r.start).sum();
+        if data > READ_LIMIT {
+            return Err(io::Error::other(format!(
+                "a sparse file with {data} bytes of data exceeds the {READ_LIMIT}-byte read limit"
+            )));
+        }
+        let mut pieces = Vec::with_capacity(ranges.len());
+        for range in ranges {
+            let mut piece = vec![0u8; (range.end - range.start) as usize];
+            let mut done = 0;
+            while done < piece.len() {
+                let n = volume.read(inode, range.start + done as u64, &mut piece[done..]).map_err(io::Error::other)?;
+                if n == 0 {
+                    break;
+                }
+                done += n;
+            }
+            pieces.push((range.start, piece));
+        }
+        Ok(Some(pieces))
+    }
 }
 
 /// A memory-mapped raw image.
